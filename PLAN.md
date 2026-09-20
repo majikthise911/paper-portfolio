@@ -40,11 +40,15 @@ Source of truth for tickers and sector labels: `config/universe.json`.
 
 ## Durable ledger layout
 
-Primary durable home on this box:
+Primary durable home on Marvin (Mac Mini):
+
+`/Volumes/Marvin SSD/Projects/paper-portfolio`
+
+Mirror on Grok Bot computer (for weekly runs from the box):
 
 `/home/box/agent-data/paper-portfolio`
 
-Preferred long-term home (if parent copies to Marvin / Mac Mini later): a git repo on Marvin with the same tree. This box cannot reach Marvin directly; parent should copy when ready.
+Keep both in sync after approved trades or rule changes. Prefer Marvin as the human-facing git home.
 
 Ledger structure:
 
