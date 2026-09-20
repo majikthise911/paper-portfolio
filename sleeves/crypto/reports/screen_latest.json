@@ -1,0 +1,49 @@
+{
+  "sleeve": "crypto",
+  "primary_days": 63,
+  "secondary_days": 252,
+  "secondary_min_return": -0.2,
+  "rankings": [
+    {
+      "rank": 1,
+      "ticker": "AVAX-USD",
+      "ret_63d": 0.7562516512747122,
+      "ret_252d": -0.1710284618729383,
+      "secondary_ok": true,
+      "sector": "layer1"
+    },
+    {
+      "rank": 2,
+      "ticker": "LINK-USD",
+      "ret_63d": 0.4921562971433884,
+      "ret_252d": -0.05185714273304631,
+      "secondary_ok": true,
+      "sector": "oracle"
+    },
+    {
+      "rank": 3,
+      "ticker": "SOL-USD",
+      "ret_63d": 0.4509805469344288,
+      "ret_252d": -0.20575214728811997,
+      "secondary_ok": false,
+      "sector": "layer1"
+    },
+    {
+      "rank": 4,
+      "ticker": "ETH-USD",
+      "ret_63d": 0.410947390446716,
+      "ret_252d": -0.1533513153941689,
+      "secondary_ok": true,
+      "sector": "layer1"
+    },
+    {
+      "rank": 5,
+      "ticker": "BTC-USD",
+      "ret_63d": 0.25554105146560757,
+      "ret_252d": -0.10575546096801847,
+      "secondary_ok": true,
+      "sector": "layer1"
+    }
+  ],
+  "failed_tickers": []
+}

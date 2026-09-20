@@ -9,7 +9,8 @@ Simulated long-only US portfolio. No real brokerage. No live orders.
 - `state/portfolio.json` - cash, positions, NAV, as-of
 - `state/ledger.jsonl` - append-only trade/mark log
 - `reports/` - mark reports, allocation proposals, and dashboard
-- `scripts/` - mark.py, screen.py, allocate.py, dashboard.py
+- `scripts/` - mark.py, screen.py, allocate.py, dashboard.py, crypto_*.py
+- `sleeves/crypto/` - separate crypto paper sleeve (cash-only until Jordan approves)
 
 ## Ops
 
@@ -19,7 +20,10 @@ source .venv/bin/activate
 python scripts/mark.py
 python scripts/screen.py
 python scripts/allocate.py          # propose only; does not execute
-python scripts/dashboard.py         # refresh prices lightly and write HTML
+python scripts/crypto_mark.py
+python scripts/crypto_screen.py
+python scripts/crypto_allocate.py   # propose only; does not book positions
+python scripts/dashboard.py         # combined equity + crypto household HTML
 ```
 
 ## Dashboard

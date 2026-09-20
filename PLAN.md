@@ -52,10 +52,10 @@ Keep both in sync after approved trades or rule changes. Prefer Marvin as the hu
 
 Ledger structure:
 
-- `state/portfolio.json` — cash, holdings (positions), NAV, as-of timestamp (America/New_York)
-- `state/ledger.jsonl` — append-only log of inits, marks, and (after approval) trades
-- `reports/mark_YYYY-MM-DD.md` — weekly mark snapshots
-- `reports/proposal_YYYY-MM-DD.json` and `reports/init_YYYY-MM-DD.md` — proposed trades (not executed)
+- `state/portfolio.json`  -  cash, holdings (positions), NAV, as-of timestamp (America/New_York)
+- `state/ledger.jsonl`  -  append-only log of inits, marks, and (after approval) trades
+- `reports/mark_YYYY-MM-DD.md`  -  weekly mark snapshots
+- `reports/proposal_YYYY-MM-DD.json` and `reports/init_YYYY-MM-DD.md`  -  proposed trades (not executed)
 - `reports/` weekly snapshots may also hold JSON mark dumps if useful
 
 Cash, holdings, trades, and weekly snapshots all live under `state/` and `reports/`.
@@ -86,6 +86,15 @@ python scripts/mark.py
 python scripts/screen.py
 python scripts/allocate.py
 ```
+
+## Multi-sleeve
+
+Equity stays at the repo root (`config/`, `state/`, `scripts/`). Crypto is a separate sleeve under `sleeves/crypto/` with its own rules, universe, portfolio, ledger, and reports.
+
+- Do not mix crypto tickers into the equity momentum rank or equity allocation.
+- Combined dashboard (`scripts/dashboard.py`) loads both books and shows Household NAV (sum), Equity NAV, Crypto NAV, and separate P&L cards, plus two holdings tables.
+- Crypto sleeve is scaffolded with proposed $25,000 virtual cash and empty positions until Jordan approves. Crypto seed capital, universe, and any first allocation need an explicit Jordan yes, separate from equity approvals.
+- Weekly Monday loop (parent-owned routine): equity mark/screen/allocate as needed, then `scripts/crypto_mark.py` / `scripts/crypto_screen.py` / `scripts/crypto_allocate.py`, then combined `scripts/dashboard.py`.
 
 ## Governance reminder
 

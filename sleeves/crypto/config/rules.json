@@ -1,0 +1,36 @@
+{
+  "strategy_name": "simple_momentum_rs_crypto",
+  "sleeve": "crypto",
+  "long_only": true,
+  "no_shorts": true,
+  "no_leverage": true,
+  "no_options": true,
+  "paper_only": true,
+  "signal": {
+    "primary": "63d_total_return",
+    "primary_trading_days": 63,
+    "secondary": "252d_total_return_not_deeply_negative",
+    "secondary_trading_days": 252,
+    "secondary_min_return": -0.20
+  },
+  "position_caps": {
+    "max_single_name_pct": 0.25,
+    "max_invested_pct": 0.80,
+    "min_cash_pct": 0.20
+  },
+  "rebalance": {
+    "cadence": "weekly",
+    "benchmark": "BTC-USD",
+    "mark_to_market": true
+  },
+  "aspiration_apy": 0.30,
+  "aspiration_note": "30% APY is aspiration metric only; never an auto-rewire stop",
+  "governance": {
+    "propose_tweaks_only": true,
+    "never_change_rules_without_jordan_approval": true,
+    "never_place_real_trades": true,
+    "proposals_require_approval_before_execution": true,
+    "seed_capital_requires_jordan_yes": true
+  },
+  "starting_capital_proposed": 25000.0
+}

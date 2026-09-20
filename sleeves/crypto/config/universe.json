@@ -1,0 +1,23 @@
+{
+  "benchmark": "BTC-USD",
+  "benchmark_note": "BTC-USD is benchmark for relative strength and weekly marks. Not SPY.",
+  "spot": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD",
+    "AVAX-USD",
+    "LINK-USD"
+  ],
+  "etf_proxies_off": {
+    "note": "Spot crypto tickers only for this sleeve. ETF proxies (IBIT, FBTC) stay OFF unless Jordan later approves a separate proxy note.",
+    "tickers": ["IBIT", "FBTC"],
+    "enabled": false
+  },
+  "sector_map": {
+    "BTC-USD": "layer1",
+    "ETH-USD": "layer1",
+    "SOL-USD": "layer1",
+    "AVAX-USD": "layer1",
+    "LINK-USD": "oracle"
+  }
+}
