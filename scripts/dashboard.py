@@ -162,6 +162,35 @@ def pnl_class(v: float | None) -> str:
     return "pos" if v > 0 else "neg"
 
 
+
+def architecture_section() -> str:
+    """Embed architecture diagram (PNG preferred, SVG fallback)."""
+    png_path = REPORTS / "architecture.png"
+    svg_path = REPORTS / "architecture.svg"
+    blurb = (
+        "How Paper runs the simulated book: chat approval, locked rules, local ledger, "
+        "weekly mark, yfinance prices, reports, then GitHub Pages. Crypto is shown as an "
+        "optional separate sleeve, not mixed into the equity book yet."
+    )
+    if png_path.exists():
+        import base64
+        b64 = base64.b64encode(png_path.read_bytes()).decode("ascii")
+        img = (
+            f'<img class="arch-img" alt="Paper portfolio system architecture flowchart" '
+            f'src="data:image/png;base64,{b64}"/>'
+        )
+    elif svg_path.exists():
+        img = f'<div class="arch-svg-wrap">{svg_path.read_text()}</div>'
+    else:
+        img = '<p class="blurb">Architecture diagram not found in reports/.</p>'
+    return f"""
+  <section>
+    <h2>System architecture</h2>
+    <p class="blurb">{blurb}</p>
+    {img}
+  </section>
+"""
+
 def build_html(data: dict) -> str:
     caps = data["caps"]
     holdings_rows = []
@@ -330,6 +359,9 @@ def build_html(data: dict) -> str:
     font-size: 0.82rem;
   }}
   footer p {{ margin: 4px 0; }}
+  .arch-img {{ width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--panel-border); background: #0f1419; display: block; }}
+  .arch-svg-wrap {{ width: 100%; overflow-x: auto; }}
+  .arch-svg-wrap svg {{ width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--panel-border); }}
 </style>
 </head>
 <body>
@@ -409,7 +441,7 @@ def build_html(data: dict) -> str:
     </ul>
   </section>
 
-  <section>
+{architecture_section()}  <section>
     <h2>Versus SPY</h2>
     <p class="blurb">{vs_spy_detail}</p>
   </section>
