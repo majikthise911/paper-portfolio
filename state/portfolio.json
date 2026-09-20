@@ -1,14 +1,88 @@
 {
-  "as_of": "2026-09-20T12:49:20-04:00",
+  "as_of": "2026-09-20T12:53:19-04:00",
   "currency": "USD",
-  "cash": 100000.0,
-  "positions": {},
+  "cash": 20955.84,
+  "positions": {
+    "MSFT": {
+      "shares": 30,
+      "avg_cost": 493.78,
+      "cost_basis": 14813.4,
+      "last_price": 493.78,
+      "market_value": 14813.4,
+      "sector": "tech",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    },
+    "XLE": {
+      "shares": 226,
+      "avg_cost": 64.31,
+      "cost_basis": 14534.06,
+      "last_price": 64.31,
+      "market_value": 14534.06,
+      "sector": "energy",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    },
+    "META": {
+      "shares": 17,
+      "avg_cost": 665.75,
+      "cost_basis": 11317.75,
+      "last_price": 665.75,
+      "market_value": 11317.75,
+      "sector": "communication",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    },
+    "XLV": {
+      "shares": 61,
+      "avg_cost": 168.39,
+      "cost_basis": 10271.79,
+      "last_price": 168.39,
+      "market_value": 10271.79,
+      "sector": "health",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    },
+    "AAPL": {
+      "shares": 30,
+      "avg_cost": 336.13,
+      "cost_basis": 10083.9,
+      "last_price": 336.13,
+      "market_value": 10083.9,
+      "sector": "tech",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    },
+    "JPM": {
+      "shares": 20,
+      "avg_cost": 349.67,
+      "cost_basis": 6993.4,
+      "last_price": 349.67,
+      "market_value": 6993.4,
+      "sector": "financials",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    },
+    "NVDA": {
+      "shares": 26,
+      "avg_cost": 222.27,
+      "cost_basis": 5779.02,
+      "last_price": 222.27,
+      "market_value": 5779.02,
+      "sector": "tech",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    },
+    "XLF": {
+      "shares": 94,
+      "avg_cost": 55.86,
+      "cost_basis": 5250.84,
+      "last_price": 55.86,
+      "market_value": 5250.84,
+      "sector": "financials",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    }
+  },
   "nav": 100000.0,
   "starting_capital": 100000.0,
-  "notes": "All cash until Jordan approves initial allocation proposal.",
+  "notes": "Initial allocation booked after Jordan approval 2026-09-20. Paper fills at proposal prices.",
   "peak_nav": 100000.0,
   "spy_last_close": 761.69,
   "total_pnl": 0.0,
   "total_pnl_pct": 0.0,
-  "drawdown_pct": 0.0
+  "drawdown_pct": 0.0,
+  "last_trade_batch": "proposal_2026-09-20"
 }
