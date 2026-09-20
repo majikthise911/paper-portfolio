@@ -49,3 +49,16 @@ Also written: `reports/dashboard_data.json` (same snapshot the HTML uses).
 - Max 15% NAV per single name
 - Max 40% in any single sector/theme ETF sleeve
 - Max 80% invested (min 20% cash) unless Jordan approves a change
+
+## Live dashboard (GitHub Pages)
+
+Bookmark: https://majikthise911.github.io/paper-portfolio/
+
+After regenerating locally, publish with:
+
+```bash
+cp reports/dashboard.html /path/to/paper-portfolio-gh/docs/index.html
+# then commit and push to majikthise911/paper-portfolio main
+```
+
+Or from the box mirror after `python scripts/dashboard.py`, copy `reports/dashboard.html` to the GitHub clone's `docs/index.html` and push.
