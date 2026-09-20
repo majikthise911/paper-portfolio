@@ -8,8 +8,8 @@ Simulated long-only US portfolio. No real brokerage. No live orders.
 - `config/universe.json` - liquid US ETFs + mega-caps; SPY is benchmark
 - `state/portfolio.json` - cash, positions, NAV, as-of
 - `state/ledger.jsonl` - append-only trade/mark log
-- `reports/` - mark reports and allocation proposals
-- `scripts/` - mark.py, screen.py, allocate.py
+- `reports/` - mark reports, allocation proposals, and dashboard
+- `scripts/` - mark.py, screen.py, allocate.py, dashboard.py
 
 ## Ops
 
@@ -19,7 +19,23 @@ source .venv/bin/activate
 python scripts/mark.py
 python scripts/screen.py
 python scripts/allocate.py          # propose only; does not execute
+python scripts/dashboard.py         # refresh prices lightly and write HTML
 ```
+
+## Dashboard
+
+Regenerate the HTML snapshot:
+
+```bash
+cd /home/box/agent-data/paper-portfolio && source .venv/bin/activate && python scripts/dashboard.py
+```
+
+Open the report in a browser (works offline via `file://`):
+
+- Box path: `/home/box/agent-data/paper-portfolio/reports/dashboard.html`
+- Marvin path: `/Volumes/Marvin SSD/Projects/paper-portfolio/reports/dashboard.html`
+
+Also written: `reports/dashboard_data.json` (same snapshot the HTML uses).
 
 ## Governance
 
