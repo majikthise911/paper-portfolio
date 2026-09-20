@@ -1,0 +1,101 @@
+{
+  "as_of": "2026-09-20T12:49:34-04:00",
+  "mode": "propose",
+  "executed": false,
+  "nav": 100000.0,
+  "proposed_trades": [
+    {
+      "ticker": "MSFT",
+      "side": "BUY",
+      "shares": 30,
+      "est_price": 493.78,
+      "est_dollars": 14813.4,
+      "weight": 0.148134,
+      "target_weight": 0.15,
+      "sector": "tech",
+      "ret_63d": 0.3039261028789282
+    },
+    {
+      "ticker": "XLE",
+      "side": "BUY",
+      "shares": 226,
+      "est_price": 64.31,
+      "est_dollars": 14534.06,
+      "weight": 0.145341,
+      "target_weight": 0.145539,
+      "sector": "energy",
+      "ret_63d": 0.20464540573557244
+    },
+    {
+      "ticker": "META",
+      "side": "BUY",
+      "shares": 17,
+      "est_price": 665.75,
+      "est_dollars": 11317.75,
+      "weight": 0.113178,
+      "target_weight": 0.115573,
+      "sector": "communication",
+      "ret_63d": 0.1533731225359971
+    },
+    {
+      "ticker": "XLV",
+      "side": "BUY",
+      "shares": 61,
+      "est_price": 168.39,
+      "est_dollars": 10271.79,
+      "weight": 0.102718,
+      "target_weight": 0.103127,
+      "sector": "health",
+      "ret_63d": 0.13207936409260235
+    },
+    {
+      "ticker": "AAPL",
+      "side": "BUY",
+      "shares": 30,
+      "est_price": 336.13,
+      "est_dollars": 10083.9,
+      "weight": 0.100839,
+      "target_weight": 0.101262,
+      "sector": "tech",
+      "ret_63d": 0.1288879514208432
+    },
+    {
+      "ticker": "JPM",
+      "side": "BUY",
+      "shares": 20,
+      "est_price": 349.67,
+      "est_dollars": 6993.4,
+      "weight": 0.069934,
+      "target_weight": 0.072703,
+      "sector": "financials",
+      "ret_63d": 0.08002353846954335
+    },
+    {
+      "ticker": "NVDA",
+      "side": "BUY",
+      "shares": 26,
+      "est_price": 222.27,
+      "est_dollars": 5779.02,
+      "weight": 0.05779,
+      "target_weight": 0.058745,
+      "sector": "tech",
+      "ret_63d": 0.05614272900761552
+    },
+    {
+      "ticker": "XLF",
+      "side": "BUY",
+      "shares": 94,
+      "est_price": 55.86,
+      "est_dollars": 5250.84,
+      "weight": 0.052508,
+      "target_weight": 0.053051,
+      "sector": "financials",
+      "ret_63d": 0.046400562296801784
+    }
+  ],
+  "proposed_cash": 20955.84,
+  "proposed_invested": 79044.16,
+  "proposed_cash_pct": 0.209558,
+  "failed_to_price": [],
+  "notes": "Proposal only. Do not write into portfolio.json positions until Jordan approves."
+}

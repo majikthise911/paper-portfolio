@@ -1,0 +1,44 @@
+{
+  "benchmark": "SPY",
+  "benchmark_note": "SPY is benchmark for relative strength and mark reports. Cash may sit in SPY or remain cash.",
+  "etfs": [
+    "SPY", "QQQ", "IWM", "DIA",
+    "XLK", "XLF", "XLE", "XLV", "XLI", "XLY", "XLP", "XLU", "XLB", "XLRE", "XLC",
+    "TLT", "GLD", "HYG", "EFA", "EEM"
+  ],
+  "mega_caps": [
+    "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "AVGO", "TSLA", "BRK-B", "JPM"
+  ],
+  "sector_map": {
+    "SPY": "broad",
+    "QQQ": "tech_growth",
+    "IWM": "small_cap",
+    "DIA": "broad",
+    "XLK": "tech",
+    "XLF": "financials",
+    "XLE": "energy",
+    "XLV": "health",
+    "XLI": "industrials",
+    "XLY": "consumer_disc",
+    "XLP": "consumer_staples",
+    "XLU": "utilities",
+    "XLB": "materials",
+    "XLRE": "real_estate",
+    "XLC": "communication",
+    "TLT": "bonds",
+    "GLD": "commodities",
+    "HYG": "credit",
+    "EFA": "intl_developed",
+    "EEM": "emerging",
+    "AAPL": "tech",
+    "MSFT": "tech",
+    "NVDA": "tech",
+    "AMZN": "consumer_disc",
+    "GOOGL": "communication",
+    "META": "communication",
+    "AVGO": "tech",
+    "TSLA": "consumer_disc",
+    "BRK-B": "financials",
+    "JPM": "financials"
+  }
+}
