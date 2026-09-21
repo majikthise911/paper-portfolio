@@ -360,6 +360,107 @@ def holdings_table_rows(holdings: list[dict], empty_msg: str, sleeve: str) -> st
     return "".join(rows)
 
 
+
+def render_pnl_svg(hist: dict, metric: str = "pnl") -> str:
+    """Pre-render P&L chart SVG so it is visible even if JS fails."""
+    series = (hist or {}).get("series") or {}
+    def pts(name):
+        out = []
+        for p in series.get(name) or []:
+            try:
+                dt = datetime.fromisoformat(p["ts"])
+                y = float(p["pnl"] if metric == "pnl" else p["nav"])
+            except Exception:
+                continue
+            out.append((dt.timestamp(), y, p["ts"]))
+        out.sort()
+        return out
+    hh, eq, cr = pts("household"), pts("equity"), pts("crypto")
+    allp = hh + eq + cr
+    W, H = 1000, 280
+    pad = {"l": 64, "r": 16, "t": 16, "b": 40}
+    iw, ih = W - pad["l"] - pad["r"], H - pad["t"] - pad["b"]
+    if not allp:
+        return (
+            '<text x="500" y="140" text-anchor="middle" class="axis-label">'
+            "No history yet. History will fill in as daily marks run.</text>"
+        )
+    t_min = min(p[0] for p in allp)
+    t_max = max(p[0] for p in allp)
+    y_min = min(p[1] for p in allp)
+    y_max = max(p[1] for p in allp)
+    if metric == "pnl":
+        y_min = min(y_min, 0.0)
+        y_max = max(y_max, 0.0)
+    if t_max == t_min:
+        t_max = t_min + 1
+    y_pad = (y_max - y_min) * 0.08 or 1.0
+    y_min -= y_pad
+    y_max += y_pad
+
+    def x(t):
+        return pad["l"] + (t - t_min) / (t_max - t_min) * iw
+
+    def y(v):
+        return pad["t"] + (y_max - v) / (y_max - y_min) * ih
+
+    parts = []
+    for i in range(6):
+        v = y_min + (y_max - y_min) * i / 5
+        yy = y(v)
+        parts.append(
+            f'<line class="grid-line" x1="{pad["l"]}" y1="{yy:.2f}" x2="{W - pad["r"]}" y2="{yy:.2f}" />'
+        )
+        if abs(v) >= 1000:
+            lab = f"${v/1000:.1f}k"
+        else:
+            lab = f"${v:.0f}"
+        parts.append(
+            f'<text class="axis-label" x="{pad["l"] - 8}" y="{yy + 4:.2f}" text-anchor="end">{lab}</text>'
+        )
+    if y_min < 0 < y_max:
+        zy = y(0)
+        parts.append(
+            f'<line class="zero-line" x1="{pad["l"]}" y1="{zy:.2f}" x2="{W - pad["r"]}" y2="{zy:.2f}" />'
+        )
+    parts.append(
+        f'<line class="axis" x1="{pad["l"]}" y1="{pad["t"]}" x2="{pad["l"]}" y2="{H - pad["b"]}" />'
+    )
+    parts.append(
+        f'<line class="axis" x1="{pad["l"]}" y1="{H - pad["b"]}" x2="{W - pad["r"]}" y2="{H - pad["b"]}" />'
+    )
+    for t, v, _ts in (hh[0], hh[len(hh) // 2], hh[-1]) if hh else []:
+        d = datetime.fromtimestamp(t, TZ)
+        lab = d.strftime("%m/%d %H:%M")
+        parts.append(
+            f'<text class="axis-label" x="{x(t):.2f}" y="{H - 12}" text-anchor="middle">{lab}</text>'
+        )
+
+    def path(pts, cls):
+        if not pts:
+            return ""
+        d = " ".join(
+            (("M" if i == 0 else "L") + f"{x(t):.2f} {y(v):.2f}")
+            for i, (t, v, _) in enumerate(pts)
+        )
+        return f'<path class="{cls}" d="{d}" />'
+
+    def dots(pts, dcls):
+        return "".join(
+            f'<circle class="dot {dcls}" cx="{x(t):.2f}" cy="{y(v):.2f}" r="3.2" />'
+            for t, v, _ in pts
+        )
+
+    parts.append(path(hh, "line-hh"))
+    parts.append(path(eq, "line-eq"))
+    parts.append(path(cr, "line-cr"))
+    parts.append(dots(hh, "dot-hh"))
+    parts.append(dots(eq, "dot-eq"))
+    parts.append(dots(cr, "dot-cr"))
+    return "\n".join(parts)
+
+
+
 def architecture_section() -> str:
     """Embed architecture diagram (PNG preferred, SVG fallback)."""
     png_path = REPORTS / "architecture.png"
@@ -991,7 +1092,7 @@ def build_html(data: dict) -> str:
       </div>
     </div>
     <div id="pnl-chart-wrap">
-      <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="P and L over time"></svg>
+      <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="P and L over time">{render_pnl_svg(pnl_hist)}</svg>
     </div>
   </section>
 
