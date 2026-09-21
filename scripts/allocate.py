@@ -52,6 +52,8 @@ def main():
     max_name = float(caps["max_single_name_pct"])
     max_sector = float(caps["max_sector_etf_sleeve_pct"])
     max_invested = float(caps["max_invested_pct"])
+    max_tech_megacap = float(caps.get("max_tech_megacap_sleeve_pct") or 0)
+    tech_megacap_tickers = set(caps.get("tech_megacap_tickers") or ["AAPL", "MSFT", "NVDA"])
     min_cash = float(caps["min_cash_pct"])
 
     target_invest = nav * max_invested
