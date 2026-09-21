@@ -72,6 +72,20 @@
     gap: 12px;
     margin-bottom: 28px;
   }
+  .strategy-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+    align-items: stretch;
+  }
+  .strategy-row > section {
+    margin-bottom: 0;
+    height: 100%;
+  }
+  @media (max-width: 900px) {
+    .strategy-row { grid-template-columns: 1fr; }
+  }
   .card {
     background: var(--panel);
     border: 1px solid var(--panel-border);
@@ -204,6 +218,7 @@
   .pnl-swatch.hh { background: var(--accent); }
   .pnl-swatch.eq { background: var(--pos); }
   .pnl-swatch.cr { background: #e6b450; }
+  .pnl-swatch.spy { background: #f0c14a; }
   /* pnl-toggle base styles set with pnl-range-row */
   .pnl-toggle[aria-pressed="true"] {
     border-color: var(--accent);
@@ -217,6 +232,18 @@
     width: 100%;
     height: 280px;
     display: block;
+    cursor: crosshair;
+    touch-action: none;
+  }
+  #pnl-chart.pnl-dragging {
+    user-select: none;
+  }
+  #pnl-chart .brush-rect {
+    fill: rgba(240, 193, 74, 0.18);
+    stroke: #f0c14a;
+    stroke-width: 1;
+    stroke-dasharray: 4 3;
+    pointer-events: none;
   }
   #pnl-chart .grid-line { stroke: #2a3548; stroke-width: 1; }
   #pnl-chart .axis { stroke: #3a4a63; stroke-width: 1; }
@@ -225,17 +252,19 @@
   #pnl-chart .line-hh { fill: none; stroke: #5b9fd4; stroke-width: 2.2; }
   #pnl-chart .line-eq { fill: none; stroke: #3ecf8e; stroke-width: 1.8; }
   #pnl-chart .line-cr { fill: none; stroke: #e6b450; stroke-width: 1.8; }
+  #pnl-chart .line-spy { fill: none; stroke: #f0c14a; stroke-width: 2.4; stroke-dasharray: 6 4; }
   #pnl-chart .dot { stroke: #0f1419; stroke-width: 1; }
   #pnl-chart .dot-hh { fill: #5b9fd4; }
   #pnl-chart .dot-eq { fill: #3ecf8e; }
   #pnl-chart .dot-cr { fill: #e6b450; }
+  #pnl-chart .dot-spy { fill: #f0c14a; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>Paper Portfolio</h1>
-    <div class="asof" id="mark-asof">Mark snapshot: 2026-09-21 09:04:23 EDT (America/New_York)</div>
+    <div class="asof" id="mark-asof">Mark snapshot: 2026-09-21 13:51:23 EDT (America/New_York)</div>
   </header>
 
   <div class="status-bar">
@@ -246,33 +275,33 @@
   <div class="cards">
     <div class="card">
       <div class="label">Household NAV</div>
-      <div class="value" id="hh-nav">$125,647.02</div>
+      <div class="value" id="hh-nav">$126,656.26</div>
       <div class="sub">Equity + crypto</div>
     </div>
     <div class="card">
       <div class="label">Equity NAV</div>
-      <div class="value" id="eq-nav">$100,000.00</div>
+      <div class="value" id="eq-nav">$101,361.56</div>
       <div class="sub" id="eq-cash-sub">Cash $20,955.84</div>
     </div>
     <div class="card">
       <div class="label">Crypto NAV</div>
-      <div class="value" id="cr-nav">$25,647.02</div>
+      <div class="value" id="cr-nav">$25,294.70</div>
       <div class="sub" id="cr-cash-sub">Cash $5,000.00</div>
     </div>
     <div class="card">
       <div class="label">Equity P&amp;L</div>
-      <div class="value flat" id="eq-pnl">$0.00</div>
-      <div class="sub flat" id="eq-pnl-pct">+0.00% vs start</div>
+      <div class="value pos" id="eq-pnl">$1,361.56</div>
+      <div class="sub pos" id="eq-pnl-pct">+1.36% vs start</div>
     </div>
     <div class="card">
       <div class="label">Crypto P&amp;L</div>
-      <div class="value pos" id="cr-pnl">$647.02</div>
-      <div class="sub pos" id="cr-pnl-pct">+2.59% vs start</div>
+      <div class="value pos" id="cr-pnl">$294.70</div>
+      <div class="sub pos" id="cr-pnl-pct">+1.18% vs start</div>
     </div>
     <div class="card">
       <div class="label">Household P&amp;L</div>
-      <div class="value pos" id="hh-pnl">$647.02</div>
-      <div class="sub pos" id="hh-pnl-pct">+0.52% vs combined start</div>
+      <div class="value pos" id="hh-pnl">$1,656.26</div>
+      <div class="sub pos" id="hh-pnl-pct">+1.32% vs combined start</div>
     </div>
   </div>
 
@@ -284,6 +313,7 @@
         <span><i class="pnl-swatch hh" aria-hidden="true"></i>Household</span>
         <span><i class="pnl-swatch eq" aria-hidden="true"></i>Equity</span>
         <span><i class="pnl-swatch cr" aria-hidden="true"></i>Crypto</span>
+        <span><i class="pnl-swatch spy" aria-hidden="true"></i>SPY baseline</span>
       </div>
       <div class="pnl-range" role="group" aria-label="Chart timeframe">
         <button type="button" class="pnl-toggle" id="pnl-range-1d" aria-pressed="false">1D</button>
@@ -291,36 +321,45 @@
         <button type="button" class="pnl-toggle" id="pnl-range-1m" aria-pressed="false">1M</button>
         <button type="button" class="pnl-toggle" id="pnl-range-all" aria-pressed="true">ALL</button>
       </div>
+      <div class="pnl-range" role="group" aria-label="Benchmark comparison">
+        <button type="button" class="pnl-toggle" id="pnl-vs-spy" aria-pressed="true" title="Toggle SPY baseline comparison">vs SPY</button>
+      </div>
       <div class="pnl-metric" role="group" aria-label="Chart metric">
         <button type="button" class="pnl-toggle" id="pnl-metric-pnl" aria-pressed="true">P&amp;L $</button>
         <button type="button" class="pnl-toggle" id="pnl-metric-nav" aria-pressed="false">NAV $</button>
       </div>
+      <div class="pnl-range" role="group" aria-label="Chart zoom">
+        <button type="button" class="pnl-toggle" id="pnl-reset-zoom" title="Reset drag-rectangle zoom">Reset zoom</button>
+      </div>
     </div>
+    <p class="blurb" id="pnl-spy-note">SPY baseline is buy-and-hold SPY sized to equity starting capital.</p>
     <div id="pnl-chart-wrap">
       <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="P and L over time"><line class="grid-line" x1="64" y1="240.00" x2="984" y2="240.00" />
-<text class="axis-label" x="56" y="244.00" text-anchor="end">$-54</text>
+<text class="axis-label" x="56" y="244.00" text-anchor="end">$-392</text>
 <line class="grid-line" x1="64" y1="195.20" x2="984" y2="195.20" />
-<text class="axis-label" x="56" y="199.20" text-anchor="end">$102</text>
+<text class="axis-label" x="56" y="199.20" text-anchor="end">$91</text>
 <line class="grid-line" x1="64" y1="150.40" x2="984" y2="150.40" />
-<text class="axis-label" x="56" y="154.40" text-anchor="end">$258</text>
+<text class="axis-label" x="56" y="154.40" text-anchor="end">$573</text>
 <line class="grid-line" x1="64" y1="105.60" x2="984" y2="105.60" />
-<text class="axis-label" x="56" y="109.60" text-anchor="end">$414</text>
+<text class="axis-label" x="56" y="109.60" text-anchor="end">$1.1k</text>
 <line class="grid-line" x1="64" y1="60.80" x2="984" y2="60.80" />
-<text class="axis-label" x="56" y="64.80" text-anchor="end">$570</text>
+<text class="axis-label" x="56" y="64.80" text-anchor="end">$1.5k</text>
 <line class="grid-line" x1="64" y1="16.00" x2="984" y2="16.00" />
-<text class="axis-label" x="56" y="20.00" text-anchor="end">$726</text>
-<line class="zero-line" x1="64" y1="224.55" x2="984" y2="224.55" />
+<text class="axis-label" x="56" y="20.00" text-anchor="end">$2.0k</text>
+<line class="zero-line" x1="64" y1="203.62" x2="984" y2="203.62" />
 <line class="axis" x1="64" y1="16" x2="64" y2="240" />
 <line class="axis" x1="64" y1="240" x2="984" y2="240" />
 <text class="axis-label" x="64.00" y="268" text-anchor="middle">09/20 12:48</text>
-<text class="axis-label" x="413.68" y="268" text-anchor="middle">09/20 20:30</text>
-<text class="axis-label" x="984.00" y="268" text-anchor="middle">09/21 09:04</text>
-<path class="line-hh" d="M64.00 224.55 L65.01 224.55 L68.02 224.55 L364.44 224.55 L397.13 224.55 L397.14 168.75 L409.99 92.86 L413.68 105.57 L415.99 137.55 L417.90 135.18 L978.10 31.80 L978.40 31.45 L981.62 35.13 L984.00 38.70" />
-<path class="line-eq" d="M64.00 224.55 L65.01 224.55 L68.02 224.55 L984.00 224.55" />
-<path class="line-cr" d="M364.44 224.55 L397.13 224.55 L397.14 168.75 L409.99 92.86 L413.68 105.57 L415.99 137.55 L417.90 135.18 L978.10 31.80 L978.40 31.45 L981.62 35.13 L984.00 38.70" />
-<circle class="dot dot-hh" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="68.02" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="364.44" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="397.13" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="397.14" cy="168.75" r="3.2" /><circle class="dot dot-hh" cx="409.99" cy="92.86" r="3.2" /><circle class="dot dot-hh" cx="413.68" cy="105.57" r="3.2" /><circle class="dot dot-hh" cx="415.99" cy="137.55" r="3.2" /><circle class="dot dot-hh" cx="417.90" cy="135.18" r="3.2" /><circle class="dot dot-hh" cx="978.10" cy="31.80" r="3.2" /><circle class="dot dot-hh" cx="978.40" cy="31.45" r="3.2" /><circle class="dot dot-hh" cx="981.62" cy="35.13" r="3.2" /><circle class="dot dot-hh" cx="984.00" cy="38.70" r="3.2" />
-<circle class="dot dot-eq" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="68.02" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="984.00" cy="224.55" r="3.2" />
-<circle class="dot dot-cr" cx="364.44" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="397.13" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="397.14" cy="168.75" r="3.2" /><circle class="dot dot-cr" cx="409.99" cy="92.86" r="3.2" /><circle class="dot dot-cr" cx="413.68" cy="105.57" r="3.2" /><circle class="dot dot-cr" cx="415.99" cy="137.55" r="3.2" /><circle class="dot dot-cr" cx="417.90" cy="135.18" r="3.2" /><circle class="dot dot-cr" cx="978.10" cy="31.80" r="3.2" /><circle class="dot dot-cr" cx="978.40" cy="31.45" r="3.2" /><circle class="dot dot-cr" cx="981.62" cy="35.13" r="3.2" /><circle class="dot dot-cr" cx="984.00" cy="38.70" r="3.2" /></svg>
+<text class="axis-label" x="820.98" y="268" text-anchor="middle">09/21 09:24</text>
+<text class="axis-label" x="984.00" y="268" text-anchor="middle">09/21 13:51</text>
+<path class="line-hh" d="M64.00 203.62 L64.82 203.62 L67.25 203.62 L307.09 203.62 L333.53 203.62 L333.54 185.58 L343.94 161.05 L346.93 165.16 L348.79 175.50 L350.34 174.73 L803.60 141.32 L803.84 141.20 L806.44 142.39 L808.37 143.55 L812.31 144.21 L816.97 148.85 L819.17 146.81 L819.46 146.81 L819.48 147.21 L819.49 147.91 L820.46 149.62 L820.98 151.20 L823.60 153.21 L824.16 179.08 L826.25 115.86 L826.31 113.87 L826.35 115.36 L827.79 116.78 L850.85 103.33 L850.87 117.75 L850.88 116.44 L890.63 111.78 L890.65 98.55 L890.67 98.20 L923.44 74.99 L923.47 85.50 L923.48 85.71 L958.86 58.28 L958.88 53.70 L958.89 52.40 L983.97 31.45 L983.99 49.34 L984.00 49.85" />
+<path class="line-eq" d="M64.00 203.62 L64.82 203.62 L67.25 203.62 L819.46 203.62 L824.16 224.55 L826.25 161.33 L826.35 162.96 L827.79 167.33 L850.85 153.88 L850.88 153.61 L890.63 148.94 L890.67 148.72 L923.44 125.52 L923.48 125.98 L958.86 98.55 L958.89 98.11 L983.97 77.16 L984.00 77.21" />
+<path class="line-cr" d="M307.09 203.62 L333.53 203.62 L333.54 185.58 L343.94 161.05 L346.93 165.16 L348.79 175.50 L350.34 174.73 L803.60 141.32 L803.84 141.20 L806.44 142.39 L808.37 143.55 L812.31 144.21 L816.97 148.85 L819.17 146.81 L819.48 147.21 L819.49 147.91 L820.46 149.62 L820.98 151.20 L823.60 153.21 L824.16 158.14 L826.31 156.15 L826.35 156.02 L827.79 153.07 L850.87 167.48 L850.88 166.45 L890.65 153.22 L890.67 153.09 L923.47 163.60 L923.48 163.35 L958.88 158.76 L958.89 157.90 L983.99 175.79 L984.00 176.26" />
+<path class="line-spy" d="M64.00 203.62 L64.82 203.62 L67.25 203.62 L307.09 203.62 L333.53 203.62 L333.54 203.62 L343.94 203.62 L346.93 203.62 L348.79 203.62 L350.34 203.62 L803.60 67.10 L803.84 67.10 L806.44 67.10 L808.37 67.10 L812.31 67.10 L816.97 67.10 L819.17 67.10 L819.46 203.62 L819.48 203.62 L819.49 203.62 L820.46 203.62 L820.98 203.62 L823.60 203.62 L824.16 143.53 L826.25 145.96 L826.31 145.96 L826.35 145.96 L827.79 143.65 L850.85 128.23 L850.87 128.23 L850.88 128.35 L890.63 101.66 L890.65 101.66 L890.67 101.60 L923.44 83.43 L923.47 83.43 L923.48 83.31 L958.86 72.83 L958.88 72.83 L958.89 72.10 L983.97 67.16 L983.99 67.16 L984.00 67.34" />
+<circle class="dot dot-hh" cx="64.00" cy="203.62" r="3.2" /><circle class="dot dot-hh" cx="64.82" cy="203.62" r="3.2" /><circle class="dot dot-hh" cx="67.25" cy="203.62" r="3.2" /><circle class="dot dot-hh" cx="307.09" cy="203.62" r="3.2" /><circle class="dot dot-hh" cx="333.53" cy="203.62" r="3.2" /><circle class="dot dot-hh" cx="333.54" cy="185.58" r="3.2" /><circle class="dot dot-hh" cx="343.94" cy="161.05" r="3.2" /><circle class="dot dot-hh" cx="346.93" cy="165.16" r="3.2" /><circle class="dot dot-hh" cx="348.79" cy="175.50" r="3.2" /><circle class="dot dot-hh" cx="350.34" cy="174.73" r="3.2" /><circle class="dot dot-hh" cx="803.60" cy="141.32" r="3.2" /><circle class="dot dot-hh" cx="803.84" cy="141.20" r="3.2" /><circle class="dot dot-hh" cx="806.44" cy="142.39" r="3.2" /><circle class="dot dot-hh" cx="808.37" cy="143.55" r="3.2" /><circle class="dot dot-hh" cx="812.31" cy="144.21" r="3.2" /><circle class="dot dot-hh" cx="816.97" cy="148.85" r="3.2" /><circle class="dot dot-hh" cx="819.17" cy="146.81" r="3.2" /><circle class="dot dot-hh" cx="819.46" cy="146.81" r="3.2" /><circle class="dot dot-hh" cx="819.48" cy="147.21" r="3.2" /><circle class="dot dot-hh" cx="819.49" cy="147.91" r="3.2" /><circle class="dot dot-hh" cx="820.46" cy="149.62" r="3.2" /><circle class="dot dot-hh" cx="820.98" cy="151.20" r="3.2" /><circle class="dot dot-hh" cx="823.60" cy="153.21" r="3.2" /><circle class="dot dot-hh" cx="824.16" cy="179.08" r="3.2" /><circle class="dot dot-hh" cx="826.25" cy="115.86" r="3.2" /><circle class="dot dot-hh" cx="826.31" cy="113.87" r="3.2" /><circle class="dot dot-hh" cx="826.35" cy="115.36" r="3.2" /><circle class="dot dot-hh" cx="827.79" cy="116.78" r="3.2" /><circle class="dot dot-hh" cx="850.85" cy="103.33" r="3.2" /><circle class="dot dot-hh" cx="850.87" cy="117.75" r="3.2" /><circle class="dot dot-hh" cx="850.88" cy="116.44" r="3.2" /><circle class="dot dot-hh" cx="890.63" cy="111.78" r="3.2" /><circle class="dot dot-hh" cx="890.65" cy="98.55" r="3.2" /><circle class="dot dot-hh" cx="890.67" cy="98.20" r="3.2" /><circle class="dot dot-hh" cx="923.44" cy="74.99" r="3.2" /><circle class="dot dot-hh" cx="923.47" cy="85.50" r="3.2" /><circle class="dot dot-hh" cx="923.48" cy="85.71" r="3.2" /><circle class="dot dot-hh" cx="958.86" cy="58.28" r="3.2" /><circle class="dot dot-hh" cx="958.88" cy="53.70" r="3.2" /><circle class="dot dot-hh" cx="958.89" cy="52.40" r="3.2" /><circle class="dot dot-hh" cx="983.97" cy="31.45" r="3.2" /><circle class="dot dot-hh" cx="983.99" cy="49.34" r="3.2" /><circle class="dot dot-hh" cx="984.00" cy="49.85" r="3.2" />
+<circle class="dot dot-eq" cx="64.00" cy="203.62" r="3.2" /><circle class="dot dot-eq" cx="64.82" cy="203.62" r="3.2" /><circle class="dot dot-eq" cx="67.25" cy="203.62" r="3.2" /><circle class="dot dot-eq" cx="819.46" cy="203.62" r="3.2" /><circle class="dot dot-eq" cx="824.16" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="826.25" cy="161.33" r="3.2" /><circle class="dot dot-eq" cx="826.35" cy="162.96" r="3.2" /><circle class="dot dot-eq" cx="827.79" cy="167.33" r="3.2" /><circle class="dot dot-eq" cx="850.85" cy="153.88" r="3.2" /><circle class="dot dot-eq" cx="850.88" cy="153.61" r="3.2" /><circle class="dot dot-eq" cx="890.63" cy="148.94" r="3.2" /><circle class="dot dot-eq" cx="890.67" cy="148.72" r="3.2" /><circle class="dot dot-eq" cx="923.44" cy="125.52" r="3.2" /><circle class="dot dot-eq" cx="923.48" cy="125.98" r="3.2" /><circle class="dot dot-eq" cx="958.86" cy="98.55" r="3.2" /><circle class="dot dot-eq" cx="958.89" cy="98.11" r="3.2" /><circle class="dot dot-eq" cx="983.97" cy="77.16" r="3.2" /><circle class="dot dot-eq" cx="984.00" cy="77.21" r="3.2" />
+<circle class="dot dot-cr" cx="307.09" cy="203.62" r="3.2" /><circle class="dot dot-cr" cx="333.53" cy="203.62" r="3.2" /><circle class="dot dot-cr" cx="333.54" cy="185.58" r="3.2" /><circle class="dot dot-cr" cx="343.94" cy="161.05" r="3.2" /><circle class="dot dot-cr" cx="346.93" cy="165.16" r="3.2" /><circle class="dot dot-cr" cx="348.79" cy="175.50" r="3.2" /><circle class="dot dot-cr" cx="350.34" cy="174.73" r="3.2" /><circle class="dot dot-cr" cx="803.60" cy="141.32" r="3.2" /><circle class="dot dot-cr" cx="803.84" cy="141.20" r="3.2" /><circle class="dot dot-cr" cx="806.44" cy="142.39" r="3.2" /><circle class="dot dot-cr" cx="808.37" cy="143.55" r="3.2" /><circle class="dot dot-cr" cx="812.31" cy="144.21" r="3.2" /><circle class="dot dot-cr" cx="816.97" cy="148.85" r="3.2" /><circle class="dot dot-cr" cx="819.17" cy="146.81" r="3.2" /><circle class="dot dot-cr" cx="819.48" cy="147.21" r="3.2" /><circle class="dot dot-cr" cx="819.49" cy="147.91" r="3.2" /><circle class="dot dot-cr" cx="820.46" cy="149.62" r="3.2" /><circle class="dot dot-cr" cx="820.98" cy="151.20" r="3.2" /><circle class="dot dot-cr" cx="823.60" cy="153.21" r="3.2" /><circle class="dot dot-cr" cx="824.16" cy="158.14" r="3.2" /><circle class="dot dot-cr" cx="826.31" cy="156.15" r="3.2" /><circle class="dot dot-cr" cx="826.35" cy="156.02" r="3.2" /><circle class="dot dot-cr" cx="827.79" cy="153.07" r="3.2" /><circle class="dot dot-cr" cx="850.87" cy="167.48" r="3.2" /><circle class="dot dot-cr" cx="850.88" cy="166.45" r="3.2" /><circle class="dot dot-cr" cx="890.65" cy="153.22" r="3.2" /><circle class="dot dot-cr" cx="890.67" cy="153.09" r="3.2" /><circle class="dot dot-cr" cx="923.47" cy="163.60" r="3.2" /><circle class="dot dot-cr" cx="923.48" cy="163.35" r="3.2" /><circle class="dot dot-cr" cx="958.88" cy="158.76" r="3.2" /><circle class="dot dot-cr" cx="958.89" cy="157.90" r="3.2" /><circle class="dot dot-cr" cx="983.99" cy="175.79" r="3.2" /><circle class="dot dot-cr" cx="984.00" cy="176.26" r="3.2" />
+<circle class="dot dot-spy" cx="64.00" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="64.82" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="67.25" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="307.09" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="333.53" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="333.54" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="343.94" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="346.93" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="348.79" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="350.34" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="803.60" cy="67.10" r="4.8" /><circle class="dot dot-spy" cx="803.84" cy="67.10" r="4.8" /><circle class="dot dot-spy" cx="806.44" cy="67.10" r="4.8" /><circle class="dot dot-spy" cx="808.37" cy="67.10" r="4.8" /><circle class="dot dot-spy" cx="812.31" cy="67.10" r="4.8" /><circle class="dot dot-spy" cx="816.97" cy="67.10" r="4.8" /><circle class="dot dot-spy" cx="819.17" cy="67.10" r="4.8" /><circle class="dot dot-spy" cx="819.46" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="819.48" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="819.49" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="820.46" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="820.98" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="823.60" cy="203.62" r="4.8" /><circle class="dot dot-spy" cx="824.16" cy="143.53" r="4.8" /><circle class="dot dot-spy" cx="826.25" cy="145.96" r="4.8" /><circle class="dot dot-spy" cx="826.31" cy="145.96" r="4.8" /><circle class="dot dot-spy" cx="826.35" cy="145.96" r="4.8" /><circle class="dot dot-spy" cx="827.79" cy="143.65" r="4.8" /><circle class="dot dot-spy" cx="850.85" cy="128.23" r="4.8" /><circle class="dot dot-spy" cx="850.87" cy="128.23" r="4.8" /><circle class="dot dot-spy" cx="850.88" cy="128.35" r="4.8" /><circle class="dot dot-spy" cx="890.63" cy="101.66" r="4.8" /><circle class="dot dot-spy" cx="890.65" cy="101.66" r="4.8" /><circle class="dot dot-spy" cx="890.67" cy="101.60" r="4.8" /><circle class="dot dot-spy" cx="923.44" cy="83.43" r="4.8" /><circle class="dot dot-spy" cx="923.47" cy="83.43" r="4.8" /><circle class="dot dot-spy" cx="923.48" cy="83.31" r="4.8" /><circle class="dot dot-spy" cx="958.86" cy="72.83" r="4.8" /><circle class="dot dot-spy" cx="958.88" cy="72.83" r="4.8" /><circle class="dot dot-spy" cx="958.89" cy="72.10" r="4.8" /><circle class="dot dot-spy" cx="983.97" cy="67.16" r="4.8" /><circle class="dot dot-spy" cx="983.99" cy="67.16" r="4.8" /><circle class="dot dot-spy" cx="984.00" cy="67.34" r="4.8" /></svg>
     </div>
   </section>
 
@@ -341,13 +380,13 @@
         </tr>
       </thead>
       <tbody id="eq-tbody">
-        <tr data-sleeve="equity" data-ticker="AAPL"><td class="ticker">AAPL</td><td class="num" data-field="shares">30</td><td class="num" data-field="avg-cost">$336.13</td><td class="num" data-field="price">$336.13</td><td class="num" data-field="mv">$10,083.90</td><td class="num" data-field="weight">10.08%</td><td class="num flat" data-field="upnl">$0.00 (+0.00%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="JPM"><td class="ticker">JPM</td><td class="num" data-field="shares">20</td><td class="num" data-field="avg-cost">$349.67</td><td class="num" data-field="price">$349.67</td><td class="num" data-field="mv">$6,993.40</td><td class="num" data-field="weight">6.99%</td><td class="num flat" data-field="upnl">$0.00 (+0.00%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="META"><td class="ticker">META</td><td class="num" data-field="shares">17</td><td class="num" data-field="avg-cost">$665.75</td><td class="num" data-field="price">$665.75</td><td class="num" data-field="mv">$11,317.75</td><td class="num" data-field="weight">11.32%</td><td class="num flat" data-field="upnl">$0.00 (+0.00%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="MSFT"><td class="ticker">MSFT</td><td class="num" data-field="shares">30</td><td class="num" data-field="avg-cost">$493.78</td><td class="num" data-field="price">$493.78</td><td class="num" data-field="mv">$14,813.40</td><td class="num" data-field="weight">14.81%</td><td class="num flat" data-field="upnl">$0.00 (-0.00%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="NVDA"><td class="ticker">NVDA</td><td class="num" data-field="shares">26</td><td class="num" data-field="avg-cost">$222.27</td><td class="num" data-field="price">$222.27</td><td class="num" data-field="mv">$5,779.02</td><td class="num" data-field="weight">5.78%</td><td class="num flat" data-field="upnl">$0.00 (+0.00%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="XLE"><td class="ticker">XLE</td><td class="num" data-field="shares">226</td><td class="num" data-field="avg-cost">$64.31</td><td class="num" data-field="price">$64.31</td><td class="num" data-field="mv">$14,534.06</td><td class="num" data-field="weight">14.53%</td><td class="num flat" data-field="upnl">$0.00 (-0.00%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="XLF"><td class="ticker">XLF</td><td class="num" data-field="shares">94</td><td class="num" data-field="avg-cost">$55.86</td><td class="num" data-field="price">$55.86</td><td class="num" data-field="mv">$5,250.84</td><td class="num" data-field="weight">5.25%</td><td class="num flat" data-field="upnl">$0.00 (+0.00%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="XLV"><td class="ticker">XLV</td><td class="num" data-field="shares">61</td><td class="num" data-field="avg-cost">$168.39</td><td class="num" data-field="price">$168.39</td><td class="num" data-field="mv">$10,271.79</td><td class="num" data-field="weight">10.27%</td><td class="num flat" data-field="upnl">$0.00 (-0.00%)</td><td class="muted" data-field="src">mark</td></tr>
+        <tr data-sleeve="equity" data-ticker="AAPL"><td class="ticker">AAPL</td><td class="num" data-field="shares">30</td><td class="num" data-field="avg-cost">$336.13</td><td class="num" data-field="price">$338.60</td><td class="num" data-field="mv">$10,158.00</td><td class="num" data-field="weight">10.02%</td><td class="num pos" data-field="upnl">$74.10 (+0.73%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="JPM"><td class="ticker">JPM</td><td class="num" data-field="shares">20</td><td class="num" data-field="avg-cost">$349.67</td><td class="num" data-field="price">$351.70</td><td class="num" data-field="mv">$7,034.00</td><td class="num" data-field="weight">6.94%</td><td class="num pos" data-field="upnl">$40.60 (+0.58%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="META"><td class="ticker">META</td><td class="num" data-field="shares">17</td><td class="num" data-field="avg-cost">$665.75</td><td class="num" data-field="price">$740.95</td><td class="num" data-field="mv">$12,596.15</td><td class="num" data-field="weight">12.43%</td><td class="num pos" data-field="upnl">$1,278.40 (+11.30%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="MSFT"><td class="ticker">MSFT</td><td class="num" data-field="shares">30</td><td class="num" data-field="avg-cost">$493.78</td><td class="num" data-field="price">$498.37</td><td class="num" data-field="mv">$14,950.95</td><td class="num" data-field="weight">14.75%</td><td class="num pos" data-field="upnl">$137.55 (+0.93%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="NVDA"><td class="ticker">NVDA</td><td class="num" data-field="shares">26</td><td class="num" data-field="avg-cost">$222.27</td><td class="num" data-field="price">$227.40</td><td class="num" data-field="mv">$5,912.40</td><td class="num" data-field="weight">5.83%</td><td class="num pos" data-field="upnl">$133.38 (+2.31%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="XLE"><td class="ticker">XLE</td><td class="num" data-field="shares">226</td><td class="num" data-field="avg-cost">$64.31</td><td class="num" data-field="price">$62.77</td><td class="num" data-field="mv">$14,186.02</td><td class="num" data-field="weight">14.00%</td><td class="num neg" data-field="upnl">-$348.04 (-2.39%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="XLF"><td class="ticker">XLF</td><td class="num" data-field="shares">94</td><td class="num" data-field="avg-cost">$55.86</td><td class="num" data-field="price">$55.91</td><td class="num" data-field="mv">$5,255.54</td><td class="num" data-field="weight">5.18%</td><td class="num pos" data-field="upnl">$4.70 (+0.09%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="equity" data-ticker="XLV"><td class="ticker">XLV</td><td class="num" data-field="shares">61</td><td class="num" data-field="avg-cost">$168.39</td><td class="num" data-field="price">$169.06</td><td class="num" data-field="mv">$10,312.66</td><td class="num" data-field="weight">10.17%</td><td class="num pos" data-field="upnl">$40.87 (+0.40%)</td><td class="muted" data-field="src">mark</td></tr>
       </tbody>
     </table>
     <p class="blurb" style="margin-top:12px" id="eq-footer">
-      Equity cash weight: <strong id="eq-cash-wt">20.96%</strong>
-      (<span id="eq-cash-amt">$20,955.84</span>). Benchmark SPY last: <span id="eq-bench">$761.69</span>.
-      vs SPY: <span class="flat" id="eq-vs-spy">n/a</span>.
+      Equity cash weight: <strong id="eq-cash-wt">20.67%</strong>
+      (<span id="eq-cash-amt">$20,955.84</span>). Benchmark SPY last: <span id="eq-bench">$772.87</span>.
+      vs SPY: <span class="pos" id="eq-vs-spy">+1.36 pp</span>.
     </p>
   </section>
 
@@ -368,12 +407,12 @@
         </tr>
       </thead>
       <tbody id="cr-tbody">
-        <tr data-sleeve="crypto" data-ticker="AVAX-USD"><td class="ticker">AVAX-USD</td><td class="num" data-field="shares">551.243591</td><td class="num" data-field="avg-cost">$11.34</td><td class="num" data-field="price">$11.38</td><td class="num" data-field="mv">$6,273.15</td><td class="num" data-field="weight">24.46%</td><td class="num pos" data-field="upnl">$23.15 (+0.37%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="BTC-USD"><td class="ticker">BTC-USD</td><td class="num" data-field="shares">0.04394</td><td class="num" data-field="avg-cost">$81,221.96</td><td class="num" data-field="price">$85,219.35</td><td class="num" data-field="mv">$3,744.54</td><td class="num" data-field="weight">14.60%</td><td class="num pos" data-field="upnl">$175.65 (+4.92%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="ETH-USD"><td class="ticker">ETH-USD</td><td class="num" data-field="shares">1.808428</td><td class="num" data-field="avg-cost">$2,640.60</td><td class="num" data-field="price">$2,737.21</td><td class="num" data-field="mv">$4,950.05</td><td class="num" data-field="weight">19.30%</td><td class="num pos" data-field="upnl">$174.71 (+3.66%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="LINK-USD"><td class="ticker">LINK-USD</td><td class="num" data-field="shares">432.773144</td><td class="num" data-field="avg-cost">$12.49</td><td class="num" data-field="price">$13.12</td><td class="num" data-field="mv">$5,679.28</td><td class="num" data-field="weight">22.14%</td><td class="num pos" data-field="upnl">$273.51 (+5.06%)</td><td class="muted" data-field="src">mark</td></tr>
+        <tr data-sleeve="crypto" data-ticker="AVAX-USD"><td class="ticker">AVAX-USD</td><td class="num" data-field="shares">551.243591</td><td class="num" data-field="avg-cost">$11.34</td><td class="num" data-field="price">$10.96</td><td class="num" data-field="mv">$6,041.08</td><td class="num" data-field="weight">23.88%</td><td class="num neg" data-field="upnl">-$208.92 (-3.34%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="BTC-USD"><td class="ticker">BTC-USD</td><td class="num" data-field="shares">0.04394</td><td class="num" data-field="avg-cost">$81,221.96</td><td class="num" data-field="price">$85,808.89</td><td class="num" data-field="mv">$3,770.44</td><td class="num" data-field="weight">14.91%</td><td class="num pos" data-field="upnl">$201.55 (+5.65%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="ETH-USD"><td class="ticker">ETH-USD</td><td class="num" data-field="shares">1.808428</td><td class="num" data-field="avg-cost">$2,640.60</td><td class="num" data-field="price">$2,738.00</td><td class="num" data-field="mv">$4,951.48</td><td class="num" data-field="weight">19.58%</td><td class="num pos" data-field="upnl">$176.14 (+3.69%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="LINK-USD"><td class="ticker">LINK-USD</td><td class="num" data-field="shares">432.773144</td><td class="num" data-field="avg-cost">$12.49</td><td class="num" data-field="price">$12.78</td><td class="num" data-field="mv">$5,531.71</td><td class="num" data-field="weight">21.87%</td><td class="num pos" data-field="upnl">$125.94 (+2.33%)</td><td class="muted" data-field="src">mark</td></tr>
       </tbody>
     </table>
     <p class="blurb" style="margin-top:12px" id="cr-footer">
-      Crypto cash weight: <strong id="cr-cash-wt">19.50%</strong>
-      (<span id="cr-cash-amt">$5,000.00</span>). Benchmark BTC-USD last: <span id="cr-bench">$85,219.35</span>.
+      Crypto cash weight: <strong id="cr-cash-wt">19.77%</strong>
+      (<span id="cr-cash-amt">$5,000.00</span>). Benchmark BTC-USD last: <span id="cr-bench">$85,808.89</span>.
       Sleeve is separate from equity; not mixed into equity momentum rank.
     </p>
   </section>
@@ -390,12 +429,25 @@
     </ul>
   </section>
 
+<div class="strategy-row">
 
-  <section>
+  <section id="current-strategy">
+    <h2>Current strategy</h2>
+    <ul class="caps">
+      <li><strong>Equity:</strong> <code>simple_momentum_rs</code> uses simple momentum / relative strength to rank liquid US ETFs and a short mega-cap list on about a 3-month total return (63 trading days), with a 12-month sanity check that is not deeply negative (above -20%). It is long-only. Weekly rebalance proposals are made Monday; marks between weeks are not trades. Caps are 15% per name, 40% per sector sleeve, and combined AAPL+MSFT+NVDA is capped at 30% of equity NAV. Benchmark SPY. Paper only; Jordan approves trades and rule changes.</li>
+      <li><strong>Crypto:</strong> This is a separate sleeve and cash book using <code>simple_momentum_rs_crypto</code>, a similar weekly momentum screen on BTC, ETH, SOL, AVAX, LINK, with the same roughly 3-month signal and 12-month sanity check that is not deeply negative (above -20%). Its benchmark is BTC-USD (BTC), with its own caps: 25% per name, 80% invested maximum, and 20% minimum cash.</li>
+      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. Faster styles such as day trading or HFT need more data and execution; they are not the default until the Monday method scorecard shows evidence and Jordan approves a switch.</li>
+    </ul>
+    <p class="blurb">For approved strategy changes, see <a href="./changelog.html">the strategy change log</a>.</p>
+  </section>
+
+  <section id="strategy-changes">
     <h2>Strategy changes</h2>
     <p class="blurb">Approved rule and signal tweaks, including the observation and decision logic behind each change. Latest: <strong>Entry template</strong></p>
     <p class="blurb"><a href="./changelog.html">Open full strategy change log</a> (also on GitHub under docs/STRATEGY_CHANGELOG.md).</p>
   </section>
+
+</div>
 
 
   <section>
@@ -405,7 +457,7 @@
   </section>
   <section>
     <h2>Versus SPY (equity sleeve)</h2>
-    <p class="blurb">Versus SPY could not be computed because history was unavailable for the start window.</p>
+    <p class="blurb">Equity +1.36% since start vs SPY -0.00%. Versus SPY is sleeve total return since start minus SPY total return since the sleeve start date (rough, price-only).</p>
   </section>
 
   <footer>
@@ -413,8 +465,8 @@
     <p>Crypto quotes in-browser via CoinGecko when available. Equity may stay on last mark if live quotes are blocked. Weekday rebuilds refresh the embedded snapshot.</p>
   </footer>
 </div>
-<script type="application/json" id="book-data">{"generated_at":"2026-09-21T09:04:23-04:00","as_of":"2026-09-21T09:04:23-04:00","as_of_display":"2026-09-21 09:04:23 EDT","equity":{"cash":20955.84,"starting_capital":100000.0,"spy_last_close":761.69,"peak_nav":100000.0,"positions":[{"ticker":"AAPL","shares":30.0,"avg_cost":336.13,"cost_basis":10083.9,"sector":"tech","last_price":336.13},{"ticker":"JPM","shares":20.0,"avg_cost":349.67,"cost_basis":6993.4,"sector":"financials","last_price":349.67},{"ticker":"META","shares":17.0,"avg_cost":665.75,"cost_basis":11317.75,"sector":"communication","last_price":665.75},{"ticker":"MSFT","shares":30.0,"avg_cost":493.78,"cost_basis":14813.4,"sector":"tech","last_price":493.78},{"ticker":"NVDA","shares":26.0,"avg_cost":222.27,"cost_basis":5779.02,"sector":"tech","last_price":222.27},{"ticker":"XLE","shares":226.0,"avg_cost":64.31,"cost_basis":14534.06,"sector":"energy","last_price":64.31},{"ticker":"XLF","shares":94.0,"avg_cost":55.86,"cost_basis":5250.84,"sector":"financials","last_price":55.86},{"ticker":"XLV","shares":61.0,"avg_cost":168.39,"cost_basis":10271.79,"sector":"health","last_price":168.39}]},"crypto":{"cash":5000.0,"starting_capital":25000.0,"btc_last_close":85219.3516,"peak_nav":25672.26,"positions":[{"ticker":"AVAX-USD","shares":551.243591,"avg_cost":11.338,"cost_basis":6250.0,"sector":"layer1","last_price":11.38},{"ticker":"BTC-USD","shares":0.04394,"avg_cost":81221.960938,"cost_basis":3568.89,"sector":"layer1","last_price":85219.351562},{"ticker":"ETH-USD","shares":1.808428,"avg_cost":2640.600098,"cost_basis":4775.34,"sector":"layer1","last_price":2737.209961},{"ticker":"LINK-USD","shares":432.773144,"avg_cost":12.491,"cost_basis":5405.77,"sector":"oracle","last_price":13.123}]}}</script>
-<script type="application/json" id="pnl-history">{"as_of":"2026-09-21T09:04:25-04:00","currency":"USD","default_metric":"pnl","starting_capital":{"equity":100000.0,"crypto":25000.0,"household":125000.0},"counts":{"equity":4,"crypto":11,"household":14},"series":{"equity":[{"ts":"2026-09-20T12:48:00-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-21T09:04:23-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0}],"crypto":[{"ts":"2026-09-20T19:25:14-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":25194.25,"pnl":194.25,"starting_capital":25000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":25458.46,"pnl":458.46,"starting_capital":25000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":25414.2,"pnl":414.2,"starting_capital":25000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":25302.9,"pnl":302.9,"starting_capital":25000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":25311.12,"pnl":311.12,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":25671.04,"pnl":671.04,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":25672.26,"pnl":672.26,"starting_capital":25000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":25659.46,"pnl":659.46,"starting_capital":25000.0},{"ts":"2026-09-21T09:04:23-04:00","nav":25647.02,"pnl":647.02,"starting_capital":25000.0}],"household":[{"ts":"2026-09-20T12:48:00-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T19:25:14-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":125194.25,"pnl":194.25,"equity_nav":100000.0,"crypto_nav":25194.25,"starting_capital":125000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":125458.46,"pnl":458.46,"equity_nav":100000.0,"crypto_nav":25458.46,"starting_capital":125000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":125414.2,"pnl":414.2,"equity_nav":100000.0,"crypto_nav":25414.2,"starting_capital":125000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":125302.9,"pnl":302.9,"equity_nav":100000.0,"crypto_nav":25302.9,"starting_capital":125000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":125311.12,"pnl":311.12,"equity_nav":100000.0,"crypto_nav":25311.12,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":125671.04,"pnl":671.04,"equity_nav":100000.0,"crypto_nav":25671.04,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":125672.26,"pnl":672.26,"equity_nav":100000.0,"crypto_nav":25672.26,"starting_capital":125000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":125659.46,"pnl":659.46,"equity_nav":100000.0,"crypto_nav":25659.46,"starting_capital":125000.0},{"ts":"2026-09-21T09:04:23-04:00","nav":125647.02,"pnl":647.02,"equity_nav":100000.0,"crypto_nav":25647.02,"starting_capital":125000.0}]},"note":null}</script>
+<script type="application/json" id="book-data">{"generated_at":"2026-09-21T13:51:23-04:00","as_of":"2026-09-21T13:51:23-04:00","as_of_display":"2026-09-21 13:51:23 EDT","equity":{"cash":20955.84,"starting_capital":100000.0,"spy_last_close":772.87,"peak_nav":101362.04,"positions":[{"ticker":"AAPL","shares":30.0,"avg_cost":336.13,"cost_basis":10083.9,"sector":"tech","last_price":338.6},{"ticker":"JPM","shares":20.0,"avg_cost":349.67,"cost_basis":6993.4,"sector":"financials","last_price":351.7},{"ticker":"META","shares":17.0,"avg_cost":665.75,"cost_basis":11317.75,"sector":"communication","last_price":740.95},{"ticker":"MSFT","shares":30.0,"avg_cost":493.78,"cost_basis":14813.4,"sector":"tech","last_price":498.365},{"ticker":"NVDA","shares":26.0,"avg_cost":222.27,"cost_basis":5779.02,"sector":"tech","last_price":227.4},{"ticker":"XLE","shares":226.0,"avg_cost":64.31,"cost_basis":14534.06,"sector":"energy","last_price":62.77},{"ticker":"XLF","shares":94.0,"avg_cost":55.86,"cost_basis":5250.84,"sector":"financials","last_price":55.91},{"ticker":"XLV","shares":61.0,"avg_cost":168.39,"cost_basis":10271.79,"sector":"health","last_price":169.06}]},"crypto":{"cash":5000.0,"starting_capital":25000.0,"btc_last_close":85808.8906,"peak_nav":25672.26,"positions":[{"ticker":"AVAX-USD","shares":551.243591,"avg_cost":11.338,"cost_basis":6250.0,"sector":"layer1","last_price":10.959},{"ticker":"BTC-USD","shares":0.04394,"avg_cost":81221.960938,"cost_basis":3568.89,"sector":"layer1","last_price":85808.890625},{"ticker":"ETH-USD","shares":1.808428,"avg_cost":2640.600098,"cost_basis":4775.34,"sector":"layer1","last_price":2738.0},{"ticker":"LINK-USD","shares":432.773144,"avg_cost":12.491,"cost_basis":5405.77,"sector":"oracle","last_price":12.782}]}}</script>
+<script type="application/json" id="pnl-history">{"as_of":"2026-09-21T13:51:26-04:00","currency":"USD","default_metric":"pnl","starting_capital":{"equity":100000.0,"crypto":25000.0,"household":125000.0},"counts":{"equity":18,"crypto":33,"household":43,"spy":43},"series":{"equity":[{"ts":"2026-09-20T12:48:00-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-21T09:22:30-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-21T09:30:11-04:00","nav":99774.51,"pnl":-225.49,"starting_capital":100000.0},{"ts":"2026-09-21T09:33:36-04:00","nav":100455.44,"pnl":455.44,"starting_capital":100000.0},{"ts":"2026-09-21T09:33:46-04:00","nav":100437.92,"pnl":437.92,"starting_capital":100000.0},{"ts":"2026-09-21T09:36:07-04:00","nav":100390.84,"pnl":390.84,"starting_capital":100000.0},{"ts":"2026-09-21T10:13:48-04:00","nav":100535.72,"pnl":535.72,"starting_capital":100000.0},{"ts":"2026-09-21T10:13:51-04:00","nav":100538.62,"pnl":538.62,"starting_capital":100000.0},{"ts":"2026-09-21T11:18:48-04:00","nav":100588.88,"pnl":588.88,"starting_capital":100000.0},{"ts":"2026-09-21T11:18:52-04:00","nav":100591.26,"pnl":591.26,"starting_capital":100000.0},{"ts":"2026-09-21T12:12:25-04:00","nav":100841.21,"pnl":841.21,"starting_capital":100000.0},{"ts":"2026-09-21T12:12:29-04:00","nav":100836.25,"pnl":836.25,"starting_capital":100000.0},{"ts":"2026-09-21T13:10:18-04:00","nav":101131.68,"pnl":1131.68,"starting_capital":100000.0},{"ts":"2026-09-21T13:10:21-04:00","nav":101136.4,"pnl":1136.4,"starting_capital":100000.0},{"ts":"2026-09-21T13:51:20-04:00","nav":101362.04,"pnl":1362.04,"starting_capital":100000.0},{"ts":"2026-09-21T13:51:23-04:00","nav":101361.56,"pnl":1361.56,"starting_capital":100000.0}],"crypto":[{"ts":"2026-09-20T19:25:14-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":25194.25,"pnl":194.25,"starting_capital":25000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":25458.46,"pnl":458.46,"starting_capital":25000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":25414.2,"pnl":414.2,"starting_capital":25000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":25302.9,"pnl":302.9,"starting_capital":25000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":25311.12,"pnl":311.12,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":25671.04,"pnl":671.04,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":25672.26,"pnl":672.26,"starting_capital":25000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":25659.46,"pnl":659.46,"starting_capital":25000.0},{"ts":"2026-09-21T09:04:23-04:00","nav":25647.02,"pnl":647.02,"starting_capital":25000.0},{"ts":"2026-09-21T09:10:49-04:00","nav":25639.86,"pnl":639.86,"starting_capital":25000.0},{"ts":"2026-09-21T09:18:26-04:00","nav":25589.92,"pnl":589.92,"starting_capital":25000.0},{"ts":"2026-09-21T09:22:02-04:00","nav":25611.88,"pnl":611.88,"starting_capital":25000.0},{"ts":"2026-09-21T09:22:32-04:00","nav":25607.55,"pnl":607.55,"starting_capital":25000.0},{"ts":"2026-09-21T09:22:33-04:00","nav":25599.97,"pnl":599.97,"starting_capital":25000.0},{"ts":"2026-09-21T09:24:08-04:00","nav":25581.56,"pnl":581.56,"starting_capital":25000.0},{"ts":"2026-09-21T09:24:59-04:00","nav":25564.61,"pnl":564.61,"starting_capital":25000.0},{"ts":"2026-09-21T09:29:16-04:00","nav":25542.98,"pnl":542.98,"starting_capital":25000.0},{"ts":"2026-09-21T09:30:11-04:00","nav":25489.83,"pnl":489.83,"starting_capital":25000.0},{"ts":"2026-09-21T09:33:42-04:00","nav":25511.24,"pnl":511.24,"starting_capital":25000.0},{"ts":"2026-09-21T09:33:46-04:00","nav":25512.65,"pnl":512.65,"starting_capital":25000.0},{"ts":"2026-09-21T09:36:07-04:00","nav":25544.44,"pnl":544.44,"starting_capital":25000.0},{"ts":"2026-09-21T10:13:50-04:00","nav":25389.18,"pnl":389.18,"starting_capital":25000.0},{"ts":"2026-09-21T10:13:51-04:00","nav":25400.32,"pnl":400.32,"starting_capital":25000.0},{"ts":"2026-09-21T11:18:50-04:00","nav":25542.79,"pnl":542.79,"starting_capital":25000.0},{"ts":"2026-09-21T11:18:52-04:00","nav":25544.21,"pnl":544.21,"starting_capital":25000.0},{"ts":"2026-09-21T12:12:28-04:00","nav":25430.98,"pnl":430.98,"starting_capital":25000.0},{"ts":"2026-09-21T12:12:29-04:00","nav":25433.73,"pnl":433.73,"starting_capital":25000.0},{"ts":"2026-09-21T13:10:20-04:00","nav":25483.11,"pnl":483.11,"starting_capital":25000.0},{"ts":"2026-09-21T13:10:21-04:00","nav":25492.39,"pnl":492.39,"starting_capital":25000.0},{"ts":"2026-09-21T13:51:22-04:00","nav":25299.68,"pnl":299.68,"starting_capital":25000.0},{"ts":"2026-09-21T13:51:23-04:00","nav":25294.7,"pnl":294.7,"starting_capital":25000.0}],"household":[{"ts":"2026-09-20T12:48:00-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T19:25:14-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":125194.25,"pnl":194.25,"equity_nav":100000.0,"crypto_nav":25194.25,"starting_capital":125000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":125458.46,"pnl":458.46,"equity_nav":100000.0,"crypto_nav":25458.46,"starting_capital":125000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":125414.2,"pnl":414.2,"equity_nav":100000.0,"crypto_nav":25414.2,"starting_capital":125000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":125302.9,"pnl":302.9,"equity_nav":100000.0,"crypto_nav":25302.9,"starting_capital":125000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":125311.12,"pnl":311.12,"equity_nav":100000.0,"crypto_nav":25311.12,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":125671.04,"pnl":671.04,"equity_nav":100000.0,"crypto_nav":25671.04,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":125672.26,"pnl":672.26,"equity_nav":100000.0,"crypto_nav":25672.26,"starting_capital":125000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":125659.46,"pnl":659.46,"equity_nav":100000.0,"crypto_nav":25659.46,"starting_capital":125000.0},{"ts":"2026-09-21T09:04:23-04:00","nav":125647.02,"pnl":647.02,"equity_nav":100000.0,"crypto_nav":25647.02,"starting_capital":125000.0},{"ts":"2026-09-21T09:10:49-04:00","nav":125639.86,"pnl":639.86,"equity_nav":100000.0,"crypto_nav":25639.86,"starting_capital":125000.0},{"ts":"2026-09-21T09:18:26-04:00","nav":125589.92,"pnl":589.92,"equity_nav":100000.0,"crypto_nav":25589.92,"starting_capital":125000.0},{"ts":"2026-09-21T09:22:02-04:00","nav":125611.88,"pnl":611.88,"equity_nav":100000.0,"crypto_nav":25611.88,"starting_capital":125000.0},{"ts":"2026-09-21T09:22:30-04:00","nav":125611.88,"pnl":611.88,"equity_nav":100000.0,"crypto_nav":25611.88,"starting_capital":125000.0},{"ts":"2026-09-21T09:22:32-04:00","nav":125607.55,"pnl":607.55,"equity_nav":100000.0,"crypto_nav":25607.55,"starting_capital":125000.0},{"ts":"2026-09-21T09:22:33-04:00","nav":125599.97,"pnl":599.97,"equity_nav":100000.0,"crypto_nav":25599.97,"starting_capital":125000.0},{"ts":"2026-09-21T09:24:08-04:00","nav":125581.56,"pnl":581.56,"equity_nav":100000.0,"crypto_nav":25581.56,"starting_capital":125000.0},{"ts":"2026-09-21T09:24:59-04:00","nav":125564.61,"pnl":564.61,"equity_nav":100000.0,"crypto_nav":25564.61,"starting_capital":125000.0},{"ts":"2026-09-21T09:29:16-04:00","nav":125542.98,"pnl":542.98,"equity_nav":100000.0,"crypto_nav":25542.98,"starting_capital":125000.0},{"ts":"2026-09-21T09:30:11-04:00","nav":125264.34,"pnl":264.34,"equity_nav":99774.51,"crypto_nav":25489.83,"starting_capital":125000.0},{"ts":"2026-09-21T09:33:36-04:00","nav":125945.27,"pnl":945.27,"equity_nav":100455.44,"crypto_nav":25489.83,"starting_capital":125000.0},{"ts":"2026-09-21T09:33:42-04:00","nav":125966.68,"pnl":966.68,"equity_nav":100455.44,"crypto_nav":25511.24,"starting_capital":125000.0},{"ts":"2026-09-21T09:33:46-04:00","nav":125950.57,"pnl":950.57,"equity_nav":100437.92,"crypto_nav":25512.65,"starting_capital":125000.0},{"ts":"2026-09-21T09:36:07-04:00","nav":125935.28,"pnl":935.28,"equity_nav":100390.84,"crypto_nav":25544.44,"starting_capital":125000.0},{"ts":"2026-09-21T10:13:48-04:00","nav":126080.16,"pnl":1080.16,"equity_nav":100535.72,"crypto_nav":25544.44,"starting_capital":125000.0},{"ts":"2026-09-21T10:13:50-04:00","nav":125924.9,"pnl":924.9,"equity_nav":100535.72,"crypto_nav":25389.18,"starting_capital":125000.0},{"ts":"2026-09-21T10:13:51-04:00","nav":125938.94,"pnl":938.94,"equity_nav":100538.62,"crypto_nav":25400.32,"starting_capital":125000.0},{"ts":"2026-09-21T11:18:48-04:00","nav":125989.2,"pnl":989.2,"equity_nav":100588.88,"crypto_nav":25400.32,"starting_capital":125000.0},{"ts":"2026-09-21T11:18:50-04:00","nav":126131.67,"pnl":1131.67,"equity_nav":100588.88,"crypto_nav":25542.79,"starting_capital":125000.0},{"ts":"2026-09-21T11:18:52-04:00","nav":126135.47,"pnl":1135.47,"equity_nav":100591.26,"crypto_nav":25544.21,"starting_capital":125000.0},{"ts":"2026-09-21T12:12:25-04:00","nav":126385.42,"pnl":1385.42,"equity_nav":100841.21,"crypto_nav":25544.21,"starting_capital":125000.0},{"ts":"2026-09-21T12:12:28-04:00","nav":126272.19,"pnl":1272.19,"equity_nav":100841.21,"crypto_nav":25430.98,"starting_capital":125000.0},{"ts":"2026-09-21T12:12:29-04:00","nav":126269.98,"pnl":1269.98,"equity_nav":100836.25,"crypto_nav":25433.73,"starting_capital":125000.0},{"ts":"2026-09-21T13:10:18-04:00","nav":126565.41,"pnl":1565.41,"equity_nav":101131.68,"crypto_nav":25433.73,"starting_capital":125000.0},{"ts":"2026-09-21T13:10:20-04:00","nav":126614.79,"pnl":1614.79,"equity_nav":101131.68,"crypto_nav":25483.11,"starting_capital":125000.0},{"ts":"2026-09-21T13:10:21-04:00","nav":126628.79,"pnl":1628.79,"equity_nav":101136.4,"crypto_nav":25492.39,"starting_capital":125000.0},{"ts":"2026-09-21T13:51:20-04:00","nav":126854.43,"pnl":1854.43,"equity_nav":101362.04,"crypto_nav":25492.39,"starting_capital":125000.0},{"ts":"2026-09-21T13:51:22-04:00","nav":126661.72,"pnl":1661.72,"equity_nav":101362.04,"crypto_nav":25299.68,"starting_capital":125000.0},{"ts":"2026-09-21T13:51:23-04:00","nav":126656.26,"pnl":1656.26,"equity_nav":101361.56,"crypto_nav":25294.7,"starting_capital":125000.0}],"spy":[{"ts":"2026-09-20T12:48:00-04:00","nav":100000.0,"pnl":0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-20T19:25:14-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":101470.42,"pnl":1470.42,"spy_px":772.89,"starting_capital":100000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":101470.42,"pnl":1470.42,"spy_px":772.89,"starting_capital":100000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":101470.42,"pnl":1470.42,"spy_px":772.89,"starting_capital":100000.0},{"ts":"2026-09-21T09:04:23-04:00","nav":101470.42,"pnl":1470.42,"spy_px":772.89,"starting_capital":100000.0},{"ts":"2026-09-21T09:10:49-04:00","nav":101470.42,"pnl":1470.42,"spy_px":772.89,"starting_capital":100000.0},{"ts":"2026-09-21T09:18:26-04:00","nav":101470.42,"pnl":1470.42,"spy_px":772.89,"starting_capital":100000.0},{"ts":"2026-09-21T09:22:02-04:00","nav":101470.42,"pnl":1470.42,"spy_px":772.89,"starting_capital":100000.0},{"ts":"2026-09-21T09:22:30-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-21T09:22:32-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-21T09:22:33-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-21T09:24:08-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-21T09:24:59-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-21T09:29:16-04:00","nav":100000.0,"pnl":-0.0,"spy_px":761.69,"starting_capital":100000.0},{"ts":"2026-09-21T09:30:11-04:00","nav":100647.24,"pnl":647.24,"spy_px":766.62,"starting_capital":100000.0},{"ts":"2026-09-21T09:33:36-04:00","nav":100620.99,"pnl":620.99,"spy_px":766.42,"starting_capital":100000.0},{"ts":"2026-09-21T09:33:42-04:00","nav":100620.99,"pnl":620.99,"spy_px":766.42,"starting_capital":100000.0},{"ts":"2026-09-21T09:33:46-04:00","nav":100620.99,"pnl":620.99,"spy_px":766.42,"starting_capital":100000.0},{"ts":"2026-09-21T09:36:07-04:00","nav":100645.93,"pnl":645.93,"spy_px":766.61,"starting_capital":100000.0},{"ts":"2026-09-21T10:13:48-04:00","nav":100812.01,"pnl":812.01,"spy_px":767.875,"starting_capital":100000.0},{"ts":"2026-09-21T10:13:50-04:00","nav":100812.01,"pnl":812.01,"spy_px":767.875,"starting_capital":100000.0},{"ts":"2026-09-21T10:13:51-04:00","nav":100810.7,"pnl":810.7,"spy_px":767.865,"starting_capital":100000.0},{"ts":"2026-09-21T11:18:48-04:00","nav":101098.22,"pnl":1098.22,"spy_px":770.055,"starting_capital":100000.0},{"ts":"2026-09-21T11:18:50-04:00","nav":101098.22,"pnl":1098.22,"spy_px":770.055,"starting_capital":100000.0},{"ts":"2026-09-21T11:18:52-04:00","nav":101098.87,"pnl":1098.87,"spy_px":770.06,"starting_capital":100000.0},{"ts":"2026-09-21T12:12:25-04:00","nav":101294.5,"pnl":1294.5,"spy_px":771.5501,"starting_capital":100000.0},{"ts":"2026-09-21T12:12:28-04:00","nav":101294.5,"pnl":1294.5,"spy_px":771.5501,"starting_capital":100000.0},{"ts":"2026-09-21T12:12:29-04:00","nav":101295.8,"pnl":1295.8,"spy_px":771.56,"starting_capital":100000.0},{"ts":"2026-09-21T13:10:18-04:00","nav":101408.71,"pnl":1408.71,"spy_px":772.42,"starting_capital":100000.0},{"ts":"2026-09-21T13:10:20-04:00","nav":101408.71,"pnl":1408.71,"spy_px":772.42,"starting_capital":100000.0},{"ts":"2026-09-21T13:10:21-04:00","nav":101416.57,"pnl":1416.57,"spy_px":772.4799,"starting_capital":100000.0},{"ts":"2026-09-21T13:51:20-04:00","nav":101469.76,"pnl":1469.76,"spy_px":772.885,"starting_capital":100000.0},{"ts":"2026-09-21T13:51:22-04:00","nav":101469.76,"pnl":1469.76,"spy_px":772.885,"starting_capital":100000.0},{"ts":"2026-09-21T13:51:23-04:00","nav":101467.79,"pnl":1467.79,"spy_px":772.87,"starting_capital":100000.0}]},"note":null}</script>
 <script>
 (function () {
   "use strict";
@@ -821,13 +873,23 @@
     "1m": 30 * 24 * 60 * 60 * 1000
   };
   var baseNote = (hist && hist.note) || "";
+  var showSpy = true;
+  var brushZoom = null; // null | { tMin, tMax, yMin, yMax }
   var noteEl = document.getElementById("pnl-history-note");
+  var spyNoteEl = document.getElementById("pnl-spy-note");
   var btnPnl = document.getElementById("pnl-metric-pnl");
   var btnNav = document.getElementById("pnl-metric-nav");
   var btnRange1d = document.getElementById("pnl-range-1d");
   var btnRange1w = document.getElementById("pnl-range-1w");
   var btnRange1m = document.getElementById("pnl-range-1m");
   var btnRangeAll = document.getElementById("pnl-range-all");
+  var btnSpy = document.getElementById("pnl-vs-spy");
+  var btnResetZoom = document.getElementById("pnl-reset-zoom");
+
+  // Shared plot geometry (viewBox units) used by render + brush handlers.
+  var PLOT = { W: 1000, H: 280, pad: { l: 64, r: 16, t: 16, b: 40 } };
+  var lastScales = null; // { tMin, tMax, yMin, yMax } after each render
+  var brushDrag = null; // { x0, y0, x1, y1 } in SVG viewBox coords while dragging
 
   function parseTs(ts) {
     var d = new Date(ts);
@@ -865,7 +927,7 @@
       if (!d) return;
       var y = metric === "nav" ? Number(p.nav) : Number(p.pnl);
       if (!isFinite(y)) return;
-      out.push({ t: d.getTime(), d: d, y: y, ts: p.ts });
+      out.push({ t: d.getTime(), d: d, y: y, ts: p.ts, spy_px: p.spy_px });
     });
     out.sort(function (a, b) { return a.t - b.t; });
     return out;
@@ -877,21 +939,59 @@
     return pts.filter(function (p) { return p.t >= cutoff; });
   }
 
-  function updateRangeNote(nInWindow) {
+  function filterByBrush(pts) {
+    if (!brushZoom) return pts;
+    return pts.filter(function (p) {
+      return (
+        p.t >= brushZoom.tMin &&
+        p.t <= brushZoom.tMax &&
+        p.y >= brushZoom.yMin &&
+        p.y <= brushZoom.yMax
+      );
+    });
+  }
+
+  function formatHistoryDuration(ms) {
+    if (!(ms > 0)) return "0h";
+    var hours = ms / (60 * 60 * 1000);
+    if (hours < 24) return "~" + Math.max(1, Math.round(hours)) + "h";
+    var days = hours / 24;
+    if (days < 30) return "~" + Math.max(1, Math.round(days)) + "d";
+    return "~" + Math.max(1, Math.round(days / 30)) + "mo";
+  }
+
+  function updateRangeNote(nInWindow, nFull, windowEqualsFullHistory, historySpanMs) {
     if (!noteEl) return;
+    var labels = { "1d": "1D", "1w": "1W", "1m": "1M", "all": "ALL" };
+    var label = labels[range] || "ALL";
+    var primary;
     if (nInWindow < 2) {
-      noteEl.textContent =
-        "Only " +
+      primary =
+        label +
+        " · Only " +
         nInWindow +
         " points in this window. History will fill as marks run.";
-      noteEl.hidden = false;
-    } else if (baseNote) {
-      noteEl.textContent = baseNote;
-      noteEl.hidden = false;
+    } else if (range !== "all" && windowEqualsFullHistory) {
+      primary =
+        label +
+        " · full history (" +
+        formatHistoryDuration(historySpanMs) +
+        ") fits in this window, so the plot matches ALL until more marks accumulate.";
+    } else if (range === "all") {
+      primary = "ALL · showing full history (" + formatHistoryDuration(historySpanMs) + ").";
     } else {
-      noteEl.textContent = "";
-      noteEl.hidden = true;
+      primary =
+        label +
+        " · " +
+        nInWindow +
+        " of " +
+        nFull +
+        " history points in this window.";
     }
+    if (brushZoom) primary += " Drag-zoom active — Reset zoom or double-click to clear.";
+    if (baseNote && primary.indexOf(baseNote) === -1) primary += " " + baseNote;
+    noteEl.textContent = primary;
+    noteEl.hidden = false;
   }
 
   function niceTicks(minV, maxV, count) {
@@ -920,40 +1020,141 @@
     return ticks;
   }
 
-  function render() {
-    var hh = filterByRange(seriesPoints("household"));
-    var eq = filterByRange(seriesPoints("equity"));
-    var cr = filterByRange(seriesPoints("crypto"));
-    var all = hh.concat(eq).concat(cr);
-    updateRangeNote(all.length);
+  function svgPointFromEvent(evt) {
+    var rect = svg.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    var clientX = evt.clientX;
+    var clientY = evt.clientY;
+    if ((clientX == null || clientY == null) && evt.touches && evt.touches[0]) {
+      clientX = evt.touches[0].clientX;
+      clientY = evt.touches[0].clientY;
+    }
+    if (clientX == null || clientY == null) return null;
+    return {
+      x: ((clientX - rect.left) / rect.width) * PLOT.W,
+      y: ((clientY - rect.top) / rect.height) * PLOT.H
+    };
+  }
 
-    var W = 1000, H = 280;
-    var pad = { l: 64, r: 16, t: 16, b: 40 };
+  function inPlotArea(pt) {
+    var pad = PLOT.pad;
+    return (
+      pt &&
+      pt.x >= pad.l &&
+      pt.x <= PLOT.W - pad.r &&
+      pt.y >= pad.t &&
+      pt.y <= PLOT.H - pad.b
+    );
+  }
+
+  function clampToPlot(pt) {
+    var pad = PLOT.pad;
+    return {
+      x: Math.max(pad.l, Math.min(PLOT.W - pad.r, pt.x)),
+      y: Math.max(pad.t, Math.min(PLOT.H - pad.b, pt.y))
+    };
+  }
+
+  function drawBrushOverlay() {
+    var existing = svg.querySelector(".brush-rect");
+    if (existing) existing.remove();
+    if (!brushDrag) return;
+    var x = Math.min(brushDrag.x0, brushDrag.x1);
+    var y = Math.min(brushDrag.y0, brushDrag.y1);
+    var w = Math.abs(brushDrag.x1 - brushDrag.x0);
+    var h = Math.abs(brushDrag.y1 - brushDrag.y0);
+    var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute("class", "brush-rect");
+    rect.setAttribute("x", x.toFixed(2));
+    rect.setAttribute("y", y.toFixed(2));
+    rect.setAttribute("width", Math.max(0, w).toFixed(2));
+    rect.setAttribute("height", Math.max(0, h).toFixed(2));
+    svg.appendChild(rect);
+  }
+
+  function resetZoom() {
+    brushZoom = null;
+    brushDrag = null;
+    render();
+  }
+
+  function render() {
+    var hhAll = seriesPoints("household");
+    var eqAll = seriesPoints("equity");
+    var crAll = seriesPoints("crypto");
+    var spyAll = seriesPoints("spy");
+    var hh = filterByBrush(filterByRange(hhAll));
+    var eq = filterByBrush(filterByRange(eqAll));
+    var cr = filterByBrush(filterByRange(crAll));
+    var spy = showSpy ? filterByBrush(filterByRange(spyAll)) : [];
+    // Domain calculation uses timeframe-filtered points (before brush filter) unless zoomed.
+    var hhR = filterByRange(hhAll);
+    var eqR = filterByRange(eqAll);
+    var crR = filterByRange(crAll);
+    var spyR = showSpy ? filterByRange(spyAll) : [];
+    var allRange = hhR.concat(eqR).concat(crR).concat(spyR);
+    var all = hh.concat(eq).concat(cr).concat(spy);
+    var noteFull = hhAll.length ? hhAll.length : eqAll.length + crAll.length;
+    var noteInWindow = hhAll.length ? hhR.length : allRange.length;
+    var historyPoints = hhAll.length ? hhAll : eqAll.concat(crAll).sort(function (a, b) { return a.t - b.t; });
+    var historySpanMs = historyPoints.length > 1
+      ? historyPoints[historyPoints.length - 1].t - historyPoints[0].t
+      : 0;
+    var windowEqualsFullHistory =
+      range !== "all" &&
+      !!RANGE_MS[range] &&
+      noteInWindow === noteFull;
+    updateRangeNote(noteInWindow, noteFull, windowEqualsFullHistory, historySpanMs);
+
+    var W = PLOT.W, H = PLOT.H;
+    var pad = PLOT.pad;
     var iw = W - pad.l - pad.r;
     var ih = H - pad.t - pad.b;
 
-    if (!all.length) {
+    if (!allRange.length) {
+      lastScales = null;
       svg.innerHTML =
         '<text x="500" y="140" text-anchor="middle" class="axis-label">No history yet. History will fill in as daily marks run.</text>';
       return;
     }
 
-    var tMin = all[0].t, tMax = all[0].t;
-    var yMin = all[0].y, yMax = all[0].y;
-    all.forEach(function (p) {
-      if (p.t < tMin) tMin = p.t;
-      if (p.t > tMax) tMax = p.t;
-      if (p.y < yMin) yMin = p.y;
-      if (p.y > yMax) yMax = p.y;
-    });
-    if (tMax === tMin) tMax = tMin + 1;
-    if (metric === "pnl") {
-      yMin = Math.min(yMin, 0);
-      yMax = Math.max(yMax, 0);
+    var tMin, tMax, yMin, yMax;
+    if (brushZoom) {
+      tMin = brushZoom.tMin;
+      tMax = brushZoom.tMax;
+      yMin = brushZoom.yMin;
+      yMax = brushZoom.yMax;
+    } else {
+      tMin = allRange[0].t;
+      tMax = allRange[0].t;
+      yMin = allRange[0].y;
+      yMax = allRange[0].y;
+      allRange.forEach(function (p) {
+        if (p.t < tMin) tMin = p.t;
+        if (p.t > tMax) tMax = p.t;
+        if (p.y < yMin) yMin = p.y;
+        if (p.y > yMax) yMax = p.y;
+      });
+      if (range !== "all" && RANGE_MS[range]) {
+        tMax = Date.now();
+        tMin = tMax - RANGE_MS[range];
+      } else if (tMax === tMin) {
+        tMax = tMin + 1;
+      }
+      if (metric === "pnl") {
+        yMin = Math.min(yMin, 0);
+        yMax = Math.max(yMax, 0);
+      }
+      var yPad = (yMax - yMin) * 0.08 || 1;
+      yMin -= yPad;
+      yMax += yPad;
     }
-    var yPad = (yMax - yMin) * 0.08 || 1;
-    yMin -= yPad;
-    yMax += yPad;
+    if (tMax === tMin) tMax = tMin + 1;
+    if (yMax === yMin) {
+      yMin -= 1;
+      yMax += 1;
+    }
+    lastScales = { tMin: tMin, tMax: tMax, yMin: yMin, yMax: yMax };
 
     function xScale(t) {
       return pad.l + ((t - tMin) / (tMax - tMin)) * iw;
@@ -1036,19 +1237,31 @@
         '" />'
     );
 
-    // X labels: first, mid, last
+    // X labels: fixed-window endpoints for ranges, data extent for ALL / brush.
     var xLabels = [];
-    if (hh.length) xLabels = hh;
-    else if (eq.length) xLabels = eq;
-    else xLabels = cr;
-    var labelIdx = [0];
-    if (xLabels.length > 1) labelIdx.push(Math.floor((xLabels.length - 1) / 2));
-    if (xLabels.length > 1) labelIdx.push(xLabels.length - 1);
+    var labelIdx = [];
+    if (brushZoom || (range !== "all" && RANGE_MS[range])) {
+      var midT = tMin + (tMax - tMin) / 2;
+      xLabels = [
+        { t: tMin, d: new Date(tMin) },
+        { t: midT, d: new Date(midT) },
+        { t: tMax, d: new Date(tMax) }
+      ];
+      labelIdx = [0, 1, 2];
+    } else {
+      if (hh.length) xLabels = hh;
+      else if (eq.length) xLabels = eq;
+      else xLabels = cr;
+      labelIdx = [0];
+      if (xLabels.length > 1) labelIdx.push(Math.floor((xLabels.length - 1) / 2));
+      if (xLabels.length > 1) labelIdx.push(xLabels.length - 1);
+    }
     var seen = {};
     labelIdx.forEach(function (i) {
       if (seen[i]) return;
       seen[i] = true;
       var p = xLabels[i];
+      if (!p) return;
       parts.push(
         '<text class="axis-label" x="' +
           xScale(p.t).toFixed(2) +
@@ -1060,10 +1273,15 @@
       );
     });
 
-    function drawSeries(pts, lineCls, dotCls) {
+    function drawSeries(pts, lineCls, dotCls, label, radius) {
       if (!pts.length) return;
+      var r = radius != null ? radius : 3;
       parts.push('<path class="' + lineCls + '" d="' + pathFor(pts) + '" />');
       pts.forEach(function (p) {
+        var tooltip = label + " · " + fmtEt(p.d) + " ET: " + fmtAxisMoney(p.y);
+        if (p.spy_px != null && isFinite(Number(p.spy_px))) {
+          tooltip += " · SPY px $" + Number(p.spy_px).toFixed(2);
+        }
         parts.push(
           '<circle class="dot ' +
             dotCls +
@@ -1071,27 +1289,38 @@
             xScale(p.t).toFixed(2) +
             '" cy="' +
             yScale(p.y).toFixed(2) +
-            '" r="3"><title>' +
-            fmtEt(p.d) +
-            " ET: " +
-            fmtAxisMoney(p.y) +
+            '" r="' +
+            r +
+            '"><title>' +
+            tooltip +
             "</title></circle>"
         );
       });
     }
 
-    drawSeries(eq, "line-eq", "dot-eq");
-    drawSeries(cr, "line-cr", "dot-cr");
-    drawSeries(hh, "line-hh", "dot-hh");
+    // Draw SPY last (on top) for visibility over overlapping zero-line series.
+    drawSeries(eq, "line-eq", "dot-eq", "Equity");
+    drawSeries(cr, "line-cr", "dot-cr", "Crypto");
+    drawSeries(hh, "line-hh", "dot-hh", "Household");
+    drawSeries(spy, "line-spy", "dot-spy", "SPY", 4.8);
 
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.innerHTML = parts.join("");
+    if (brushDrag) drawBrushOverlay();
   }
 
   function setMetric(m) {
     metric = m;
     if (btnPnl) btnPnl.setAttribute("aria-pressed", m === "pnl" ? "true" : "false");
     if (btnNav) btnNav.setAttribute("aria-pressed", m === "nav" ? "true" : "false");
+    brushZoom = null;
+    render();
+  }
+
+  function setSpy(enabled) {
+    showSpy = enabled;
+    if (btnSpy) btnSpy.setAttribute("aria-pressed", enabled ? "true" : "false");
+    if (spyNoteEl) spyNoteEl.hidden = !enabled;
     render();
   }
 
@@ -1101,8 +1330,87 @@
     if (btnRange1w) btnRange1w.setAttribute("aria-pressed", r === "1w" ? "true" : "false");
     if (btnRange1m) btnRange1m.setAttribute("aria-pressed", r === "1m" ? "true" : "false");
     if (btnRangeAll) btnRangeAll.setAttribute("aria-pressed", r === "all" ? "true" : "false");
+    brushZoom = null;
     render();
   }
+
+  function onBrushDown(evt) {
+    if (evt.button != null && evt.button !== 0) return;
+    var pt = svgPointFromEvent(evt);
+    if (!inPlotArea(pt) || !lastScales) return;
+    evt.preventDefault();
+    pt = clampToPlot(pt);
+    brushDrag = { x0: pt.x, y0: pt.y, x1: pt.x, y1: pt.y };
+    svg.classList.add("pnl-dragging");
+    try {
+      document.body.style.userSelect = "none";
+    } catch (e) {}
+    drawBrushOverlay();
+  }
+
+  function onBrushMove(evt) {
+    if (!brushDrag) return;
+    var pt = svgPointFromEvent(evt);
+    if (!pt) return;
+    evt.preventDefault();
+    pt = clampToPlot(pt);
+    brushDrag.x1 = pt.x;
+    brushDrag.y1 = pt.y;
+    drawBrushOverlay();
+  }
+
+  function onBrushUp(evt) {
+    if (!brushDrag) return;
+    var drag = brushDrag;
+    brushDrag = null;
+    svg.classList.remove("pnl-dragging");
+    try {
+      document.body.style.userSelect = "";
+    } catch (e) {}
+    var existing = svg.querySelector(".brush-rect");
+    if (existing) existing.remove();
+    if (!lastScales) {
+      render();
+      return;
+    }
+    var dx = Math.abs(drag.x1 - drag.x0);
+    var dy = Math.abs(drag.y1 - drag.y0);
+    if (dx < 8 && dy < 8) {
+      render();
+      return;
+    }
+    var pad = PLOT.pad;
+    var iw = PLOT.W - pad.l - pad.r;
+    var ih = PLOT.H - pad.t - pad.b;
+    var x0 = Math.min(drag.x0, drag.x1);
+    var x1 = Math.max(drag.x0, drag.x1);
+    var y0 = Math.min(drag.y0, drag.y1);
+    var y1 = Math.max(drag.y0, drag.y1);
+    var tMin = lastScales.tMin + ((x0 - pad.l) / iw) * (lastScales.tMax - lastScales.tMin);
+    var tMax = lastScales.tMin + ((x1 - pad.l) / iw) * (lastScales.tMax - lastScales.tMin);
+    // SVG y grows downward: top of rect (y0) is higher value domain.
+    var yMax = lastScales.yMax - ((y0 - pad.t) / ih) * (lastScales.yMax - lastScales.yMin);
+    var yMin = lastScales.yMax - ((y1 - pad.t) / ih) * (lastScales.yMax - lastScales.yMin);
+    if (!(tMax > tMin) || !(yMax > yMin)) {
+      render();
+      return;
+    }
+    brushZoom = { tMin: tMin, tMax: tMax, yMin: yMin, yMax: yMax };
+    render();
+  }
+
+  svg.addEventListener("pointerdown", onBrushDown);
+  window.addEventListener("pointermove", onBrushMove);
+  window.addEventListener("pointerup", onBrushUp);
+  window.addEventListener("pointercancel", onBrushUp);
+  svg.addEventListener("dblclick", function (evt) {
+    evt.preventDefault();
+    resetZoom();
+  });
+  // Prevent text selection while dragging across the chart.
+  svg.addEventListener("selectstart", function (evt) {
+    if (brushDrag) evt.preventDefault();
+  });
 
   if (btnPnl) btnPnl.addEventListener("click", function () { setMetric("pnl"); });
   if (btnNav) btnNav.addEventListener("click", function () { setMetric("nav"); });
@@ -1110,6 +1418,9 @@
   if (btnRange1w) btnRange1w.addEventListener("click", function () { setRange("1w"); });
   if (btnRange1m) btnRange1m.addEventListener("click", function () { setRange("1m"); });
   if (btnRangeAll) btnRangeAll.addEventListener("click", function () { setRange("all"); });
+  if (btnSpy) btnSpy.addEventListener("click", function () { setSpy(!showSpy); });
+  if (btnResetZoom) btnResetZoom.addEventListener("click", function () { resetZoom(); });
+  if (spyNoteEl) spyNoteEl.hidden = !showSpy;
   render();
 })();
 </script>
