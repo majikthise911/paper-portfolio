@@ -25,7 +25,9 @@ CRYPTO_UNIVERSE = CRYPTO_ROOT / "config" / "universe.json"
 REPORTS = ROOT / "reports"
 HTML_OUT = REPORTS / "dashboard.html"
 DATA_OUT = REPORTS / "dashboard_data.json"
+PNL_HISTORY_OUT = REPORTS / "pnl_history.json"
 TZ = ZoneInfo("America/New_York")
+LEDGER_PNL_TYPES = frozenset({"init", "mark", "trade_batch"})
 NAV_MATERIAL_USD = 0.01
 
 
@@ -388,10 +390,225 @@ def architecture_section() -> str:
 """
 
 
+
+def parse_et_dt(iso_ts: str | None) -> datetime | None:
+    if not iso_ts:
+        return None
+    try:
+        dt = datetime.fromisoformat(iso_ts)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=TZ)
+        else:
+            dt = dt.astimezone(TZ)
+        return dt
+    except Exception:
+        return None
+
+
+def ledger_nav(entry: dict) -> float | None:
+    """NAV from init/mark/trade_batch ledger lines."""
+    if entry.get("type") == "trade_batch":
+        raw = entry.get("nav_after", entry.get("nav"))
+    else:
+        raw = entry.get("nav")
+    if raw is None:
+        return None
+    try:
+        return float(raw)
+    except (TypeError, ValueError):
+        return None
+
+
+def sleeve_pnl_series(
+    ledger_path: Path,
+    starting_capital: float,
+    portfolio_path: Path | None = None,
+) -> list[dict]:
+    """Time series of sleeve NAV and P&L from ledger (+ optional current portfolio)."""
+    by_ts: dict[str, dict] = {}
+
+    def add_point(ts: str, nav: float) -> None:
+        nav_r = round(float(nav), 2)
+        pnl = round(nav_r - starting_capital, 2)
+        if abs(pnl) < 0.005:
+            pnl = 0.0
+        by_ts[ts] = {
+            "ts": ts,
+            "nav": nav_r,
+            "pnl": pnl,
+            "starting_capital": float(starting_capital),
+        }
+
+    if ledger_path.exists():
+        for line in ledger_path.read_text().splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                entry = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if entry.get("type") not in LEDGER_PNL_TYPES:
+                continue
+            ts = entry.get("ts")
+            nav = ledger_nav(entry)
+            if not ts or nav is None:
+                continue
+            add_point(str(ts), nav)
+
+    # Seed at least a start point from starting capital if empty
+    if not by_ts:
+        seed_ts = None
+        if portfolio_path and portfolio_path.exists():
+            try:
+                pf = load_json(portfolio_path)
+                seed_ts = pf.get("as_of")
+            except Exception:
+                seed_ts = None
+        if not seed_ts:
+            seed_ts = datetime.now(TZ).isoformat(timespec="seconds")
+        add_point(str(seed_ts), float(starting_capital))
+
+    # Optionally append current portfolio as_of if newer than last ledger line
+    if portfolio_path and portfolio_path.exists():
+        try:
+            pf = load_json(portfolio_path)
+            pf_ts = pf.get("as_of")
+            pf_nav = pf.get("nav")
+            if pf_ts is not None and pf_nav is not None:
+                last_ts = max(by_ts.keys()) if by_ts else None
+                last_dt = parse_et_dt(last_ts) if last_ts else None
+                pf_dt = parse_et_dt(str(pf_ts))
+                if pf_dt is not None and (last_dt is None or pf_dt > last_dt):
+                    add_point(str(pf_ts), float(pf_nav))
+                elif last_ts is None:
+                    add_point(str(pf_ts), float(pf_nav))
+        except Exception:
+            pass
+
+    def sort_key(ts: str):
+        dt = parse_et_dt(ts)
+        return dt or datetime.min.replace(tzinfo=TZ)
+
+    return [by_ts[k] for k in sorted(by_ts.keys(), key=sort_key)]
+
+
+def align_household_series(
+    equity: list[dict],
+    crypto: list[dict],
+    equity_start: float,
+    crypto_start: float,
+) -> list[dict]:
+    """Align sleeve series on unique timestamps with carry-forward NAVs."""
+    hh_start = float(equity_start) + float(crypto_start)
+    eq_map = {p["ts"]: p for p in equity}
+    cr_map = {p["ts"]: p for p in crypto}
+    all_ts = set(eq_map) | set(cr_map)
+
+    def sort_key(ts: str):
+        dt = parse_et_dt(ts)
+        return dt or datetime.min.replace(tzinfo=TZ)
+
+    ordered = sorted(all_ts, key=sort_key)
+    if not ordered:
+        # Seed household at combined start
+        ts = datetime.now(TZ).isoformat(timespec="seconds")
+        return [
+            {
+                "ts": ts,
+                "nav": round(hh_start, 2),
+                "pnl": 0.0,
+                "equity_nav": round(equity_start, 2),
+                "crypto_nav": round(crypto_start, 2),
+                "starting_capital": round(hh_start, 2),
+            }
+        ]
+
+    latest_eq = float(equity_start)
+    latest_cr = float(crypto_start)
+    # If we have points before first timestamp, start from capital;
+    # once we see a sleeve point, carry forward.
+    out: list[dict] = []
+    for ts in ordered:
+        if ts in eq_map:
+            latest_eq = float(eq_map[ts]["nav"])
+        if ts in cr_map:
+            latest_cr = float(cr_map[ts]["nav"])
+        nav = round(latest_eq + latest_cr, 2)
+        pnl = round(nav - hh_start, 2)
+        if abs(pnl) < 0.005:
+            pnl = 0.0
+        out.append(
+            {
+                "ts": ts,
+                "nav": nav,
+                "pnl": pnl,
+                "equity_nav": round(latest_eq, 2),
+                "crypto_nav": round(latest_cr, 2),
+                "starting_capital": round(hh_start, 2),
+            }
+        )
+    return out
+
+
+def build_pnl_history(
+    equity_ledger: Path,
+    crypto_ledger: Path,
+    equity_portfolio: Path,
+    crypto_portfolio: Path,
+    equity_start: float = 100000.0,
+    crypto_start: float = 25000.0,
+) -> dict:
+    """Build household + sleeve P&L time series for the dashboard chart."""
+    eq_start = equity_start
+    cr_start = crypto_start
+    if equity_portfolio.exists():
+        try:
+            eq_start = float(load_json(equity_portfolio).get("starting_capital", equity_start))
+        except Exception:
+            pass
+    if crypto_portfolio.exists():
+        try:
+            cr_start = float(load_json(crypto_portfolio).get("starting_capital", crypto_start))
+        except Exception:
+            pass
+
+    equity = sleeve_pnl_series(equity_ledger, eq_start, equity_portfolio)
+    crypto = sleeve_pnl_series(crypto_ledger, cr_start, crypto_portfolio)
+    household = align_household_series(equity, crypto, eq_start, crypto_start)
+
+    return {
+        "as_of": datetime.now(TZ).isoformat(timespec="seconds"),
+        "currency": "USD",
+        "default_metric": "pnl",
+        "starting_capital": {
+            "equity": round(eq_start, 2),
+            "crypto": round(cr_start, 2),
+            "household": round(eq_start + cr_start, 2),
+        },
+        "counts": {
+            "equity": len(equity),
+            "crypto": len(crypto),
+            "household": len(household),
+        },
+        "series": {
+            "equity": equity,
+            "crypto": crypto,
+            "household": household,
+        },
+        "note": (
+            "History will fill in as daily marks run."
+            if min(len(equity), len(crypto), len(household)) < 2
+            else None
+        ),
+    }
+
+
 def build_html(data: dict) -> str:
     eq = data["equity"]
     cr = data["crypto"]
     hh = data["household"]
+    pnl_hist = data.get("pnl_history") or {}
 
     eq_rows = holdings_table_rows(
         eq["holdings"], "No open equity positions. Equity book cash only.", "equity"
@@ -483,6 +700,27 @@ def build_html(data: dict) -> str:
         },
     }
     book_json = json.dumps(book, separators=(",", ":"))
+    pnl_json = json.dumps(pnl_hist, separators=(",", ":"))
+    sparse_note = ""
+    counts = (pnl_hist or {}).get("counts") or {}
+    series = (pnl_hist or {}).get("series") or {}
+    min_pts = min(
+        (counts.get("household") or len(series.get("household") or [])),
+        (counts.get("equity") or len(series.get("equity") or []) or 0) or 0,
+        (counts.get("crypto") or len(series.get("crypto") or []) or 0) or 0,
+    ) if pnl_hist else 0
+    # Prefer explicit note; also show if any series has < 2 points
+    note_text = (pnl_hist or {}).get("note")
+    hh_n = len(series.get("household") or [])
+    eq_n = len(series.get("equity") or [])
+    cr_n = len(series.get("crypto") or [])
+    if note_text or hh_n < 2 or eq_n < 2 or cr_n < 2:
+        note_text = note_text or "History will fill in as daily marks run."
+        sparse_note = (
+            f'<p class="blurb" id="pnl-history-note">{note_text}</p>'
+        )
+    else:
+        sparse_note = '<p class="blurb" id="pnl-history-note" hidden></p>'
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -635,6 +873,62 @@ def build_html(data: dict) -> str:
   .arch-img {{ width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--panel-border); background: #0f1419; display: block; }}
   .arch-svg-wrap {{ width: 100%; overflow-x: auto; }}
   .arch-svg-wrap svg {{ width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--panel-border); }}
+  .pnl-toolbar {{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    margin: 0 0 12px;
+  }}
+  .pnl-legend {{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }}
+  .pnl-legend span {{ display: inline-flex; align-items: center; gap: 6px; }}
+  .pnl-swatch {{
+    width: 12px; height: 3px; border-radius: 1px; display: inline-block;
+  }}
+  .pnl-swatch.hh {{ background: var(--accent); }}
+  .pnl-swatch.eq {{ background: var(--pos); }}
+  .pnl-swatch.cr {{ background: #e6b450; }}
+  .pnl-toggle {{
+    appearance: none;
+    border: 1px solid var(--panel-border);
+    background: #243044;
+    color: var(--text);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }}
+  .pnl-toggle[aria-pressed="true"] {{
+    border-color: var(--accent);
+    color: var(--accent);
+  }}
+  #pnl-chart-wrap {{
+    width: 100%;
+    overflow-x: auto;
+  }}
+  #pnl-chart {{
+    width: 100%;
+    height: 280px;
+    display: block;
+  }}
+  #pnl-chart .grid-line {{ stroke: #2a3548; stroke-width: 1; }}
+  #pnl-chart .axis {{ stroke: #3a4a63; stroke-width: 1; }}
+  #pnl-chart .axis-label {{ fill: var(--muted); font-size: 11px; font-family: var(--font); }}
+  #pnl-chart .zero-line {{ stroke: #4a5a73; stroke-width: 1; stroke-dasharray: 4 3; }}
+  #pnl-chart .line-hh {{ fill: none; stroke: #5b9fd4; stroke-width: 2.2; }}
+  #pnl-chart .line-eq {{ fill: none; stroke: #3ecf8e; stroke-width: 1.8; }}
+  #pnl-chart .line-cr {{ fill: none; stroke: #e6b450; stroke-width: 1.8; }}
+  #pnl-chart .dot {{ stroke: #0f1419; stroke-width: 1; }}
+  #pnl-chart .dot-hh {{ fill: #5b9fd4; }}
+  #pnl-chart .dot-eq {{ fill: #3ecf8e; }}
+  #pnl-chart .dot-cr {{ fill: #e6b450; }}
 </style>
 </head>
 <body>
@@ -681,6 +975,25 @@ def build_html(data: dict) -> str:
       <div class="sub {pnl_class(hh['total_pnl_pct'])}" id="hh-pnl-pct">{fmt_pct(hh['total_pnl_pct'])} vs combined start</div>
     </div>
   </div>
+
+  <section id="pnl-over-time">
+    <h2>P&amp;L over time</h2>
+    {sparse_note}
+    <div class="pnl-toolbar">
+      <div class="pnl-legend" aria-label="Series legend">
+        <span><i class="pnl-swatch hh" aria-hidden="true"></i>Household</span>
+        <span><i class="pnl-swatch eq" aria-hidden="true"></i>Equity</span>
+        <span><i class="pnl-swatch cr" aria-hidden="true"></i>Crypto</span>
+      </div>
+      <div>
+        <button type="button" class="pnl-toggle" id="pnl-metric-pnl" aria-pressed="true">P&amp;L $</button>
+        <button type="button" class="pnl-toggle" id="pnl-metric-nav" aria-pressed="false">NAV $</button>
+      </div>
+    </div>
+    <div id="pnl-chart-wrap">
+      <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="P and L over time"></svg>
+    </div>
+  </section>
 
   <section>
     <h2>Equity holdings</h2>
@@ -759,6 +1072,7 @@ def build_html(data: dict) -> str:
   </footer>
 </div>
 <script type="application/json" id="book-data">{book_json}</script>
+<script type="application/json" id="pnl-history">{pnl_json}</script>
 <script>
 (function () {{
   "use strict";
@@ -1142,6 +1456,272 @@ def build_html(data: dict) -> str:
   setInterval(refresh, REFRESH_MS);
 }})();
 </script>
+<script>
+(function () {{
+  "use strict";
+  // Historical marks chart. Reads #pnl-history only; live price refresh must not touch this.
+  var histEl = document.getElementById("pnl-history");
+  var svg = document.getElementById("pnl-chart");
+  if (!histEl || !svg) return;
+
+  var hist;
+  try {{
+    hist = JSON.parse(histEl.textContent);
+  }} catch (e) {{
+    return;
+  }}
+
+  var metric = (hist && hist.default_metric) || "pnl";
+  var btnPnl = document.getElementById("pnl-metric-pnl");
+  var btnNav = document.getElementById("pnl-metric-nav");
+
+  function parseTs(ts) {{
+    var d = new Date(ts);
+    return isNaN(d.getTime()) ? null : d;
+  }}
+
+  function fmtAxisMoney(v) {{
+    var abs = Math.abs(v);
+    var sign = v < 0 ? "-" : "";
+    if (abs >= 1000000) return sign + "$" + (abs / 1000000).toFixed(1) + "M";
+    if (abs >= 1000) return sign + "$" + (abs / 1000).toFixed(abs >= 10000 ? 0 : 1) + "k";
+    return sign + "$" + abs.toFixed(0);
+  }}
+
+  function fmtEt(d) {{
+    try {{
+      return d.toLocaleString("en-US", {{
+        timeZone: "America/New_York",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      }});
+    }} catch (e) {{
+      return d.toISOString();
+    }}
+  }}
+
+  function seriesPoints(name) {{
+    var raw = (hist.series && hist.series[name]) || [];
+    var out = [];
+    raw.forEach(function (p) {{
+      var d = parseTs(p.ts);
+      if (!d) return;
+      var y = metric === "nav" ? Number(p.nav) : Number(p.pnl);
+      if (!isFinite(y)) return;
+      out.push({{ t: d.getTime(), d: d, y: y, ts: p.ts }});
+    }});
+    out.sort(function (a, b) {{ return a.t - b.t; }});
+    return out;
+  }}
+
+  function niceTicks(minV, maxV, count) {{
+    if (!isFinite(minV) || !isFinite(maxV)) return [0];
+    if (minV === maxV) {{
+      var pad = Math.max(1, Math.abs(minV) * 0.05);
+      minV -= pad;
+      maxV += pad;
+    }}
+    var span = maxV - minV;
+    var step = span / Math.max(1, count);
+    var mag = Math.pow(10, Math.floor(Math.log(Math.abs(step) || 1) / Math.LN10));
+    var norm = step / mag;
+    var nice;
+    if (norm < 1.5) nice = 1;
+    else if (norm < 3) nice = 2;
+    else if (norm < 7) nice = 5;
+    else nice = 10;
+    step = nice * mag;
+    var start = Math.floor(minV / step) * step;
+    var ticks = [];
+    for (var v = start; v <= maxV + step * 0.5; v += step) {{
+      ticks.push(v);
+      if (ticks.length > 12) break;
+    }}
+    return ticks;
+  }}
+
+  function render() {{
+    var hh = seriesPoints("household");
+    var eq = seriesPoints("equity");
+    var cr = seriesPoints("crypto");
+    var all = hh.concat(eq).concat(cr);
+
+    var W = 1000, H = 280;
+    var pad = {{ l: 64, r: 16, t: 16, b: 40 }};
+    var iw = W - pad.l - pad.r;
+    var ih = H - pad.t - pad.b;
+
+    if (!all.length) {{
+      svg.innerHTML =
+        '<text x="500" y="140" text-anchor="middle" class="axis-label">No history yet. History will fill in as daily marks run.</text>';
+      return;
+    }}
+
+    var tMin = all[0].t, tMax = all[0].t;
+    var yMin = all[0].y, yMax = all[0].y;
+    all.forEach(function (p) {{
+      if (p.t < tMin) tMin = p.t;
+      if (p.t > tMax) tMax = p.t;
+      if (p.y < yMin) yMin = p.y;
+      if (p.y > yMax) yMax = p.y;
+    }});
+    if (tMax === tMin) tMax = tMin + 1;
+    if (metric === "pnl") {{
+      yMin = Math.min(yMin, 0);
+      yMax = Math.max(yMax, 0);
+    }}
+    var yPad = (yMax - yMin) * 0.08 || 1;
+    yMin -= yPad;
+    yMax += yPad;
+
+    function xScale(t) {{
+      return pad.l + ((t - tMin) / (tMax - tMin)) * iw;
+    }}
+    function yScale(y) {{
+      return pad.t + ((yMax - y) / (yMax - yMin)) * ih;
+    }}
+
+    function pathFor(pts) {{
+      if (!pts.length) return "";
+      return pts
+        .map(function (p, i) {{
+          return (i === 0 ? "M" : "L") + xScale(p.t).toFixed(2) + " " + yScale(p.y).toFixed(2);
+        }})
+        .join(" ");
+    }}
+
+    var yTicks = niceTicks(yMin, yMax, 5);
+    var parts = [];
+
+    yTicks.forEach(function (v) {{
+      var y = yScale(v);
+      parts.push(
+        '<line class="grid-line" x1="' +
+          pad.l +
+          '" y1="' +
+          y.toFixed(2) +
+          '" x2="' +
+          (W - pad.r) +
+          '" y2="' +
+          y.toFixed(2) +
+          '" />'
+      );
+      parts.push(
+        '<text class="axis-label" x="' +
+          (pad.l - 8) +
+          '" y="' +
+          (y + 4).toFixed(2) +
+          '" text-anchor="end">' +
+          fmtAxisMoney(v) +
+          "</text>"
+      );
+    }});
+
+    if (metric === "pnl" && yMin < 0 && yMax > 0) {{
+      var zy = yScale(0);
+      parts.push(
+        '<line class="zero-line" x1="' +
+          pad.l +
+          '" y1="' +
+          zy.toFixed(2) +
+          '" x2="' +
+          (W - pad.r) +
+          '" y2="' +
+          zy.toFixed(2) +
+          '" />'
+      );
+    }}
+
+    parts.push(
+      '<line class="axis" x1="' +
+        pad.l +
+        '" y1="' +
+        pad.t +
+        '" x2="' +
+        pad.l +
+        '" y2="' +
+        (H - pad.b) +
+        '" />'
+    );
+    parts.push(
+      '<line class="axis" x1="' +
+        pad.l +
+        '" y1="' +
+        (H - pad.b) +
+        '" x2="' +
+        (W - pad.r) +
+        '" y2="' +
+        (H - pad.b) +
+        '" />'
+    );
+
+    // X labels: first, mid, last
+    var xLabels = [];
+    if (hh.length) xLabels = hh;
+    else if (eq.length) xLabels = eq;
+    else xLabels = cr;
+    var labelIdx = [0];
+    if (xLabels.length > 1) labelIdx.push(Math.floor((xLabels.length - 1) / 2));
+    if (xLabels.length > 1) labelIdx.push(xLabels.length - 1);
+    var seen = {{}};
+    labelIdx.forEach(function (i) {{
+      if (seen[i]) return;
+      seen[i] = true;
+      var p = xLabels[i];
+      parts.push(
+        '<text class="axis-label" x="' +
+          xScale(p.t).toFixed(2) +
+          '" y="' +
+          (H - 12) +
+          '" text-anchor="middle">' +
+          fmtEt(p.d) +
+          " ET</text>"
+      );
+    }});
+
+    function drawSeries(pts, lineCls, dotCls) {{
+      if (!pts.length) return;
+      parts.push('<path class="' + lineCls + '" d="' + pathFor(pts) + '" />');
+      pts.forEach(function (p) {{
+        parts.push(
+          '<circle class="dot ' +
+            dotCls +
+            '" cx="' +
+            xScale(p.t).toFixed(2) +
+            '" cy="' +
+            yScale(p.y).toFixed(2) +
+            '" r="3"><title>' +
+            fmtEt(p.d) +
+            " ET: " +
+            fmtAxisMoney(p.y) +
+            "</title></circle>"
+        );
+      }});
+    }}
+
+    drawSeries(eq, "line-eq", "dot-eq");
+    drawSeries(cr, "line-cr", "dot-cr");
+    drawSeries(hh, "line-hh", "dot-hh");
+
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.innerHTML = parts.join("");
+  }}
+
+  function setMetric(m) {{
+    metric = m;
+    if (btnPnl) btnPnl.setAttribute("aria-pressed", m === "pnl" ? "true" : "false");
+    if (btnNav) btnNav.setAttribute("aria-pressed", m === "nav" ? "true" : "false");
+    render();
+  }}
+
+  if (btnPnl) btnPnl.addEventListener("click", function () {{ setMetric("pnl"); }});
+  if (btnNav) btnNav.addEventListener("click", function () {{ setMetric("nav"); }});
+  render();
+}})();
+</script>
 </body>
 </html>
 """
@@ -1254,6 +1834,15 @@ def main():
     if abs(hh_pnl_pct) < 1e-9:
         hh_pnl_pct = 0.0
 
+    pnl_history = build_pnl_history(
+        EQUITY_LEDGER,
+        CRYPTO_LEDGER,
+        EQUITY_PORTFOLIO,
+        CRYPTO_PORTFOLIO,
+        equity_start=float(equity.get("starting_capital", 100000.0)),
+        crypto_start=float(crypto.get("starting_capital", 25000.0)),
+    )
+
     data = {
         "as_of": as_of,
         "as_of_display": now.strftime("%Y-%m-%d %H:%M:%S %Z"),
@@ -1266,6 +1855,7 @@ def main():
         },
         "equity": equity,
         "crypto": crypto,
+        "pnl_history": pnl_history,
     }
 
     # Backward-compatible top-level keys (equity-centric) for any old consumers
@@ -1275,6 +1865,7 @@ def main():
     data["holdings"] = equity["holdings"]
 
     save_json(DATA_OUT, data)
+    save_json(PNL_HISTORY_OUT, pnl_history)
     HTML_OUT.write_text(build_html(data), encoding="utf-8")
 
     print(
@@ -1286,7 +1877,13 @@ def main():
         f"failed={crypto.get('failed_tickers', [])}"
     )
     print(f"household nav={hh_nav:.2f} pnl={hh_pnl:.2f}")
+    counts = pnl_history.get("counts") or {}
+    print(
+        f"pnl_history points household={counts.get('household')} "
+        f"equity={counts.get('equity')} crypto={counts.get('crypto')}"
+    )
     print(str(HTML_OUT.resolve()))
+    print(str(PNL_HISTORY_OUT.resolve()))
 
 
 if __name__ == "__main__":

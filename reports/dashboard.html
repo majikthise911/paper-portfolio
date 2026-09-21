@@ -149,13 +149,69 @@
   .arch-img { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--panel-border); background: #0f1419; display: block; }
   .arch-svg-wrap { width: 100%; overflow-x: auto; }
   .arch-svg-wrap svg { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--panel-border); }
+  .pnl-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    margin: 0 0 12px;
+  }
+  .pnl-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .pnl-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .pnl-swatch {
+    width: 12px; height: 3px; border-radius: 1px; display: inline-block;
+  }
+  .pnl-swatch.hh { background: var(--accent); }
+  .pnl-swatch.eq { background: var(--pos); }
+  .pnl-swatch.cr { background: #e6b450; }
+  .pnl-toggle {
+    appearance: none;
+    border: 1px solid var(--panel-border);
+    background: #243044;
+    color: var(--text);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .pnl-toggle[aria-pressed="true"] {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  #pnl-chart-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+  #pnl-chart {
+    width: 100%;
+    height: 280px;
+    display: block;
+  }
+  #pnl-chart .grid-line { stroke: #2a3548; stroke-width: 1; }
+  #pnl-chart .axis { stroke: #3a4a63; stroke-width: 1; }
+  #pnl-chart .axis-label { fill: var(--muted); font-size: 11px; font-family: var(--font); }
+  #pnl-chart .zero-line { stroke: #4a5a73; stroke-width: 1; stroke-dasharray: 4 3; }
+  #pnl-chart .line-hh { fill: none; stroke: #5b9fd4; stroke-width: 2.2; }
+  #pnl-chart .line-eq { fill: none; stroke: #3ecf8e; stroke-width: 1.8; }
+  #pnl-chart .line-cr { fill: none; stroke: #e6b450; stroke-width: 1.8; }
+  #pnl-chart .dot { stroke: #0f1419; stroke-width: 1; }
+  #pnl-chart .dot-hh { fill: #5b9fd4; }
+  #pnl-chart .dot-eq { fill: #3ecf8e; }
+  #pnl-chart .dot-cr { fill: #e6b450; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>Paper Portfolio</h1>
-    <div class="asof" id="mark-asof">Mark snapshot: 2026-09-20 20:30:20 EDT (America/New_York)</div>
+    <div class="asof" id="mark-asof">Mark snapshot: 2026-09-20 20:33:23 EDT (America/New_York)</div>
   </header>
 
   <div class="status-bar">
@@ -166,7 +222,7 @@
   <div class="cards">
     <div class="card">
       <div class="label">Household NAV</div>
-      <div class="value" id="hh-nav">$125,414.20</div>
+      <div class="value" id="hh-nav">$125,302.90</div>
       <div class="sub">Equity + crypto</div>
     </div>
     <div class="card">
@@ -176,7 +232,7 @@
     </div>
     <div class="card">
       <div class="label">Crypto NAV</div>
-      <div class="value" id="cr-nav">$25,414.20</div>
+      <div class="value" id="cr-nav">$25,302.90</div>
       <div class="sub" id="cr-cash-sub">Cash $5,000.00</div>
     </div>
     <div class="card">
@@ -186,15 +242,34 @@
     </div>
     <div class="card">
       <div class="label">Crypto P&amp;L</div>
-      <div class="value pos" id="cr-pnl">$414.20</div>
-      <div class="sub pos" id="cr-pnl-pct">+1.66% vs start</div>
+      <div class="value pos" id="cr-pnl">$302.90</div>
+      <div class="sub pos" id="cr-pnl-pct">+1.21% vs start</div>
     </div>
     <div class="card">
       <div class="label">Household P&amp;L</div>
-      <div class="value pos" id="hh-pnl">$414.20</div>
-      <div class="sub pos" id="hh-pnl-pct">+0.33% vs combined start</div>
+      <div class="value pos" id="hh-pnl">$302.90</div>
+      <div class="sub pos" id="hh-pnl-pct">+0.24% vs combined start</div>
     </div>
   </div>
+
+  <section id="pnl-over-time">
+    <h2>P&amp;L over time</h2>
+    <p class="blurb" id="pnl-history-note" hidden></p>
+    <div class="pnl-toolbar">
+      <div class="pnl-legend" aria-label="Series legend">
+        <span><i class="pnl-swatch hh" aria-hidden="true"></i>Household</span>
+        <span><i class="pnl-swatch eq" aria-hidden="true"></i>Equity</span>
+        <span><i class="pnl-swatch cr" aria-hidden="true"></i>Crypto</span>
+      </div>
+      <div>
+        <button type="button" class="pnl-toggle" id="pnl-metric-pnl" aria-pressed="true">P&amp;L $</button>
+        <button type="button" class="pnl-toggle" id="pnl-metric-nav" aria-pressed="false">NAV $</button>
+      </div>
+    </div>
+    <div id="pnl-chart-wrap">
+      <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="P and L over time"></svg>
+    </div>
+  </section>
 
   <section>
     <h2>Equity holdings</h2>
@@ -240,12 +315,12 @@
         </tr>
       </thead>
       <tbody id="cr-tbody">
-        <tr data-sleeve="crypto" data-ticker="AVAX-USD"><td class="ticker">AVAX-USD</td><td class="num" data-field="shares">551.243591</td><td class="num" data-field="avg-cost">$11.34</td><td class="num" data-field="price">$11.70</td><td class="num" data-field="mv">$6,447.90</td><td class="num" data-field="weight">25.37%</td><td class="num pos" data-field="upnl">$197.90 (+3.17%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="BTC-USD"><td class="ticker">BTC-USD</td><td class="num" data-field="shares">0.04394</td><td class="num" data-field="avg-cost">$81,221.96</td><td class="num" data-field="price">$81,759.93</td><td class="num" data-field="mv">$3,592.53</td><td class="num" data-field="weight">14.14%</td><td class="num pos" data-field="upnl">$23.64 (+0.66%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="ETH-USD"><td class="ticker">ETH-USD</td><td class="num" data-field="shares">1.808428</td><td class="num" data-field="avg-cost">$2,640.60</td><td class="num" data-field="price">$2,687.79</td><td class="num" data-field="mv">$4,860.67</td><td class="num" data-field="weight">19.13%</td><td class="num pos" data-field="upnl">$85.33 (+1.79%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="LINK-USD"><td class="ticker">LINK-USD</td><td class="num" data-field="shares">432.773144</td><td class="num" data-field="avg-cost">$12.49</td><td class="num" data-field="price">$12.74</td><td class="num" data-field="mv">$5,513.10</td><td class="num" data-field="weight">21.69%</td><td class="num pos" data-field="upnl">$107.33 (+1.99%)</td><td class="muted" data-field="src">mark</td></tr>
+        <tr data-sleeve="crypto" data-ticker="AVAX-USD"><td class="ticker">AVAX-USD</td><td class="num" data-field="shares">551.243591</td><td class="num" data-field="avg-cost">$11.34</td><td class="num" data-field="price">$11.54</td><td class="num" data-field="mv">$6,361.90</td><td class="num" data-field="weight">25.14%</td><td class="num pos" data-field="upnl">$111.90 (+1.79%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="BTC-USD"><td class="ticker">BTC-USD</td><td class="num" data-field="shares">0.04394</td><td class="num" data-field="avg-cost">$81,221.96</td><td class="num" data-field="price">$81,719.10</td><td class="num" data-field="mv">$3,590.74</td><td class="num" data-field="weight">14.19%</td><td class="num pos" data-field="upnl">$21.85 (+0.61%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="ETH-USD"><td class="ticker">ETH-USD</td><td class="num" data-field="shares">1.808428</td><td class="num" data-field="avg-cost">$2,640.60</td><td class="num" data-field="price">$2,684.12</td><td class="num" data-field="mv">$4,854.04</td><td class="num" data-field="weight">19.18%</td><td class="num pos" data-field="upnl">$78.70 (+1.65%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="LINK-USD"><td class="ticker">LINK-USD</td><td class="num" data-field="shares">432.773144</td><td class="num" data-field="avg-cost">$12.49</td><td class="num" data-field="price">$12.70</td><td class="num" data-field="mv">$5,496.22</td><td class="num" data-field="weight">21.72%</td><td class="num pos" data-field="upnl">$90.45 (+1.67%)</td><td class="muted" data-field="src">mark</td></tr>
       </tbody>
     </table>
     <p class="blurb" style="margin-top:12px" id="cr-footer">
-      Crypto cash weight: <strong id="cr-cash-wt">19.67%</strong>
-      (<span id="cr-cash-amt">$5,000.00</span>). Benchmark BTC-USD last: <span id="cr-bench">$81,759.93</span>.
+      Crypto cash weight: <strong id="cr-cash-wt">19.76%</strong>
+      (<span id="cr-cash-amt">$5,000.00</span>). Benchmark BTC-USD last: <span id="cr-bench">$81,719.10</span>.
       Sleeve is separate from equity; not mixed into equity momentum rank.
     </p>
   </section>
@@ -278,7 +353,8 @@
     <p>Crypto quotes in-browser via CoinGecko when available. Equity may stay on last mark if live quotes are blocked. Weekday rebuilds refresh the embedded snapshot.</p>
   </footer>
 </div>
-<script type="application/json" id="book-data">{"generated_at":"2026-09-20T20:30:20-04:00","as_of":"2026-09-20T20:30:20-04:00","as_of_display":"2026-09-20 20:30:20 EDT","equity":{"cash":20955.84,"starting_capital":100000.0,"spy_last_close":761.69,"peak_nav":100000.0,"positions":[{"ticker":"AAPL","shares":30.0,"avg_cost":336.13,"cost_basis":10083.9,"sector":"tech","last_price":336.13},{"ticker":"JPM","shares":20.0,"avg_cost":349.67,"cost_basis":6993.4,"sector":"financials","last_price":349.67},{"ticker":"META","shares":17.0,"avg_cost":665.75,"cost_basis":11317.75,"sector":"communication","last_price":665.75},{"ticker":"MSFT","shares":30.0,"avg_cost":493.78,"cost_basis":14813.4,"sector":"tech","last_price":493.78},{"ticker":"NVDA","shares":26.0,"avg_cost":222.27,"cost_basis":5779.02,"sector":"tech","last_price":222.27},{"ticker":"XLE","shares":226.0,"avg_cost":64.31,"cost_basis":14534.06,"sector":"energy","last_price":64.31},{"ticker":"XLF","shares":94.0,"avg_cost":55.86,"cost_basis":5250.84,"sector":"financials","last_price":55.86},{"ticker":"XLV","shares":61.0,"avg_cost":168.39,"cost_basis":10271.79,"sector":"health","last_price":168.39}]},"crypto":{"cash":5000.0,"starting_capital":25000.0,"btc_last_close":81759.9297,"peak_nav":25458.46,"positions":[{"ticker":"AVAX-USD","shares":551.243591,"avg_cost":11.338,"cost_basis":6250.0,"sector":"layer1","last_price":11.697},{"ticker":"BTC-USD","shares":0.04394,"avg_cost":81221.960938,"cost_basis":3568.89,"sector":"layer1","last_price":81759.929688},{"ticker":"ETH-USD","shares":1.808428,"avg_cost":2640.600098,"cost_basis":4775.34,"sector":"layer1","last_price":2687.790039},{"ticker":"LINK-USD","shares":432.773144,"avg_cost":12.491,"cost_basis":5405.77,"sector":"oracle","last_price":12.739}]}}</script>
+<script type="application/json" id="book-data">{"generated_at":"2026-09-20T20:33:23-04:00","as_of":"2026-09-20T20:33:23-04:00","as_of_display":"2026-09-20 20:33:23 EDT","equity":{"cash":20955.84,"starting_capital":100000.0,"spy_last_close":761.69,"peak_nav":100000.0,"positions":[{"ticker":"AAPL","shares":30.0,"avg_cost":336.13,"cost_basis":10083.9,"sector":"tech","last_price":336.13},{"ticker":"JPM","shares":20.0,"avg_cost":349.67,"cost_basis":6993.4,"sector":"financials","last_price":349.67},{"ticker":"META","shares":17.0,"avg_cost":665.75,"cost_basis":11317.75,"sector":"communication","last_price":665.75},{"ticker":"MSFT","shares":30.0,"avg_cost":493.78,"cost_basis":14813.4,"sector":"tech","last_price":493.78},{"ticker":"NVDA","shares":26.0,"avg_cost":222.27,"cost_basis":5779.02,"sector":"tech","last_price":222.27},{"ticker":"XLE","shares":226.0,"avg_cost":64.31,"cost_basis":14534.06,"sector":"energy","last_price":64.31},{"ticker":"XLF","shares":94.0,"avg_cost":55.86,"cost_basis":5250.84,"sector":"financials","last_price":55.86},{"ticker":"XLV","shares":61.0,"avg_cost":168.39,"cost_basis":10271.79,"sector":"health","last_price":168.39}]},"crypto":{"cash":5000.0,"starting_capital":25000.0,"btc_last_close":81719.1016,"peak_nav":25458.46,"positions":[{"ticker":"AVAX-USD","shares":551.243591,"avg_cost":11.338,"cost_basis":6250.0,"sector":"layer1","last_price":11.541},{"ticker":"BTC-USD","shares":0.04394,"avg_cost":81221.960938,"cost_basis":3568.89,"sector":"layer1","last_price":81719.101562},{"ticker":"ETH-USD","shares":1.808428,"avg_cost":2640.600098,"cost_basis":4775.34,"sector":"layer1","last_price":2684.120117},{"ticker":"LINK-USD","shares":432.773144,"avg_cost":12.491,"cost_basis":5405.77,"sector":"oracle","last_price":12.7}]}}</script>
+<script type="application/json" id="pnl-history">{"as_of":"2026-09-20T20:33:25-04:00","currency":"USD","default_metric":"pnl","starting_capital":{"equity":100000.0,"crypto":25000.0,"household":125000.0},"counts":{"equity":4,"crypto":6,"household":9},"series":{"equity":[{"ts":"2026-09-20T12:48:00-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0}],"crypto":[{"ts":"2026-09-20T19:25:14-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":25194.25,"pnl":194.25,"starting_capital":25000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":25458.46,"pnl":458.46,"starting_capital":25000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":25414.2,"pnl":414.2,"starting_capital":25000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":25302.9,"pnl":302.9,"starting_capital":25000.0}],"household":[{"ts":"2026-09-20T12:48:00-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T19:25:14-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":125194.25,"pnl":194.25,"equity_nav":100000.0,"crypto_nav":25194.25,"starting_capital":125000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":125458.46,"pnl":458.46,"equity_nav":100000.0,"crypto_nav":25458.46,"starting_capital":125000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":125414.2,"pnl":414.2,"equity_nav":100000.0,"crypto_nav":25414.2,"starting_capital":125000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":125302.9,"pnl":302.9,"equity_nav":100000.0,"crypto_nav":25302.9,"starting_capital":125000.0}]},"note":null}</script>
 <script>
 (function () {
   "use strict";
@@ -660,6 +736,272 @@
   if (btn) btn.addEventListener("click", function () { refresh(); });
   refresh();
   setInterval(refresh, REFRESH_MS);
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+  // Historical marks chart. Reads #pnl-history only; live price refresh must not touch this.
+  var histEl = document.getElementById("pnl-history");
+  var svg = document.getElementById("pnl-chart");
+  if (!histEl || !svg) return;
+
+  var hist;
+  try {
+    hist = JSON.parse(histEl.textContent);
+  } catch (e) {
+    return;
+  }
+
+  var metric = (hist && hist.default_metric) || "pnl";
+  var btnPnl = document.getElementById("pnl-metric-pnl");
+  var btnNav = document.getElementById("pnl-metric-nav");
+
+  function parseTs(ts) {
+    var d = new Date(ts);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function fmtAxisMoney(v) {
+    var abs = Math.abs(v);
+    var sign = v < 0 ? "-" : "";
+    if (abs >= 1000000) return sign + "$" + (abs / 1000000).toFixed(1) + "M";
+    if (abs >= 1000) return sign + "$" + (abs / 1000).toFixed(abs >= 10000 ? 0 : 1) + "k";
+    return sign + "$" + abs.toFixed(0);
+  }
+
+  function fmtEt(d) {
+    try {
+      return d.toLocaleString("en-US", {
+        timeZone: "America/New_York",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
+    } catch (e) {
+      return d.toISOString();
+    }
+  }
+
+  function seriesPoints(name) {
+    var raw = (hist.series && hist.series[name]) || [];
+    var out = [];
+    raw.forEach(function (p) {
+      var d = parseTs(p.ts);
+      if (!d) return;
+      var y = metric === "nav" ? Number(p.nav) : Number(p.pnl);
+      if (!isFinite(y)) return;
+      out.push({ t: d.getTime(), d: d, y: y, ts: p.ts });
+    });
+    out.sort(function (a, b) { return a.t - b.t; });
+    return out;
+  }
+
+  function niceTicks(minV, maxV, count) {
+    if (!isFinite(minV) || !isFinite(maxV)) return [0];
+    if (minV === maxV) {
+      var pad = Math.max(1, Math.abs(minV) * 0.05);
+      minV -= pad;
+      maxV += pad;
+    }
+    var span = maxV - minV;
+    var step = span / Math.max(1, count);
+    var mag = Math.pow(10, Math.floor(Math.log(Math.abs(step) || 1) / Math.LN10));
+    var norm = step / mag;
+    var nice;
+    if (norm < 1.5) nice = 1;
+    else if (norm < 3) nice = 2;
+    else if (norm < 7) nice = 5;
+    else nice = 10;
+    step = nice * mag;
+    var start = Math.floor(minV / step) * step;
+    var ticks = [];
+    for (var v = start; v <= maxV + step * 0.5; v += step) {
+      ticks.push(v);
+      if (ticks.length > 12) break;
+    }
+    return ticks;
+  }
+
+  function render() {
+    var hh = seriesPoints("household");
+    var eq = seriesPoints("equity");
+    var cr = seriesPoints("crypto");
+    var all = hh.concat(eq).concat(cr);
+
+    var W = 1000, H = 280;
+    var pad = { l: 64, r: 16, t: 16, b: 40 };
+    var iw = W - pad.l - pad.r;
+    var ih = H - pad.t - pad.b;
+
+    if (!all.length) {
+      svg.innerHTML =
+        '<text x="500" y="140" text-anchor="middle" class="axis-label">No history yet. History will fill in as daily marks run.</text>';
+      return;
+    }
+
+    var tMin = all[0].t, tMax = all[0].t;
+    var yMin = all[0].y, yMax = all[0].y;
+    all.forEach(function (p) {
+      if (p.t < tMin) tMin = p.t;
+      if (p.t > tMax) tMax = p.t;
+      if (p.y < yMin) yMin = p.y;
+      if (p.y > yMax) yMax = p.y;
+    });
+    if (tMax === tMin) tMax = tMin + 1;
+    if (metric === "pnl") {
+      yMin = Math.min(yMin, 0);
+      yMax = Math.max(yMax, 0);
+    }
+    var yPad = (yMax - yMin) * 0.08 || 1;
+    yMin -= yPad;
+    yMax += yPad;
+
+    function xScale(t) {
+      return pad.l + ((t - tMin) / (tMax - tMin)) * iw;
+    }
+    function yScale(y) {
+      return pad.t + ((yMax - y) / (yMax - yMin)) * ih;
+    }
+
+    function pathFor(pts) {
+      if (!pts.length) return "";
+      return pts
+        .map(function (p, i) {
+          return (i === 0 ? "M" : "L") + xScale(p.t).toFixed(2) + " " + yScale(p.y).toFixed(2);
+        })
+        .join(" ");
+    }
+
+    var yTicks = niceTicks(yMin, yMax, 5);
+    var parts = [];
+
+    yTicks.forEach(function (v) {
+      var y = yScale(v);
+      parts.push(
+        '<line class="grid-line" x1="' +
+          pad.l +
+          '" y1="' +
+          y.toFixed(2) +
+          '" x2="' +
+          (W - pad.r) +
+          '" y2="' +
+          y.toFixed(2) +
+          '" />'
+      );
+      parts.push(
+        '<text class="axis-label" x="' +
+          (pad.l - 8) +
+          '" y="' +
+          (y + 4).toFixed(2) +
+          '" text-anchor="end">' +
+          fmtAxisMoney(v) +
+          "</text>"
+      );
+    });
+
+    if (metric === "pnl" && yMin < 0 && yMax > 0) {
+      var zy = yScale(0);
+      parts.push(
+        '<line class="zero-line" x1="' +
+          pad.l +
+          '" y1="' +
+          zy.toFixed(2) +
+          '" x2="' +
+          (W - pad.r) +
+          '" y2="' +
+          zy.toFixed(2) +
+          '" />'
+      );
+    }
+
+    parts.push(
+      '<line class="axis" x1="' +
+        pad.l +
+        '" y1="' +
+        pad.t +
+        '" x2="' +
+        pad.l +
+        '" y2="' +
+        (H - pad.b) +
+        '" />'
+    );
+    parts.push(
+      '<line class="axis" x1="' +
+        pad.l +
+        '" y1="' +
+        (H - pad.b) +
+        '" x2="' +
+        (W - pad.r) +
+        '" y2="' +
+        (H - pad.b) +
+        '" />'
+    );
+
+    // X labels: first, mid, last
+    var xLabels = [];
+    if (hh.length) xLabels = hh;
+    else if (eq.length) xLabels = eq;
+    else xLabels = cr;
+    var labelIdx = [0];
+    if (xLabels.length > 1) labelIdx.push(Math.floor((xLabels.length - 1) / 2));
+    if (xLabels.length > 1) labelIdx.push(xLabels.length - 1);
+    var seen = {};
+    labelIdx.forEach(function (i) {
+      if (seen[i]) return;
+      seen[i] = true;
+      var p = xLabels[i];
+      parts.push(
+        '<text class="axis-label" x="' +
+          xScale(p.t).toFixed(2) +
+          '" y="' +
+          (H - 12) +
+          '" text-anchor="middle">' +
+          fmtEt(p.d) +
+          " ET</text>"
+      );
+    });
+
+    function drawSeries(pts, lineCls, dotCls) {
+      if (!pts.length) return;
+      parts.push('<path class="' + lineCls + '" d="' + pathFor(pts) + '" />');
+      pts.forEach(function (p) {
+        parts.push(
+          '<circle class="dot ' +
+            dotCls +
+            '" cx="' +
+            xScale(p.t).toFixed(2) +
+            '" cy="' +
+            yScale(p.y).toFixed(2) +
+            '" r="3"><title>' +
+            fmtEt(p.d) +
+            " ET: " +
+            fmtAxisMoney(p.y) +
+            "</title></circle>"
+        );
+      });
+    }
+
+    drawSeries(eq, "line-eq", "dot-eq");
+    drawSeries(cr, "line-cr", "dot-cr");
+    drawSeries(hh, "line-hh", "dot-hh");
+
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.innerHTML = parts.join("");
+  }
+
+  function setMetric(m) {
+    metric = m;
+    if (btnPnl) btnPnl.setAttribute("aria-pressed", m === "pnl" ? "true" : "false");
+    if (btnNav) btnNav.setAttribute("aria-pressed", m === "nav" ? "true" : "false");
+    render();
+  }
+
+  if (btnPnl) btnPnl.addEventListener("click", function () { setMetric("pnl"); });
+  if (btnNav) btnNav.addEventListener("click", function () { setMetric("nav"); });
+  render();
 })();
 </script>
 </body>

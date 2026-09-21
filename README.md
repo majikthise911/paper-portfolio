@@ -40,7 +40,7 @@ Open the report in a browser:
 - Marvin path: `/Volumes/Marvin SSD/Projects/paper-portfolio/reports/dashboard.html`
 - GitHub Pages: https://majikthise911.github.io/paper-portfolio/
 
-Also written: `reports/dashboard_data.json` (same snapshot the HTML embeds).
+Also written: `reports/dashboard_data.json` (same snapshot the HTML embeds) and `reports/pnl_history.json` (ledger-based P&L time series for the chart).
 
 ### Live-ish browser prices
 
