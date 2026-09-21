@@ -154,8 +154,42 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 10px 16px;
+    margin: 0 0 10px;
+  }
+
+  .pnl-range-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
     margin: 0 0 12px;
   }
+  .pnl-range-label {
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-right: 4px;
+  }
+  .pnl-range {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pnl-toggle {
+    appearance: none;
+    border: 1px solid var(--panel-border);
+    background: #243044;
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 3rem;
+  }
+
   .pnl-legend {
     display: flex;
     flex-wrap: wrap;
@@ -170,17 +204,7 @@
   .pnl-swatch.hh { background: var(--accent); }
   .pnl-swatch.eq { background: var(--pos); }
   .pnl-swatch.cr { background: #e6b450; }
-  .pnl-toggle {
-    appearance: none;
-    border: 1px solid var(--panel-border);
-    background: #243044;
-    color: var(--text);
-    border-radius: 8px;
-    padding: 5px 10px;
-    font: inherit;
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
+  /* pnl-toggle base styles set with pnl-range-row */
   .pnl-toggle[aria-pressed="true"] {
     border-color: var(--accent);
     color: var(--accent);
@@ -211,7 +235,7 @@
 <div class="wrap">
   <header>
     <h1>Paper Portfolio</h1>
-    <div class="asof" id="mark-asof">Mark snapshot: 2026-09-21 09:01:14 EDT (America/New_York)</div>
+    <div class="asof" id="mark-asof">Mark snapshot: 2026-09-21 09:04:23 EDT (America/New_York)</div>
   </header>
 
   <div class="status-bar">
@@ -222,7 +246,7 @@
   <div class="cards">
     <div class="card">
       <div class="label">Household NAV</div>
-      <div class="value" id="hh-nav">$125,659.46</div>
+      <div class="value" id="hh-nav">$125,647.02</div>
       <div class="sub">Equity + crypto</div>
     </div>
     <div class="card">
@@ -232,7 +256,7 @@
     </div>
     <div class="card">
       <div class="label">Crypto NAV</div>
-      <div class="value" id="cr-nav">$25,659.46</div>
+      <div class="value" id="cr-nav">$25,647.02</div>
       <div class="sub" id="cr-cash-sub">Cash $5,000.00</div>
     </div>
     <div class="card">
@@ -242,13 +266,13 @@
     </div>
     <div class="card">
       <div class="label">Crypto P&amp;L</div>
-      <div class="value pos" id="cr-pnl">$659.46</div>
-      <div class="sub pos" id="cr-pnl-pct">+2.64% vs start</div>
+      <div class="value pos" id="cr-pnl">$647.02</div>
+      <div class="sub pos" id="cr-pnl-pct">+2.59% vs start</div>
     </div>
     <div class="card">
       <div class="label">Household P&amp;L</div>
-      <div class="value pos" id="hh-pnl">$659.46</div>
-      <div class="sub pos" id="hh-pnl-pct">+0.53% vs combined start</div>
+      <div class="value pos" id="hh-pnl">$647.02</div>
+      <div class="sub pos" id="hh-pnl-pct">+0.52% vs combined start</div>
     </div>
   </div>
 
@@ -289,14 +313,14 @@
 <line class="axis" x1="64" y1="16" x2="64" y2="240" />
 <line class="axis" x1="64" y1="240" x2="984" y2="240" />
 <text class="axis-label" x="64.00" y="268" text-anchor="middle">09/20 12:48</text>
-<text class="axis-label" x="410.89" y="268" text-anchor="middle">09/20 20:25</text>
-<text class="axis-label" x="984.00" y="268" text-anchor="middle">09/21 09:01</text>
-<path class="line-hh" d="M64.00 224.55 L65.01 224.55 L68.03 224.55 L365.22 224.55 L398.00 224.55 L398.01 168.75 L410.89 92.86 L414.59 105.57 L416.90 137.55 L418.82 135.18 L980.47 31.80 L980.78 31.45 L984.00 35.13" />
-<path class="line-eq" d="M64.00 224.55 L65.01 224.55 L68.03 224.55 L984.00 224.55" />
-<path class="line-cr" d="M365.22 224.55 L398.00 224.55 L398.01 168.75 L410.89 92.86 L414.59 105.57 L416.90 137.55 L418.82 135.18 L980.47 31.80 L980.78 31.45 L984.00 35.13" />
-<circle class="dot dot-hh" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="68.03" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="365.22" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="398.00" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="398.01" cy="168.75" r="3.2" /><circle class="dot dot-hh" cx="410.89" cy="92.86" r="3.2" /><circle class="dot dot-hh" cx="414.59" cy="105.57" r="3.2" /><circle class="dot dot-hh" cx="416.90" cy="137.55" r="3.2" /><circle class="dot dot-hh" cx="418.82" cy="135.18" r="3.2" /><circle class="dot dot-hh" cx="980.47" cy="31.80" r="3.2" /><circle class="dot dot-hh" cx="980.78" cy="31.45" r="3.2" /><circle class="dot dot-hh" cx="984.00" cy="35.13" r="3.2" />
-<circle class="dot dot-eq" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="68.03" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="984.00" cy="224.55" r="3.2" />
-<circle class="dot dot-cr" cx="365.22" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="398.00" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="398.01" cy="168.75" r="3.2" /><circle class="dot dot-cr" cx="410.89" cy="92.86" r="3.2" /><circle class="dot dot-cr" cx="414.59" cy="105.57" r="3.2" /><circle class="dot dot-cr" cx="416.90" cy="137.55" r="3.2" /><circle class="dot dot-cr" cx="418.82" cy="135.18" r="3.2" /><circle class="dot dot-cr" cx="980.47" cy="31.80" r="3.2" /><circle class="dot dot-cr" cx="980.78" cy="31.45" r="3.2" /><circle class="dot dot-cr" cx="984.00" cy="35.13" r="3.2" /></svg>
+<text class="axis-label" x="413.68" y="268" text-anchor="middle">09/20 20:30</text>
+<text class="axis-label" x="984.00" y="268" text-anchor="middle">09/21 09:04</text>
+<path class="line-hh" d="M64.00 224.55 L65.01 224.55 L68.02 224.55 L364.44 224.55 L397.13 224.55 L397.14 168.75 L409.99 92.86 L413.68 105.57 L415.99 137.55 L417.90 135.18 L978.10 31.80 L978.40 31.45 L981.62 35.13 L984.00 38.70" />
+<path class="line-eq" d="M64.00 224.55 L65.01 224.55 L68.02 224.55 L984.00 224.55" />
+<path class="line-cr" d="M364.44 224.55 L397.13 224.55 L397.14 168.75 L409.99 92.86 L413.68 105.57 L415.99 137.55 L417.90 135.18 L978.10 31.80 L978.40 31.45 L981.62 35.13 L984.00 38.70" />
+<circle class="dot dot-hh" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="68.02" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="364.44" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="397.13" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="397.14" cy="168.75" r="3.2" /><circle class="dot dot-hh" cx="409.99" cy="92.86" r="3.2" /><circle class="dot dot-hh" cx="413.68" cy="105.57" r="3.2" /><circle class="dot dot-hh" cx="415.99" cy="137.55" r="3.2" /><circle class="dot dot-hh" cx="417.90" cy="135.18" r="3.2" /><circle class="dot dot-hh" cx="978.10" cy="31.80" r="3.2" /><circle class="dot dot-hh" cx="978.40" cy="31.45" r="3.2" /><circle class="dot dot-hh" cx="981.62" cy="35.13" r="3.2" /><circle class="dot dot-hh" cx="984.00" cy="38.70" r="3.2" />
+<circle class="dot dot-eq" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="68.02" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="984.00" cy="224.55" r="3.2" />
+<circle class="dot dot-cr" cx="364.44" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="397.13" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="397.14" cy="168.75" r="3.2" /><circle class="dot dot-cr" cx="409.99" cy="92.86" r="3.2" /><circle class="dot dot-cr" cx="413.68" cy="105.57" r="3.2" /><circle class="dot dot-cr" cx="415.99" cy="137.55" r="3.2" /><circle class="dot dot-cr" cx="417.90" cy="135.18" r="3.2" /><circle class="dot dot-cr" cx="978.10" cy="31.80" r="3.2" /><circle class="dot dot-cr" cx="978.40" cy="31.45" r="3.2" /><circle class="dot dot-cr" cx="981.62" cy="35.13" r="3.2" /><circle class="dot dot-cr" cx="984.00" cy="38.70" r="3.2" /></svg>
     </div>
   </section>
 
@@ -344,12 +368,12 @@
         </tr>
       </thead>
       <tbody id="cr-tbody">
-        <tr data-sleeve="crypto" data-ticker="AVAX-USD"><td class="ticker">AVAX-USD</td><td class="num" data-field="shares">551.243591</td><td class="num" data-field="avg-cost">$11.34</td><td class="num" data-field="price">$11.44</td><td class="num" data-field="mv">$6,305.68</td><td class="num" data-field="weight">24.57%</td><td class="num pos" data-field="upnl">$55.68 (+0.89%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="BTC-USD"><td class="ticker">BTC-USD</td><td class="num" data-field="shares">0.04394</td><td class="num" data-field="avg-cost">$81,221.96</td><td class="num" data-field="price">$85,216.05</td><td class="num" data-field="mv">$3,744.39</td><td class="num" data-field="weight">14.59%</td><td class="num pos" data-field="upnl">$175.50 (+4.92%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="ETH-USD"><td class="ticker">ETH-USD</td><td class="num" data-field="shares">1.808428</td><td class="num" data-field="avg-cost">$2,640.60</td><td class="num" data-field="price">$2,731.93</td><td class="num" data-field="mv">$4,940.50</td><td class="num" data-field="weight">19.25%</td><td class="num pos" data-field="upnl">$165.16 (+3.46%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="LINK-USD"><td class="ticker">LINK-USD</td><td class="num" data-field="shares">432.773144</td><td class="num" data-field="avg-cost">$12.49</td><td class="num" data-field="price">$13.10</td><td class="num" data-field="mv">$5,668.90</td><td class="num" data-field="weight">22.09%</td><td class="num pos" data-field="upnl">$263.13 (+4.87%)</td><td class="muted" data-field="src">mark</td></tr>
+        <tr data-sleeve="crypto" data-ticker="AVAX-USD"><td class="ticker">AVAX-USD</td><td class="num" data-field="shares">551.243591</td><td class="num" data-field="avg-cost">$11.34</td><td class="num" data-field="price">$11.38</td><td class="num" data-field="mv">$6,273.15</td><td class="num" data-field="weight">24.46%</td><td class="num pos" data-field="upnl">$23.15 (+0.37%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="BTC-USD"><td class="ticker">BTC-USD</td><td class="num" data-field="shares">0.04394</td><td class="num" data-field="avg-cost">$81,221.96</td><td class="num" data-field="price">$85,219.35</td><td class="num" data-field="mv">$3,744.54</td><td class="num" data-field="weight">14.60%</td><td class="num pos" data-field="upnl">$175.65 (+4.92%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="ETH-USD"><td class="ticker">ETH-USD</td><td class="num" data-field="shares">1.808428</td><td class="num" data-field="avg-cost">$2,640.60</td><td class="num" data-field="price">$2,737.21</td><td class="num" data-field="mv">$4,950.05</td><td class="num" data-field="weight">19.30%</td><td class="num pos" data-field="upnl">$174.71 (+3.66%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="LINK-USD"><td class="ticker">LINK-USD</td><td class="num" data-field="shares">432.773144</td><td class="num" data-field="avg-cost">$12.49</td><td class="num" data-field="price">$13.12</td><td class="num" data-field="mv">$5,679.28</td><td class="num" data-field="weight">22.14%</td><td class="num pos" data-field="upnl">$273.51 (+5.06%)</td><td class="muted" data-field="src">mark</td></tr>
       </tbody>
     </table>
     <p class="blurb" style="margin-top:12px" id="cr-footer">
-      Crypto cash weight: <strong id="cr-cash-wt">19.49%</strong>
-      (<span id="cr-cash-amt">$5,000.00</span>). Benchmark BTC-USD last: <span id="cr-bench">$85,216.05</span>.
+      Crypto cash weight: <strong id="cr-cash-wt">19.50%</strong>
+      (<span id="cr-cash-amt">$5,000.00</span>). Benchmark BTC-USD last: <span id="cr-bench">$85,219.35</span>.
       Sleeve is separate from equity; not mixed into equity momentum rank.
     </p>
   </section>
@@ -389,8 +413,8 @@
     <p>Crypto quotes in-browser via CoinGecko when available. Equity may stay on last mark if live quotes are blocked. Weekday rebuilds refresh the embedded snapshot.</p>
   </footer>
 </div>
-<script type="application/json" id="book-data">{"generated_at":"2026-09-21T09:01:14-04:00","as_of":"2026-09-21T09:01:14-04:00","as_of_display":"2026-09-21 09:01:14 EDT","equity":{"cash":20955.84,"starting_capital":100000.0,"spy_last_close":761.69,"peak_nav":100000.0,"positions":[{"ticker":"AAPL","shares":30.0,"avg_cost":336.13,"cost_basis":10083.9,"sector":"tech","last_price":336.13},{"ticker":"JPM","shares":20.0,"avg_cost":349.67,"cost_basis":6993.4,"sector":"financials","last_price":349.67},{"ticker":"META","shares":17.0,"avg_cost":665.75,"cost_basis":11317.75,"sector":"communication","last_price":665.75},{"ticker":"MSFT","shares":30.0,"avg_cost":493.78,"cost_basis":14813.4,"sector":"tech","last_price":493.78},{"ticker":"NVDA","shares":26.0,"avg_cost":222.27,"cost_basis":5779.02,"sector":"tech","last_price":222.27},{"ticker":"XLE","shares":226.0,"avg_cost":64.31,"cost_basis":14534.06,"sector":"energy","last_price":64.31},{"ticker":"XLF","shares":94.0,"avg_cost":55.86,"cost_basis":5250.84,"sector":"financials","last_price":55.86},{"ticker":"XLV","shares":61.0,"avg_cost":168.39,"cost_basis":10271.79,"sector":"health","last_price":168.39}]},"crypto":{"cash":5000.0,"starting_capital":25000.0,"btc_last_close":85216.0469,"peak_nav":25672.26,"positions":[{"ticker":"AVAX-USD","shares":551.243591,"avg_cost":11.338,"cost_basis":6250.0,"sector":"layer1","last_price":11.439},{"ticker":"BTC-USD","shares":0.04394,"avg_cost":81221.960938,"cost_basis":3568.89,"sector":"layer1","last_price":85216.046875},{"ticker":"ETH-USD","shares":1.808428,"avg_cost":2640.600098,"cost_basis":4775.34,"sector":"layer1","last_price":2731.929932},{"ticker":"LINK-USD","shares":432.773144,"avg_cost":12.491,"cost_basis":5405.77,"sector":"oracle","last_price":13.099}]}}</script>
-<script type="application/json" id="pnl-history">{"as_of":"2026-09-21T09:01:17-04:00","currency":"USD","default_metric":"pnl","starting_capital":{"equity":100000.0,"crypto":25000.0,"household":125000.0},"counts":{"equity":4,"crypto":10,"household":13},"series":{"equity":[{"ts":"2026-09-20T12:48:00-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0}],"crypto":[{"ts":"2026-09-20T19:25:14-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":25194.25,"pnl":194.25,"starting_capital":25000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":25458.46,"pnl":458.46,"starting_capital":25000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":25414.2,"pnl":414.2,"starting_capital":25000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":25302.9,"pnl":302.9,"starting_capital":25000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":25311.12,"pnl":311.12,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":25671.04,"pnl":671.04,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":25672.26,"pnl":672.26,"starting_capital":25000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":25659.46,"pnl":659.46,"starting_capital":25000.0}],"household":[{"ts":"2026-09-20T12:48:00-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T19:25:14-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":125194.25,"pnl":194.25,"equity_nav":100000.0,"crypto_nav":25194.25,"starting_capital":125000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":125458.46,"pnl":458.46,"equity_nav":100000.0,"crypto_nav":25458.46,"starting_capital":125000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":125414.2,"pnl":414.2,"equity_nav":100000.0,"crypto_nav":25414.2,"starting_capital":125000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":125302.9,"pnl":302.9,"equity_nav":100000.0,"crypto_nav":25302.9,"starting_capital":125000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":125311.12,"pnl":311.12,"equity_nav":100000.0,"crypto_nav":25311.12,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":125671.04,"pnl":671.04,"equity_nav":100000.0,"crypto_nav":25671.04,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":125672.26,"pnl":672.26,"equity_nav":100000.0,"crypto_nav":25672.26,"starting_capital":125000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":125659.46,"pnl":659.46,"equity_nav":100000.0,"crypto_nav":25659.46,"starting_capital":125000.0}]},"note":null}</script>
+<script type="application/json" id="book-data">{"generated_at":"2026-09-21T09:04:23-04:00","as_of":"2026-09-21T09:04:23-04:00","as_of_display":"2026-09-21 09:04:23 EDT","equity":{"cash":20955.84,"starting_capital":100000.0,"spy_last_close":761.69,"peak_nav":100000.0,"positions":[{"ticker":"AAPL","shares":30.0,"avg_cost":336.13,"cost_basis":10083.9,"sector":"tech","last_price":336.13},{"ticker":"JPM","shares":20.0,"avg_cost":349.67,"cost_basis":6993.4,"sector":"financials","last_price":349.67},{"ticker":"META","shares":17.0,"avg_cost":665.75,"cost_basis":11317.75,"sector":"communication","last_price":665.75},{"ticker":"MSFT","shares":30.0,"avg_cost":493.78,"cost_basis":14813.4,"sector":"tech","last_price":493.78},{"ticker":"NVDA","shares":26.0,"avg_cost":222.27,"cost_basis":5779.02,"sector":"tech","last_price":222.27},{"ticker":"XLE","shares":226.0,"avg_cost":64.31,"cost_basis":14534.06,"sector":"energy","last_price":64.31},{"ticker":"XLF","shares":94.0,"avg_cost":55.86,"cost_basis":5250.84,"sector":"financials","last_price":55.86},{"ticker":"XLV","shares":61.0,"avg_cost":168.39,"cost_basis":10271.79,"sector":"health","last_price":168.39}]},"crypto":{"cash":5000.0,"starting_capital":25000.0,"btc_last_close":85219.3516,"peak_nav":25672.26,"positions":[{"ticker":"AVAX-USD","shares":551.243591,"avg_cost":11.338,"cost_basis":6250.0,"sector":"layer1","last_price":11.38},{"ticker":"BTC-USD","shares":0.04394,"avg_cost":81221.960938,"cost_basis":3568.89,"sector":"layer1","last_price":85219.351562},{"ticker":"ETH-USD","shares":1.808428,"avg_cost":2640.600098,"cost_basis":4775.34,"sector":"layer1","last_price":2737.209961},{"ticker":"LINK-USD","shares":432.773144,"avg_cost":12.491,"cost_basis":5405.77,"sector":"oracle","last_price":13.123}]}}</script>
+<script type="application/json" id="pnl-history">{"as_of":"2026-09-21T09:04:25-04:00","currency":"USD","default_metric":"pnl","starting_capital":{"equity":100000.0,"crypto":25000.0,"household":125000.0},"counts":{"equity":4,"crypto":11,"household":14},"series":{"equity":[{"ts":"2026-09-20T12:48:00-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-21T09:04:23-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0}],"crypto":[{"ts":"2026-09-20T19:25:14-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":25194.25,"pnl":194.25,"starting_capital":25000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":25458.46,"pnl":458.46,"starting_capital":25000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":25414.2,"pnl":414.2,"starting_capital":25000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":25302.9,"pnl":302.9,"starting_capital":25000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":25311.12,"pnl":311.12,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":25671.04,"pnl":671.04,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":25672.26,"pnl":672.26,"starting_capital":25000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":25659.46,"pnl":659.46,"starting_capital":25000.0},{"ts":"2026-09-21T09:04:23-04:00","nav":25647.02,"pnl":647.02,"starting_capital":25000.0}],"household":[{"ts":"2026-09-20T12:48:00-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T19:25:14-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":125194.25,"pnl":194.25,"equity_nav":100000.0,"crypto_nav":25194.25,"starting_capital":125000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":125458.46,"pnl":458.46,"equity_nav":100000.0,"crypto_nav":25458.46,"starting_capital":125000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":125414.2,"pnl":414.2,"equity_nav":100000.0,"crypto_nav":25414.2,"starting_capital":125000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":125302.9,"pnl":302.9,"equity_nav":100000.0,"crypto_nav":25302.9,"starting_capital":125000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":125311.12,"pnl":311.12,"equity_nav":100000.0,"crypto_nav":25311.12,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":125671.04,"pnl":671.04,"equity_nav":100000.0,"crypto_nav":25671.04,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":125672.26,"pnl":672.26,"equity_nav":100000.0,"crypto_nav":25672.26,"starting_capital":125000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":125659.46,"pnl":659.46,"equity_nav":100000.0,"crypto_nav":25659.46,"starting_capital":125000.0},{"ts":"2026-09-21T09:04:23-04:00","nav":125647.02,"pnl":647.02,"equity_nav":100000.0,"crypto_nav":25647.02,"starting_capital":125000.0}]},"note":null}</script>
 <script>
 (function () {
   "use strict";

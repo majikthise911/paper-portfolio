@@ -1001,8 +1001,42 @@ def build_html(data: dict) -> str:
     flex-wrap: wrap;
     align-items: center;
     gap: 10px 16px;
+    margin: 0 0 10px;
+  }}
+
+  .pnl-range-row {{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
     margin: 0 0 12px;
   }}
+  .pnl-range-label {{
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-right: 4px;
+  }}
+  .pnl-range {{
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }}
+  .pnl-toggle {{
+    appearance: none;
+    border: 1px solid var(--panel-border);
+    background: #243044;
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 3rem;
+  }}
+
   .pnl-legend {{
     display: flex;
     flex-wrap: wrap;
@@ -1017,17 +1051,7 @@ def build_html(data: dict) -> str:
   .pnl-swatch.hh {{ background: var(--accent); }}
   .pnl-swatch.eq {{ background: var(--pos); }}
   .pnl-swatch.cr {{ background: #e6b450; }}
-  .pnl-toggle {{
-    appearance: none;
-    border: 1px solid var(--panel-border);
-    background: #243044;
-    color: var(--text);
-    border-radius: 8px;
-    padding: 5px 10px;
-    font: inherit;
-    font-size: 0.8rem;
-    cursor: pointer;
-  }}
+  /* pnl-toggle base styles set with pnl-range-row */
   .pnl-toggle[aria-pressed="true"] {{
     border-color: var(--accent);
     color: var(--accent);
