@@ -461,6 +461,25 @@ def render_pnl_svg(hist: dict, metric: str = "pnl") -> str:
 
 
 
+
+def changelog_section() -> str:
+    """Link to strategy changelog plus latest entry title."""
+    path = ROOT / "STRATEGY_CHANGELOG.md"
+    latest_title = "No strategy tweaks logged yet."
+    if path.exists():
+        text = path.read_text()
+        for line in text.splitlines():
+            if line.startswith("## "):
+                latest_title = line[3:].strip()
+                break
+    return f"""
+  <section>
+    <h2>Strategy changes</h2>
+    <p class="blurb">Approved rule and signal tweaks, including the observation and decision logic behind each change. Latest: <strong>{latest_title}</strong></p>
+    <p class="blurb"><a href="./changelog.html">Open full strategy change log</a> (also on GitHub under docs/STRATEGY_CHANGELOG.md).</p>
+  </section>
+"""
+
 def architecture_section() -> str:
     """Embed architecture diagram (PNG preferred, SVG fallback)."""
     png_path = REPORTS / "architecture.png"
@@ -1162,6 +1181,7 @@ def build_html(data: dict) -> str:
     </ul>
   </section>
 
+{changelog_section()}
 {architecture_section()}  <section>
     <h2>Versus SPY (equity sleeve)</h2>
     <p class="blurb">{vs_spy_detail}</p>

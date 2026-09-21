@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-09-20T20:35:57-04:00",
+  "as_of": "2026-09-21T08:57:02-04:00",
   "currency": "USD",
   "default_metric": "pnl",
   "starting_capital": {
@@ -9,8 +9,8 @@
   },
   "counts": {
     "equity": 4,
-    "crypto": 7,
-    "household": 10
+    "crypto": 9,
+    "household": 12
   },
   "series": {
     "equity": [
@@ -33,7 +33,7 @@
         "starting_capital": 100000.0
       },
       {
-        "ts": "2026-09-20T20:35:55-04:00",
+        "ts": "2026-09-21T08:56:59-04:00",
         "nav": 100000.0,
         "pnl": 0.0,
         "starting_capital": 100000.0
@@ -80,6 +80,18 @@
         "ts": "2026-09-20T20:35:55-04:00",
         "nav": 25311.12,
         "pnl": 311.12,
+        "starting_capital": 25000.0
+      },
+      {
+        "ts": "2026-09-21T08:56:35-04:00",
+        "nav": 25671.04,
+        "pnl": 671.04,
+        "starting_capital": 25000.0
+      },
+      {
+        "ts": "2026-09-21T08:56:59-04:00",
+        "nav": 25672.26,
+        "pnl": 672.26,
         "starting_capital": 25000.0
       }
     ],
@@ -162,6 +174,22 @@
         "pnl": 311.12,
         "equity_nav": 100000.0,
         "crypto_nav": 25311.12,
+        "starting_capital": 125000.0
+      },
+      {
+        "ts": "2026-09-21T08:56:35-04:00",
+        "nav": 125671.04,
+        "pnl": 671.04,
+        "equity_nav": 100000.0,
+        "crypto_nav": 25671.04,
+        "starting_capital": 125000.0
+      },
+      {
+        "ts": "2026-09-21T08:56:59-04:00",
+        "nav": 125672.26,
+        "pnl": 672.26,
+        "equity_nav": 100000.0,
+        "crypto_nav": 25672.26,
         "starting_capital": 125000.0
       }
     ]
