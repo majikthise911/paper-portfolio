@@ -333,23 +333,24 @@ def mark_sleeve(
     }
 
 
-def holdings_table_rows(holdings: list[dict], empty_msg: str) -> str:
+def holdings_table_rows(holdings: list[dict], empty_msg: str, sleeve: str) -> str:
     rows = []
     for h in holdings:
         upnl = h["unrealized_pnl"]
         qty = h["shares"]
         qty_s = f"{qty:g}" if qty == int(qty) else f"{qty:.6f}".rstrip("0").rstrip(".")
+        src = "stale" if h.get("stale") else "mark"
         rows.append(
-            "<tr>"
-            f"<td class=\"ticker\">{h['ticker']}</td>"
-            f"<td class=\"num\">{qty_s}</td>"
-            f"<td class=\"num\">{fmt_money(h['avg_cost'])}</td>"
-            f"<td class=\"num\">{fmt_money(h['last_price'])}</td>"
-            f"<td class=\"num\">{fmt_money(h['market_value'])}</td>"
-            f"<td class=\"num\">{fmt_pct_plain(h['weight_pct'])}</td>"
-            f"<td class=\"num {pnl_class(upnl)}\">{fmt_money(upnl)} "
-            f"({fmt_pct(h['unrealized_pnl_pct'])})</td>"
-            f"<td class=\"muted\">{'stale' if h.get('stale') else ''}</td>"
+            f'<tr data-sleeve="{sleeve}" data-ticker="{h["ticker"]}">'
+            f'<td class="ticker">{h["ticker"]}</td>'
+            f'<td class="num" data-field="shares">{qty_s}</td>'
+            f'<td class="num" data-field="avg-cost">{fmt_money(h["avg_cost"])}</td>'
+            f'<td class="num" data-field="price">{fmt_money(h["last_price"])}</td>'
+            f'<td class="num" data-field="mv">{fmt_money(h["market_value"])}</td>'
+            f'<td class="num" data-field="weight">{fmt_pct_plain(h["weight_pct"])}</td>'
+            f'<td class="num {pnl_class(upnl)}" data-field="upnl">{fmt_money(upnl)} '
+            f'({fmt_pct(h["unrealized_pnl_pct"])})</td>'
+            f'<td class="muted" data-field="src">{src}</td>'
             "</tr>"
         )
     if not rows:
@@ -364,8 +365,7 @@ def architecture_section() -> str:
     blurb = (
         "How Paper runs the simulated book: chat approval, locked rules, local ledger, "
         "weekly mark, yfinance prices, reports, then GitHub Pages. Crypto is a separate "
-        "sleeve under sleeves/crypto/, scaffolded and cash-only until Jordan approves. "
-        "It is never mixed into the equity momentum rank."
+        "booked sleeve under sleeves/crypto/. It is never mixed into the equity momentum rank."
     )
     if png_path.exists():
         import base64
@@ -394,30 +394,29 @@ def build_html(data: dict) -> str:
     hh = data["household"]
 
     eq_rows = holdings_table_rows(
-        eq["holdings"], "No open equity positions. Equity book cash only."
+        eq["holdings"], "No open equity positions. Equity book cash only.", "equity"
     )
-    cr_rows = holdings_table_rows(
-        cr["holdings"],
-        "No open crypto positions. Crypto sleeve is scaffolded, cash-only until approved.",
+    cr_empty = (
+        "No open crypto positions."
+        if cr.get("status") == "booked" or cr["holdings"]
+        else "No open crypto positions. Crypto sleeve awaiting positions."
     )
+    cr_rows = holdings_table_rows(cr["holdings"], cr_empty, "crypto")
 
     eq_prices_note = (
-        "Last equity prices refreshed via yfinance for this run."
+        "Embedded equity mark from last dashboard rebuild (yfinance)."
         if eq["prices_refreshed"]
         else "Equity price refresh incomplete; showing last booked prices where needed."
     )
     if eq["failed_tickers"]:
         eq_prices_note += f" Failed: {', '.join(eq['failed_tickers'])}."
 
-    cr_prices_note = (
-        "Crypto sleeve is cash-only; BTC-USD benchmark priced for reference."
-        if not cr["holdings"]
-        else (
-            "Last crypto prices refreshed via yfinance for this run."
-            if cr["prices_refreshed"]
-            else "Crypto price refresh incomplete; showing last booked prices where needed."
-        )
-    )
+    if not cr["holdings"]:
+        cr_prices_note = "Crypto sleeve has no open positions; BTC-USD benchmark priced for reference."
+    elif cr["prices_refreshed"]:
+        cr_prices_note = "Embedded crypto mark from last dashboard rebuild (yfinance). Browser may refresh via CoinGecko."
+    else:
+        cr_prices_note = "Crypto price refresh incomplete; showing last booked prices where needed."
     if cr["failed_tickers"]:
         cr_prices_note += f" Failed: {', '.join(cr['failed_tickers'])}."
 
@@ -439,6 +438,51 @@ def build_html(data: dict) -> str:
             f"{vs_spy['note']}"
         )
         vs_class = pnl_class(alpha)
+
+    cr_nav_sub = f"Cash {fmt_money(cr['cash'])}"
+    if cr.get("status") == "cash_only" and not cr["holdings"]:
+        cr_nav_sub = "Cash sleeve (no positions yet)"
+
+    book = {
+        "generated_at": data["as_of"],
+        "as_of": data["as_of"],
+        "as_of_display": data["as_of_display"],
+        "equity": {
+            "cash": eq["cash"],
+            "starting_capital": eq["starting_capital"],
+            "spy_last_close": eq.get("bench_last_close"),
+            "peak_nav": eq.get("peak_nav"),
+            "positions": [
+                {
+                    "ticker": h["ticker"],
+                    "shares": h["shares"],
+                    "avg_cost": h["avg_cost"],
+                    "cost_basis": h["cost_basis"],
+                    "sector": h.get("sector"),
+                    "last_price": h["last_price"],
+                }
+                for h in eq["holdings"]
+            ],
+        },
+        "crypto": {
+            "cash": cr["cash"],
+            "starting_capital": cr["starting_capital"],
+            "btc_last_close": cr.get("bench_last_close"),
+            "peak_nav": cr.get("peak_nav"),
+            "positions": [
+                {
+                    "ticker": h["ticker"],
+                    "shares": h["shares"],
+                    "avg_cost": h["avg_cost"],
+                    "cost_basis": h["cost_basis"],
+                    "sector": h.get("sector"),
+                    "last_price": h["last_price"],
+                }
+                for h in cr["holdings"]
+            ],
+        },
+    }
+    book_json = json.dumps(book, separators=(",", ":"))
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -471,7 +515,7 @@ def build_html(data: dict) -> str:
     line-height: 1.45;
   }}
   .wrap {{ max-width: 1100px; margin: 0 auto; }}
-  header {{ margin-bottom: 28px; }}
+  header {{ margin-bottom: 16px; }}
   h1 {{
     margin: 0 0 6px;
     font-size: 1.75rem;
@@ -479,6 +523,35 @@ def build_html(data: dict) -> str:
     letter-spacing: -0.02em;
   }}
   .asof {{ color: var(--muted); font-size: 0.95rem; }}
+  .status-bar {{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    margin-bottom: 22px;
+    padding: 10px 14px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+  }}
+  #live-status {{ flex: 1 1 240px; color: var(--muted); font-size: 0.9rem; }}
+  #live-status.live {{ color: var(--pos); }}
+  #live-status.mark {{ color: var(--muted); }}
+  #live-status.partial {{ color: var(--accent); }}
+  #btn-refresh {{
+    appearance: none;
+    border: 1px solid var(--panel-border);
+    background: #243044;
+    color: var(--text);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }}
+  #btn-refresh:hover {{ border-color: var(--accent); }}
+  #btn-refresh:disabled {{ opacity: 0.55; cursor: wait; }}
   .cards {{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -568,45 +641,50 @@ def build_html(data: dict) -> str:
 <div class="wrap">
   <header>
     <h1>Paper Portfolio</h1>
-    <div class="asof">As of {data['as_of_display']} (America/New_York)</div>
+    <div class="asof" id="mark-asof">Mark snapshot: {data['as_of_display']} (America/New_York)</div>
   </header>
+
+  <div class="status-bar">
+    <div id="live-status" class="mark">Showing last mark &hellip; loading live prices</div>
+    <button type="button" id="btn-refresh">Refresh prices</button>
+  </div>
 
   <div class="cards">
     <div class="card">
       <div class="label">Household NAV</div>
-      <div class="value">{fmt_money(hh['nav'])}</div>
+      <div class="value" id="hh-nav">{fmt_money(hh['nav'])}</div>
       <div class="sub">Equity + crypto</div>
     </div>
     <div class="card">
       <div class="label">Equity NAV</div>
-      <div class="value">{fmt_money(eq['nav'])}</div>
-      <div class="sub">Cash {fmt_money(eq['cash'])}</div>
+      <div class="value" id="eq-nav">{fmt_money(eq['nav'])}</div>
+      <div class="sub" id="eq-cash-sub">Cash {fmt_money(eq['cash'])}</div>
     </div>
     <div class="card">
       <div class="label">Crypto NAV</div>
-      <div class="value">{fmt_money(cr['nav'])}</div>
-      <div class="sub">Cash-only until approved</div>
+      <div class="value" id="cr-nav">{fmt_money(cr['nav'])}</div>
+      <div class="sub" id="cr-cash-sub">{cr_nav_sub}</div>
     </div>
     <div class="card">
       <div class="label">Equity P&amp;L</div>
-      <div class="value {pnl_class(eq['total_pnl'])}">{fmt_money(eq['total_pnl'])}</div>
-      <div class="sub {pnl_class(eq['total_pnl_pct'])}">{fmt_pct(eq['total_pnl_pct'])} vs start</div>
+      <div class="value {pnl_class(eq['total_pnl'])}" id="eq-pnl">{fmt_money(eq['total_pnl'])}</div>
+      <div class="sub {pnl_class(eq['total_pnl_pct'])}" id="eq-pnl-pct">{fmt_pct(eq['total_pnl_pct'])} vs start</div>
     </div>
     <div class="card">
       <div class="label">Crypto P&amp;L</div>
-      <div class="value {pnl_class(cr['total_pnl'])}">{fmt_money(cr['total_pnl'])}</div>
-      <div class="sub {pnl_class(cr['total_pnl_pct'])}">{fmt_pct(cr['total_pnl_pct'])} vs start</div>
+      <div class="value {pnl_class(cr['total_pnl'])}" id="cr-pnl">{fmt_money(cr['total_pnl'])}</div>
+      <div class="sub {pnl_class(cr['total_pnl_pct'])}" id="cr-pnl-pct">{fmt_pct(cr['total_pnl_pct'])} vs start</div>
     </div>
     <div class="card">
       <div class="label">Household P&amp;L</div>
-      <div class="value {pnl_class(hh['total_pnl'])}">{fmt_money(hh['total_pnl'])}</div>
-      <div class="sub {pnl_class(hh['total_pnl_pct'])}">{fmt_pct(hh['total_pnl_pct'])} vs combined start</div>
+      <div class="value {pnl_class(hh['total_pnl'])}" id="hh-pnl">{fmt_money(hh['total_pnl'])}</div>
+      <div class="sub {pnl_class(hh['total_pnl_pct'])}" id="hh-pnl-pct">{fmt_pct(hh['total_pnl_pct'])} vs combined start</div>
     </div>
   </div>
 
   <section>
     <h2>Equity holdings</h2>
-    <p class="blurb">{eq_prices_note}</p>
+    <p class="blurb" id="eq-prices-note">{eq_prices_note}</p>
     <table>
       <thead>
         <tr>
@@ -620,20 +698,20 @@ def build_html(data: dict) -> str:
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="eq-tbody">
         {eq_rows}
       </tbody>
     </table>
-    <p class="blurb" style="margin-top:12px">
-      Equity cash weight: <strong>{fmt_pct_plain(eq['cash_weight_pct'])}</strong>
-      ({fmt_money(eq['cash'])}). Benchmark SPY last: {fmt_money(eq.get('bench_last_close'))}.
-      vs SPY: <span class="{vs_class}">{vs_spy_display}</span>.
+    <p class="blurb" style="margin-top:12px" id="eq-footer">
+      Equity cash weight: <strong id="eq-cash-wt">{fmt_pct_plain(eq['cash_weight_pct'])}</strong>
+      (<span id="eq-cash-amt">{fmt_money(eq['cash'])}</span>). Benchmark SPY last: <span id="eq-bench">{fmt_money(eq.get('bench_last_close'))}</span>.
+      vs SPY: <span class="{vs_class}" id="eq-vs-spy">{vs_spy_display}</span>.
     </p>
   </section>
 
   <section>
     <h2>Crypto holdings</h2>
-    <p class="blurb">{cr_prices_note}</p>
+    <p class="blurb" id="cr-prices-note">{cr_prices_note}</p>
     <table>
       <thead>
         <tr>
@@ -647,13 +725,13 @@ def build_html(data: dict) -> str:
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="cr-tbody">
         {cr_rows}
       </tbody>
     </table>
-    <p class="blurb" style="margin-top:12px">
-      Crypto cash weight: <strong>{fmt_pct_plain(cr['cash_weight_pct'])}</strong>
-      ({fmt_money(cr['cash'])}). Benchmark BTC-USD last: {fmt_money(cr.get('bench_last_close'))}.
+    <p class="blurb" style="margin-top:12px" id="cr-footer">
+      Crypto cash weight: <strong id="cr-cash-wt">{fmt_pct_plain(cr['cash_weight_pct'])}</strong>
+      (<span id="cr-cash-amt">{fmt_money(cr['cash'])}</span>). Benchmark BTC-USD last: <span id="cr-bench">{fmt_money(cr.get('bench_last_close'))}</span>.
       Sleeve is separate from equity; not mixed into equity momentum rank.
     </p>
   </section>
@@ -677,12 +755,397 @@ def build_html(data: dict) -> str:
 
   <footer>
     <p>Simulated paper books only. This is not a real brokerage or exchange account.</p>
-    <p>Monday 9am ET weekly mark: equity scripts + crypto scripts + combined dashboard.</p>
+    <p>Crypto quotes in-browser via CoinGecko when available. Equity may stay on last mark if live quotes are blocked. Weekday rebuilds refresh the embedded snapshot.</p>
   </footer>
 </div>
+<script type="application/json" id="book-data">{book_json}</script>
+<script>
+(function () {{
+  "use strict";
+
+  var CG_IDS = {{
+    "BTC-USD": "bitcoin",
+    "ETH-USD": "ethereum",
+    "SOL-USD": "solana",
+    "AVAX-USD": "avalanche-2",
+    "LINK-USD": "chainlink"
+  }};
+
+  var REFRESH_MS = 60000;
+  var bookEl = document.getElementById("book-data");
+  if (!bookEl) return;
+  var book = JSON.parse(bookEl.textContent);
+  var statusEl = document.getElementById("live-status");
+  var btn = document.getElementById("btn-refresh");
+  var inflight = false;
+
+  function money(v) {{
+    if (v == null || !isFinite(v)) return "n/a";
+    var sign = v < 0 ? "-" : "";
+    return sign + "$" + Math.abs(v).toLocaleString(undefined, {{
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }});
+  }}
+
+  function pctSigned(v) {{
+    if (v == null || !isFinite(v)) return "n/a";
+    var sign = v > 0 ? "+" : "";
+    return sign + v.toFixed(2) + "%";
+  }}
+
+  function pctPlain(v) {{
+    if (v == null || !isFinite(v)) return "n/a";
+    return v.toFixed(2) + "%";
+  }}
+
+  function pnlClass(v) {{
+    if (v == null || Math.abs(v) < 1e-9) return "flat";
+    return v > 0 ? "pos" : "neg";
+  }}
+
+  function setText(id, text) {{
+    var el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }}
+
+  function setPnl(id, value) {{
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = typeof value === "string" ? value : money(value);
+    el.classList.remove("pos", "neg", "flat");
+    var num = typeof value === "number" ? value : null;
+    if (num != null) el.classList.add(pnlClass(num));
+  }}
+
+  function formatWhen(d) {{
+    try {{
+      return d.toLocaleString("en-US", {{
+        timeZone: "America/New_York",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }}) + " ET";
+    }} catch (e) {{
+      return d.toISOString();
+    }}
+  }}
+
+  function setStatus(mode, msg) {{
+    if (!statusEl) return;
+    statusEl.className = mode;
+    statusEl.textContent = msg;
+  }}
+
+  async function fetchCryptoPrices(tickers) {{
+    var ids = [];
+    var map = {{}};
+    tickers.forEach(function (t) {{
+      var id = CG_IDS[t];
+      if (id) {{
+        ids.push(id);
+        map[id] = t;
+      }}
+    }});
+    if (!ids.length) return {{ prices: {{}}, ok: true }};
+    var url =
+      "https://api.coingecko.com/api/v3/simple/price?ids=" +
+      encodeURIComponent(ids.join(",")) +
+      "&vs_currencies=usd";
+    var res = await fetch(url, {{ cache: "no-store" }});
+    if (!res.ok) throw new Error("CoinGecko HTTP " + res.status);
+    var data = await res.json();
+    var prices = {{}};
+    Object.keys(data).forEach(function (id) {{
+      var t = map[id];
+      if (t && data[id] && typeof data[id].usd === "number") {{
+        prices[t] = data[id].usd;
+      }}
+    }});
+    var missing = tickers.filter(function (t) {{ return CG_IDS[t] && prices[t] == null; }});
+    return {{ prices: prices, ok: missing.length === 0, missing: missing }};
+  }}
+
+  async function fetchEquityPrice(ticker) {{
+    // Best-effort public Yahoo chart endpoint. Often blocked by CORS in browsers;
+    // failures fall back to embedded mark prices.
+    var url =
+      "https://query1.finance.yahoo.com/v8/finance/chart/" +
+      encodeURIComponent(ticker) +
+      "?interval=1m&range=1d";
+    var res = await fetch(url, {{
+      cache: "no-store",
+      mode: "cors",
+      credentials: "omit"
+    }});
+    if (!res.ok) throw new Error("yahoo " + res.status);
+    var data = await res.json();
+    var meta = data && data.chart && data.chart.result && data.chart.result[0] && data.chart.result[0].meta;
+    if (!meta) throw new Error("yahoo empty");
+    var px = meta.regularMarketPrice;
+    if (typeof px !== "number" || !isFinite(px)) throw new Error("yahoo no price");
+    return px;
+  }}
+
+  async function fetchEquityPrices(tickers) {{
+    var prices = {{}};
+    var okCount = 0;
+    if (!tickers.length) return {{ prices: prices, ok: true, any: false }};
+    var results = await Promise.allSettled(
+      tickers.map(function (t) {{
+        return fetchEquityPrice(t).then(function (px) {{
+          return {{ t: t, px: px }};
+        }});
+      }})
+    );
+    results.forEach(function (r) {{
+      if (r.status === "fulfilled") {{
+        prices[r.value.t] = r.value.px;
+        okCount += 1;
+      }}
+    }});
+    return {{
+      prices: prices,
+      ok: okCount === tickers.length,
+      any: okCount > 0
+    }};
+  }}
+
+  function recomputeSleeve(sleeve, livePrices, liveOk) {{
+    var cash = Number(sleeve.cash) || 0;
+    var starting = Number(sleeve.starting_capital) || 0;
+    var holdingsValue = 0;
+    var rows = [];
+    (sleeve.positions || []).forEach(function (p) {{
+      var shares = Number(p.shares) || 0;
+      var cost = Number(p.cost_basis);
+      if (!isFinite(cost)) {{
+        cost = shares * (Number(p.avg_cost) || 0);
+      }}
+      var markPx = Number(p.last_price) || 0;
+      var live = livePrices[p.ticker];
+      var src = "mark";
+      var px = markPx;
+      if (typeof live === "number" && isFinite(live)) {{
+        px = live;
+        src = "live";
+      }} else if (!liveOk) {{
+        src = "mark";
+      }}
+      var mv = shares * px;
+      holdingsValue += mv;
+      var upnl = mv - cost;
+      var upnlPct = cost ? (upnl / cost) * 100 : 0;
+      rows.push({{
+        ticker: p.ticker,
+        shares: shares,
+        avg_cost: Number(p.avg_cost) || 0,
+        cost_basis: cost,
+        last_price: px,
+        market_value: mv,
+        unrealized_pnl: upnl,
+        unrealized_pnl_pct: upnlPct,
+        src: src
+      }});
+    }});
+    var nav = cash + holdingsValue;
+    var totalPnl = nav - starting;
+    if (Math.abs(totalPnl) < 0.005) totalPnl = 0;
+    var totalPnlPct = starting ? (totalPnl / starting) * 100 : 0;
+    if (Math.abs(totalPnlPct) < 1e-9) totalPnlPct = 0;
+    var cashWt = nav ? (cash / nav) * 100 : 100;
+    rows.forEach(function (r) {{
+      r.weight_pct = nav ? (r.market_value / nav) * 100 : 0;
+    }});
+    return {{
+      nav: nav,
+      cash: cash,
+      cash_weight_pct: cashWt,
+      starting_capital: starting,
+      total_pnl: totalPnl,
+      total_pnl_pct: totalPnlPct,
+      rows: rows
+    }};
+  }}
+
+  function updateTable(tbodyId, rows) {{
+    var tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    rows.forEach(function (r) {{
+      var tr = tbody.querySelector('tr[data-ticker="' + r.ticker + '"]');
+      if (!tr) return;
+      var price = tr.querySelector('[data-field="price"]');
+      var mv = tr.querySelector('[data-field="mv"]');
+      var wt = tr.querySelector('[data-field="weight"]');
+      var upnl = tr.querySelector('[data-field="upnl"]');
+      var src = tr.querySelector('[data-field="src"]');
+      if (price) price.textContent = money(r.last_price);
+      if (mv) mv.textContent = money(r.market_value);
+      if (wt) wt.textContent = pctPlain(r.weight_pct);
+      if (upnl) {{
+        upnl.textContent = money(r.unrealized_pnl) + " (" + pctSigned(r.unrealized_pnl_pct) + ")";
+        upnl.classList.remove("pos", "neg", "flat");
+        upnl.classList.add(pnlClass(r.unrealized_pnl));
+      }}
+      if (src) src.textContent = r.src;
+    }});
+  }}
+
+  function applyDom(eq, cr, hh, meta) {{
+    setText("hh-nav", money(hh.nav));
+    setText("eq-nav", money(eq.nav));
+    setText("cr-nav", money(cr.nav));
+    setPnl("eq-pnl", eq.total_pnl);
+    setPnl("cr-pnl", cr.total_pnl);
+    setPnl("hh-pnl", hh.total_pnl);
+
+    var eqPct = document.getElementById("eq-pnl-pct");
+    if (eqPct) {{
+      eqPct.textContent = pctSigned(eq.total_pnl_pct) + " vs start";
+      eqPct.classList.remove("pos", "neg", "flat");
+      eqPct.classList.add(pnlClass(eq.total_pnl_pct));
+    }}
+    var crPct = document.getElementById("cr-pnl-pct");
+    if (crPct) {{
+      crPct.textContent = pctSigned(cr.total_pnl_pct) + " vs start";
+      crPct.classList.remove("pos", "neg", "flat");
+      crPct.classList.add(pnlClass(cr.total_pnl_pct));
+    }}
+    var hhPct = document.getElementById("hh-pnl-pct");
+    if (hhPct) {{
+      hhPct.textContent = pctSigned(hh.total_pnl_pct) + " vs combined start";
+      hhPct.classList.remove("pos", "neg", "flat");
+      hhPct.classList.add(pnlClass(hh.total_pnl_pct));
+    }}
+
+    setText("eq-cash-wt", pctPlain(eq.cash_weight_pct));
+    setText("eq-cash-amt", money(eq.cash));
+    setText("cr-cash-wt", pctPlain(cr.cash_weight_pct));
+    setText("cr-cash-amt", money(cr.cash));
+    setText("eq-cash-sub", "Cash " + money(eq.cash));
+    setText("cr-cash-sub", "Cash " + money(cr.cash));
+
+    if (meta.spy != null) setText("eq-bench", money(meta.spy));
+    if (meta.btc != null) setText("cr-bench", money(meta.btc));
+
+    updateTable("eq-tbody", eq.rows);
+    updateTable("cr-tbody", cr.rows);
+  }}
+
+  async function refresh() {{
+    if (inflight) return;
+    inflight = true;
+    if (btn) btn.disabled = true;
+
+    var eqTickers = (book.equity.positions || []).map(function (p) {{ return p.ticker; }});
+    var crTickers = (book.crypto.positions || []).map(function (p) {{ return p.ticker; }});
+    // Also try to refresh benchmarks
+    var eqAll = eqTickers.slice();
+    if (eqAll.indexOf("SPY") < 0) eqAll.push("SPY");
+    var crAll = crTickers.slice();
+    if (crAll.indexOf("BTC-USD") < 0) crAll.push("BTC-USD");
+
+    var cryptoLive = {{ prices: {{}}, ok: false }};
+    var equityLive = {{ prices: {{}}, ok: false, any: false }};
+    var cryptoErr = null;
+    var equityErr = null;
+
+    try {{
+      cryptoLive = await fetchCryptoPrices(crAll);
+    }} catch (e) {{
+      cryptoErr = e;
+      cryptoLive = {{ prices: {{}}, ok: false }};
+    }}
+    try {{
+      equityLive = await fetchEquityPrices(eqAll);
+    }} catch (e) {{
+      equityErr = e;
+      equityLive = {{ prices: {{}}, ok: false, any: false }};
+    }}
+
+    var eq = recomputeSleeve(book.equity, equityLive.prices, equityLive.any);
+    var cr = recomputeSleeve(book.crypto, cryptoLive.prices, cryptoLive.ok);
+
+    var spy = equityLive.prices["SPY"];
+    if (typeof spy !== "number") spy = book.equity.spy_last_close;
+    var btc = cryptoLive.prices["BTC-USD"];
+    if (typeof btc !== "number") btc = book.crypto.btc_last_close;
+
+    var hhStart =
+      (Number(book.equity.starting_capital) || 0) +
+      (Number(book.crypto.starting_capital) || 0);
+    var hhNav = eq.nav + cr.nav;
+    var hhPnl = hhNav - hhStart;
+    if (Math.abs(hhPnl) < 0.005) hhPnl = 0;
+    var hhPnlPct = hhStart ? (hhPnl / hhStart) * 100 : 0;
+    if (Math.abs(hhPnlPct) < 1e-9) hhPnlPct = 0;
+
+    applyDom(
+      eq,
+      cr,
+      {{ nav: hhNav, total_pnl: hhPnl, total_pnl_pct: hhPnlPct }},
+      {{ spy: spy, btc: btc }}
+    );
+
+    var when = formatWhen(new Date());
+    var cryptoOk = !cryptoErr && (crTickers.length === 0 || Object.keys(cryptoLive.prices).length > 0);
+    var equityOk = equityLive.any;
+
+    if (cryptoOk && equityOk) {{
+      setStatus("live", "Live prices as of " + when + " (crypto + equity)");
+    }} else if (cryptoOk && !equityOk) {{
+      setStatus(
+        "partial",
+        "Live prices as of " +
+          when +
+          " (crypto live; equity on last mark). Equity live quotes unavailable in-browser."
+      );
+    }} else if (!cryptoOk && equityOk) {{
+      setStatus(
+        "partial",
+        "Live prices as of " +
+          when +
+          " (equity live; crypto on last mark)."
+      );
+    }} else {{
+      setStatus(
+        "mark",
+        "Showing last mark as of " +
+          (book.as_of_display || book.as_of) +
+          ". Live quote fetch failed; retry with Refresh prices."
+      );
+    }}
+
+    var eqNote = document.getElementById("eq-prices-note");
+    if (eqNote) {{
+      eqNote.textContent = equityOk
+        ? "Equity prices refreshed in-browser (best-effort public quote)."
+        : "Equity showing embedded mark prices (live browser quotes blocked or unavailable).";
+    }}
+    var crNote = document.getElementById("cr-prices-note");
+    if (crNote) {{
+      crNote.textContent = cryptoOk
+        ? "Crypto prices refreshed via CoinGecko."
+        : "Crypto showing embedded mark prices (CoinGecko fetch failed).";
+    }}
+
+    inflight = false;
+    if (btn) btn.disabled = false;
+  }}
+
+  if (btn) btn.addEventListener("click", function () {{ refresh(); }});
+  refresh();
+  setInterval(refresh, REFRESH_MS);
+}})();
+</script>
 </body>
 </html>
 """
+
 
 
 def caps_from_rules(rules: dict, *, has_sector: bool = True) -> dict:
@@ -757,7 +1220,9 @@ def main():
         if crypto["vs_benchmark"].get("same_day"):
             crypto["vs_benchmark"]["return_pct"] = 0.0
         crypto["start_date"] = cr_start.isoformat() if cr_start else None
-        crypto["status"] = "scaffolded_cash_only"
+        crypto["status"] = (
+            "booked" if crypto.get("holdings") else "cash_only"
+        )
     else:
         crypto = {
             "nav": 0.0,
