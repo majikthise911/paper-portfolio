@@ -211,7 +211,7 @@
 <div class="wrap">
   <header>
     <h1>Paper Portfolio</h1>
-    <div class="asof" id="mark-asof">Mark snapshot: 2026-09-21 08:56:59 EDT (America/New_York)</div>
+    <div class="asof" id="mark-asof">Mark snapshot: 2026-09-21 09:01:14 EDT (America/New_York)</div>
   </header>
 
   <div class="status-bar">
@@ -222,7 +222,7 @@
   <div class="cards">
     <div class="card">
       <div class="label">Household NAV</div>
-      <div class="value" id="hh-nav">$125,672.26</div>
+      <div class="value" id="hh-nav">$125,659.46</div>
       <div class="sub">Equity + crypto</div>
     </div>
     <div class="card">
@@ -232,7 +232,7 @@
     </div>
     <div class="card">
       <div class="label">Crypto NAV</div>
-      <div class="value" id="cr-nav">$25,672.26</div>
+      <div class="value" id="cr-nav">$25,659.46</div>
       <div class="sub" id="cr-cash-sub">Cash $5,000.00</div>
     </div>
     <div class="card">
@@ -242,13 +242,13 @@
     </div>
     <div class="card">
       <div class="label">Crypto P&amp;L</div>
-      <div class="value pos" id="cr-pnl">$672.26</div>
-      <div class="sub pos" id="cr-pnl-pct">+2.69% vs start</div>
+      <div class="value pos" id="cr-pnl">$659.46</div>
+      <div class="sub pos" id="cr-pnl-pct">+2.64% vs start</div>
     </div>
     <div class="card">
       <div class="label">Household P&amp;L</div>
-      <div class="value pos" id="hh-pnl">$672.26</div>
-      <div class="sub pos" id="hh-pnl-pct">+0.54% vs combined start</div>
+      <div class="value pos" id="hh-pnl">$659.46</div>
+      <div class="sub pos" id="hh-pnl-pct">+0.53% vs combined start</div>
     </div>
   </div>
 
@@ -261,7 +261,13 @@
         <span><i class="pnl-swatch eq" aria-hidden="true"></i>Equity</span>
         <span><i class="pnl-swatch cr" aria-hidden="true"></i>Crypto</span>
       </div>
-      <div>
+      <div class="pnl-range" role="group" aria-label="Chart timeframe">
+        <button type="button" class="pnl-toggle" id="pnl-range-1d" aria-pressed="false">1D</button>
+        <button type="button" class="pnl-toggle" id="pnl-range-1w" aria-pressed="false">1W</button>
+        <button type="button" class="pnl-toggle" id="pnl-range-1m" aria-pressed="false">1M</button>
+        <button type="button" class="pnl-toggle" id="pnl-range-all" aria-pressed="true">ALL</button>
+      </div>
+      <div class="pnl-metric" role="group" aria-label="Chart metric">
         <button type="button" class="pnl-toggle" id="pnl-metric-pnl" aria-pressed="true">P&amp;L $</button>
         <button type="button" class="pnl-toggle" id="pnl-metric-nav" aria-pressed="false">NAV $</button>
       </div>
@@ -283,14 +289,14 @@
 <line class="axis" x1="64" y1="16" x2="64" y2="240" />
 <line class="axis" x1="64" y1="240" x2="984" y2="240" />
 <text class="axis-label" x="64.00" y="268" text-anchor="middle">09/20 12:48</text>
-<text class="axis-label" x="412.11" y="268" text-anchor="middle">09/20 20:25</text>
-<text class="axis-label" x="984.00" y="268" text-anchor="middle">09/21 08:56</text>
-<path class="line-hh" d="M64.00 224.55 L65.01 224.55 L68.05 224.55 L366.28 224.55 L399.17 224.55 L399.18 168.75 L412.11 92.86 L415.82 105.57 L418.14 137.55 L420.07 135.18 L983.70 31.80 L984.00 31.45" />
-<path class="line-eq" d="M64.00 224.55 L65.01 224.55 L68.05 224.55 L984.00 224.55" />
-<path class="line-cr" d="M366.28 224.55 L399.17 224.55 L399.18 168.75 L412.11 92.86 L415.82 105.57 L418.14 137.55 L420.07 135.18 L983.70 31.80 L984.00 31.45" />
-<circle class="dot dot-hh" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="68.05" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="366.28" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="399.17" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="399.18" cy="168.75" r="3.2" /><circle class="dot dot-hh" cx="412.11" cy="92.86" r="3.2" /><circle class="dot dot-hh" cx="415.82" cy="105.57" r="3.2" /><circle class="dot dot-hh" cx="418.14" cy="137.55" r="3.2" /><circle class="dot dot-hh" cx="420.07" cy="135.18" r="3.2" /><circle class="dot dot-hh" cx="983.70" cy="31.80" r="3.2" /><circle class="dot dot-hh" cx="984.00" cy="31.45" r="3.2" />
-<circle class="dot dot-eq" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="68.05" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="984.00" cy="224.55" r="3.2" />
-<circle class="dot dot-cr" cx="366.28" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="399.17" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="399.18" cy="168.75" r="3.2" /><circle class="dot dot-cr" cx="412.11" cy="92.86" r="3.2" /><circle class="dot dot-cr" cx="415.82" cy="105.57" r="3.2" /><circle class="dot dot-cr" cx="418.14" cy="137.55" r="3.2" /><circle class="dot dot-cr" cx="420.07" cy="135.18" r="3.2" /><circle class="dot dot-cr" cx="983.70" cy="31.80" r="3.2" /><circle class="dot dot-cr" cx="984.00" cy="31.45" r="3.2" /></svg>
+<text class="axis-label" x="410.89" y="268" text-anchor="middle">09/20 20:25</text>
+<text class="axis-label" x="984.00" y="268" text-anchor="middle">09/21 09:01</text>
+<path class="line-hh" d="M64.00 224.55 L65.01 224.55 L68.03 224.55 L365.22 224.55 L398.00 224.55 L398.01 168.75 L410.89 92.86 L414.59 105.57 L416.90 137.55 L418.82 135.18 L980.47 31.80 L980.78 31.45 L984.00 35.13" />
+<path class="line-eq" d="M64.00 224.55 L65.01 224.55 L68.03 224.55 L984.00 224.55" />
+<path class="line-cr" d="M365.22 224.55 L398.00 224.55 L398.01 168.75 L410.89 92.86 L414.59 105.57 L416.90 137.55 L418.82 135.18 L980.47 31.80 L980.78 31.45 L984.00 35.13" />
+<circle class="dot dot-hh" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="68.03" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="365.22" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="398.00" cy="224.55" r="3.2" /><circle class="dot dot-hh" cx="398.01" cy="168.75" r="3.2" /><circle class="dot dot-hh" cx="410.89" cy="92.86" r="3.2" /><circle class="dot dot-hh" cx="414.59" cy="105.57" r="3.2" /><circle class="dot dot-hh" cx="416.90" cy="137.55" r="3.2" /><circle class="dot dot-hh" cx="418.82" cy="135.18" r="3.2" /><circle class="dot dot-hh" cx="980.47" cy="31.80" r="3.2" /><circle class="dot dot-hh" cx="980.78" cy="31.45" r="3.2" /><circle class="dot dot-hh" cx="984.00" cy="35.13" r="3.2" />
+<circle class="dot dot-eq" cx="64.00" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="65.01" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="68.03" cy="224.55" r="3.2" /><circle class="dot dot-eq" cx="984.00" cy="224.55" r="3.2" />
+<circle class="dot dot-cr" cx="365.22" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="398.00" cy="224.55" r="3.2" /><circle class="dot dot-cr" cx="398.01" cy="168.75" r="3.2" /><circle class="dot dot-cr" cx="410.89" cy="92.86" r="3.2" /><circle class="dot dot-cr" cx="414.59" cy="105.57" r="3.2" /><circle class="dot dot-cr" cx="416.90" cy="137.55" r="3.2" /><circle class="dot dot-cr" cx="418.82" cy="135.18" r="3.2" /><circle class="dot dot-cr" cx="980.47" cy="31.80" r="3.2" /><circle class="dot dot-cr" cx="980.78" cy="31.45" r="3.2" /><circle class="dot dot-cr" cx="984.00" cy="35.13" r="3.2" /></svg>
     </div>
   </section>
 
@@ -338,12 +344,12 @@
         </tr>
       </thead>
       <tbody id="cr-tbody">
-        <tr data-sleeve="crypto" data-ticker="AVAX-USD"><td class="ticker">AVAX-USD</td><td class="num" data-field="shares">551.243591</td><td class="num" data-field="avg-cost">$11.34</td><td class="num" data-field="price">$11.46</td><td class="num" data-field="mv">$6,317.25</td><td class="num" data-field="weight">24.61%</td><td class="num pos" data-field="upnl">$67.25 (+1.08%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="BTC-USD"><td class="ticker">BTC-USD</td><td class="num" data-field="shares">0.04394</td><td class="num" data-field="avg-cost">$81,221.96</td><td class="num" data-field="price">$85,276.11</td><td class="num" data-field="mv">$3,747.03</td><td class="num" data-field="weight">14.60%</td><td class="num pos" data-field="upnl">$178.14 (+4.99%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="ETH-USD"><td class="ticker">ETH-USD</td><td class="num" data-field="shares">1.808428</td><td class="num" data-field="avg-cost">$2,640.60</td><td class="num" data-field="price">$2,729.23</td><td class="num" data-field="mv">$4,935.62</td><td class="num" data-field="weight">19.23%</td><td class="num pos" data-field="upnl">$160.28 (+3.36%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="LINK-USD"><td class="ticker">LINK-USD</td><td class="num" data-field="shares">432.773144</td><td class="num" data-field="avg-cost">$12.49</td><td class="num" data-field="price">$13.11</td><td class="num" data-field="mv">$5,672.36</td><td class="num" data-field="weight">22.10%</td><td class="num pos" data-field="upnl">$266.59 (+4.93%)</td><td class="muted" data-field="src">mark</td></tr>
+        <tr data-sleeve="crypto" data-ticker="AVAX-USD"><td class="ticker">AVAX-USD</td><td class="num" data-field="shares">551.243591</td><td class="num" data-field="avg-cost">$11.34</td><td class="num" data-field="price">$11.44</td><td class="num" data-field="mv">$6,305.68</td><td class="num" data-field="weight">24.57%</td><td class="num pos" data-field="upnl">$55.68 (+0.89%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="BTC-USD"><td class="ticker">BTC-USD</td><td class="num" data-field="shares">0.04394</td><td class="num" data-field="avg-cost">$81,221.96</td><td class="num" data-field="price">$85,216.05</td><td class="num" data-field="mv">$3,744.39</td><td class="num" data-field="weight">14.59%</td><td class="num pos" data-field="upnl">$175.50 (+4.92%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="ETH-USD"><td class="ticker">ETH-USD</td><td class="num" data-field="shares">1.808428</td><td class="num" data-field="avg-cost">$2,640.60</td><td class="num" data-field="price">$2,731.93</td><td class="num" data-field="mv">$4,940.50</td><td class="num" data-field="weight">19.25%</td><td class="num pos" data-field="upnl">$165.16 (+3.46%)</td><td class="muted" data-field="src">mark</td></tr><tr data-sleeve="crypto" data-ticker="LINK-USD"><td class="ticker">LINK-USD</td><td class="num" data-field="shares">432.773144</td><td class="num" data-field="avg-cost">$12.49</td><td class="num" data-field="price">$13.10</td><td class="num" data-field="mv">$5,668.90</td><td class="num" data-field="weight">22.09%</td><td class="num pos" data-field="upnl">$263.13 (+4.87%)</td><td class="muted" data-field="src">mark</td></tr>
       </tbody>
     </table>
     <p class="blurb" style="margin-top:12px" id="cr-footer">
-      Crypto cash weight: <strong id="cr-cash-wt">19.48%</strong>
-      (<span id="cr-cash-amt">$5,000.00</span>). Benchmark BTC-USD last: <span id="cr-bench">$85,276.11</span>.
+      Crypto cash weight: <strong id="cr-cash-wt">19.49%</strong>
+      (<span id="cr-cash-amt">$5,000.00</span>). Benchmark BTC-USD last: <span id="cr-bench">$85,216.05</span>.
       Sleeve is separate from equity; not mixed into equity momentum rank.
     </p>
   </section>
@@ -383,8 +389,8 @@
     <p>Crypto quotes in-browser via CoinGecko when available. Equity may stay on last mark if live quotes are blocked. Weekday rebuilds refresh the embedded snapshot.</p>
   </footer>
 </div>
-<script type="application/json" id="book-data">{"generated_at":"2026-09-21T08:56:59-04:00","as_of":"2026-09-21T08:56:59-04:00","as_of_display":"2026-09-21 08:56:59 EDT","equity":{"cash":20955.84,"starting_capital":100000.0,"spy_last_close":761.69,"peak_nav":100000.0,"positions":[{"ticker":"AAPL","shares":30.0,"avg_cost":336.13,"cost_basis":10083.9,"sector":"tech","last_price":336.13},{"ticker":"JPM","shares":20.0,"avg_cost":349.67,"cost_basis":6993.4,"sector":"financials","last_price":349.67},{"ticker":"META","shares":17.0,"avg_cost":665.75,"cost_basis":11317.75,"sector":"communication","last_price":665.75},{"ticker":"MSFT","shares":30.0,"avg_cost":493.78,"cost_basis":14813.4,"sector":"tech","last_price":493.78},{"ticker":"NVDA","shares":26.0,"avg_cost":222.27,"cost_basis":5779.02,"sector":"tech","last_price":222.27},{"ticker":"XLE","shares":226.0,"avg_cost":64.31,"cost_basis":14534.06,"sector":"energy","last_price":64.31},{"ticker":"XLF","shares":94.0,"avg_cost":55.86,"cost_basis":5250.84,"sector":"financials","last_price":55.86},{"ticker":"XLV","shares":61.0,"avg_cost":168.39,"cost_basis":10271.79,"sector":"health","last_price":168.39}]},"crypto":{"cash":5000.0,"starting_capital":25000.0,"btc_last_close":85276.1094,"peak_nav":25672.26,"positions":[{"ticker":"AVAX-USD","shares":551.243591,"avg_cost":11.338,"cost_basis":6250.0,"sector":"layer1","last_price":11.46},{"ticker":"BTC-USD","shares":0.04394,"avg_cost":81221.960938,"cost_basis":3568.89,"sector":"layer1","last_price":85276.109375},{"ticker":"ETH-USD","shares":1.808428,"avg_cost":2640.600098,"cost_basis":4775.34,"sector":"layer1","last_price":2729.22998},{"ticker":"LINK-USD","shares":432.773144,"avg_cost":12.491,"cost_basis":5405.77,"sector":"oracle","last_price":13.107}]}}</script>
-<script type="application/json" id="pnl-history">{"as_of":"2026-09-21T08:57:02-04:00","currency":"USD","default_metric":"pnl","starting_capital":{"equity":100000.0,"crypto":25000.0,"household":125000.0},"counts":{"equity":4,"crypto":9,"household":12},"series":{"equity":[{"ts":"2026-09-20T12:48:00-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0}],"crypto":[{"ts":"2026-09-20T19:25:14-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":25194.25,"pnl":194.25,"starting_capital":25000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":25458.46,"pnl":458.46,"starting_capital":25000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":25414.2,"pnl":414.2,"starting_capital":25000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":25302.9,"pnl":302.9,"starting_capital":25000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":25311.12,"pnl":311.12,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":25671.04,"pnl":671.04,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":25672.26,"pnl":672.26,"starting_capital":25000.0}],"household":[{"ts":"2026-09-20T12:48:00-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T19:25:14-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":125194.25,"pnl":194.25,"equity_nav":100000.0,"crypto_nav":25194.25,"starting_capital":125000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":125458.46,"pnl":458.46,"equity_nav":100000.0,"crypto_nav":25458.46,"starting_capital":125000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":125414.2,"pnl":414.2,"equity_nav":100000.0,"crypto_nav":25414.2,"starting_capital":125000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":125302.9,"pnl":302.9,"equity_nav":100000.0,"crypto_nav":25302.9,"starting_capital":125000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":125311.12,"pnl":311.12,"equity_nav":100000.0,"crypto_nav":25311.12,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":125671.04,"pnl":671.04,"equity_nav":100000.0,"crypto_nav":25671.04,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":125672.26,"pnl":672.26,"equity_nav":100000.0,"crypto_nav":25672.26,"starting_capital":125000.0}]},"note":null}</script>
+<script type="application/json" id="book-data">{"generated_at":"2026-09-21T09:01:14-04:00","as_of":"2026-09-21T09:01:14-04:00","as_of_display":"2026-09-21 09:01:14 EDT","equity":{"cash":20955.84,"starting_capital":100000.0,"spy_last_close":761.69,"peak_nav":100000.0,"positions":[{"ticker":"AAPL","shares":30.0,"avg_cost":336.13,"cost_basis":10083.9,"sector":"tech","last_price":336.13},{"ticker":"JPM","shares":20.0,"avg_cost":349.67,"cost_basis":6993.4,"sector":"financials","last_price":349.67},{"ticker":"META","shares":17.0,"avg_cost":665.75,"cost_basis":11317.75,"sector":"communication","last_price":665.75},{"ticker":"MSFT","shares":30.0,"avg_cost":493.78,"cost_basis":14813.4,"sector":"tech","last_price":493.78},{"ticker":"NVDA","shares":26.0,"avg_cost":222.27,"cost_basis":5779.02,"sector":"tech","last_price":222.27},{"ticker":"XLE","shares":226.0,"avg_cost":64.31,"cost_basis":14534.06,"sector":"energy","last_price":64.31},{"ticker":"XLF","shares":94.0,"avg_cost":55.86,"cost_basis":5250.84,"sector":"financials","last_price":55.86},{"ticker":"XLV","shares":61.0,"avg_cost":168.39,"cost_basis":10271.79,"sector":"health","last_price":168.39}]},"crypto":{"cash":5000.0,"starting_capital":25000.0,"btc_last_close":85216.0469,"peak_nav":25672.26,"positions":[{"ticker":"AVAX-USD","shares":551.243591,"avg_cost":11.338,"cost_basis":6250.0,"sector":"layer1","last_price":11.439},{"ticker":"BTC-USD","shares":0.04394,"avg_cost":81221.960938,"cost_basis":3568.89,"sector":"layer1","last_price":85216.046875},{"ticker":"ETH-USD","shares":1.808428,"avg_cost":2640.600098,"cost_basis":4775.34,"sector":"layer1","last_price":2731.929932},{"ticker":"LINK-USD","shares":432.773144,"avg_cost":12.491,"cost_basis":5405.77,"sector":"oracle","last_price":13.099}]}}</script>
+<script type="application/json" id="pnl-history">{"as_of":"2026-09-21T09:01:17-04:00","currency":"USD","default_metric":"pnl","starting_capital":{"equity":100000.0,"crypto":25000.0,"household":125000.0},"counts":{"equity":4,"crypto":10,"household":13},"series":{"equity":[{"ts":"2026-09-20T12:48:00-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":100000.0,"pnl":0.0,"starting_capital":100000.0}],"crypto":[{"ts":"2026-09-20T19:25:14-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":25000.0,"pnl":0.0,"starting_capital":25000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":25194.25,"pnl":194.25,"starting_capital":25000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":25458.46,"pnl":458.46,"starting_capital":25000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":25414.2,"pnl":414.2,"starting_capital":25000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":25302.9,"pnl":302.9,"starting_capital":25000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":25311.12,"pnl":311.12,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":25671.04,"pnl":671.04,"starting_capital":25000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":25672.26,"pnl":672.26,"starting_capital":25000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":25659.46,"pnl":659.46,"starting_capital":25000.0}],"household":[{"ts":"2026-09-20T12:48:00-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:49:20-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T12:53:19-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T19:25:14-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:27-04:00","nav":125000.0,"pnl":0.0,"equity_nav":100000.0,"crypto_nav":25000.0,"starting_capital":125000.0},{"ts":"2026-09-20T20:08:28-04:00","nav":125194.25,"pnl":194.25,"equity_nav":100000.0,"crypto_nav":25194.25,"starting_capital":125000.0},{"ts":"2026-09-20T20:25:27-04:00","nav":125458.46,"pnl":458.46,"equity_nav":100000.0,"crypto_nav":25458.46,"starting_capital":125000.0},{"ts":"2026-09-20T20:30:20-04:00","nav":125414.2,"pnl":414.2,"equity_nav":100000.0,"crypto_nav":25414.2,"starting_capital":125000.0},{"ts":"2026-09-20T20:33:23-04:00","nav":125302.9,"pnl":302.9,"equity_nav":100000.0,"crypto_nav":25302.9,"starting_capital":125000.0},{"ts":"2026-09-20T20:35:55-04:00","nav":125311.12,"pnl":311.12,"equity_nav":100000.0,"crypto_nav":25311.12,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:35-04:00","nav":125671.04,"pnl":671.04,"equity_nav":100000.0,"crypto_nav":25671.04,"starting_capital":125000.0},{"ts":"2026-09-21T08:56:59-04:00","nav":125672.26,"pnl":672.26,"equity_nav":100000.0,"crypto_nav":25672.26,"starting_capital":125000.0},{"ts":"2026-09-21T09:01:14-04:00","nav":125659.46,"pnl":659.46,"equity_nav":100000.0,"crypto_nav":25659.46,"starting_capital":125000.0}]},"note":null}</script>
 <script>
 (function () {
   "use strict";
@@ -784,8 +790,20 @@
   }
 
   var metric = (hist && hist.default_metric) || "pnl";
+  var range = "all";
+  var RANGE_MS = {
+    "1d": 24 * 60 * 60 * 1000,
+    "1w": 7 * 24 * 60 * 60 * 1000,
+    "1m": 30 * 24 * 60 * 60 * 1000
+  };
+  var baseNote = (hist && hist.note) || "";
+  var noteEl = document.getElementById("pnl-history-note");
   var btnPnl = document.getElementById("pnl-metric-pnl");
   var btnNav = document.getElementById("pnl-metric-nav");
+  var btnRange1d = document.getElementById("pnl-range-1d");
+  var btnRange1w = document.getElementById("pnl-range-1w");
+  var btnRange1m = document.getElementById("pnl-range-1m");
+  var btnRangeAll = document.getElementById("pnl-range-all");
 
   function parseTs(ts) {
     var d = new Date(ts);
@@ -829,6 +847,29 @@
     return out;
   }
 
+  function filterByRange(pts) {
+    if (range === "all" || !RANGE_MS[range]) return pts;
+    var cutoff = Date.now() - RANGE_MS[range];
+    return pts.filter(function (p) { return p.t >= cutoff; });
+  }
+
+  function updateRangeNote(nInWindow) {
+    if (!noteEl) return;
+    if (nInWindow < 2) {
+      noteEl.textContent =
+        "Only " +
+        nInWindow +
+        " points in this window. History will fill as marks run.";
+      noteEl.hidden = false;
+    } else if (baseNote) {
+      noteEl.textContent = baseNote;
+      noteEl.hidden = false;
+    } else {
+      noteEl.textContent = "";
+      noteEl.hidden = true;
+    }
+  }
+
   function niceTicks(minV, maxV, count) {
     if (!isFinite(minV) || !isFinite(maxV)) return [0];
     if (minV === maxV) {
@@ -856,10 +897,11 @@
   }
 
   function render() {
-    var hh = seriesPoints("household");
-    var eq = seriesPoints("equity");
-    var cr = seriesPoints("crypto");
+    var hh = filterByRange(seriesPoints("household"));
+    var eq = filterByRange(seriesPoints("equity"));
+    var cr = filterByRange(seriesPoints("crypto"));
     var all = hh.concat(eq).concat(cr);
+    updateRangeNote(all.length);
 
     var W = 1000, H = 280;
     var pad = { l: 64, r: 16, t: 16, b: 40 };
@@ -1029,8 +1071,21 @@
     render();
   }
 
+  function setRange(r) {
+    range = r;
+    if (btnRange1d) btnRange1d.setAttribute("aria-pressed", r === "1d" ? "true" : "false");
+    if (btnRange1w) btnRange1w.setAttribute("aria-pressed", r === "1w" ? "true" : "false");
+    if (btnRange1m) btnRange1m.setAttribute("aria-pressed", r === "1m" ? "true" : "false");
+    if (btnRangeAll) btnRangeAll.setAttribute("aria-pressed", r === "all" ? "true" : "false");
+    render();
+  }
+
   if (btnPnl) btnPnl.addEventListener("click", function () { setMetric("pnl"); });
   if (btnNav) btnNav.addEventListener("click", function () { setMetric("nav"); });
+  if (btnRange1d) btnRange1d.addEventListener("click", function () { setRange("1d"); });
+  if (btnRange1w) btnRange1w.addEventListener("click", function () { setRange("1w"); });
+  if (btnRange1m) btnRange1m.addEventListener("click", function () { setRange("1m"); });
+  if (btnRangeAll) btnRangeAll.addEventListener("click", function () { setRange("all"); });
   render();
 })();
 </script>

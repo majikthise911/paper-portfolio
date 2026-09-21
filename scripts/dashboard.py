@@ -362,7 +362,10 @@ def holdings_table_rows(holdings: list[dict], empty_msg: str, sleeve: str) -> st
 
 
 def render_pnl_svg(hist: dict, metric: str = "pnl") -> str:
-    """Pre-render P&L chart SVG so it is visible even if JS fails."""
+    """Pre-render P&L chart SVG so it is visible even if JS fails.
+
+    Uses full history (ALL timeframe) so no-JS viewers see every mark.
+    """
     series = (hist or {}).get("series") or {}
     def pts(name):
         out = []
@@ -1105,7 +1108,13 @@ def build_html(data: dict) -> str:
         <span><i class="pnl-swatch eq" aria-hidden="true"></i>Equity</span>
         <span><i class="pnl-swatch cr" aria-hidden="true"></i>Crypto</span>
       </div>
-      <div>
+      <div class="pnl-range" role="group" aria-label="Chart timeframe">
+        <button type="button" class="pnl-toggle" id="pnl-range-1d" aria-pressed="false">1D</button>
+        <button type="button" class="pnl-toggle" id="pnl-range-1w" aria-pressed="false">1W</button>
+        <button type="button" class="pnl-toggle" id="pnl-range-1m" aria-pressed="false">1M</button>
+        <button type="button" class="pnl-toggle" id="pnl-range-all" aria-pressed="true">ALL</button>
+      </div>
+      <div class="pnl-metric" role="group" aria-label="Chart metric">
         <button type="button" class="pnl-toggle" id="pnl-metric-pnl" aria-pressed="true">P&amp;L $</button>
         <button type="button" class="pnl-toggle" id="pnl-metric-nav" aria-pressed="false">NAV $</button>
       </div>
@@ -1593,8 +1602,20 @@ def build_html(data: dict) -> str:
   }}
 
   var metric = (hist && hist.default_metric) || "pnl";
+  var range = "all";
+  var RANGE_MS = {{
+    "1d": 24 * 60 * 60 * 1000,
+    "1w": 7 * 24 * 60 * 60 * 1000,
+    "1m": 30 * 24 * 60 * 60 * 1000
+  }};
+  var baseNote = (hist && hist.note) || "";
+  var noteEl = document.getElementById("pnl-history-note");
   var btnPnl = document.getElementById("pnl-metric-pnl");
   var btnNav = document.getElementById("pnl-metric-nav");
+  var btnRange1d = document.getElementById("pnl-range-1d");
+  var btnRange1w = document.getElementById("pnl-range-1w");
+  var btnRange1m = document.getElementById("pnl-range-1m");
+  var btnRangeAll = document.getElementById("pnl-range-all");
 
   function parseTs(ts) {{
     var d = new Date(ts);
@@ -1638,6 +1659,29 @@ def build_html(data: dict) -> str:
     return out;
   }}
 
+  function filterByRange(pts) {{
+    if (range === "all" || !RANGE_MS[range]) return pts;
+    var cutoff = Date.now() - RANGE_MS[range];
+    return pts.filter(function (p) {{ return p.t >= cutoff; }});
+  }}
+
+  function updateRangeNote(nInWindow) {{
+    if (!noteEl) return;
+    if (nInWindow < 2) {{
+      noteEl.textContent =
+        "Only " +
+        nInWindow +
+        " points in this window. History will fill as marks run.";
+      noteEl.hidden = false;
+    }} else if (baseNote) {{
+      noteEl.textContent = baseNote;
+      noteEl.hidden = false;
+    }} else {{
+      noteEl.textContent = "";
+      noteEl.hidden = true;
+    }}
+  }}
+
   function niceTicks(minV, maxV, count) {{
     if (!isFinite(minV) || !isFinite(maxV)) return [0];
     if (minV === maxV) {{
@@ -1665,10 +1709,11 @@ def build_html(data: dict) -> str:
   }}
 
   function render() {{
-    var hh = seriesPoints("household");
-    var eq = seriesPoints("equity");
-    var cr = seriesPoints("crypto");
+    var hh = filterByRange(seriesPoints("household"));
+    var eq = filterByRange(seriesPoints("equity"));
+    var cr = filterByRange(seriesPoints("crypto"));
     var all = hh.concat(eq).concat(cr);
+    updateRangeNote(all.length);
 
     var W = 1000, H = 280;
     var pad = {{ l: 64, r: 16, t: 16, b: 40 }};
@@ -1838,8 +1883,21 @@ def build_html(data: dict) -> str:
     render();
   }}
 
+  function setRange(r) {{
+    range = r;
+    if (btnRange1d) btnRange1d.setAttribute("aria-pressed", r === "1d" ? "true" : "false");
+    if (btnRange1w) btnRange1w.setAttribute("aria-pressed", r === "1w" ? "true" : "false");
+    if (btnRange1m) btnRange1m.setAttribute("aria-pressed", r === "1m" ? "true" : "false");
+    if (btnRangeAll) btnRangeAll.setAttribute("aria-pressed", r === "all" ? "true" : "false");
+    render();
+  }}
+
   if (btnPnl) btnPnl.addEventListener("click", function () {{ setMetric("pnl"); }});
   if (btnNav) btnNav.addEventListener("click", function () {{ setMetric("nav"); }});
+  if (btnRange1d) btnRange1d.addEventListener("click", function () {{ setRange("1d"); }});
+  if (btnRange1w) btnRange1w.addEventListener("click", function () {{ setRange("1w"); }});
+  if (btnRange1m) btnRange1m.addEventListener("click", function () {{ setRange("1m"); }});
+  if (btnRangeAll) btnRangeAll.addEventListener("click", function () {{ setRange("all"); }});
   render();
 }})();
 </script>
