@@ -9,25 +9,32 @@
     "primary_trading_days": 63,
     "secondary": "252d_total_return_not_deeply_negative",
     "secondary_trading_days": 252,
-    "secondary_min_return": -0.20
+    "secondary_min_return": -0.2
   },
   "position_caps": {
     "max_single_name_pct": 0.15,
-    "max_sector_etf_sleeve_pct": 0.40,
-    "max_invested_pct": 0.80,
-    "min_cash_pct": 0.20
+    "max_sector_etf_sleeve_pct": 0.4,
+    "max_invested_pct": 0.8,
+    "min_cash_pct": 0.2,
+    "max_tech_megacap_sleeve_pct": 0.3,
+    "tech_megacap_tickers": [
+      "AAPL",
+      "MSFT",
+      "NVDA"
+    ]
   },
   "rebalance": {
     "cadence": "weekly",
     "benchmark": "SPY",
     "mark_to_market": true
   },
-  "aspiration_apy": 0.30,
+  "aspiration_apy": 0.3,
   "aspiration_note": "30% APY is aspiration metric only; never an auto-rewire stop",
   "governance": {
     "propose_tweaks_only": true,
     "never_change_rules_without_jordan_approval": true,
     "never_place_real_trades": true,
     "proposals_require_approval_before_execution": true
-  }
+  },
+  "rule_version": 2
 }

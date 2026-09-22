@@ -13,6 +13,7 @@ Run a paper (simulated, not real brokerage) long-only US portfolio from $100,000
 - Hard position caps at initiation:
   - Max 15% of portfolio NAV (net asset value: cash plus marked holdings) in any single name.
   - Max 40% in any single sector or theme ETF sleeve when classified simply via `config/universe.json` sector_map.
+  - Max 30% of equity NAV in the combined tech mega-cap sleeve (AAPL + MSFT + NVDA), approved 2026-09-21. Trim only on an approved rebalance; recycle excess into non-tech screen names or cash.
   - Max 80% invested, so at least 20% cash, unless Jordan later approves a change.
 - Rebalance cadence: weekly mark-to-market versus SPY (P&L, drawdown, attribution).
 - 30% APY is an aspiration metric only. It is never an automatic stop or auto-rewire trigger.
@@ -35,6 +36,7 @@ Source of truth for tickers and sector labels: `config/universe.json`.
 |-----|-------|
 | Max single name | 15% of NAV |
 | Max single sector/theme sleeve | 40% of NAV |
+| Max tech mega-cap sleeve (AAPL+MSFT+NVDA) | 30% of equity NAV |
 | Max invested | 80% of NAV |
 | Min cash | 20% of NAV |
 
@@ -99,3 +101,7 @@ Equity stays at the repo root (`config/`, `state/`, `scripts/`). Crypto is a sep
 ## Governance reminder
 
 Jordan-facing markdown uses full sentences, no em dashes, and defines jargon on first use. Agent Paper proposes; Jordan decides.
+
+## Active improvement proposals
+
+Paper should actively look for improvements and propose them (especially on the Monday weekly pass). Jordan approves or rejects in chat. Do not change rules, universe, caps, or book trades without that yes. Thirty percent APY remains an aspiration metric only.
