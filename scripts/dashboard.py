@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import date, datetime
+from html import escape
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -378,8 +379,10 @@ def render_pnl_svg(hist: dict, metric: str = "pnl") -> str:
             out.append((dt.timestamp(), y, p["ts"]))
         out.sort()
         return out
-    hh, eq, cr = pts("household"), pts("equity"), pts("crypto")
-    allp = hh + eq + cr
+    hh, eq, cr, spy = (
+        pts("household"), pts("equity"), pts("crypto"), pts("spy")
+    )
+    allp = hh + eq + cr + spy
     W, H = 1000, 280
     pad = {"l": 64, "r": 16, "t": 16, "b": 40}
     iw, ih = W - pad["l"] - pad["r"], H - pad["t"] - pad["b"]
@@ -448,21 +451,75 @@ def render_pnl_svg(hist: dict, metric: str = "pnl") -> str:
         )
         return f'<path class="{cls}" d="{d}" />'
 
-    def dots(pts, dcls):
+    def dots(pts, dcls, r=3.2):
         return "".join(
-            f'<circle class="dot {dcls}" cx="{x(t):.2f}" cy="{y(v):.2f}" r="3.2" />'
+            f'<circle class="dot {dcls}" cx="{x(t):.2f}" cy="{y(v):.2f}" r="{r}" />'
             for t, v, _ in pts
         )
 
     parts.append(path(hh, "line-hh"))
     parts.append(path(eq, "line-eq"))
     parts.append(path(cr, "line-cr"))
+    parts.append(path(spy, "line-spy"))
     parts.append(dots(hh, "dot-hh"))
     parts.append(dots(eq, "dot-eq"))
     parts.append(dots(cr, "dot-cr"))
+    parts.append(dots(spy, "dot-spy", r=4.8))
     return "\n".join(parts)
 
 
+
+
+def strategy_section() -> str:
+    """Render the current rules-driven strategy summary for both sleeves."""
+    eq_rules = load_json(EQUITY_RULES)
+    cr_rules = load_json(CRYPTO_RULES)
+    eq_uni = load_json(EQUITY_UNIVERSE)
+    cr_uni = load_json(CRYPTO_UNIVERSE)
+
+    def pct(value, default=0.0):
+        return f"{float(value if value is not None else default) * 100:.0f}%"
+
+    def days(rule_set, key, default):
+        signal = rule_set.get("signal", {})
+        return int(signal.get(key, default))
+
+    def not_deeply_negative(rule_set):
+        threshold = rule_set.get("signal", {}).get("secondary_min_return", -0.20)
+        return f"not deeply negative (above {float(threshold) * 100:.0f}%)"
+
+    eq_signal = eq_rules.get("strategy_name", "simple_momentum_rs")
+    eq_cadence = eq_rules.get("rebalance", {}).get("cadence", "weekly")
+    eq_benchmark = eq_rules.get("rebalance", {}).get(
+        "benchmark", eq_uni.get("benchmark", "SPY")
+    )
+    eq_caps = eq_rules.get("position_caps", {})
+    tech_names = eq_caps.get(
+        "tech_megacap_tickers", ["AAPL", "MSFT", "NVDA"]
+    )
+    tech_names_text = "+".join(str(t) for t in tech_names)
+
+    cr_signal = cr_rules.get("strategy_name", "simple_momentum_rs_crypto")
+    cr_cadence = cr_rules.get("rebalance", {}).get("cadence", "weekly")
+    cr_benchmark = cr_rules.get("rebalance", {}).get(
+        "benchmark", cr_uni.get("benchmark", "BTC-USD")
+    )
+    crypto_assets = [
+        str(ticker).removesuffix("-USD") for ticker in cr_uni.get("spot", [])
+    ]
+    crypto_assets_text = ", ".join(crypto_assets) or "the configured crypto universe"
+
+    return f"""
+  <section id="current-strategy">
+    <h2>Current strategy</h2>
+    <ul class="caps">
+      <li><strong>Equity:</strong> <code>{escape(str(eq_signal))}</code> uses simple momentum / relative strength to rank liquid US ETFs and a short mega-cap list on about a 3-month total return ({days(eq_rules, 'primary_trading_days', 63)} trading days), with a 12-month sanity check that is {not_deeply_negative(eq_rules)}. It is long-only. {str(eq_cadence).capitalize()} rebalance proposals are made Monday; marks between weeks are not trades. Caps are {pct(eq_caps.get('max_single_name_pct'), 0.15)} per name, {pct(eq_caps.get('max_sector_etf_sleeve_pct'), 0.40)} per sector sleeve, and combined {escape(tech_names_text)} is capped at {pct(eq_caps.get('max_tech_megacap_sleeve_pct'), 0.30)} of equity NAV. Benchmark {escape(str(eq_benchmark))}. Paper only; Jordan approves trades and rule changes.</li>
+      <li><strong>Crypto:</strong> This is a separate sleeve and cash book using <code>{escape(str(cr_signal))}</code>, a similar {str(cr_cadence)} momentum screen on {escape(crypto_assets_text)}, with the same roughly 3-month signal and 12-month sanity check that is {not_deeply_negative(cr_rules)}. Its benchmark is {escape(str(cr_benchmark))} (BTC), with its own caps: {pct(cr_rules.get('position_caps', {}).get('max_single_name_pct'), 0.25)} per name, {pct(cr_rules.get('position_caps', {}).get('max_invested_pct'), 0.80)} invested maximum, and {pct(cr_rules.get('position_caps', {}).get('min_cash_pct'), 0.20)} minimum cash.</li>
+      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. Faster styles such as day trading or HFT need more data and execution; they are not the default until the Monday method scorecard shows evidence and Jordan approves a switch.</li>
+    </ul>
+    <p class="blurb">For approved strategy changes, see <a href="./changelog.html">the strategy change log</a>.</p>
+  </section>
+"""
 
 
 def changelog_section() -> str:
@@ -476,12 +533,16 @@ def changelog_section() -> str:
                 latest_title = line[3:].strip()
                 break
     return f"""
-  <section>
+  <section id="strategy-changes">
     <h2>Strategy changes</h2>
     <p class="blurb">Approved rule and signal tweaks, including the observation and decision logic behind each change. Latest: <strong>{latest_title}</strong></p>
     <p class="blurb"><a href="./changelog.html">Open full strategy change log</a> (also on GitHub under docs/STRATEGY_CHANGELOG.md).</p>
   </section>
 """
+
+def strategy_and_changelog_row() -> str:
+    return f'<div class="strategy-row">\n{strategy_section()}{changelog_section()}\n</div>\n'
+
 
 def architecture_section() -> str:
     """Embed architecture diagram (PNG preferred, SVG fallback)."""
@@ -674,6 +735,139 @@ def align_household_series(
     return out
 
 
+def spy_pnl_series(
+    equity_ledger: Path,
+    equity_portfolio: Path,
+    aligned_points: list[dict],
+    equity_start: float,
+) -> tuple[list[dict], str | None]:
+    """Build a SPY buy-and-hold baseline aligned to household timestamps.
+
+    Returns (series, optional_flat_note). Always attempts a yfinance history merge
+    for the mark window; baseline spy_0 is the last price at or before the first
+    household/equity timestamp.
+    """
+    target_dts = []
+    for point in aligned_points:
+        dt = parse_et_dt(str(point.get("ts")))
+        if dt is not None:
+            target_dts.append((dt, str(point["ts"])))
+    if not target_dts:
+        return [], None
+
+    prices: dict[datetime, float] = {}
+
+    def add_price(ts, raw_price) -> None:
+        try:
+            dt = parse_et_dt(str(ts))
+            price = float(raw_price)
+        except (TypeError, ValueError):
+            return
+        if dt is not None and price > 0:
+            prices[dt] = price
+
+    if equity_ledger.exists():
+        for line in equity_ledger.read_text().splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                entry = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if entry.get("type") == "mark" and entry.get("spy_last_close") is not None:
+                add_price(entry.get("ts"), entry.get("spy_last_close"))
+
+    if equity_portfolio.exists():
+        try:
+            portfolio = load_json(equity_portfolio)
+            portfolio_price = portfolio.get("spy_last_close", portfolio.get("bench_last_close"))
+            if portfolio_price is not None:
+                add_price(portfolio.get("as_of"), portfolio_price)
+        except Exception:
+            pass
+
+    ordered_targets = sorted(target_dts)
+    first_target = ordered_targets[0][0]
+    last_target = ordered_targets[-1][0]
+
+    def merge_yfinance_history(*, interval: str = "1d") -> None:
+        try:
+            kwargs = dict(
+                start=(first_target - timedelta(days=7)).date().isoformat(),
+                end=(last_target + timedelta(days=2)).date().isoformat(),
+                auto_adjust=True,
+            )
+            if interval != "1d":
+                kwargs["interval"] = interval
+            history = yf.Ticker("SPY").history(**kwargs)
+            if history is None or history.empty:
+                return
+            for idx, row in history.iterrows():
+                close = row.get("Close")
+                if close is None:
+                    continue
+                try:
+                    dt = idx.to_pydatetime() if hasattr(idx, "to_pydatetime") else idx
+                    if dt.tzinfo is None:
+                        dt = dt.replace(tzinfo=TZ)
+                    else:
+                        dt = dt.astimezone(TZ)
+                    add_price(dt.isoformat(), close)
+                except (TypeError, ValueError, AttributeError):
+                    continue
+        except Exception as e:
+            print(f"WARN: SPY baseline history failed ({interval}): {e}", file=sys.stderr)
+
+    # Always attempt daily SPY history for the mark window.
+    merge_yfinance_history(interval="1d")
+    # If portfolio life is a single calendar day, also try hourly bars so intraday marks can move.
+    if first_target.date() == last_target.date():
+        merge_yfinance_history(interval="1h")
+        if len({dt.date() for dt in prices}) <= 1:
+            merge_yfinance_history(interval="60m")
+
+    if not prices:
+        return [], None
+    ordered_prices = sorted(prices.items())
+    # Baseline = last price at or before first household/equity timestamp (not earliest lookback).
+    at_or_before = [(dt, price) for dt, price in ordered_prices if dt <= first_target]
+    if at_or_before:
+        spy_0 = at_or_before[-1][1]
+    else:
+        # Keep the chart useful if a provider has no pre-window history.
+        spy_0 = ordered_prices[0][1]
+
+    out = []
+    price_idx = 0
+    current_price = spy_0
+    for target_dt, target_ts in ordered_targets:
+        while price_idx < len(ordered_prices) and ordered_prices[price_idx][0] <= target_dt:
+            current_price = ordered_prices[price_idx][1]
+            price_idx += 1
+        spy_nav = float(equity_start) * (current_price / spy_0)
+        out.append(
+            {
+                "ts": target_ts,
+                "nav": round(spy_nav, 2),
+                "pnl": round(spy_nav - float(equity_start), 2),
+                "spy_px": round(current_price, 4),
+                "starting_capital": float(equity_start),
+            }
+        )
+
+    flat_note = None
+    if out:
+        pnls = [abs(float(p.get("pnl") or 0.0)) for p in out]
+        pxes = [float(p.get("spy_px") or 0.0) for p in out]
+        # Still all ~0 PnL / flat price after merge → note for chart visibility.
+        if max(pnls) < 0.02 and (max(pxes) - min(pxes) < 0.02):
+            flat_note = (
+                f"SPY baseline is flat until SPY moves from the start print (${spy_0:.2f})."
+            )
+    return out, flat_note
+
+
 def build_pnl_history(
     equity_ledger: Path,
     crypto_ledger: Path,
@@ -699,6 +893,13 @@ def build_pnl_history(
     equity = sleeve_pnl_series(equity_ledger, eq_start, equity_portfolio)
     crypto = sleeve_pnl_series(crypto_ledger, cr_start, crypto_portfolio)
     household = align_household_series(equity, crypto, eq_start, crypto_start)
+    spy, spy_flat_note = spy_pnl_series(equity_ledger, equity_portfolio, household, eq_start)
+
+    note = None
+    if min(len(equity), len(crypto), len(household)) < 2:
+        note = "History will fill in as daily marks run."
+    if spy_flat_note:
+        note = f"{note} {spy_flat_note}".strip() if note else spy_flat_note
 
     return {
         "as_of": datetime.now(TZ).isoformat(timespec="seconds"),
@@ -713,17 +914,15 @@ def build_pnl_history(
             "equity": len(equity),
             "crypto": len(crypto),
             "household": len(household),
+            "spy": len(spy),
         },
         "series": {
             "equity": equity,
             "crypto": crypto,
             "household": household,
+            "spy": spy,
         },
-        "note": (
-            "History will fill in as daily marks run."
-            if min(len(equity), len(crypto), len(household)) < 2
-            else None
-        ),
+        "note": note,
     }
 
 
@@ -919,6 +1118,20 @@ def build_html(data: dict) -> str:
     gap: 12px;
     margin-bottom: 28px;
   }}
+  .strategy-row {{
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+    align-items: stretch;
+  }}
+  .strategy-row > section {{
+    margin-bottom: 0;
+    height: 100%;
+  }}
+  @media (max-width: 900px) {{
+    .strategy-row {{ grid-template-columns: 1fr; }}
+  }}
   .card {{
     background: var(--panel);
     border: 1px solid var(--panel-border);
@@ -1051,6 +1264,7 @@ def build_html(data: dict) -> str:
   .pnl-swatch.hh {{ background: var(--accent); }}
   .pnl-swatch.eq {{ background: var(--pos); }}
   .pnl-swatch.cr {{ background: #e6b450; }}
+  .pnl-swatch.spy {{ background: #f0c14a; }}
   /* pnl-toggle base styles set with pnl-range-row */
   .pnl-toggle[aria-pressed="true"] {{
     border-color: var(--accent);
@@ -1064,6 +1278,18 @@ def build_html(data: dict) -> str:
     width: 100%;
     height: 280px;
     display: block;
+    cursor: crosshair;
+    touch-action: none;
+  }}
+  #pnl-chart.pnl-dragging {{
+    user-select: none;
+  }}
+  #pnl-chart .brush-rect {{
+    fill: rgba(240, 193, 74, 0.18);
+    stroke: #f0c14a;
+    stroke-width: 1;
+    stroke-dasharray: 4 3;
+    pointer-events: none;
   }}
   #pnl-chart .grid-line {{ stroke: #2a3548; stroke-width: 1; }}
   #pnl-chart .axis {{ stroke: #3a4a63; stroke-width: 1; }}
@@ -1072,10 +1298,12 @@ def build_html(data: dict) -> str:
   #pnl-chart .line-hh {{ fill: none; stroke: #5b9fd4; stroke-width: 2.2; }}
   #pnl-chart .line-eq {{ fill: none; stroke: #3ecf8e; stroke-width: 1.8; }}
   #pnl-chart .line-cr {{ fill: none; stroke: #e6b450; stroke-width: 1.8; }}
+  #pnl-chart .line-spy {{ fill: none; stroke: #f0c14a; stroke-width: 2.4; stroke-dasharray: 6 4; }}
   #pnl-chart .dot {{ stroke: #0f1419; stroke-width: 1; }}
   #pnl-chart .dot-hh {{ fill: #5b9fd4; }}
   #pnl-chart .dot-eq {{ fill: #3ecf8e; }}
   #pnl-chart .dot-cr {{ fill: #e6b450; }}
+  #pnl-chart .dot-spy {{ fill: #f0c14a; }}
 </style>
 </head>
 <body>
@@ -1131,6 +1359,7 @@ def build_html(data: dict) -> str:
         <span><i class="pnl-swatch hh" aria-hidden="true"></i>Household</span>
         <span><i class="pnl-swatch eq" aria-hidden="true"></i>Equity</span>
         <span><i class="pnl-swatch cr" aria-hidden="true"></i>Crypto</span>
+        <span><i class="pnl-swatch spy" aria-hidden="true"></i>SPY baseline</span>
       </div>
       <div class="pnl-range" role="group" aria-label="Chart timeframe">
         <button type="button" class="pnl-toggle" id="pnl-range-1d" aria-pressed="false">1D</button>
@@ -1138,11 +1367,18 @@ def build_html(data: dict) -> str:
         <button type="button" class="pnl-toggle" id="pnl-range-1m" aria-pressed="false">1M</button>
         <button type="button" class="pnl-toggle" id="pnl-range-all" aria-pressed="true">ALL</button>
       </div>
+      <div class="pnl-range" role="group" aria-label="Benchmark comparison">
+        <button type="button" class="pnl-toggle" id="pnl-vs-spy" aria-pressed="true" title="Toggle SPY baseline comparison">vs SPY</button>
+      </div>
       <div class="pnl-metric" role="group" aria-label="Chart metric">
         <button type="button" class="pnl-toggle" id="pnl-metric-pnl" aria-pressed="true">P&amp;L $</button>
         <button type="button" class="pnl-toggle" id="pnl-metric-nav" aria-pressed="false">NAV $</button>
       </div>
+      <div class="pnl-range" role="group" aria-label="Chart zoom">
+        <button type="button" class="pnl-toggle" id="pnl-reset-zoom" title="Reset drag-rectangle zoom">Reset zoom</button>
+      </div>
     </div>
+    <p class="blurb" id="pnl-spy-note">SPY baseline is buy-and-hold SPY sized to equity starting capital.</p>
     <div id="pnl-chart-wrap">
       <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="P and L over time">{render_pnl_svg(pnl_hist)}</svg>
     </div>
@@ -1214,7 +1450,7 @@ def build_html(data: dict) -> str:
     </ul>
   </section>
 
-{changelog_section()}
+{strategy_and_changelog_row()}
 {architecture_section()}  <section>
     <h2>Versus SPY (equity sleeve)</h2>
     <p class="blurb">{vs_spy_detail}</p>
@@ -1633,13 +1869,23 @@ def build_html(data: dict) -> str:
     "1m": 30 * 24 * 60 * 60 * 1000
   }};
   var baseNote = (hist && hist.note) || "";
+  var showSpy = true;
+  var brushZoom = null; // null | {{ tMin, tMax, yMin, yMax }}
   var noteEl = document.getElementById("pnl-history-note");
+  var spyNoteEl = document.getElementById("pnl-spy-note");
   var btnPnl = document.getElementById("pnl-metric-pnl");
   var btnNav = document.getElementById("pnl-metric-nav");
   var btnRange1d = document.getElementById("pnl-range-1d");
   var btnRange1w = document.getElementById("pnl-range-1w");
   var btnRange1m = document.getElementById("pnl-range-1m");
   var btnRangeAll = document.getElementById("pnl-range-all");
+  var btnSpy = document.getElementById("pnl-vs-spy");
+  var btnResetZoom = document.getElementById("pnl-reset-zoom");
+
+  // Shared plot geometry (viewBox units) used by render + brush handlers.
+  var PLOT = {{ W: 1000, H: 280, pad: {{ l: 64, r: 16, t: 16, b: 40 }} }};
+  var lastScales = null; // {{ tMin, tMax, yMin, yMax }} after each render
+  var brushDrag = null; // {{ x0, y0, x1, y1 }} in SVG viewBox coords while dragging
 
   function parseTs(ts) {{
     var d = new Date(ts);
@@ -1677,7 +1923,7 @@ def build_html(data: dict) -> str:
       if (!d) return;
       var y = metric === "nav" ? Number(p.nav) : Number(p.pnl);
       if (!isFinite(y)) return;
-      out.push({{ t: d.getTime(), d: d, y: y, ts: p.ts }});
+      out.push({{ t: d.getTime(), d: d, y: y, ts: p.ts, spy_px: p.spy_px }});
     }});
     out.sort(function (a, b) {{ return a.t - b.t; }});
     return out;
@@ -1689,21 +1935,59 @@ def build_html(data: dict) -> str:
     return pts.filter(function (p) {{ return p.t >= cutoff; }});
   }}
 
-  function updateRangeNote(nInWindow) {{
+  function filterByBrush(pts) {{
+    if (!brushZoom) return pts;
+    return pts.filter(function (p) {{
+      return (
+        p.t >= brushZoom.tMin &&
+        p.t <= brushZoom.tMax &&
+        p.y >= brushZoom.yMin &&
+        p.y <= brushZoom.yMax
+      );
+    }});
+  }}
+
+  function formatHistoryDuration(ms) {{
+    if (!(ms > 0)) return "0h";
+    var hours = ms / (60 * 60 * 1000);
+    if (hours < 24) return "~" + Math.max(1, Math.round(hours)) + "h";
+    var days = hours / 24;
+    if (days < 30) return "~" + Math.max(1, Math.round(days)) + "d";
+    return "~" + Math.max(1, Math.round(days / 30)) + "mo";
+  }}
+
+  function updateRangeNote(nInWindow, nFull, windowEqualsFullHistory, historySpanMs) {{
     if (!noteEl) return;
+    var labels = {{ "1d": "1D", "1w": "1W", "1m": "1M", "all": "ALL" }};
+    var label = labels[range] || "ALL";
+    var primary;
     if (nInWindow < 2) {{
-      noteEl.textContent =
-        "Only " +
+      primary =
+        label +
+        " · Only " +
         nInWindow +
         " points in this window. History will fill as marks run.";
-      noteEl.hidden = false;
-    }} else if (baseNote) {{
-      noteEl.textContent = baseNote;
-      noteEl.hidden = false;
+    }} else if (range !== "all" && windowEqualsFullHistory) {{
+      primary =
+        label +
+        " · full history (" +
+        formatHistoryDuration(historySpanMs) +
+        ") fits in this window, so the plot matches ALL until more marks accumulate.";
+    }} else if (range === "all") {{
+      primary = "ALL · showing full history (" + formatHistoryDuration(historySpanMs) + ").";
     }} else {{
-      noteEl.textContent = "";
-      noteEl.hidden = true;
+      primary =
+        label +
+        " · " +
+        nInWindow +
+        " of " +
+        nFull +
+        " history points in this window.";
     }}
+    if (brushZoom) primary += " Drag-zoom active — Reset zoom or double-click to clear.";
+    if (baseNote && primary.indexOf(baseNote) === -1) primary += " " + baseNote;
+    noteEl.textContent = primary;
+    noteEl.hidden = false;
   }}
 
   function niceTicks(minV, maxV, count) {{
@@ -1732,40 +2016,141 @@ def build_html(data: dict) -> str:
     return ticks;
   }}
 
-  function render() {{
-    var hh = filterByRange(seriesPoints("household"));
-    var eq = filterByRange(seriesPoints("equity"));
-    var cr = filterByRange(seriesPoints("crypto"));
-    var all = hh.concat(eq).concat(cr);
-    updateRangeNote(all.length);
+  function svgPointFromEvent(evt) {{
+    var rect = svg.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    var clientX = evt.clientX;
+    var clientY = evt.clientY;
+    if ((clientX == null || clientY == null) && evt.touches && evt.touches[0]) {{
+      clientX = evt.touches[0].clientX;
+      clientY = evt.touches[0].clientY;
+    }}
+    if (clientX == null || clientY == null) return null;
+    return {{
+      x: ((clientX - rect.left) / rect.width) * PLOT.W,
+      y: ((clientY - rect.top) / rect.height) * PLOT.H
+    }};
+  }}
 
-    var W = 1000, H = 280;
-    var pad = {{ l: 64, r: 16, t: 16, b: 40 }};
+  function inPlotArea(pt) {{
+    var pad = PLOT.pad;
+    return (
+      pt &&
+      pt.x >= pad.l &&
+      pt.x <= PLOT.W - pad.r &&
+      pt.y >= pad.t &&
+      pt.y <= PLOT.H - pad.b
+    );
+  }}
+
+  function clampToPlot(pt) {{
+    var pad = PLOT.pad;
+    return {{
+      x: Math.max(pad.l, Math.min(PLOT.W - pad.r, pt.x)),
+      y: Math.max(pad.t, Math.min(PLOT.H - pad.b, pt.y))
+    }};
+  }}
+
+  function drawBrushOverlay() {{
+    var existing = svg.querySelector(".brush-rect");
+    if (existing) existing.remove();
+    if (!brushDrag) return;
+    var x = Math.min(brushDrag.x0, brushDrag.x1);
+    var y = Math.min(brushDrag.y0, brushDrag.y1);
+    var w = Math.abs(brushDrag.x1 - brushDrag.x0);
+    var h = Math.abs(brushDrag.y1 - brushDrag.y0);
+    var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute("class", "brush-rect");
+    rect.setAttribute("x", x.toFixed(2));
+    rect.setAttribute("y", y.toFixed(2));
+    rect.setAttribute("width", Math.max(0, w).toFixed(2));
+    rect.setAttribute("height", Math.max(0, h).toFixed(2));
+    svg.appendChild(rect);
+  }}
+
+  function resetZoom() {{
+    brushZoom = null;
+    brushDrag = null;
+    render();
+  }}
+
+  function render() {{
+    var hhAll = seriesPoints("household");
+    var eqAll = seriesPoints("equity");
+    var crAll = seriesPoints("crypto");
+    var spyAll = seriesPoints("spy");
+    var hh = filterByBrush(filterByRange(hhAll));
+    var eq = filterByBrush(filterByRange(eqAll));
+    var cr = filterByBrush(filterByRange(crAll));
+    var spy = showSpy ? filterByBrush(filterByRange(spyAll)) : [];
+    // Domain calculation uses timeframe-filtered points (before brush filter) unless zoomed.
+    var hhR = filterByRange(hhAll);
+    var eqR = filterByRange(eqAll);
+    var crR = filterByRange(crAll);
+    var spyR = showSpy ? filterByRange(spyAll) : [];
+    var allRange = hhR.concat(eqR).concat(crR).concat(spyR);
+    var all = hh.concat(eq).concat(cr).concat(spy);
+    var noteFull = hhAll.length ? hhAll.length : eqAll.length + crAll.length;
+    var noteInWindow = hhAll.length ? hhR.length : allRange.length;
+    var historyPoints = hhAll.length ? hhAll : eqAll.concat(crAll).sort(function (a, b) {{ return a.t - b.t; }});
+    var historySpanMs = historyPoints.length > 1
+      ? historyPoints[historyPoints.length - 1].t - historyPoints[0].t
+      : 0;
+    var windowEqualsFullHistory =
+      range !== "all" &&
+      !!RANGE_MS[range] &&
+      noteInWindow === noteFull;
+    updateRangeNote(noteInWindow, noteFull, windowEqualsFullHistory, historySpanMs);
+
+    var W = PLOT.W, H = PLOT.H;
+    var pad = PLOT.pad;
     var iw = W - pad.l - pad.r;
     var ih = H - pad.t - pad.b;
 
-    if (!all.length) {{
+    if (!allRange.length) {{
+      lastScales = null;
       svg.innerHTML =
         '<text x="500" y="140" text-anchor="middle" class="axis-label">No history yet. History will fill in as daily marks run.</text>';
       return;
     }}
 
-    var tMin = all[0].t, tMax = all[0].t;
-    var yMin = all[0].y, yMax = all[0].y;
-    all.forEach(function (p) {{
-      if (p.t < tMin) tMin = p.t;
-      if (p.t > tMax) tMax = p.t;
-      if (p.y < yMin) yMin = p.y;
-      if (p.y > yMax) yMax = p.y;
-    }});
-    if (tMax === tMin) tMax = tMin + 1;
-    if (metric === "pnl") {{
-      yMin = Math.min(yMin, 0);
-      yMax = Math.max(yMax, 0);
+    var tMin, tMax, yMin, yMax;
+    if (brushZoom) {{
+      tMin = brushZoom.tMin;
+      tMax = brushZoom.tMax;
+      yMin = brushZoom.yMin;
+      yMax = brushZoom.yMax;
+    }} else {{
+      tMin = allRange[0].t;
+      tMax = allRange[0].t;
+      yMin = allRange[0].y;
+      yMax = allRange[0].y;
+      allRange.forEach(function (p) {{
+        if (p.t < tMin) tMin = p.t;
+        if (p.t > tMax) tMax = p.t;
+        if (p.y < yMin) yMin = p.y;
+        if (p.y > yMax) yMax = p.y;
+      }});
+      if (range !== "all" && RANGE_MS[range]) {{
+        tMax = Date.now();
+        tMin = tMax - RANGE_MS[range];
+      }} else if (tMax === tMin) {{
+        tMax = tMin + 1;
+      }}
+      if (metric === "pnl") {{
+        yMin = Math.min(yMin, 0);
+        yMax = Math.max(yMax, 0);
+      }}
+      var yPad = (yMax - yMin) * 0.08 || 1;
+      yMin -= yPad;
+      yMax += yPad;
     }}
-    var yPad = (yMax - yMin) * 0.08 || 1;
-    yMin -= yPad;
-    yMax += yPad;
+    if (tMax === tMin) tMax = tMin + 1;
+    if (yMax === yMin) {{
+      yMin -= 1;
+      yMax += 1;
+    }}
+    lastScales = {{ tMin: tMin, tMax: tMax, yMin: yMin, yMax: yMax }};
 
     function xScale(t) {{
       return pad.l + ((t - tMin) / (tMax - tMin)) * iw;
@@ -1848,19 +2233,31 @@ def build_html(data: dict) -> str:
         '" />'
     );
 
-    // X labels: first, mid, last
+    // X labels: fixed-window endpoints for ranges, data extent for ALL / brush.
     var xLabels = [];
-    if (hh.length) xLabels = hh;
-    else if (eq.length) xLabels = eq;
-    else xLabels = cr;
-    var labelIdx = [0];
-    if (xLabels.length > 1) labelIdx.push(Math.floor((xLabels.length - 1) / 2));
-    if (xLabels.length > 1) labelIdx.push(xLabels.length - 1);
+    var labelIdx = [];
+    if (brushZoom || (range !== "all" && RANGE_MS[range])) {{
+      var midT = tMin + (tMax - tMin) / 2;
+      xLabels = [
+        {{ t: tMin, d: new Date(tMin) }},
+        {{ t: midT, d: new Date(midT) }},
+        {{ t: tMax, d: new Date(tMax) }}
+      ];
+      labelIdx = [0, 1, 2];
+    }} else {{
+      if (hh.length) xLabels = hh;
+      else if (eq.length) xLabels = eq;
+      else xLabels = cr;
+      labelIdx = [0];
+      if (xLabels.length > 1) labelIdx.push(Math.floor((xLabels.length - 1) / 2));
+      if (xLabels.length > 1) labelIdx.push(xLabels.length - 1);
+    }}
     var seen = {{}};
     labelIdx.forEach(function (i) {{
       if (seen[i]) return;
       seen[i] = true;
       var p = xLabels[i];
+      if (!p) return;
       parts.push(
         '<text class="axis-label" x="' +
           xScale(p.t).toFixed(2) +
@@ -1872,10 +2269,15 @@ def build_html(data: dict) -> str:
       );
     }});
 
-    function drawSeries(pts, lineCls, dotCls) {{
+    function drawSeries(pts, lineCls, dotCls, label, radius) {{
       if (!pts.length) return;
+      var r = radius != null ? radius : 3;
       parts.push('<path class="' + lineCls + '" d="' + pathFor(pts) + '" />');
       pts.forEach(function (p) {{
+        var tooltip = label + " · " + fmtEt(p.d) + " ET: " + fmtAxisMoney(p.y);
+        if (p.spy_px != null && isFinite(Number(p.spy_px))) {{
+          tooltip += " · SPY px $" + Number(p.spy_px).toFixed(2);
+        }}
         parts.push(
           '<circle class="dot ' +
             dotCls +
@@ -1883,27 +2285,38 @@ def build_html(data: dict) -> str:
             xScale(p.t).toFixed(2) +
             '" cy="' +
             yScale(p.y).toFixed(2) +
-            '" r="3"><title>' +
-            fmtEt(p.d) +
-            " ET: " +
-            fmtAxisMoney(p.y) +
+            '" r="' +
+            r +
+            '"><title>' +
+            tooltip +
             "</title></circle>"
         );
       }});
     }}
 
-    drawSeries(eq, "line-eq", "dot-eq");
-    drawSeries(cr, "line-cr", "dot-cr");
-    drawSeries(hh, "line-hh", "dot-hh");
+    // Draw SPY last (on top) for visibility over overlapping zero-line series.
+    drawSeries(eq, "line-eq", "dot-eq", "Equity");
+    drawSeries(cr, "line-cr", "dot-cr", "Crypto");
+    drawSeries(hh, "line-hh", "dot-hh", "Household");
+    drawSeries(spy, "line-spy", "dot-spy", "SPY", 4.8);
 
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.innerHTML = parts.join("");
+    if (brushDrag) drawBrushOverlay();
   }}
 
   function setMetric(m) {{
     metric = m;
     if (btnPnl) btnPnl.setAttribute("aria-pressed", m === "pnl" ? "true" : "false");
     if (btnNav) btnNav.setAttribute("aria-pressed", m === "nav" ? "true" : "false");
+    brushZoom = null;
+    render();
+  }}
+
+  function setSpy(enabled) {{
+    showSpy = enabled;
+    if (btnSpy) btnSpy.setAttribute("aria-pressed", enabled ? "true" : "false");
+    if (spyNoteEl) spyNoteEl.hidden = !enabled;
     render();
   }}
 
@@ -1913,8 +2326,87 @@ def build_html(data: dict) -> str:
     if (btnRange1w) btnRange1w.setAttribute("aria-pressed", r === "1w" ? "true" : "false");
     if (btnRange1m) btnRange1m.setAttribute("aria-pressed", r === "1m" ? "true" : "false");
     if (btnRangeAll) btnRangeAll.setAttribute("aria-pressed", r === "all" ? "true" : "false");
+    brushZoom = null;
     render();
   }}
+
+  function onBrushDown(evt) {{
+    if (evt.button != null && evt.button !== 0) return;
+    var pt = svgPointFromEvent(evt);
+    if (!inPlotArea(pt) || !lastScales) return;
+    evt.preventDefault();
+    pt = clampToPlot(pt);
+    brushDrag = {{ x0: pt.x, y0: pt.y, x1: pt.x, y1: pt.y }};
+    svg.classList.add("pnl-dragging");
+    try {{
+      document.body.style.userSelect = "none";
+    }} catch (e) {{}}
+    drawBrushOverlay();
+  }}
+
+  function onBrushMove(evt) {{
+    if (!brushDrag) return;
+    var pt = svgPointFromEvent(evt);
+    if (!pt) return;
+    evt.preventDefault();
+    pt = clampToPlot(pt);
+    brushDrag.x1 = pt.x;
+    brushDrag.y1 = pt.y;
+    drawBrushOverlay();
+  }}
+
+  function onBrushUp(evt) {{
+    if (!brushDrag) return;
+    var drag = brushDrag;
+    brushDrag = null;
+    svg.classList.remove("pnl-dragging");
+    try {{
+      document.body.style.userSelect = "";
+    }} catch (e) {{}}
+    var existing = svg.querySelector(".brush-rect");
+    if (existing) existing.remove();
+    if (!lastScales) {{
+      render();
+      return;
+    }}
+    var dx = Math.abs(drag.x1 - drag.x0);
+    var dy = Math.abs(drag.y1 - drag.y0);
+    if (dx < 8 && dy < 8) {{
+      render();
+      return;
+    }}
+    var pad = PLOT.pad;
+    var iw = PLOT.W - pad.l - pad.r;
+    var ih = PLOT.H - pad.t - pad.b;
+    var x0 = Math.min(drag.x0, drag.x1);
+    var x1 = Math.max(drag.x0, drag.x1);
+    var y0 = Math.min(drag.y0, drag.y1);
+    var y1 = Math.max(drag.y0, drag.y1);
+    var tMin = lastScales.tMin + ((x0 - pad.l) / iw) * (lastScales.tMax - lastScales.tMin);
+    var tMax = lastScales.tMin + ((x1 - pad.l) / iw) * (lastScales.tMax - lastScales.tMin);
+    // SVG y grows downward: top of rect (y0) is higher value domain.
+    var yMax = lastScales.yMax - ((y0 - pad.t) / ih) * (lastScales.yMax - lastScales.yMin);
+    var yMin = lastScales.yMax - ((y1 - pad.t) / ih) * (lastScales.yMax - lastScales.yMin);
+    if (!(tMax > tMin) || !(yMax > yMin)) {{
+      render();
+      return;
+    }}
+    brushZoom = {{ tMin: tMin, tMax: tMax, yMin: yMin, yMax: yMax }};
+    render();
+  }}
+
+  svg.addEventListener("pointerdown", onBrushDown);
+  window.addEventListener("pointermove", onBrushMove);
+  window.addEventListener("pointerup", onBrushUp);
+  window.addEventListener("pointercancel", onBrushUp);
+  svg.addEventListener("dblclick", function (evt) {{
+    evt.preventDefault();
+    resetZoom();
+  }});
+  // Prevent text selection while dragging across the chart.
+  svg.addEventListener("selectstart", function (evt) {{
+    if (brushDrag) evt.preventDefault();
+  }});
 
   if (btnPnl) btnPnl.addEventListener("click", function () {{ setMetric("pnl"); }});
   if (btnNav) btnNav.addEventListener("click", function () {{ setMetric("nav"); }});
@@ -1922,6 +2414,9 @@ def build_html(data: dict) -> str:
   if (btnRange1w) btnRange1w.addEventListener("click", function () {{ setRange("1w"); }});
   if (btnRange1m) btnRange1m.addEventListener("click", function () {{ setRange("1m"); }});
   if (btnRangeAll) btnRangeAll.addEventListener("click", function () {{ setRange("all"); }});
+  if (btnSpy) btnSpy.addEventListener("click", function () {{ setSpy(!showSpy); }});
+  if (btnResetZoom) btnResetZoom.addEventListener("click", function () {{ resetZoom(); }});
+  if (spyNoteEl) spyNoteEl.hidden = !showSpy;
   render();
 }})();
 </script>

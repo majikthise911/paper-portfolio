@@ -102,6 +102,14 @@ Equity stays at the repo root (`config/`, `state/`, `scripts/`). Crypto is a sep
 
 Jordan-facing markdown uses full sentences, no em dashes, and defines jargon on first use. Agent Paper proposes; Jordan decides.
 
+## Method evaluation (standing)
+
+Default method stays weekly momentum / relative strength while it is justified. Paper drives proposals; Jordan approves.
+
+Every Monday weekly pass must include a short method scorecard: current sleeves vs their benchmarks (SPY equity, BTC crypto), and vs a few feasible paper alternatives (for example buy-and-hold, monthly rebalance, equal-weight universe, mean-reversion screen). Day trading or higher-frequency styles only come up with a concrete evidence case. True high-frequency trading needs market data and execution infrastructure this paper stack does not have; say that plainly if the topic arises.
+
+Never auto-switch methods. A method change needs Observation, Logic, and Jordan yes, logged like other strategy changes.
+
 ## Active improvement proposals
 
 Paper should actively look for improvements and propose them (especially on the Monday weekly pass). Jordan approves or rejects in chat. Do not change rules, universe, caps, or book trades without that yes. Thirty percent APY remains an aspiration metric only.

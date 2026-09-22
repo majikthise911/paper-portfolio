@@ -16,6 +16,16 @@ Each entry should include:
 
 ---
 
+## 2026-09-21 — Deferred Monday rebalance (hold)
+
+- **Sleeve:** household
+- **Change:** No rule change. Deferred booking the Monday weekly momentum rebalance and any strategy revision for a couple of business days.
+- **Observation:** Book opened ~2026-09-20; Monday 2026-09-21 was day-two. Equity tech sleeve ~30.53% (cap 30%); crypto cash ~19.57% (min 20%). Equity trailed SPY slightly since book; crypto trailed BTC.
+- **Logic:** Alternatives: (1) full rebalance now, (2) trim only hard-cap breaches, (3) hold marks-only for a few sessions. Jordan chose (3): too early to revise after one open day.
+- **Jordan approval:** Chat 2026-09-21 widget reply: give it a couple of business days before rebalance or strategy revision.
+- **Effective:** Immediate. Positions unchanged. Caps remain breached until a later approved pass.
+- **How we judge:** Revisit after US equity close Wednesday 2026-09-23 with refreshed proposals; midweek flag only if caps worsen.
+
 ## 2026-09-21 — Equity tech mega-cap sleeve cap 30%
 
 - **Sleeve:** equity
