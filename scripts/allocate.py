@@ -141,6 +141,36 @@ def main():
         for t in weights:
             weights[t] += overflow * (room[t] / room_total)
 
+
+    # Enforce combined tech mega-cap sleeve (AAPL+MSFT+NVDA) if configured
+    if max_tech_megacap and max_tech_megacap > 0:
+        for _ in range(10):
+            tech_w = sum(weights.get(t, 0.0) for t in tech_megacap_tickers)
+            if tech_w <= max_tech_megacap + 1e-9:
+                break
+            scale = max_tech_megacap / tech_w
+            overflow = 0.0
+            for t in list(weights):
+                if t in tech_megacap_tickers:
+                    new_w = weights[t] * scale
+                    overflow += weights[t] - new_w
+                    weights[t] = new_w
+            # redistribute overflow to non-tech names with room
+            room = {}
+            for t, w in weights.items():
+                if t in tech_megacap_tickers:
+                    continue
+                name_room = max_name - w
+                sec = sectors[t]
+                cur_sec = sum(weights[x] for x in weights if sectors[x] == sec)
+                sec_room = max_sector - cur_sec
+                room[t] = max(0.0, min(name_room, sec_room))
+            room_total = sum(room.values())
+            if room_total <= 1e-12:
+                break
+            for t in room:
+                weights[t] += overflow * (room[t] / room_total)
+
     invested_w = sum(weights.values())
     if invested_w > max_invested:
         scale = max_invested / invested_w

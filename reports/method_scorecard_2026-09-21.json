@@ -1,0 +1,57 @@
+{
+  "as_of": "2026-09-21T09:35:13-04:00",
+  "horizon_note": "Live book is ~1 trading day old (booked 2026-09-20). Live method P&L is thin; scorecard pairs short live marks with cross-section screen proxies. Not enough history to auto-switch.",
+  "equity": {
+    "method": "weekly_momentum_rs_63d",
+    "live_pnl_pct_since_book": 0.3908,
+    "spy_pct_same_window": 0.6459,
+    "spy_at_book_approx": 761.69,
+    "spy_now": 766.61,
+    "nav": 100390.84,
+    "recommendation": "stay",
+    "alts_screen_proxy": {
+      "momentum_top8_avg_63d": 0.155994,
+      "mean_reversion_bottom8_avg_63d": -0.060391,
+      "slower_12m_rank_top8_avg_63d": 0.054929,
+      "spy_63d": 0.032110963485079136,
+      "spy_252d": 0.17296236815477206
+    }
+  },
+  "crypto": {
+    "method": "weekly_momentum_rs_63d",
+    "live_pnl_pct_since_book": 2.1778,
+    "btc_pct_same_window": 4.5425,
+    "btc_at_book_approx": 81458.9922,
+    "btc_now": 85159.2422,
+    "nav": 25544.44,
+    "recommendation": "stay",
+    "screen": [
+      [
+        "AVAX-USD",
+        0.7108626714683335,
+        -0.16668845738325633
+      ],
+      [
+        "LINK-USD",
+        0.5155871007395987,
+        -0.004572816654089706
+      ],
+      [
+        "SOL-USD",
+        0.5081258553312551,
+        -0.15679734963116998
+      ],
+      [
+        "ETH-USD",
+        0.4360956970344123,
+        -0.11588212500643447
+      ],
+      [
+        "BTC-USD",
+        0.3030607369221674,
+        -0.06792522691616498
+      ]
+    ]
+  },
+  "hft_note": "Day-trading / true HFT not scored as a switch candidate: needs tick/L2 data, low-latency execution, and continuous session ops this paper stack does not have. Mention only if a concrete evidence case appears; none this week."
+}

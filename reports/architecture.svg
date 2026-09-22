@@ -1,49 +1,58 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" role="img" aria-label="Paper portfolio system architecture">
-  <rect width="1100" height="720" fill="#0f1419"/>
-  <text x="550" y="42" text-anchor="middle" fill="#e7ecf3" font-family="Segoe UI, system-ui, sans-serif" font-size="22" font-weight="650">Paper Portfolio System</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" role="img" aria-label="Paper portfolio system architecture">
+  <rect width="1100" height="820" fill="#0f1419"/>
+  <text x="550" y="36" text-anchor="middle" fill="#e7ecf3" font-family="Segoe UI, system-ui, sans-serif" font-size="22" font-weight="650">Paper Portfolio System</text>
   <defs>
     <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5b9fd4"/></marker>
     <style>
       .box { fill:#1a2332; stroke:#5b9fd4; stroke-width:1.5; rx:10; }
+      .box-hi { fill:#1a2332; stroke:#3ecf8e; stroke-width:2; rx:10; }
       .box-dash { fill:#1a2332; stroke:#9aa8bc; stroke-width:1.5; stroke-dasharray:6 4; rx:10; }
       .t { fill:#e7ecf3; font-family:Segoe UI, system-ui, sans-serif; font-size:13; }
       .s { fill:#9aa8bc; font-family:Segoe UI, system-ui, sans-serif; font-size:11; }
       .line { stroke:#5b9fd4; stroke-width:1.6; fill:none; marker-end:url(#arrow); }
     </style>
   </defs>
-  <rect class="box" x="420" y="60" width="260" height="48"/>
-  <text class="t" x="550" y="90" text-anchor="middle">Jordan (chat approval)</text>
-  <path class="line" d="M550 108 L550 130"/>
-  <rect class="box" x="420" y="130" width="260" height="48"/>
-  <text class="t" x="550" y="160" text-anchor="middle">Paper agent</text>
-  <path class="line" d="M480 178 L300 210"/>
-  <path class="line" d="M550 178 L550 210"/>
-  <path class="line" d="M620 178 L800 210"/>
-  <rect class="box" x="160" y="210" width="200" height="56"/>
-  <text class="t" x="260" y="235" text-anchor="middle">PLAN.md rules</text>
-  <text class="s" x="260" y="252" text-anchor="middle">caps, universe, governance</text>
-  <rect class="box" x="450" y="210" width="200" height="56"/>
-  <text class="t" x="550" y="235" text-anchor="middle">Local ledger</text>
-  <text class="s" x="550" y="252" text-anchor="middle">Marvin + box mirror</text>
-  <rect class="box" x="740" y="210" width="200" height="56"/>
-  <text class="t" x="840" y="235" text-anchor="middle">Monday 9am ET</text>
-  <text class="s" x="840" y="252" text-anchor="middle">weekly mark routine</text>
-  <path class="line" d="M550 266 L550 300"/>
-  <rect class="box" x="300" y="300" width="500" height="70"/>
-  <text class="t" x="550" y="328" text-anchor="middle">Scripts: mark.py · screen.py · allocate.py · dashboard.py</text>
-  <text class="s" x="550" y="348" text-anchor="middle">propose only until Jordan says yes</text>
-  <path class="line" d="M550 370 L550 400"/>
-  <rect class="box" x="400" y="400" width="300" height="48"/>
-  <text class="t" x="550" y="430" text-anchor="middle">yfinance prices</text>
-  <path class="line" d="M550 448 L550 478"/>
-  <rect class="box" x="250" y="478" width="600" height="70"/>
-  <text class="t" x="550" y="506" text-anchor="middle">Outputs: portfolio.json · ledger.jsonl · reports · dashboard.html</text>
-  <text class="s" x="550" y="526" text-anchor="middle">paper fills only · no real brokerage</text>
-  <path class="line" d="M550 548 L550 578"/>
-  <rect class="box" x="300" y="578" width="500" height="56"/>
-  <text class="t" x="550" y="603" text-anchor="middle">GitHub Pages</text>
-  <text class="s" x="550" y="620" text-anchor="middle">majikthise911.github.io/paper-portfolio</text>
-  <rect class="box-dash" x="40" y="640" width="280" height="56"/>
-  <text class="t" x="180" y="665" text-anchor="middle">Crypto sleeve (optional)</text>
-  <text class="s" x="180" y="682" text-anchor="middle">separate book · not live yet</text>
+  <rect class="box" x="420" y="50" width="260" height="44"/>
+  <text class="t" x="550" y="78" text-anchor="middle">Jordan (chat approval)</text>
+  <path class="line" d="M550 94 L550 112"/>
+  <rect class="box" x="420" y="112" width="260" height="44"/>
+  <text class="t" x="550" y="140" text-anchor="middle">Paper agent</text>
+  <path class="line" d="M480 156 L260 184"/>
+  <path class="line" d="M550 156 L550 184"/>
+  <path class="line" d="M620 156 L840 184"/>
+  <rect class="box" x="140" y="184" width="200" height="52"/>
+  <text class="t" x="240" y="207" text-anchor="middle">PLAN.md rules</text>
+  <text class="s" x="240" y="224" text-anchor="middle">caps, universe, governance</text>
+  <rect class="box" x="450" y="184" width="200" height="52"/>
+  <text class="t" x="550" y="207" text-anchor="middle">Local ledger</text>
+  <text class="s" x="550" y="224" text-anchor="middle">shares, cash, cost basis</text>
+  <rect class="box" x="760" y="184" width="200" height="52"/>
+  <text class="t" x="860" y="207" text-anchor="middle">Routines</text>
+  <text class="s" x="860" y="224" text-anchor="middle">daily / Monday / market hours</text>
+  <path class="line" d="M550 236 L550 262"/>
+  <rect class="box" x="300" y="262" width="500" height="52"/>
+  <text class="t" x="550" y="285" text-anchor="middle">Scripts: mark · screen · allocate · dashboard</text>
+  <text class="s" x="550" y="302" text-anchor="middle">(+ crypto twins)</text>
+  <path class="line" d="M550 314 L550 340"/>
+  <rect class="box" x="280" y="340" width="540" height="52"/>
+  <text class="t" x="550" y="363" text-anchor="middle">1. Fetch prices</text>
+  <text class="s" x="550" y="380" text-anchor="middle">yfinance (marks) · CoinGecko in browser (live crypto)</text>
+  <path class="line" d="M550 392 L550 418"/>
+  <rect class="box-hi" x="250" y="418" width="600" height="70"/>
+  <text class="t" x="550" y="445" text-anchor="middle">2. Calculate in scripts (after fetch, before outputs)</text>
+  <text class="s" x="550" y="464" text-anchor="middle">returns · ranks · caps · NAV = cash + shares × price · P&amp;L · drawdown · vs SPY/BTC</text>
+  <path class="line" d="M550 488 L550 514"/>
+  <rect class="box" x="250" y="514" width="600" height="58"/>
+  <text class="t" x="550" y="540" text-anchor="middle">Outputs: portfolio.json · ledger.jsonl · reports · dashboard.html</text>
+  <text class="s" x="550" y="558" text-anchor="middle">paper fills only · no real brokerage</text>
+  <path class="line" d="M550 572 L550 598"/>
+  <rect class="box" x="300" y="598" width="500" height="52"/>
+  <text class="t" x="550" y="622" text-anchor="middle">GitHub Pages</text>
+  <text class="s" x="550" y="639" text-anchor="middle">majikthise911.github.io/paper-portfolio</text>
+  <rect class="box-dash" x="80" y="690" width="420" height="52"/>
+  <text class="t" x="290" y="713" text-anchor="middle">Live tab: browser recalculates crypto NAV</text>
+  <text class="s" x="290" y="730" text-anchor="middle">from fixed shares × CoinGecko prices</text>
+  <rect class="box-dash" x="560" y="690" width="420" height="52"/>
+  <text class="t" x="770" y="713" text-anchor="middle">Crypto sleeve = separate book</text>
+  <text class="s" x="770" y="730" text-anchor="middle">not mixed into equity momentum rank</text>
 </svg>

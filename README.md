@@ -10,7 +10,7 @@ Simulated long-only US portfolio. No real brokerage. No live orders.
 - `state/ledger.jsonl` - append-only trade/mark log
 - `reports/` - mark reports, allocation proposals, and dashboard
 - `scripts/` - mark.py, screen.py, allocate.py, dashboard.py, crypto_*.py
-- `sleeves/crypto/` - separate crypto paper sleeve (cash-only until Jordan approves)
+- `sleeves/crypto/` - separate crypto paper sleeve (booked; not mixed into equity rank)
 
 ## Ops
 
@@ -28,18 +28,31 @@ python scripts/dashboard.py         # combined equity + crypto household HTML
 
 ## Dashboard
 
-Regenerate the HTML snapshot:
+Regenerate the HTML snapshot (embeds the latest marked ledger + client-side live price JS):
 
 ```bash
 cd /home/box/agent-data/paper-portfolio && source .venv/bin/activate && python scripts/dashboard.py
 ```
 
-Open the report in a browser (works offline via `file://`):
+Open the report in a browser:
 
 - Box path: `/home/box/agent-data/paper-portfolio/reports/dashboard.html`
 - Marvin path: `/Volumes/Marvin SSD/Projects/paper-portfolio/reports/dashboard.html`
+- GitHub Pages: https://majikthise911.github.io/paper-portfolio/
 
-Also written: `reports/dashboard_data.json` (same snapshot the HTML uses).
+Also written: `reports/dashboard_data.json` (same snapshot the HTML embeds) and `reports/pnl_history.json` (ledger-based P&L time series for the chart).
+
+### Live-ish browser prices
+
+On Pages (and when opened over HTTPS), the dashboard JS:
+
+- Refreshes crypto (`*-USD`) via CoinGecko simple price on load and about every 60s
+- Recomputes market values, weights, sleeve NAVs, household NAV, and P&L without a page reload
+- Tries a best-effort public equity quote fetch; if CORS or the provider blocks it, equities stay on the embedded mark prices and the status line says so
+
+Share counts never change from the network; only prices. No API keys are embedded in the HTML.
+
+Equity live browser quotes are often limited. Weekday rebuild routines on the box refresh the embedded mark snapshot (parent-owned market-hours near-live rebuild). Crypto tends to update live in the browser even between rebuilds.
 
 ## Governance
 

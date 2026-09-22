@@ -1,0 +1,120 @@
+{
+  "as_of": "2026-09-21T09:35:13-04:00",
+  "mode": "weekly_rebalance_propose",
+  "sleeve": "crypto",
+  "executed": false,
+  "nav": 25512.65,
+  "current_cash": 5000.0,
+  "target_from": "sleeves/crypto/reports/proposal_2026-09-21.json",
+  "proposed_deltas": [
+    {
+      "ticker": "AVAX-USD",
+      "side": "BUY",
+      "shares": 15.622445,
+      "est_price": 11.251,
+      "est_dollars": 175.77,
+      "from_shares": 551.243591,
+      "to_shares": 566.866036,
+      "sector": "layer1",
+      "ret_63d": 0.7108626714683335,
+      "target_weight": 0.25
+    },
+    {
+      "ticker": "BTC-USD",
+      "side": "SELL",
+      "shares": 0.04394,
+      "est_price": 84998.6875,
+      "est_dollars": 3734.84,
+      "from_shares": 0.04394,
+      "to_shares": 0.0,
+      "sector": "layer1",
+      "ret_63d": null,
+      "target_weight": null
+    },
+    {
+      "ticker": "ETH-USD",
+      "side": "SELL",
+      "shares": 0.259118,
+      "est_price": 2733.3501,
+      "est_dollars": 708.26,
+      "from_shares": 1.808428,
+      "to_shares": 1.54931,
+      "sector": "layer1",
+      "ret_63d": 0.4360956970344123,
+      "target_weight": 0.165998
+    },
+    {
+      "ticker": "LINK-USD",
+      "side": "SELL",
+      "shares": 53.739036,
+      "est_price": 13.009,
+      "est_dollars": 699.09,
+      "from_shares": 432.773144,
+      "to_shares": 379.034108,
+      "sector": "oracle",
+      "ret_63d": 0.5155871007395987,
+      "target_weight": 0.193282
+    },
+    {
+      "ticker": "SOL-USD",
+      "side": "BUY",
+      "shares": 41.472229,
+      "est_price": 117.32,
+      "est_dollars": 4865.52,
+      "from_shares": 0.0,
+      "to_shares": 41.472229,
+      "sector": "layer1",
+      "ret_63d": 0.5081258553312551,
+      "target_weight": 0.190721
+    }
+  ],
+  "proposed_target_trades_full_rebuild": [
+    {
+      "ticker": "AVAX-USD",
+      "side": "BUY",
+      "shares": 566.866036,
+      "est_price": 11.251,
+      "est_dollars": 6377.81,
+      "weight": 0.25,
+      "target_weight": 0.25,
+      "sector": "layer1",
+      "ret_63d": 0.7108626714683335
+    },
+    {
+      "ticker": "LINK-USD",
+      "side": "BUY",
+      "shares": 379.034108,
+      "est_price": 13.009,
+      "est_dollars": 4930.85,
+      "weight": 0.193282,
+      "target_weight": 0.193282,
+      "sector": "oracle",
+      "ret_63d": 0.5155871007395987
+    },
+    {
+      "ticker": "SOL-USD",
+      "side": "BUY",
+      "shares": 41.472229,
+      "est_price": 117.32,
+      "est_dollars": 4865.52,
+      "weight": 0.190721,
+      "target_weight": 0.190721,
+      "sector": "layer1",
+      "ret_63d": 0.5081258553312551
+    },
+    {
+      "ticker": "ETH-USD",
+      "side": "BUY",
+      "shares": 1.54931,
+      "est_price": 2733.350098,
+      "est_dollars": 4234.81,
+      "weight": 0.165998,
+      "target_weight": 0.165998,
+      "sector": "layer1",
+      "ret_63d": 0.4360956970344123
+    }
+  ],
+  "proposed_cash": 5102.25,
+  "proposed_invested": 20408.99,
+  "notes": "Proposal only. Deltas current crypto book -> screen allocate target. Drop BTC add SOL per momentum ranks. Await Jordan yes."
+}
