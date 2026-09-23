@@ -3,26 +3,14 @@
 Approved tweaks to paper portfolio rules, universe, caps, or signal.
 Trade fills stay in `state/ledger.jsonl`. This file is the human-readable history of strategy decisions.
 
-## Entry template
-
-Each entry should include:
-- **Sleeve:** equity / crypto / household
-- **Change:** what rule, universe, cap, or signal changed
-- **Observation:** what the data or book showed (numbers when possible)
-- **Logic:** options considered and why this one won
-- **Jordan approval:** chat date and exact yes/conditions
-- **Effective:** when the rule locked; whether positions changed yet
-- **How we judge:** metric and window to evaluate the tweak
-
----
+Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
 ## 2026-09-21 — Equity tech mega-cap sleeve cap 30%
 
 - **Sleeve:** equity
-- **Change:** Added hard cap: combined AAPL + MSFT + NVDA weight max 30% of equity NAV (`config/rules.json` keys `max_tech_megacap_sleeve_pct` and `tech_megacap_tickers`).
-- **Observation:** At initiation the equity book held MSFT ~14.8%, AAPL ~10.1%, NVDA ~5.8% (about 30.7% combined) under one tech factor, while still inside the 15% single-name and 40% sector caps. Morning mark 2026-09-21 left equity flat on Friday closes; concentration risk was structural, not a same-day blowup.
-- **Logic:** Keep the 63-day momentum signal, but stop the three mega-cap tech names from drifting as one oversized bet. Alternatives considered: (1) do nothing until a hard sector-cap breach, (2) cut all tech to cash, (3) add a combined AAPL+MSFT+NVDA 30% sleeve cap and recycle trim into non-tech screen names or cash on the next approved rebalance. Chose (3) because it is targeted, still momentum-compatible, and measurable. Did not execute trades pre-open on stale Friday marks; trim waits for the Monday weekly proposal with fresh prices.
-- **Jordan approval:** Chat 2026-09-21: lock the rule now; execute trim on the weekly pass after approving exact paper trades.
-- **Effective:** Rule locked 2026-09-21T08:54:41-04:00. No positions changed yet.
+- **Change:** Added hard cap: combined AAPL + MSFT + NVDA weight max 30% of equity NAV. Tickers listed in `config/rules.json` as `tech_megacap_tickers`.
+- **Why:** Reduce single-factor tech concentration while keeping the 63-day momentum signal. Combined weight was about 31% at initiation.
+- **Jordan approval:** Chat 2026-09-21: lock rule now; execute trim on weekly pass after approving exact paper trades.
+- **Effective:** Rule locked 2026-09-21T08:54:41-04:00. No positions changed yet. First trim awaits Monday weekly proposal + yes.
 - **How we judge:** Equity max drawdown and vs-SPY over the next four Monday marks versus the pre-cap book.
 
