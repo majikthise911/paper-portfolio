@@ -33,15 +33,20 @@ def save_json(path: Path, data):
 def last_close(ticker: str):
     """Return last available close or None if fetch fails."""
     try:
-        t = yf.Ticker(ticker)
-        hist = t.history(period="5d", auto_adjust=True)
+        import math
+        hist = yf.Ticker(ticker).history(period="5d", auto_adjust=True)
         if hist is None or hist.empty:
             return None
-        return float(hist["Close"].iloc[-1])
+        close = hist["Close"].dropna()
+        if close.empty:
+            return None
+        px = float(close.iloc[-1])
+        if math.isnan(px) or math.isinf(px):
+            return None
+        return px
     except Exception as e:
         print(f"WARN: failed to price {ticker}: {e}", file=sys.stderr)
         return None
-
 
 def main():
     REPORTS.mkdir(parents=True, exist_ok=True)
@@ -63,7 +68,13 @@ def main():
         px = last_close(ticker)
         if px is None:
             failed.append(ticker)
-            px = float(pos.get("last_price") or 0)
+            raw_px = pos.get("last_price")
+            try:
+                px = float(raw_px) if raw_px is not None else 0.0
+            except (TypeError, ValueError):
+                px = 0.0
+            if px != px:  # NaN
+                px = 0.0
             marked[ticker] = {
                 "shares": shares,
                 "last_price": px,
