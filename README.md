@@ -41,7 +41,7 @@ Open the report in a browser:
 - Marvin path: `/Volumes/Marvin SSD/Projects/paper-portfolio/reports/dashboard.html`
 - GitHub Pages: https://majikthise911.github.io/paper-portfolio/
 
-Also written: `reports/dashboard_data.json` (same snapshot the HTML embeds) and `reports/pnl_history.json` (ledger-based P&L time series for the momentum chart). The HTML includes a separate Active (15m EMA) card row and holdings. Active marks refresh via yfinance during this rebuild. The P&L chart stays momentum-only.
+Also written: `reports/dashboard_data.json` (same snapshot the HTML embeds) and `reports/pnl_history.json` (ledger-based P&L time series for momentum and active). Active household points also append to `sleeves/active/state/pnl_history.jsonl` on each rebuild. The HTML includes Active (15m EMA) cards and holdings beside momentum. The chart overlays Momentum household vs Active household (P&L % / NAV index), with optional SPY and equity/crypto sleeve views.
 
 ### Live-ish browser prices
 

@@ -73,7 +73,7 @@ Cadence: **15-minute bars**. Paper only.
 
 ## Dashboard (phase 2: done 2026-09-24)
 
-Same Pages dashboard as momentum (`docs/index.html` / https://majikthise911.github.io/paper-portfolio/). Active cards and holdings sit beside momentum. `scripts/dashboard.py` marks active equity/crypto via yfinance on rebuild. P&L chart remains momentum-only.
+Same Pages dashboard as momentum (`docs/index.html` / https://majikthise911.github.io/paper-portfolio/). Active cards and holdings sit beside momentum. `scripts/dashboard.py` marks active equity/crypto via yfinance on rebuild. P&L chart overlays momentum vs active households on a shared percent scale.
 
 ## Durable paths
 
