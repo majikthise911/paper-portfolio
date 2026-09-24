@@ -26,3 +26,25 @@ Each entry should include:
 - **Effective:** Rule locked 2026-09-21T08:54:41-04:00. No positions changed yet.
 - **How we judge:** Equity max drawdown and vs-SPY over the next four Monday marks versus the pre-cap book.
 
+
+## 2026-09-24 — Active 15m paper experiment sleeve (parallel)
+
+- **Sleeve:** active (new parallel)
+- **Change:** Add active 15m paper experiment `$100,000` US equities + `$25,000` crypto under `sleeves/active/` (household `$125,000`). Clear separation from root momentum equity and `sleeves/crypto/` momentum. Liquid equity subset documented; crypto universe matches momentum (BTC ETH SOL AVAX LINK). Starter strategies proposed: `equity_15m_ema_trend`, `crypto_15m_ema_trend`. Freqtrade install deferred.
+- **Observation:** Jordan wants apples-to-apples vs weekly momentum; Freqtrade-style higher activity on 15-minute bars without replacing the momentum books.
+- **Logic:** Parallel sleeve is not a method switch on momentum books. Alternatives considered: (1) retarget momentum cadence to 15m (rejected — breaks weekly process and existing positions), (2) new parallel sleeve with matched capital (chosen). Caps mirror momentum where they still fit; active-only additions are concurrent-position limits and RTH vs 24/7 propose windows.
+- **Jordan approval:** Chat 2026-09-24 widget — both universes, 15m, $125k split like momentum household.
+- **Effective:** Scaffold only 2026-09-24T09:11:09-04:00. Cash books initialized; positions empty; no fills until strategy yes.
+- **How we judge:** Same-window NAV/P&L/drawdown vs momentum household; active equity vs SPY; active crypto vs BTC.
+
+
+## 2026-09-24 — Active starter strategies locked (equity + crypto 15m EMA trend)
+
+- **Sleeve:** active (equity + crypto)
+- **Change:** Lock starter strategies `equity_15m_ema_trend` and `crypto_15m_ema_trend` under `sleeves/active/strategies/`. Params locked: EMA_fast=8, EMA_slow=21, ATR period 14; equity stop 1.5×ATR (RTH only); crypto stop 2×ATR (24/7). Config mirror: `sleeves/active/config/locked_strategies.json`.
+- **Observation:** Strategies were scaffold-proposed earlier the same day; Jordan locked both active starters (chat 2026-09-24). Books remain all-cash; no paper fills yet.
+- **Logic:** Strategy lock authorizes scanning and writing proposals with `executed: false`. It does **not** authorize booking fills into `sleeves/active/*/state/portfolio.json`. Propose-before-fill governance unchanged: each trade batch still needs Jordan yes. Alternatives considered: (1) lock + auto-fill first signals (rejected — breaks propose-before-fill), (2) lock + first paper signal pass as proposals only (chosen).
+- **Jordan approval:** Chat 2026-09-24 — lock both active starter strategies. Still no fills until trade-batch yes.
+- **Effective:** Strategies locked 2026-09-24T09:13:00-04:00. Positions unchanged (all cash). First proposals may be written the same day for Jordan yes/no.
+- **How we judge:** After first approved fill batch (if any), track same-window active vs momentum household NAV/P&L/drawdown; until then, judge process compliance (proposals written, books untouched without yes).
+
