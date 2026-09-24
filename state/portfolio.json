@@ -1,88 +1,88 @@
 {
-  "as_of": "2026-09-24T08:31:39-04:00",
+  "as_of": "2026-09-24T09:08:40-04:00",
   "currency": "USD",
-  "cash": 20955.84,
+  "cash": 21404.69,
   "positions": {
+    "META": {
+      "shares": 20,
+      "avg_cost": 677.5,
+      "cost_basis": 13550.05,
+      "last_price": 744.1,
+      "market_value": 14882.0,
+      "sector": "communication",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    },
     "MSFT": {
-      "shares": 30,
+      "shares": 29,
       "avg_cost": 493.78,
-      "cost_basis": 14813.4,
+      "cost_basis": 14319.62,
       "last_price": 500.59,
-      "market_value": 15017.7,
+      "market_value": 14517.11,
       "sector": "tech",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
     "XLE": {
-      "shares": 226,
+      "shares": 189,
       "avg_cost": 64.31,
-      "cost_basis": 14534.06,
+      "cost_basis": 12154.59,
       "last_price": 62.37,
-      "market_value": 14095.62,
+      "market_value": 11787.93,
       "sector": "energy",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
-    "META": {
-      "shares": 17,
-      "avg_cost": 665.75,
-      "cost_basis": 11317.75,
-      "last_price": 744.1,
-      "market_value": 12649.7,
-      "sector": "communication",
-      "opened_at": "2026-09-20T12:53:19-04:00"
-    },
-    "XLV": {
-      "shares": 61,
-      "avg_cost": 168.39,
-      "cost_basis": 10271.79,
-      "last_price": 168.8,
-      "market_value": 10296.8,
-      "sector": "health",
-      "opened_at": "2026-09-20T12:53:19-04:00"
-    },
     "AAPL": {
-      "shares": 30,
+      "shares": 27,
       "avg_cost": 336.13,
-      "cost_basis": 10083.9,
+      "cost_basis": 9075.51,
       "last_price": 337.02,
-      "market_value": 10110.6,
+      "market_value": 9099.54,
       "sector": "tech",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
+    "XLV": {
+      "shares": 53,
+      "avg_cost": 168.39,
+      "cost_basis": 8924.67,
+      "last_price": 168.8,
+      "market_value": 8946.4,
+      "sector": "health",
+      "opened_at": "2026-09-20T12:53:19-04:00"
+    },
+    "AMZN": {
+      "shares": 31,
+      "avg_cost": 249.27,
+      "cost_basis": 7727.37,
+      "last_price": 249.27,
+      "market_value": 7727.37,
+      "sector": "consumer_disc",
+      "opened_at": "2026-09-24T09:08:07-04:00"
+    },
     "JPM": {
-      "shares": 20,
+      "shares": 19,
       "avg_cost": 349.67,
-      "cost_basis": 6993.4,
+      "cost_basis": 6643.73,
       "last_price": 337.53,
-      "market_value": 6750.6,
+      "market_value": 6413.07,
       "sector": "financials",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
     "NVDA": {
-      "shares": 26,
-      "avg_cost": 222.27,
-      "cost_basis": 5779.02,
+      "shares": 27,
+      "avg_cost": 222.39,
+      "cost_basis": 6004.53,
       "last_price": 225.51,
-      "market_value": 5863.26,
+      "market_value": 6088.77,
       "sector": "tech",
-      "opened_at": "2026-09-20T12:53:19-04:00"
-    },
-    "XLF": {
-      "shares": 94,
-      "avg_cost": 55.86,
-      "cost_basis": 5250.84,
-      "last_price": 54.54,
-      "market_value": 5126.76,
-      "sector": "financials",
       "opened_at": "2026-09-20T12:53:19-04:00"
     }
   },
   "nav": 100866.88,
   "starting_capital": 100000.0,
-  "notes": "Initial allocation booked after Jordan approval 2026-09-20. Paper fills at proposal prices.",
+  "notes": "Equity rebalance booked 2026-09-24 after Jordan yes (widget t34s2, equity-only). Source reports/rebalance_2026-09-23.json. Paper fills at last/live prices. Crypto sleeve untouched.",
   "peak_nav": 101548.51,
   "spy_last_close": 767.81,
   "total_pnl": 866.88,
   "total_pnl_pct": 0.8669,
   "drawdown_pct": -0.6712,
-  "last_trade_batch": "proposal_2026-09-20"
+  "last_trade_batch": "rebalance_2026-09-23"
 }
