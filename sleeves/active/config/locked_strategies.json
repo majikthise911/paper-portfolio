@@ -1,0 +1,51 @@
+{
+  "locked_as_of": "2026-09-24T09:13:00-04:00",
+  "jordan_approval": "Chat 2026-09-24 — both active starter strategies locked",
+  "governance": {
+    "fills_require_trade_batch_yes": true,
+    "proposals_write_executed_false": true,
+    "do_not_touch_momentum_books": true
+  },
+  "strategies": [
+    {
+      "id": "equity_15m_ema_trend",
+      "sleeve": "active_equity",
+      "status": "Locked",
+      "locked_date": "2026-09-24",
+      "params": {
+        "EMA_fast": 8,
+        "EMA_slow": 21,
+        "ATR_period": 14,
+        "stop_atr_mult": 1.5,
+        "session": "RTH",
+        "session_hours_et": "09:30-16:00"
+      },
+      "caps": {
+        "max_single_name_pct": 0.15,
+        "min_cash_pct": 0.20,
+        "max_concurrent_positions": 8,
+        "max_tech_megacap_sleeve_pct": 0.30
+      },
+      "spec": "strategies/equity_15m_ema_trend.md"
+    },
+    {
+      "id": "crypto_15m_ema_trend",
+      "sleeve": "active_crypto",
+      "status": "Locked",
+      "locked_date": "2026-09-24",
+      "params": {
+        "EMA_fast": 8,
+        "EMA_slow": 21,
+        "ATR_period": 14,
+        "stop_atr_mult": 2.0,
+        "session": "24/7"
+      },
+      "caps": {
+        "max_single_name_pct": 0.25,
+        "min_cash_pct": 0.20,
+        "max_concurrent_positions": 4
+      },
+      "spec": "strategies/crypto_15m_ema_trend.md"
+    }
+  ]
+}

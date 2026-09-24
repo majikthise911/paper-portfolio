@@ -23,6 +23,19 @@ CRYPTO_LEDGER = CRYPTO_ROOT / "state" / "ledger.jsonl"
 CRYPTO_RULES = CRYPTO_ROOT / "config" / "rules.json"
 CRYPTO_UNIVERSE = CRYPTO_ROOT / "config" / "universe.json"
 
+ACTIVE_ROOT = ROOT / "sleeves" / "active"
+ACTIVE_EQUITY_ROOT = ACTIVE_ROOT / "equity"
+ACTIVE_EQUITY_PORTFOLIO = ACTIVE_EQUITY_ROOT / "state" / "portfolio.json"
+ACTIVE_EQUITY_LEDGER = ACTIVE_EQUITY_ROOT / "state" / "ledger.jsonl"
+ACTIVE_EQUITY_RULES = ACTIVE_EQUITY_ROOT / "config" / "rules.json"
+ACTIVE_EQUITY_UNIVERSE = ACTIVE_EQUITY_ROOT / "config" / "universe.json"
+ACTIVE_CRYPTO_ROOT = ACTIVE_ROOT / "crypto"
+ACTIVE_CRYPTO_PORTFOLIO = ACTIVE_CRYPTO_ROOT / "state" / "portfolio.json"
+ACTIVE_CRYPTO_LEDGER = ACTIVE_CRYPTO_ROOT / "state" / "ledger.jsonl"
+ACTIVE_CRYPTO_RULES = ACTIVE_CRYPTO_ROOT / "config" / "rules.json"
+ACTIVE_CRYPTO_UNIVERSE = ACTIVE_CRYPTO_ROOT / "config" / "universe.json"
+ACTIVE_LOCKED = ACTIVE_ROOT / "config" / "locked_strategies.json"
+
 REPORTS = ROOT / "reports"
 HTML_OUT = REPORTS / "dashboard.html"
 DATA_OUT = REPORTS / "dashboard_data.json"
@@ -523,11 +536,11 @@ def strategy_section() -> str:
 
     return f"""
   <section id="current-strategy">
-    <h2>Current strategy</h2>
+    <h2>Current strategy <span class="tag tag-momentum">momentum</span></h2>
     <ul class="caps">
-      <li><strong>Equity:</strong> <code>{escape(str(eq_signal))}</code> uses simple momentum / relative strength to rank liquid US ETFs and a short mega-cap list on about a 3-month total return ({days(eq_rules, 'primary_trading_days', 63)} trading days), with a 12-month sanity check that is {not_deeply_negative(eq_rules)}. It is long-only. {str(eq_cadence).capitalize()} rebalance proposals are made Monday; marks between weeks are not trades. Caps are {pct(eq_caps.get('max_single_name_pct'), 0.15)} per name, {pct(eq_caps.get('max_sector_etf_sleeve_pct'), 0.40)} per sector sleeve, and combined {escape(tech_names_text)} is capped at {pct(eq_caps.get('max_tech_megacap_sleeve_pct'), 0.30)} of equity NAV. Benchmark {escape(str(eq_benchmark))}. Paper only; Jordan approves trades and rule changes.</li>
-      <li><strong>Crypto:</strong> This is a separate sleeve and cash book using <code>{escape(str(cr_signal))}</code>, a similar {str(cr_cadence)} momentum screen on {escape(crypto_assets_text)}, with the same roughly 3-month signal and 12-month sanity check that is {not_deeply_negative(cr_rules)}. Its benchmark is {escape(str(cr_benchmark))} (BTC), with its own caps: {pct(cr_rules.get('position_caps', {}).get('max_single_name_pct'), 0.25)} per name, {pct(cr_rules.get('position_caps', {}).get('max_invested_pct'), 0.80)} invested maximum, and {pct(cr_rules.get('position_caps', {}).get('min_cash_pct'), 0.20)} minimum cash.</li>
-      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. Faster styles such as day trading or HFT need more data and execution; they are not the default until the Monday method scorecard shows evidence and Jordan approves a switch.</li>
+      <li><strong>Momentum equity:</strong> <code>{escape(str(eq_signal))}</code> uses simple momentum / relative strength to rank liquid US ETFs and a short mega-cap list on about a 3-month total return ({days(eq_rules, 'primary_trading_days', 63)} trading days), with a 12-month sanity check that is {not_deeply_negative(eq_rules)}. It is long-only. {str(eq_cadence).capitalize()} rebalance proposals are made Monday; marks between weeks are not trades. Caps are {pct(eq_caps.get('max_single_name_pct'), 0.15)} per name, {pct(eq_caps.get('max_sector_etf_sleeve_pct'), 0.40)} per sector sleeve, and combined {escape(tech_names_text)} is capped at {pct(eq_caps.get('max_tech_megacap_sleeve_pct'), 0.30)} of equity NAV. Benchmark {escape(str(eq_benchmark))}. Paper only; Jordan approves trades and rule changes.</li>
+      <li><strong>Momentum crypto:</strong> This is a separate sleeve and cash book using <code>{escape(str(cr_signal))}</code>, a similar {str(cr_cadence)} momentum screen on {escape(crypto_assets_text)}, with the same roughly 3-month signal and 12-month sanity check that is {not_deeply_negative(cr_rules)}. Its benchmark is {escape(str(cr_benchmark))} (BTC), with its own caps: {pct(cr_rules.get('position_caps', {}).get('max_single_name_pct'), 0.25)} per name, {pct(cr_rules.get('position_caps', {}).get('max_invested_pct'), 0.80)} invested maximum, and {pct(cr_rules.get('position_caps', {}).get('min_cash_pct'), 0.20)} minimum cash.</li>
+      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. The active 15m EMA sleeve is a parallel experiment on this same page. It does not replace momentum until Jordan says so.</li>
     </ul>
     <p class="blurb">For approved strategy changes, see <a href="./changelog.html">the strategy change log</a>.</p>
   </section>
@@ -942,6 +955,15 @@ def build_html(data: dict) -> str:
     eq = data["equity"]
     cr = data["crypto"]
     hh = data["household"]
+    active = data.get("active") or {}
+    ae = active.get("equity") or {}
+    ac = active.get("crypto") or {}
+    ah = active.get("household") or {
+        "nav": 0.0,
+        "starting_capital": 0.0,
+        "total_pnl": 0.0,
+        "total_pnl_pct": 0.0,
+    }
     pnl_hist = data.get("pnl_history") or {}
 
     eq_rows = holdings_table_rows(
@@ -953,6 +975,18 @@ def build_html(data: dict) -> str:
         else "No open crypto positions. Crypto sleeve awaiting positions."
     )
     cr_rows = holdings_table_rows(cr["holdings"], cr_empty, "crypto")
+
+    ae_rows = holdings_table_rows(
+        ae.get("holdings") or [],
+        "No open active equity positions. Cash only.",
+        "active-equity",
+    )
+    ac_empty = (
+        "No open active crypto positions."
+        if ac.get("status") == "booked" or ac.get("holdings")
+        else "No open active crypto positions. Sleeve awaiting positions."
+    )
+    ac_rows = holdings_table_rows(ac.get("holdings") or [], ac_empty, "active-crypto")
 
     eq_prices_note = (
         "Embedded equity mark from last dashboard rebuild (yfinance)."
@@ -970,6 +1004,31 @@ def build_html(data: dict) -> str:
         cr_prices_note = "Crypto price refresh incomplete; showing last booked prices where needed."
     if cr["failed_tickers"]:
         cr_prices_note += f" Failed: {', '.join(cr['failed_tickers'])}."
+
+    ae_sid = escape(str(ae.get("strategy_id") or "equity_15m_ema_trend"))
+    ac_sid = escape(str(ac.get("strategy_id") or "crypto_15m_ema_trend"))
+    if not ae.get("holdings"):
+        ae_prices_note = "Active equity sleeve cash-heavy or empty; SPY priced for reference when available."
+    elif ae.get("prices_refreshed"):
+        ae_prices_note = "Embedded active equity mark from last dashboard rebuild (yfinance)."
+    else:
+        ae_prices_note = "Active equity price refresh incomplete; showing last booked prices where needed."
+    if ae.get("failed_tickers"):
+        ae_prices_note += f" Failed: {', '.join(ae['failed_tickers'])}."
+
+    if not ac.get("holdings"):
+        ac_prices_note = "Active crypto sleeve has no open positions; BTC-USD priced for reference when available."
+    elif ac.get("prices_refreshed"):
+        ac_prices_note = "Embedded active crypto mark from last dashboard rebuild (yfinance). Browser may refresh via CoinGecko."
+    else:
+        ac_prices_note = "Active crypto price refresh incomplete; showing last booked prices where needed."
+    if ac.get("failed_tickers"):
+        ac_prices_note += f" Failed: {', '.join(ac['failed_tickers'])}."
+
+    ae_nav_sub = f"Cash {fmt_money(ae.get('cash'))}"
+    ac_nav_sub = f"Cash {fmt_money(ac.get('cash'))}"
+    if ac.get("status") == "cash_only" and not ac.get("holdings"):
+        ac_nav_sub = "Cash sleeve (no positions yet)"
 
     eq_caps = eq["caps"]
     cr_caps = cr["caps"]
@@ -994,44 +1053,34 @@ def build_html(data: dict) -> str:
     if cr.get("status") == "cash_only" and not cr["holdings"]:
         cr_nav_sub = "Cash sleeve (no positions yet)"
 
+    def _book_sleeve(sleeve: dict, bench_field: str) -> dict:
+        return {
+            "cash": sleeve.get("cash", 0.0),
+            "starting_capital": sleeve.get("starting_capital", 0.0),
+            bench_field: sleeve.get("bench_last_close"),
+            "peak_nav": sleeve.get("peak_nav"),
+            "strategy_id": sleeve.get("strategy_id"),
+            "positions": [
+                {
+                    "ticker": h["ticker"],
+                    "shares": h["shares"],
+                    "avg_cost": h["avg_cost"],
+                    "cost_basis": h["cost_basis"],
+                    "sector": h.get("sector"),
+                    "last_price": h["last_price"],
+                }
+                for h in (sleeve.get("holdings") or [])
+            ],
+        }
+
     book = {
         "generated_at": data["as_of"],
         "as_of": data["as_of"],
         "as_of_display": data["as_of_display"],
-        "equity": {
-            "cash": eq["cash"],
-            "starting_capital": eq["starting_capital"],
-            "spy_last_close": eq.get("bench_last_close"),
-            "peak_nav": eq.get("peak_nav"),
-            "positions": [
-                {
-                    "ticker": h["ticker"],
-                    "shares": h["shares"],
-                    "avg_cost": h["avg_cost"],
-                    "cost_basis": h["cost_basis"],
-                    "sector": h.get("sector"),
-                    "last_price": h["last_price"],
-                }
-                for h in eq["holdings"]
-            ],
-        },
-        "crypto": {
-            "cash": cr["cash"],
-            "starting_capital": cr["starting_capital"],
-            "btc_last_close": cr.get("bench_last_close"),
-            "peak_nav": cr.get("peak_nav"),
-            "positions": [
-                {
-                    "ticker": h["ticker"],
-                    "shares": h["shares"],
-                    "avg_cost": h["avg_cost"],
-                    "cost_basis": h["cost_basis"],
-                    "sector": h.get("sector"),
-                    "last_price": h["last_price"],
-                }
-                for h in cr["holdings"]
-            ],
-        },
+        "equity": _book_sleeve(eq, "spy_last_close"),
+        "crypto": _book_sleeve(cr, "btc_last_close"),
+        "active_equity": _book_sleeve(ae, "spy_last_close"),
+        "active_crypto": _book_sleeve(ac, "btc_last_close"),
     }
     book_json = json.dumps(book, separators=(",", ":"))
     pnl_json = json.dumps(pnl_hist, separators=(",", ":"))
@@ -1316,6 +1365,45 @@ def build_html(data: dict) -> str:
   #pnl-chart .dot-eq {{ fill: #3ecf8e; }}
   #pnl-chart .dot-cr {{ fill: #e6b450; }}
   #pnl-chart .dot-spy {{ fill: #f0c14a; }}
+  .band-title {{
+    margin: 4px 0 6px;
+    font-size: 1.15rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }}
+  .band-blurb {{
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }}
+  .holdings-row {{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+    align-items: stretch;
+  }}
+  .holdings-row > section {{
+    margin-bottom: 0;
+    height: 100%;
+  }}
+  @media (max-width: 900px) {{
+    .holdings-row {{ grid-template-columns: 1fr; }}
+  }}
+  .tag {{
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 999px;
+    border: 1px solid var(--panel-border);
+    color: var(--muted);
+    vertical-align: middle;
+    margin-left: 8px;
+  }}
+  .tag-momentum {{ border-color: #3a5a7a; color: #8eb7d8; }}
+  .tag-active {{ border-color: #6a5a2a; color: #e6c86a; }}
 </style>
 </head>
 <body>
@@ -1330,41 +1418,78 @@ def build_html(data: dict) -> str:
     <button type="button" id="btn-refresh">Refresh prices</button>
   </div>
 
+  <h2 class="band-title">Momentum household <span class="tag tag-momentum">control</span></h2>
+  <p class="band-blurb">Weekly momentum / relative strength books. Equity $100k + crypto $25k. Separate from the active 15m experiment below.</p>
   <div class="cards">
     <div class="card">
-      <div class="label">Household NAV</div>
+      <div class="label">Momentum household NAV</div>
       <div class="value" id="hh-nav">{fmt_money(hh['nav'])}</div>
       <div class="sub">Equity + crypto</div>
     </div>
     <div class="card">
-      <div class="label">Equity NAV</div>
+      <div class="label">Momentum equity NAV</div>
       <div class="value" id="eq-nav">{fmt_money(eq['nav'])}</div>
       <div class="sub" id="eq-cash-sub">Cash {fmt_money(eq['cash'])}</div>
     </div>
     <div class="card">
-      <div class="label">Crypto NAV</div>
+      <div class="label">Momentum crypto NAV</div>
       <div class="value" id="cr-nav">{fmt_money(cr['nav'])}</div>
       <div class="sub" id="cr-cash-sub">{cr_nav_sub}</div>
     </div>
     <div class="card">
-      <div class="label">Equity P&amp;L</div>
+      <div class="label">Momentum equity P&amp;L</div>
       <div class="value {pnl_class(eq['total_pnl'])}" id="eq-pnl">{fmt_money(eq['total_pnl'])}</div>
       <div class="sub {pnl_class(eq['total_pnl_pct'])}" id="eq-pnl-pct">{fmt_pct(eq['total_pnl_pct'])} vs start</div>
     </div>
     <div class="card">
-      <div class="label">Crypto P&amp;L</div>
+      <div class="label">Momentum crypto P&amp;L</div>
       <div class="value {pnl_class(cr['total_pnl'])}" id="cr-pnl">{fmt_money(cr['total_pnl'])}</div>
       <div class="sub {pnl_class(cr['total_pnl_pct'])}" id="cr-pnl-pct">{fmt_pct(cr['total_pnl_pct'])} vs start</div>
     </div>
     <div class="card">
-      <div class="label">Household P&amp;L</div>
+      <div class="label">Momentum household P&amp;L</div>
       <div class="value {pnl_class(hh['total_pnl'])}" id="hh-pnl">{fmt_money(hh['total_pnl'])}</div>
       <div class="sub {pnl_class(hh['total_pnl_pct'])}" id="hh-pnl-pct">{fmt_pct(hh['total_pnl_pct'])} vs combined start</div>
     </div>
   </div>
 
+  <h2 class="band-title">Active (15m EMA) <span class="tag tag-active">experiment</span></h2>
+  <p class="band-blurb">Parallel control. Same capital split ($100k equity + $25k crypto). Strategies <code>{ae_sid}</code> and <code>{ac_sid}</code>. Positions never mix into momentum ranks or the P&amp;L chart.</p>
+  <div class="cards">
+    <div class="card">
+      <div class="label">Active household NAV</div>
+      <div class="value" id="ah-nav">{fmt_money(ah.get('nav'))}</div>
+      <div class="sub">Active equity + crypto</div>
+    </div>
+    <div class="card">
+      <div class="label">Active equity NAV</div>
+      <div class="value" id="ae-nav">{fmt_money(ae.get('nav'))}</div>
+      <div class="sub" id="ae-cash-sub">{ae_nav_sub}</div>
+    </div>
+    <div class="card">
+      <div class="label">Active crypto NAV</div>
+      <div class="value" id="ac-nav">{fmt_money(ac.get('nav'))}</div>
+      <div class="sub" id="ac-cash-sub">{ac_nav_sub}</div>
+    </div>
+    <div class="card">
+      <div class="label">Active equity P&amp;L</div>
+      <div class="value {pnl_class(ae.get('total_pnl'))}" id="ae-pnl">{fmt_money(ae.get('total_pnl'))}</div>
+      <div class="sub {pnl_class(ae.get('total_pnl_pct'))}" id="ae-pnl-pct">{fmt_pct(ae.get('total_pnl_pct'))} vs start</div>
+    </div>
+    <div class="card">
+      <div class="label">Active crypto P&amp;L</div>
+      <div class="value {pnl_class(ac.get('total_pnl'))}" id="ac-pnl">{fmt_money(ac.get('total_pnl'))}</div>
+      <div class="sub {pnl_class(ac.get('total_pnl_pct'))}" id="ac-pnl-pct">{fmt_pct(ac.get('total_pnl_pct'))} vs start</div>
+    </div>
+    <div class="card">
+      <div class="label">Active household P&amp;L</div>
+      <div class="value {pnl_class(ah.get('total_pnl'))}" id="ah-pnl">{fmt_money(ah.get('total_pnl'))}</div>
+      <div class="sub {pnl_class(ah.get('total_pnl_pct'))}" id="ah-pnl-pct">{fmt_pct(ah.get('total_pnl_pct'))} vs combined start</div>
+    </div>
+  </div>
+
   <section id="pnl-over-time">
-    <h2>P&amp;L over time</h2>
+    <h2>P&amp;L over time <span class="tag tag-momentum">momentum only</span></h2>
     {sparse_note}
     <div class="pnl-toolbar">
       <div class="pnl-legend" aria-label="Series legend">
@@ -1390,14 +1515,14 @@ def build_html(data: dict) -> str:
         <button type="button" class="pnl-toggle" id="pnl-reset-zoom" title="Reset drag-rectangle zoom">Reset zoom</button>
       </div>
     </div>
-    <p class="blurb" id="pnl-spy-note">SPY baseline is buy-and-hold SPY sized to equity starting capital.</p>
+    <p class="blurb" id="pnl-spy-note">SPY baseline is buy-and-hold SPY sized to momentum equity starting capital. Chart series are momentum household only. Active sleeve marks are not plotted here yet.</p>
     <div id="pnl-chart-wrap">
       <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="P and L over time">{render_pnl_svg(pnl_hist)}</svg>
     </div>
   </section>
 
   <section>
-    <h2>Equity holdings</h2>
+    <h2>Momentum equity holdings <span class="tag tag-momentum">control</span></h2>
     <p class="blurb" id="eq-prices-note">{eq_prices_note}</p>
     <table>
       <thead>
@@ -1424,7 +1549,7 @@ def build_html(data: dict) -> str:
   </section>
 
   <section>
-    <h2>Crypto holdings</h2>
+    <h2>Momentum crypto holdings <span class="tag tag-momentum">control</span></h2>
     <p class="blurb" id="cr-prices-note">{cr_prices_note}</p>
     <table>
       <thead>
@@ -1450,15 +1575,78 @@ def build_html(data: dict) -> str:
     </p>
   </section>
 
+  <div class="holdings-row" id="active-holdings">
+  <section>
+    <h2>Active equity holdings <span class="tag tag-active">15m EMA</span></h2>
+    <p class="blurb">Strategy <code>{ae_sid}</code>. Seed $100k.</p>
+    <p class="blurb" id="ae-prices-note">{ae_prices_note}</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th class="num">Shares</th>
+          <th class="num">Avg cost</th>
+          <th class="num">Last price</th>
+          <th class="num">Market value</th>
+          <th class="num">Weight</th>
+          <th class="num">Unrealized P&amp;L</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="ae-tbody">
+        {ae_rows}
+      </tbody>
+    </table>
+    <p class="blurb" style="margin-top:12px" id="ae-footer">
+      Active equity cash weight: <strong id="ae-cash-wt">{fmt_pct_plain(ae.get('cash_weight_pct'))}</strong>
+      (<span id="ae-cash-amt">{fmt_money(ae.get('cash'))}</span>). Sleeve NAV <strong id="ae-footer-nav">{fmt_money(ae.get('nav'))}</strong>.
+      Benchmark SPY last: <span id="ae-bench">{fmt_money(ae.get('bench_last_close'))}</span>.
+    </p>
+  </section>
+
+  <section>
+    <h2>Active crypto holdings <span class="tag tag-active">15m EMA</span></h2>
+    <p class="blurb">Strategy <code>{ac_sid}</code>. Seed $25k.</p>
+    <p class="blurb" id="ac-prices-note">{ac_prices_note}</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th class="num">Qty</th>
+          <th class="num">Avg cost</th>
+          <th class="num">Last price</th>
+          <th class="num">Market value</th>
+          <th class="num">Weight</th>
+          <th class="num">Unrealized P&amp;L</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="ac-tbody">
+        {ac_rows}
+      </tbody>
+    </table>
+    <p class="blurb" style="margin-top:12px" id="ac-footer">
+      Active crypto cash weight: <strong id="ac-cash-wt">{fmt_pct_plain(ac.get('cash_weight_pct'))}</strong>
+      (<span id="ac-cash-amt">{fmt_money(ac.get('cash'))}</span>). Sleeve NAV <strong id="ac-footer-nav">{fmt_money(ac.get('nav'))}</strong>.
+      Benchmark BTC-USD last: <span id="ac-bench">{fmt_money(ac.get('bench_last_close'))}</span>.
+      Not mixed into momentum crypto.
+    </p>
+  </section>
+  </div>
+
   <section>
     <h2>Caps reminder</h2>
     <p class="blurb">Initiation caps from each sleeve config. Dashboard does not change them.</p>
     <ul class="caps">
-      <li><strong>Equity:</strong> max {eq_caps['max_single_name_pct_display']} NAV per name;
+      <li><strong>Momentum equity:</strong> max {eq_caps['max_single_name_pct_display']} NAV per name;
           max {eq_caps['max_sector_etf_sleeve_pct_display']} per sector sleeve;
           min {eq_caps['min_cash_pct_display']} cash</li>
-      <li><strong>Crypto:</strong> max {cr_caps['max_single_name_pct_display']} NAV per name;
+      <li><strong>Momentum crypto:</strong> max {cr_caps['max_single_name_pct_display']} NAV per name;
           min {cr_caps['min_cash_pct_display']} cash (max {cr_caps['max_invested_pct_display']} invested)</li>
+      <li><strong>Active equity ({ae_sid}):</strong> max {(ae.get('caps') or eq_caps).get('max_single_name_pct_display', eq_caps['max_single_name_pct_display'])} NAV per name;
+          min {(ae.get('caps') or eq_caps).get('min_cash_pct_display', eq_caps['min_cash_pct_display'])} cash. Parallel book only.</li>
+      <li><strong>Active crypto ({ac_sid}):</strong> max {(ac.get('caps') or cr_caps).get('max_single_name_pct_display', cr_caps['max_single_name_pct_display'])} NAV per name;
+          min {(ac.get('caps') or cr_caps).get('min_cash_pct_display', cr_caps['min_cash_pct_display'])} cash. Parallel book only.</li>
     </ul>
   </section>
 
@@ -1470,7 +1658,8 @@ def build_html(data: dict) -> str:
 
   <footer>
     <p>Simulated paper books only. This is not a real brokerage or exchange account.</p>
-    <p>Crypto quotes in-browser via CoinGecko when available. Equity may stay on last mark if live quotes are blocked. Weekday rebuilds refresh the embedded snapshot.</p>
+    <p>Crypto quotes in-browser via CoinGecko when available. Equity may stay on last mark if live quotes are blocked. Weekday rebuilds refresh embedded marks for momentum and active sleeves.</p>
+    <p>Active (15m EMA) is a parallel paper experiment. It does not change momentum rules or the P&amp;L chart series.</p>
   </footer>
 </div>
 <script type="application/json" id="book-data">{book_json}</script>
@@ -1711,7 +1900,24 @@ def build_html(data: dict) -> str:
     }});
   }}
 
-  function applyDom(eq, cr, hh, meta) {{
+  function applySleeveDom(prefix, sleeve, benchId, benchPx) {{
+    setText(prefix + "-nav", money(sleeve.nav));
+    setPnl(prefix + "-pnl", sleeve.total_pnl);
+    var pctEl = document.getElementById(prefix + "-pnl-pct");
+    if (pctEl) {{
+      pctEl.textContent = pctSigned(sleeve.total_pnl_pct) + " vs start";
+      pctEl.classList.remove("pos", "neg", "flat");
+      pctEl.classList.add(pnlClass(sleeve.total_pnl_pct));
+    }}
+    setText(prefix + "-cash-wt", pctPlain(sleeve.cash_weight_pct));
+    setText(prefix + "-cash-amt", money(sleeve.cash));
+    setText(prefix + "-cash-sub", "Cash " + money(sleeve.cash));
+    setText(prefix + "-footer-nav", money(sleeve.nav));
+    if (benchId && benchPx != null) setText(benchId, money(benchPx));
+    updateTable(prefix + "-tbody", sleeve.rows);
+  }}
+
+  function applyDom(eq, cr, hh, meta, ae, ac, ah) {{
     setText("hh-nav", money(hh.nav));
     setText("eq-nav", money(eq.nav));
     setText("cr-nav", money(cr.nav));
@@ -1750,6 +1956,19 @@ def build_html(data: dict) -> str:
 
     updateTable("eq-tbody", eq.rows);
     updateTable("cr-tbody", cr.rows);
+
+    if (ae) applySleeveDom("ae", ae, "ae-bench", meta.spy);
+    if (ac) applySleeveDom("ac", ac, "ac-bench", meta.btc);
+    if (ah) {{
+      setText("ah-nav", money(ah.nav));
+      setPnl("ah-pnl", ah.total_pnl);
+      var ahPct = document.getElementById("ah-pnl-pct");
+      if (ahPct) {{
+        ahPct.textContent = pctSigned(ah.total_pnl_pct) + " vs combined start";
+        ahPct.classList.remove("pos", "neg", "flat");
+        ahPct.classList.add(pnlClass(ah.total_pnl_pct));
+      }}
+    }}
   }}
 
   async function refresh() {{
@@ -1759,11 +1978,16 @@ def build_html(data: dict) -> str:
 
     var eqTickers = (book.equity.positions || []).map(function (p) {{ return p.ticker; }});
     var crTickers = (book.crypto.positions || []).map(function (p) {{ return p.ticker; }});
+    var aeTickers = ((book.active_equity || {{}}).positions || []).map(function (p) {{ return p.ticker; }});
+    var acTickers = ((book.active_crypto || {{}}).positions || []).map(function (p) {{ return p.ticker; }});
     // Also try to refresh benchmarks
-    var eqAll = eqTickers.slice();
+    var eqAll = eqTickers.concat(aeTickers);
     if (eqAll.indexOf("SPY") < 0) eqAll.push("SPY");
-    var crAll = crTickers.slice();
+    // de-dupe
+    eqAll = eqAll.filter(function (t, i, a) {{ return a.indexOf(t) === i; }});
+    var crAll = crTickers.concat(acTickers);
     if (crAll.indexOf("BTC-USD") < 0) crAll.push("BTC-USD");
+    crAll = crAll.filter(function (t, i, a) {{ return a.indexOf(t) === i; }});
 
     var cryptoLive = {{ prices: {{}}, ok: false }};
     var equityLive = {{ prices: {{}}, ok: false, any: false }};
@@ -1785,6 +2009,8 @@ def build_html(data: dict) -> str:
 
     var eq = recomputeSleeve(book.equity, equityLive.prices, equityLive.any);
     var cr = recomputeSleeve(book.crypto, cryptoLive.prices, cryptoLive.ok);
+    var ae = recomputeSleeve(book.active_equity || {{ cash: 0, starting_capital: 0, positions: [] }}, equityLive.prices, equityLive.any);
+    var ac = recomputeSleeve(book.active_crypto || {{ cash: 0, starting_capital: 0, positions: [] }}, cryptoLive.prices, cryptoLive.ok);
 
     var spy = equityLive.prices["SPY"];
     if (typeof spy !== "number") spy = book.equity.spy_last_close;
@@ -1800,11 +2026,23 @@ def build_html(data: dict) -> str:
     var hhPnlPct = hhStart ? (hhPnl / hhStart) * 100 : 0;
     if (Math.abs(hhPnlPct) < 1e-9) hhPnlPct = 0;
 
+    var ahStart =
+      (Number((book.active_equity || {{}}).starting_capital) || 0) +
+      (Number((book.active_crypto || {{}}).starting_capital) || 0);
+    var ahNav = ae.nav + ac.nav;
+    var ahPnl = ahNav - ahStart;
+    if (Math.abs(ahPnl) < 0.005) ahPnl = 0;
+    var ahPnlPct = ahStart ? (ahPnl / ahStart) * 100 : 0;
+    if (Math.abs(ahPnlPct) < 1e-9) ahPnlPct = 0;
+
     applyDom(
       eq,
       cr,
       {{ nav: hhNav, total_pnl: hhPnl, total_pnl_pct: hhPnlPct }},
-      {{ spy: spy, btc: btc }}
+      {{ spy: spy, btc: btc }},
+      ae,
+      ac,
+      {{ nav: ahNav, total_pnl: ahPnl, total_pnl_pct: ahPnlPct }}
     );
 
     var when = formatWhen(new Date());
@@ -1847,6 +2085,18 @@ def build_html(data: dict) -> str:
       crNote.textContent = cryptoOk
         ? "Crypto prices refreshed via CoinGecko."
         : "Crypto showing embedded mark prices (CoinGecko fetch failed).";
+    }}
+    var aeNote = document.getElementById("ae-prices-note");
+    if (aeNote) {{
+      aeNote.textContent = equityOk
+        ? "Active equity prices refreshed in-browser (best-effort public quote)."
+        : "Active equity showing embedded mark prices (live browser quotes blocked or unavailable).";
+    }}
+    var acNote = document.getElementById("ac-prices-note");
+    if (acNote) {{
+      acNote.textContent = cryptoOk
+        ? "Active crypto prices refreshed via CoinGecko."
+        : "Active crypto showing embedded mark prices (CoinGecko fetch failed).";
     }}
 
     inflight = false;
@@ -2456,6 +2706,96 @@ def caps_from_rules(rules: dict, *, has_sector: bool = True) -> dict:
     return out
 
 
+def locked_strategy_id(sleeve_key: str, default: str) -> str:
+    """Return locked strategy id for an active sleeve, or default."""
+    if not ACTIVE_LOCKED.exists():
+        return default
+    try:
+        locked = load_json(ACTIVE_LOCKED)
+    except Exception:
+        return default
+    for item in locked.get("strategies") or []:
+        if item.get("sleeve") == sleeve_key and item.get("id"):
+            return str(item["id"])
+    return default
+
+
+def mark_active_or_empty(
+    *,
+    portfolio_path: Path,
+    ledger_path: Path,
+    rules_path: Path,
+    universe_path: Path,
+    bench_key: str,
+    default_bench: str,
+    default_starting: float,
+    as_of: str,
+    price_decimals: int,
+    has_sector: bool,
+    strategy_default: str,
+    sleeve_key: str,
+) -> dict:
+    """Mark an active sleeve if present; otherwise return an empty stub."""
+    if not portfolio_path.exists():
+        return {
+            "nav": 0.0,
+            "cash": 0.0,
+            "invested": 0.0,
+            "invested_pct": 0.0,
+            "cash_weight_pct": 100.0,
+            "starting_capital": default_starting,
+            "total_pnl": 0.0,
+            "total_pnl_pct": 0.0,
+            "unrealized_pnl_total": 0.0,
+            "peak_nav": default_starting,
+            "drawdown_pct": 0.0,
+            "benchmark": default_bench,
+            "bench_last_close": None,
+            "holdings": [],
+            "prices_refreshed": False,
+            "prices_ok": 0,
+            "prices_attempted": 0,
+            "failed_tickers": [],
+            "notes": None,
+            "any_price_update": False,
+            "caps": caps_from_rules(
+                {"position_caps": {"max_single_name_pct": 0.15, "min_cash_pct": 0.20}},
+                has_sector=has_sector,
+            ),
+            "vs_benchmark": {"return_pct": 0.0, "same_day": True, "note": "Active sleeve not present."},
+            "start_date": None,
+            "status": "missing",
+            "strategy_id": strategy_default,
+        }
+
+    pf = load_json(portfolio_path)
+    rules = load_json(rules_path) if rules_path.exists() else {}
+    uni = load_json(universe_path) if universe_path.exists() else {}
+    bench = uni.get("benchmark", default_bench)
+    out = mark_sleeve(
+        pf,
+        portfolio_path,
+        ledger_path,
+        bench,
+        bench_key,
+        default_starting,
+        as_of,
+        price_decimals=price_decimals,
+    )
+    out["caps"] = caps_from_rules(rules, has_sector=has_sector)
+    start = portfolio_start_date(pf, ledger_path)
+    today = datetime.now(TZ).date()
+    out["vs_benchmark"] = bench_return_since(bench, start, today, out["bench_last_close"])
+    if out["vs_benchmark"].get("same_day"):
+        out["vs_benchmark"]["return_pct"] = 0.0
+    out["start_date"] = start.isoformat() if start else None
+    out["status"] = "booked" if out.get("holdings") else "cash_only"
+    out["strategy_id"] = locked_strategy_id(
+        sleeve_key, rules.get("strategy_name", strategy_default)
+    )
+    return out
+
+
 def main():
     REPORTS.mkdir(parents=True, exist_ok=True)
     now = datetime.now(TZ)
@@ -2553,6 +2893,46 @@ def main():
         crypto_start=float(crypto.get("starting_capital", 25000.0)),
     )
 
+    active_equity = mark_active_or_empty(
+        portfolio_path=ACTIVE_EQUITY_PORTFOLIO,
+        ledger_path=ACTIVE_EQUITY_LEDGER,
+        rules_path=ACTIVE_EQUITY_RULES,
+        universe_path=ACTIVE_EQUITY_UNIVERSE,
+        bench_key="spy_last_close",
+        default_bench="SPY",
+        default_starting=100000.0,
+        as_of=as_of,
+        price_decimals=4,
+        has_sector=True,
+        strategy_default="equity_15m_ema_trend",
+        sleeve_key="active_equity",
+    )
+    active_crypto = mark_active_or_empty(
+        portfolio_path=ACTIVE_CRYPTO_PORTFOLIO,
+        ledger_path=ACTIVE_CRYPTO_LEDGER,
+        rules_path=ACTIVE_CRYPTO_RULES,
+        universe_path=ACTIVE_CRYPTO_UNIVERSE,
+        bench_key="btc_last_close",
+        default_bench="BTC-USD",
+        default_starting=25000.0,
+        as_of=as_of,
+        price_decimals=6,
+        has_sector=False,
+        strategy_default="crypto_15m_ema_trend",
+        sleeve_key="active_crypto",
+    )
+
+    ah_nav = round(active_equity["nav"] + active_crypto["nav"], 2)
+    ah_start = round(
+        active_equity["starting_capital"] + active_crypto["starting_capital"], 2
+    )
+    ah_pnl = round(ah_nav - ah_start, 2)
+    if abs(ah_pnl) < 0.005:
+        ah_pnl = 0.0
+    ah_pnl_pct = (ah_pnl / ah_start * 100.0) if ah_start else 0.0
+    if abs(ah_pnl_pct) < 1e-9:
+        ah_pnl_pct = 0.0
+
     data = {
         "as_of": as_of,
         "as_of_display": now.strftime("%Y-%m-%d %H:%M:%S %Z"),
@@ -2565,6 +2945,16 @@ def main():
         },
         "equity": equity,
         "crypto": crypto,
+        "active": {
+            "household": {
+                "nav": ah_nav,
+                "starting_capital": ah_start,
+                "total_pnl": round(ah_pnl, 2),
+                "total_pnl_pct": round(ah_pnl_pct, 4),
+            },
+            "equity": active_equity,
+            "crypto": active_crypto,
+        },
         "pnl_history": pnl_history,
     }
 
@@ -2587,6 +2977,15 @@ def main():
         f"failed={crypto.get('failed_tickers', [])}"
     )
     print(f"household nav={hh_nav:.2f} pnl={hh_pnl:.2f}")
+    print(
+        f"active_equity nav={active_equity['nav']:.2f} pnl={active_equity['total_pnl']:.2f} "
+        f"failed={active_equity.get('failed_tickers', [])}"
+    )
+    print(
+        f"active_crypto nav={active_crypto['nav']:.2f} pnl={active_crypto['total_pnl']:.2f} "
+        f"failed={active_crypto.get('failed_tickers', [])}"
+    )
+    print(f"active_household nav={ah_nav:.2f} pnl={ah_pnl:.2f}")
     counts = pnl_history.get("counts") or {}
     print(
         f"pnl_history points household={counts.get('household')} "

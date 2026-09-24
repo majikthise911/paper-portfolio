@@ -11,6 +11,7 @@ Simulated long-only US portfolio. No real brokerage. No live orders.
 - `reports/` - mark reports, allocation proposals, and dashboard
 - `scripts/` - mark.py, screen.py, allocate.py, dashboard.py, crypto_*.py
 - `sleeves/crypto/` - separate crypto paper sleeve (booked; not mixed into equity rank)
+- `sleeves/active/` - parallel 15m EMA experiment (equity $100k + crypto $25k; shown on the same Pages dashboard)
 
 ## Ops
 
@@ -23,7 +24,7 @@ python scripts/allocate.py          # propose only; does not execute
 python scripts/crypto_mark.py
 python scripts/crypto_screen.py
 python scripts/crypto_allocate.py   # propose only; does not book positions
-python scripts/dashboard.py         # combined equity + crypto household HTML
+python scripts/dashboard.py         # momentum + active household HTML (marks active too)
 ```
 
 ## Dashboard
@@ -40,7 +41,7 @@ Open the report in a browser:
 - Marvin path: `/Volumes/Marvin SSD/Projects/paper-portfolio/reports/dashboard.html`
 - GitHub Pages: https://majikthise911.github.io/paper-portfolio/
 
-Also written: `reports/dashboard_data.json` (same snapshot the HTML embeds) and `reports/pnl_history.json` (ledger-based P&L time series for the chart).
+Also written: `reports/dashboard_data.json` (same snapshot the HTML embeds) and `reports/pnl_history.json` (ledger-based P&L time series for the momentum chart). The HTML includes a separate Active (15m EMA) card row and holdings. Active marks refresh via yfinance during this rebuild. The P&L chart stays momentum-only.
 
 ### Live-ish browser prices
 

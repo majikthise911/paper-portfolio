@@ -1,0 +1,92 @@
+{
+  "as_of": "2026-09-24T09:14:07.357292-04:00",
+  "mode": "propose",
+  "executed": true,
+  "strategy": "crypto_15m_ema_trend",
+  "sleeve": "active_crypto",
+  "nav": 25000.0,
+  "session": "24/7",
+  "params": {
+    "EMA_fast": 8,
+    "EMA_slow": 21,
+    "ATR_period": 14,
+    "stop_atr_mult": 2.0
+  },
+  "caps": {
+    "max_single_name_pct": 0.25,
+    "min_cash_pct": 0.2,
+    "max_concurrent_positions": 4
+  },
+  "universe_scanned": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD",
+    "AVAX-USD",
+    "LINK-USD"
+  ],
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "LINK-USD",
+      "close": 12.343,
+      "ema_fast": 12.274148,
+      "ema_slow": 12.269247,
+      "atr": 0.0576,
+      "strength": 0.085077,
+      "bullish_cross": true,
+      "last_bar": "2026-09-24 09:00:00-04:00"
+    }
+  ],
+  "proposed_trades": [
+    {
+      "ticker": "LINK-USD",
+      "side": "BUY",
+      "shares": 506,
+      "est_price": 12.343,
+      "est_dollars": 6245.56,
+      "weight": 0.249822,
+      "target_weight": 0.25,
+      "sector": "oracle",
+      "signal": "ema_trend_long",
+      "ema_fast": 12.274148,
+      "ema_slow": 12.269247,
+      "atr": 0.0576,
+      "stop_price": 12.227801,
+      "stop_distance": 0.115199,
+      "strength": 0.085077,
+      "bullish_cross": true,
+      "last_bar": "2026-09-24 09:00:00-04:00"
+    }
+  ],
+  "summary": {
+    "n_ok": 5,
+    "n_fail": 0,
+    "n_signals": 1,
+    "n_proposed_buys": 1,
+    "est_invested": 6245.56,
+    "est_cash_after": 18754.44,
+    "est_cash_pct": 0.750178
+  },
+  "governance": {
+    "executed": true,
+    "requires_jordan_yes_before_fills": false,
+    "do_not_book_until_trade_batch_yes": false,
+    "hold_reason": null,
+    "executed_at": "2026-09-24T09:21:48-04:00"
+  },
+  "notes": "EXECUTED paper fill after Jordan yes 2026-09-24 book LINK now. BUY 504 LINK-USD @ 12.386 ($6242.54). Never writes into sleeves/crypto/ momentum book.",
+  "executed_at": "2026-09-24T09:21:48-04:00",
+  "fill": {
+    "ticker": "LINK-USD",
+    "side": "BUY",
+    "shares": 504,
+    "price": 12.386,
+    "dollars": 6242.54,
+    "cash_after": 18757.46,
+    "nav_after": 25000.0,
+    "proposed_shares": 506,
+    "proposed_price": 12.343,
+    "proposed_dollars": 6245.56,
+    "fill_note": "Shares resized to 504 @ yfinance last 12.386 to stay under 25% single-name cap (~$6250)."
+  }
+}

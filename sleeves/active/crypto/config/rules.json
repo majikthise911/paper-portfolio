@@ -1,0 +1,50 @@
+{
+  "strategy_name": "active_15m_crypto_v1",
+  "sleeve": "active_crypto",
+  "parallel_to": "sleeves/crypto_momentum",
+  "long_only": true,
+  "no_shorts": true,
+  "no_leverage": true,
+  "no_options": true,
+  "no_perpetual_futures": true,
+  "paper_only": true,
+  "bar_timeframe": "15m",
+  "signal": {
+    "starter_strategy_ref": "strategies/crypto_15m_ema_trend.md",
+    "note": "Starter strategy LOCKED 2026-09-24; Jordan yes on strategy. Still no paper fills until Jordan yes on a trade-batch proposal (executed:false). Not the weekly 63d momentum rank."
+  },
+  "position_caps": {
+    "max_single_name_pct": 0.25,
+    "max_invested_pct": 0.8,
+    "min_cash_pct": 0.2,
+    "max_concurrent_positions": 4,
+    "caps_note": "Mirrors momentum crypto caps (25% single / 20% min cash). Added max_concurrent_positions=4 given 5-name universe."
+  },
+  "rebalance": {
+    "cadence": "15m",
+    "propose_during": "24/7",
+    "benchmark": "BTC-USD",
+    "mark_to_market": true,
+    "note": "Crypto paper marks and proposals may run 24/7 on 15m bars. Separate from weekly momentum crypto sleeve."
+  },
+  "differences_vs_momentum": [
+    "Cadence 15m vs weekly",
+    "Signal is intraday EMA trend starter (proposed), not 63d/252d momentum RS",
+    "Universe identical to momentum crypto",
+    "max_concurrent_positions=4 added",
+    "Separate state/ledger under sleeves/active/crypto/; never shares fills with sleeves/crypto/"
+  ],
+  "aspiration_apy": 0.3,
+  "aspiration_note": "30% APY is aspiration metric only; never an auto-rewire stop",
+  "governance": {
+    "propose_tweaks_only": true,
+    "never_change_rules_without_jordan_approval": true,
+    "never_place_real_trades": true,
+    "proposals_require_approval_before_execution": true,
+    "scaffold_only_until_strategy_yes": false,
+    "strategy_locked": true,
+    "fills_require_trade_batch_yes": true
+  },
+  "starting_capital": 25000.0,
+  "rule_version": 1
+}

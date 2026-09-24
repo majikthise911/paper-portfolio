@@ -1,0 +1,25 @@
+{
+  "benchmark": "BTC-USD",
+  "benchmark_note": "BTC-USD is benchmark for active crypto sleeve marks. Same spot set as momentum crypto sleeve unless documented otherwise.",
+  "bar_timeframe": "15m",
+  "selection_note": "Identical to sleeves/crypto momentum universe (BTC ETH SOL AVAX LINK). No change needed for active 15m paper marks.",
+  "spot": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD",
+    "AVAX-USD",
+    "LINK-USD"
+  ],
+  "etf_proxies_off": {
+    "note": "Spot crypto tickers only. ETF proxies (IBIT, FBTC) stay OFF unless Jordan later approves.",
+    "tickers": ["IBIT", "FBTC"],
+    "enabled": false
+  },
+  "sector_map": {
+    "BTC-USD": "layer1",
+    "ETH-USD": "layer1",
+    "SOL-USD": "layer1",
+    "AVAX-USD": "layer1",
+    "LINK-USD": "oracle"
+  }
+}
