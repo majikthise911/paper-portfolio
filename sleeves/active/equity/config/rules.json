@@ -1,0 +1,57 @@
+{
+  "strategy_name": "active_15m_equity_v1",
+  "sleeve": "active_equity",
+  "parallel_to": "root_momentum_equity",
+  "long_only": true,
+  "no_shorts": true,
+  "no_leverage": true,
+  "no_options": true,
+  "paper_only": true,
+  "bar_timeframe": "15m",
+  "signal": {
+    "starter_strategy_ref": "strategies/equity_15m_ema_trend.md",
+    "note": "Starter strategy LOCKED 2026-09-24; Jordan yes on strategy. Still no paper fills until Jordan yes on a trade-batch proposal (executed:false). Not the weekly 63d momentum rank."
+  },
+  "position_caps": {
+    "max_single_name_pct": 0.15,
+    "max_sector_etf_sleeve_pct": 0.4,
+    "max_invested_pct": 0.8,
+    "min_cash_pct": 0.2,
+    "max_tech_megacap_sleeve_pct": 0.3,
+    "tech_megacap_tickers": [
+      "AAPL",
+      "MSFT",
+      "NVDA"
+    ],
+    "max_concurrent_positions": 8,
+    "caps_note": "Mirrors momentum equity caps where they still fit active trading. Added max_concurrent_positions=8 for higher-activity books. Tech mega-cap sleeve cap retained."
+  },
+  "rebalance": {
+    "cadence": "15m",
+    "propose_during": "US_RTH",
+    "propose_hours_et": "09:30-16:00",
+    "benchmark": "SPY",
+    "mark_to_market": true,
+    "note": "Propose trade ideas on 15m bars during regular market hours only. Never mix into weekly momentum ranks."
+  },
+  "differences_vs_momentum": [
+    "Cadence 15m vs weekly",
+    "Signal is intraday EMA trend starter (proposed), not 63d/252d momentum RS",
+    "Universe is liquid subset (dropped HYG/EFA/EEM)",
+    "max_concurrent_positions=8 added for active sleeve",
+    "Separate state/ledger; never shares fills with root equity book"
+  ],
+  "aspiration_apy": 0.3,
+  "aspiration_note": "30% APY is aspiration metric only; never an auto-rewire stop",
+  "governance": {
+    "propose_tweaks_only": true,
+    "never_change_rules_without_jordan_approval": true,
+    "never_place_real_trades": true,
+    "proposals_require_approval_before_execution": true,
+    "scaffold_only_until_strategy_yes": false,
+    "strategy_locked": true,
+    "fills_require_trade_batch_yes": true
+  },
+  "starting_capital": 100000.0,
+  "rule_version": 1
+}
