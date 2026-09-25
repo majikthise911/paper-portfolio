@@ -434,8 +434,8 @@ def render_pnl_svg(hist: dict, metric: str | None = None) -> str:
 
     hh = pts("household")
     ah = pts("active_household")
-    spy = pts("spy")
-    allp = hh + ah + spy
+    # SPY off by default; JS toggle can add it. Pre-render matches default view.
+    allp = hh + ah
     W, H = 1000, 280
     pad = {"l": 64, "r": 16, "t": 16, "b": 40}
     iw, ih = W - pad["l"] - pad["r"], H - pad["t"] - pad["b"]
@@ -497,7 +497,7 @@ def render_pnl_svg(hist: dict, metric: str | None = None) -> str:
     parts.append(
         f'<line class="axis" x1="{pad["l"]}" y1="{H - pad["b"]}" x2="{W - pad["r"]}" y2="{H - pad["b"]}" />'
     )
-    label_src = hh if hh else (ah if ah else spy)
+    label_src = hh if hh else ah
     for t, v, _ts in (label_src[0], label_src[len(label_src) // 2], label_src[-1]) if label_src else []:
         d = datetime.fromtimestamp(t, TZ)
         lab = d.strftime("%m/%d %H:%M")
@@ -522,10 +522,8 @@ def render_pnl_svg(hist: dict, metric: str | None = None) -> str:
 
     parts.append(path(hh, "line-hh"))
     parts.append(path(ah, "line-ah"))
-    parts.append(path(spy, "line-spy"))
     parts.append(dots(hh, "dot-hh"))
     parts.append(dots(ah, "dot-ah"))
-    parts.append(dots(spy, "dot-spy", r=4.8))
     return "\n".join(parts)
 
 
@@ -1120,6 +1118,7 @@ def build_pnl_history(
         "currency": "USD",
         "default_metric": "pnl_pct",
         "default_view": "household",
+        "default_show_spy": False,
         "starting_capital": {
             "equity": round(eq_start, 2),
             "crypto": round(cr_start, 2),
@@ -1468,28 +1467,43 @@ def build_html(data: dict) -> str:
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px 16px;
-    margin: 0 0 10px;
+    gap: 10px 14px;
+    margin: 0 0 8px;
   }}
-
-  .pnl-range-row {{
+  .pnl-secondary {{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px 10px;
-    margin: 0 0 12px;
+    gap: 8px 12px;
+    margin: 0 0 10px;
   }}
-  .pnl-range-label {{
-    color: var(--muted);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-right: 4px;
+  .pnl-seg {{
+    display: inline-flex;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #1a2332;
+  }}
+  .pnl-seg .pnl-toggle {{
+    border: none;
+    border-radius: 0;
+    border-right: 1px solid var(--panel-border);
+    min-width: 0;
+    padding: 6px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: transparent;
+  }}
+  .pnl-seg .pnl-toggle:last-child {{ border-right: none; }}
+  .pnl-seg .pnl-toggle[aria-pressed="true"] {{
+    background: #243044;
+    border-color: transparent;
+    color: var(--accent);
   }}
   .pnl-range {{
     display: inline-flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 4px;
   }}
   .pnl-toggle {{
     appearance: none;
@@ -1497,19 +1511,56 @@ def build_html(data: dict) -> str:
     background: #243044;
     color: var(--text);
     border-radius: 8px;
-    padding: 8px 14px;
+    padding: 6px 12px;
     font: inherit;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    min-width: 3rem;
+    min-width: 2.75rem;
   }}
-
+  .pnl-toggle.quiet {{
+    background: transparent;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }}
+  .pnl-toggle.quiet[aria-pressed="true"] {{
+    border-color: #5a6a83;
+    color: var(--text);
+  }}
+  .pnl-secondary .pnl-toggle {{
+    background: transparent;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 0.78rem;
+    padding: 3px 9px;
+    border-radius: 6px;
+    min-width: 2.4rem;
+  }}
+  .pnl-secondary .pnl-toggle[aria-pressed="true"] {{
+    border-color: #4a5a73;
+    color: var(--text);
+    background: #1e2838;
+  }}
+  .pnl-advanced {{
+    margin-left: auto;
+  }}
+  .pnl-advanced summary {{
+    list-style: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 0.78rem;
+    user-select: none;
+  }}
+  .pnl-advanced summary::-webkit-details-marker {{ display: none; }}
+  .pnl-advanced[open] summary {{ color: var(--text); margin-bottom: 6px; }}
+  .pnl-advanced .pnl-range {{ gap: 4px; }}
   .pnl-legend {{
     display: flex;
     flex-wrap: wrap;
-    gap: 12px 18px;
-    font-size: 0.85rem;
+    gap: 10px 14px;
+    font-size: 0.82rem;
     color: var(--muted);
   }}
   .pnl-legend span {{ display: inline-flex; align-items: center; gap: 6px; }}
@@ -1523,10 +1574,13 @@ def build_html(data: dict) -> str:
   .pnl-swatch.cr {{ background: #e6b450; }}
   .pnl-swatch.ac {{ background: #f0886a; }}
   .pnl-swatch.spy {{ background: #f0c14a; }}
-  /* pnl-toggle base styles set with pnl-range-row */
   .pnl-toggle[aria-pressed="true"] {{
     border-color: var(--accent);
     color: var(--accent);
+  }}
+  #pnl-spy-note {{
+    font-size: 0.8rem;
+    margin: 0 0 8px;
   }}
   #pnl-chart-wrap {{
     width: 100%;
@@ -1695,38 +1749,39 @@ def build_html(data: dict) -> str:
     <h2>P&amp;L over time <span class="tag tag-active">momentum vs active</span></h2>
     {sparse_note}
     <div class="pnl-toolbar">
-      <div class="pnl-legend" id="pnl-legend" aria-label="Series legend">
-        <span data-legend="hh"><i class="pnl-swatch hh" aria-hidden="true"></i>Momentum household</span>
-        <span data-legend="ah"><i class="pnl-swatch ah" aria-hidden="true"></i>Active household</span>
-        <span data-legend="eq" hidden><i class="pnl-swatch eq" aria-hidden="true"></i>Momentum equity</span>
-        <span data-legend="ae" hidden><i class="pnl-swatch ae" aria-hidden="true"></i>Active equity</span>
-        <span data-legend="cr" hidden><i class="pnl-swatch cr" aria-hidden="true"></i>Momentum crypto</span>
-        <span data-legend="ac" hidden><i class="pnl-swatch ac" aria-hidden="true"></i>Active crypto</span>
-        <span data-legend="spy"><i class="pnl-swatch spy" aria-hidden="true"></i>SPY</span>
-      </div>
-      <div class="pnl-range" role="group" aria-label="Compare view">
+      <div class="pnl-seg" role="group" aria-label="Compare scope">
         <button type="button" class="pnl-toggle" id="pnl-view-household" aria-pressed="true" title="Compare household totals">Household</button>
         <button type="button" class="pnl-toggle" id="pnl-view-equity" aria-pressed="false" title="Compare equity sleeves only">Equity</button>
         <button type="button" class="pnl-toggle" id="pnl-view-crypto" aria-pressed="false" title="Compare crypto sleeves only">Crypto</button>
       </div>
+      <button type="button" class="pnl-toggle quiet" id="pnl-vs-spy" aria-pressed="false" title="Toggle SPY baseline comparison">vs SPY</button>
+      <div class="pnl-legend" id="pnl-legend" aria-label="Series legend">
+        <span data-legend="hh"><i class="pnl-swatch hh" aria-hidden="true"></i>Momentum</span>
+        <span data-legend="ah"><i class="pnl-swatch ah" aria-hidden="true"></i>Active</span>
+        <span data-legend="eq" hidden><i class="pnl-swatch eq" aria-hidden="true"></i>Momentum</span>
+        <span data-legend="ae" hidden><i class="pnl-swatch ae" aria-hidden="true"></i>Active</span>
+        <span data-legend="cr" hidden><i class="pnl-swatch cr" aria-hidden="true"></i>Momentum</span>
+        <span data-legend="ac" hidden><i class="pnl-swatch ac" aria-hidden="true"></i>Active</span>
+        <span data-legend="spy" hidden><i class="pnl-swatch spy" aria-hidden="true"></i>SPY</span>
+      </div>
+      <details class="pnl-advanced">
+        <summary>More</summary>
+        <div class="pnl-range" role="group" aria-label="Chart metric">
+          <button type="button" class="pnl-toggle quiet" id="pnl-metric-pnl" aria-pressed="true" title="Return percent since each series start">P&amp;L %</button>
+          <button type="button" class="pnl-toggle quiet" id="pnl-metric-nav" aria-pressed="false" title="NAV indexed to 100 at each series start">NAV index</button>
+        </div>
+      </details>
+    </div>
+    <div class="pnl-secondary">
       <div class="pnl-range" role="group" aria-label="Chart timeframe">
         <button type="button" class="pnl-toggle" id="pnl-range-1d" aria-pressed="false">1D</button>
         <button type="button" class="pnl-toggle" id="pnl-range-1w" aria-pressed="false">1W</button>
         <button type="button" class="pnl-toggle" id="pnl-range-1m" aria-pressed="false">1M</button>
         <button type="button" class="pnl-toggle" id="pnl-range-all" aria-pressed="true">ALL</button>
       </div>
-      <div class="pnl-range" role="group" aria-label="Benchmark comparison">
-        <button type="button" class="pnl-toggle" id="pnl-vs-spy" aria-pressed="true" title="Toggle SPY baseline comparison">vs SPY</button>
-      </div>
-      <div class="pnl-metric" role="group" aria-label="Chart metric">
-        <button type="button" class="pnl-toggle" id="pnl-metric-pnl" aria-pressed="true" title="Return percent since each series start">P&amp;L %</button>
-        <button type="button" class="pnl-toggle" id="pnl-metric-nav" aria-pressed="false" title="NAV indexed to 100 at each series start">NAV index</button>
-      </div>
-      <div class="pnl-range" role="group" aria-label="Chart zoom">
-        <button type="button" class="pnl-toggle" id="pnl-reset-zoom" title="Reset drag-rectangle zoom">Reset zoom</button>
-      </div>
+      <button type="button" class="pnl-toggle" id="pnl-reset-zoom" title="Reset drag-rectangle zoom">Reset zoom</button>
     </div>
-    <p class="blurb" id="pnl-spy-note">Each series is normalized to its own start (0% or 100 index) so different start dates still compare fairly. SPY is buy-and-hold from the momentum equity start, shown as the same percent scale when enabled.</p>
+    <p class="blurb" id="pnl-spy-note">Each series starts at 0%. Drag to zoom. Turn on vs SPY to compare.</p>
     <div id="pnl-chart-wrap">
       <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="Momentum versus active P and L over time">{render_pnl_svg(pnl_hist)}</svg>
     </div>
@@ -2345,7 +2400,9 @@ def build_html(data: dict) -> str:
     "1m": 30 * 24 * 60 * 60 * 1000
   }};
   var baseNote = (hist && hist.note) || "";
-  var showSpy = true;
+  var showSpy = (hist && typeof hist.default_show_spy === "boolean")
+    ? hist.default_show_spy
+    : false;
   var brushZoom = null; // null | {{ tMin, tMax, yMin, yMax }}
   var noteEl = document.getElementById("pnl-history-note");
   var spyNoteEl = document.getElementById("pnl-spy-note");
@@ -2836,14 +2893,14 @@ def build_html(data: dict) -> str:
 
     // Draw SPY last for visibility over overlapping series.
     if (view === "household") {{
-      drawSeries(mom, "line-hh", "dot-hh", "Momentum household");
-      drawSeries(act, "line-ah", "dot-ah", "Active household");
+      drawSeries(mom, "line-hh", "dot-hh", "Momentum");
+      drawSeries(act, "line-ah", "dot-ah", "Active");
     }} else if (view === "equity") {{
-      drawSeries(mom, "line-eq", "dot-eq", "Momentum equity");
-      drawSeries(act, "line-ae", "dot-ae", "Active equity");
+      drawSeries(mom, "line-eq", "dot-eq", "Momentum");
+      drawSeries(act, "line-ae", "dot-ae", "Active");
     }} else {{
-      drawSeries(mom, "line-cr", "dot-cr", "Momentum crypto");
-      drawSeries(act, "line-ac", "dot-ac", "Active crypto");
+      drawSeries(mom, "line-cr", "dot-cr", "Momentum");
+      drawSeries(act, "line-ac", "dot-ac", "Active");
     }}
     drawSeries(spy, "line-spy", "dot-spy", "SPY", 4.8);
 
@@ -2872,7 +2929,6 @@ def build_html(data: dict) -> str:
   function setSpy(enabled) {{
     showSpy = enabled;
     if (btnSpy) btnSpy.setAttribute("aria-pressed", enabled ? "true" : "false");
-    if (spyNoteEl) spyNoteEl.hidden = !enabled;
     render();
   }}
 
@@ -2975,7 +3031,7 @@ def build_html(data: dict) -> str:
   if (btnRangeAll) btnRangeAll.addEventListener("click", function () {{ setRange("all"); }});
   if (btnSpy) btnSpy.addEventListener("click", function () {{ setSpy(!showSpy); }});
   if (btnResetZoom) btnResetZoom.addEventListener("click", function () {{ resetZoom(); }});
-  if (spyNoteEl) spyNoteEl.hidden = !showSpy;
+  setSpy(showSpy);
   setMetric(metric);
   setView(view);
 }})();

@@ -1,15 +1,15 @@
 {
-  "as_of": "2026-09-24T16:40:27-04:00",
-  "as_of_display": "2026-09-24 16:40:27 EDT",
+  "as_of": "2026-09-24T23:02:39-04:00",
+  "as_of_display": "2026-09-24 23:02:39 EDT",
   "currency": "USD",
   "household": {
-    "nav": 126509.34,
+    "nav": 126421.87,
     "starting_capital": 125000.0,
-    "total_pnl": 1509.34,
-    "total_pnl_pct": 1.2075
+    "total_pnl": 1421.87,
+    "total_pnl_pct": 1.1375
   },
   "equity": {
-    "as_of": "2026-09-24T16:40:27-04:00",
+    "as_of": "2026-09-24T23:02:39-04:00",
     "nav": 101527.89,
     "cash": 21404.69,
     "invested": 80123.2,
@@ -156,72 +156,72 @@
     "start_date": "2026-09-20"
   },
   "crypto": {
-    "as_of": "2026-09-24T16:40:27-04:00",
-    "nav": 24981.45,
+    "as_of": "2026-09-24T23:02:39-04:00",
+    "nav": 24893.98,
     "cash": 5000.0,
-    "invested": 19981.45,
-    "invested_pct": 79.9851,
-    "cash_weight_pct": 20.0149,
+    "invested": 19893.98,
+    "invested_pct": 79.9148,
+    "cash_weight_pct": 20.0852,
     "starting_capital": 25000.0,
-    "total_pnl": -18.55,
-    "total_pnl_pct": -0.0742,
-    "unrealized_pnl_total": -18.55,
+    "total_pnl": -106.02,
+    "total_pnl_pct": -0.4241,
+    "unrealized_pnl_total": -106.03,
     "peak_nav": 25746.09,
-    "drawdown_pct": -2.9699,
+    "drawdown_pct": -3.3097,
     "benchmark": "BTC-USD",
-    "bench_last_close": 84396.9922,
+    "bench_last_close": 84170.0078,
     "holdings": [
       {
         "ticker": "AVAX-USD",
         "shares": 551.243591,
         "avg_cost": 11.338,
         "cost_basis": 6250.0,
-        "last_price": 10.389,
-        "market_value": 5726.87,
-        "unrealized_pnl": -523.13,
-        "unrealized_pnl_pct": -8.3701,
+        "last_price": 10.191,
+        "market_value": 5617.72,
+        "unrealized_pnl": -632.28,
+        "unrealized_pnl_pct": -10.1164,
         "sector": "layer1",
         "stale": false,
-        "weight_pct": 22.9245
+        "weight_pct": 22.5666
       },
       {
         "ticker": "BTC-USD",
         "shares": 0.04394,
         "avg_cost": 81221.960938,
         "cost_basis": 3568.89,
-        "last_price": 84396.992188,
-        "market_value": 3708.4,
-        "unrealized_pnl": 139.51,
-        "unrealized_pnl_pct": 3.9092,
+        "last_price": 84170.007812,
+        "market_value": 3698.43,
+        "unrealized_pnl": 129.54,
+        "unrealized_pnl_pct": 3.6297,
         "sector": "layer1",
         "stale": false,
-        "weight_pct": 14.8446
+        "weight_pct": 14.8567
       },
       {
         "ticker": "ETH-USD",
         "shares": 1.808428,
         "avg_cost": 2640.600098,
         "cost_basis": 4775.34,
-        "last_price": 2688.120117,
-        "market_value": 4861.27,
-        "unrealized_pnl": 85.93,
-        "unrealized_pnl_pct": 1.7995,
+        "last_price": 2674.030029,
+        "market_value": 4835.79,
+        "unrealized_pnl": 60.45,
+        "unrealized_pnl_pct": 1.2659,
         "sector": "layer1",
         "stale": false,
-        "weight_pct": 19.4595
+        "weight_pct": 19.4255
       },
       {
         "ticker": "LINK-USD",
         "shares": 432.773144,
         "avg_cost": 12.491,
         "cost_basis": 5405.77,
-        "last_price": 13.136,
-        "market_value": 5684.91,
-        "unrealized_pnl": 279.14,
-        "unrealized_pnl_pct": 5.1637,
+        "last_price": 13.268,
+        "market_value": 5742.03,
+        "unrealized_pnl": 336.26,
+        "unrealized_pnl_pct": 6.2205,
         "sector": "oracle",
         "stale": false,
-        "weight_pct": 22.7565
+        "weight_pct": 23.0659
       }
     ],
     "prices_refreshed": true,
@@ -240,10 +240,10 @@
     },
     "vs_benchmark": {
       "benchmark": "BTC-USD",
-      "return_pct": 4.0107,
+      "return_pct": 3.731,
       "same_day": false,
       "start_close": 81142.6094,
-      "end_close": 84396.9922,
+      "end_close": 84170.0078,
       "note": "Versus BTC-USD is sleeve total return since start minus BTC-USD total return since the sleeve start date (rough, price-only)."
     },
     "start_date": "2026-09-20",
@@ -251,13 +251,13 @@
   },
   "active": {
     "household": {
-      "nav": 125384.63,
+      "nav": 125451.16,
       "starting_capital": 125000.0,
-      "total_pnl": 384.63,
-      "total_pnl_pct": 0.3077
+      "total_pnl": 451.16,
+      "total_pnl_pct": 0.3609
     },
     "equity": {
-      "as_of": "2026-09-24T16:40:27-04:00",
+      "as_of": "2026-09-24T23:02:39-04:00",
       "nav": 100006.63,
       "cash": 55496.16,
       "invested": 44510.47,
@@ -341,33 +341,33 @@
       "strategy_id": "equity_15m_ema_trend"
     },
     "crypto": {
-      "as_of": "2026-09-24T16:40:27-04:00",
-      "nav": 25378.0,
+      "as_of": "2026-09-24T23:02:39-04:00",
+      "nav": 25444.53,
       "cash": 18757.46,
-      "invested": 6620.54,
-      "invested_pct": 26.0877,
-      "cash_weight_pct": 73.9123,
+      "invested": 6687.07,
+      "invested_pct": 26.281,
+      "cash_weight_pct": 73.719,
       "starting_capital": 25000.0,
-      "total_pnl": 378.0,
-      "total_pnl_pct": 1.512,
-      "unrealized_pnl_total": 378.0,
+      "total_pnl": 444.53,
+      "total_pnl_pct": 1.7781,
+      "unrealized_pnl_total": 444.53,
       "peak_nav": 25487.88,
-      "drawdown_pct": -0.4311,
+      "drawdown_pct": -0.1701,
       "benchmark": "BTC-USD",
-      "bench_last_close": 84396.9922,
+      "bench_last_close": 84170.0078,
       "holdings": [
         {
           "ticker": "LINK-USD",
           "shares": 504.0,
           "avg_cost": 12.386,
           "cost_basis": 6242.54,
-          "last_price": 13.136,
-          "market_value": 6620.54,
-          "unrealized_pnl": 378.0,
-          "unrealized_pnl_pct": 6.0553,
+          "last_price": 13.268,
+          "market_value": 6687.07,
+          "unrealized_pnl": 444.53,
+          "unrealized_pnl_pct": 7.121,
           "sector": "oracle",
           "stale": false,
-          "weight_pct": 26.0877
+          "weight_pct": 26.281
         }
       ],
       "prices_refreshed": true,
@@ -389,7 +389,7 @@
         "return_pct": 0.0,
         "same_day": true,
         "start_close": null,
-        "end_close": 84396.9922,
+        "end_close": 84170.0078,
         "note": "Versus BTC-USD compares sleeve total return since start to BTC-USD total return over the same window. Start date is today, so both returns are treated as 0.0% for this same-day view."
       },
       "start_date": "2026-09-24",
@@ -398,10 +398,11 @@
     }
   },
   "pnl_history": {
-    "as_of": "2026-09-24T16:40:31-04:00",
+    "as_of": "2026-09-24T23:02:41-04:00",
     "currency": "USD",
     "default_metric": "pnl_pct",
     "default_view": "household",
+    "default_show_spy": false,
     "starting_capital": {
       "equity": 100000.0,
       "crypto": 25000.0,
@@ -412,12 +413,12 @@
     },
     "counts": {
       "equity": 91,
-      "crypto": 113,
-      "household": 169,
-      "spy": 169,
-      "active_equity": 12,
-      "active_crypto": 12,
-      "active_household": 13
+      "crypto": 114,
+      "household": 170,
+      "spy": 170,
+      "active_equity": 13,
+      "active_crypto": 13,
+      "active_household": 14
     },
     "series": {
       "equity": [
@@ -1142,7 +1143,7 @@
           "nav_index": 101.52789
         },
         {
-          "ts": "2026-09-24T16:40:27-04:00",
+          "ts": "2026-09-24T23:02:39-04:00",
           "nav": 101527.89,
           "pnl": 1527.89,
           "starting_capital": 100000.0,
@@ -2054,6 +2055,14 @@
           "starting_capital": 25000.0,
           "pnl_pct": -0.0742,
           "nav_index": 99.9258
+        },
+        {
+          "ts": "2026-09-24T23:02:39-04:00",
+          "nav": 24893.98,
+          "pnl": -106.02,
+          "starting_capital": 25000.0,
+          "pnl_pct": -0.42408,
+          "nav_index": 99.57592
         }
       ],
       "household": [
@@ -3746,6 +3755,16 @@
           "starting_capital": 125000.0,
           "pnl_pct": 1.207472,
           "nav_index": 101.207472
+        },
+        {
+          "ts": "2026-09-24T23:02:39-04:00",
+          "nav": 126421.87,
+          "pnl": 1421.87,
+          "equity_nav": 101527.89,
+          "crypto_nav": 24893.98,
+          "starting_capital": 125000.0,
+          "pnl_pct": 1.137496,
+          "nav_index": 101.137496
         }
       ],
       "spy": [
@@ -5269,6 +5288,15 @@
           "starting_capital": 100000.0,
           "pnl_pct": 0.72077,
           "nav_index": 100.72077
+        },
+        {
+          "ts": "2026-09-24T23:02:39-04:00",
+          "nav": 100720.77,
+          "pnl": 720.77,
+          "spy_px": 767.18,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.72077,
+          "nav_index": 100.72077
         }
       ],
       "active_equity": [
@@ -5362,6 +5390,14 @@
         },
         {
           "ts": "2026-09-24T16:40:27-04:00",
+          "nav": 100006.63,
+          "pnl": 6.63,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.00663,
+          "nav_index": 100.00663
+        },
+        {
+          "ts": "2026-09-24T23:02:39-04:00",
           "nav": 100006.63,
           "pnl": 6.63,
           "starting_capital": 100000.0,
@@ -5465,6 +5501,14 @@
           "starting_capital": 25000.0,
           "pnl_pct": 1.512,
           "nav_index": 101.512
+        },
+        {
+          "ts": "2026-09-24T23:02:39-04:00",
+          "nav": 25444.53,
+          "pnl": 444.53,
+          "starting_capital": 25000.0,
+          "pnl_pct": 1.77812,
+          "nav_index": 101.77812
         }
       ],
       "active_household": [
@@ -5597,6 +5641,16 @@
           "starting_capital": 125000.0,
           "pnl_pct": 0.307704,
           "nav_index": 100.307704
+        },
+        {
+          "ts": "2026-09-24T23:02:39-04:00",
+          "nav": 125451.16,
+          "pnl": 451.16,
+          "equity_nav": 100006.63,
+          "crypto_nav": 25444.53,
+          "starting_capital": 125000.0,
+          "pnl_pct": 0.360928,
+          "nav_index": 100.360928
         }
       ]
     },
