@@ -1,0 +1,61 @@
+{
+  "as_of": "2026-09-28T09:19:43-04:00",
+  "horizon_note": "Live book is ~6 trading days old (booked 2026-09-20; equity rebalance 2026-09-24). Live method P&L is still early; scorecard pairs live marks with cross-section screen proxies. Not enough history to auto-switch.",
+  "equity": {
+    "method": "weekly_momentum_rs_63d",
+    "live_pnl_pct_since_book": 1.7232,
+    "spy_pct_same_window": 1.2682,
+    "spy_at_book_approx": 761.69,
+    "spy_now": 771.35,
+    "nav": 101723.17,
+    "recommendation": "stay",
+    "alts_screen_proxy": {
+      "momentum_top8_avg_63d": 0.18908548654468055,
+      "mean_reversion_bottom8_avg_63d": -0.06262089368829747,
+      "slower_12m_rank_top8_avg_63d": 0.09658389316229765,
+      "equal_weight_note": "Equal-weight of the same momentum top8 is a weighting tweak, not a different signal.",
+      "spy_63d": 0.06073523942506531,
+      "spy_252d": 0.17935529724045307,
+      "buy_and_hold_spy_same_window_pct": 1.2682
+    }
+  },
+  "crypto": {
+    "method": "weekly_momentum_rs_63d",
+    "live_pnl_pct_since_book": 2.3011,
+    "btc_pct_same_window": 2.3215,
+    "btc_at_book_approx": 81458.9922,
+    "btc_now": 83350.0391,
+    "nav": 25575.28,
+    "recommendation": "stay",
+    "screen": [
+      [
+        "LINK-USD",
+        0.7369967586769344,
+        null
+      ],
+      [
+        "AVAX-USD",
+        0.638650754191987,
+        null
+      ],
+      [
+        "SOL-USD",
+        0.61137074600326,
+        null
+      ],
+      [
+        "ETH-USD",
+        0.4184337120847712,
+        null
+      ],
+      [
+        "BTC-USD",
+        0.307966604987969,
+        null
+      ]
+    ],
+    "buy_and_hold_btc_same_window_pct": 2.3215
+  },
+  "hft_note": "Day-trading / true HFT not scored as a switch candidate: needs tick/L2 data, low-latency execution, and continuous session ops this paper stack does not have. The parallel active 15m EMA sleeve remains a separate experiment, not a method swap for the momentum control. No concrete evidence case to propose HFT this week.",
+  "overall_recommendation": "stay"
+}
