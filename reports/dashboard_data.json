@@ -1,132 +1,132 @@
 {
-  "as_of": "2026-09-28T15:38:52-04:00",
-  "as_of_display": "2026-09-28 15:38:52 EDT",
+  "as_of": "2026-09-28T16:38:59-04:00",
+  "as_of_display": "2026-09-28 16:38:59 EDT",
   "currency": "USD",
   "household": {
-    "nav": 126290.59,
+    "nav": 126525.73,
     "starting_capital": 125000.0,
-    "total_pnl": 1290.59,
-    "total_pnl_pct": 1.0325
+    "total_pnl": 1525.73,
+    "total_pnl_pct": 1.2206
   },
   "equity": {
-    "as_of": "2026-09-28T15:38:52-04:00",
-    "nav": 100665.41,
+    "as_of": "2026-09-28T16:38:59-04:00",
+    "nav": 100640.03,
     "cash": 21404.69,
-    "invested": 79260.72,
-    "invested_pct": 78.7368,
-    "cash_weight_pct": 21.2632,
+    "invested": 79235.34,
+    "invested_pct": 78.7314,
+    "cash_weight_pct": 21.2686,
     "starting_capital": 100000.0,
-    "total_pnl": 665.41,
-    "total_pnl_pct": 0.6654,
-    "unrealized_pnl_total": 860.65,
+    "total_pnl": 640.03,
+    "total_pnl_pct": 0.64,
+    "unrealized_pnl_total": 835.27,
     "peak_nav": 101724.7,
-    "drawdown_pct": -1.0413,
+    "drawdown_pct": -1.0663,
     "benchmark": "SPY",
-    "bench_last_close": 765.3495,
+    "bench_last_close": 765.61,
     "holdings": [
       {
         "ticker": "AAPL",
         "shares": 27.0,
         "avg_cost": 336.13,
         "cost_basis": 9075.51,
-        "last_price": 338.094,
-        "market_value": 9128.54,
-        "unrealized_pnl": 53.03,
-        "unrealized_pnl_pct": 0.5843,
+        "last_price": 338.4,
+        "market_value": 9136.8,
+        "unrealized_pnl": 61.29,
+        "unrealized_pnl_pct": 0.6753,
         "sector": "tech",
         "stale": false,
-        "weight_pct": 9.0682
+        "weight_pct": 9.0787
       },
       {
         "ticker": "AMZN",
         "shares": 31.0,
         "avg_cost": 249.27,
         "cost_basis": 7727.37,
-        "last_price": 246.35,
-        "market_value": 7636.85,
-        "unrealized_pnl": -90.52,
-        "unrealized_pnl_pct": -1.1714,
+        "last_price": 246.15,
+        "market_value": 7630.65,
+        "unrealized_pnl": -96.72,
+        "unrealized_pnl_pct": -1.2517,
         "sector": "consumer_disc",
         "stale": false,
-        "weight_pct": 7.5864
+        "weight_pct": 7.5821
       },
       {
         "ticker": "JPM",
         "shares": 19.0,
         "avg_cost": 349.67,
         "cost_basis": 6643.73,
-        "last_price": 336.78,
-        "market_value": 6398.82,
-        "unrealized_pnl": -244.91,
-        "unrealized_pnl_pct": -3.6863,
+        "last_price": 336.59,
+        "market_value": 6395.21,
+        "unrealized_pnl": -248.52,
+        "unrealized_pnl_pct": -3.7407,
         "sector": "financials",
         "stale": false,
-        "weight_pct": 6.3565
+        "weight_pct": 6.3545
       },
       {
         "ticker": "META",
         "shares": 20.0,
         "avg_cost": 677.5,
         "cost_basis": 13550.05,
-        "last_price": 717.13,
-        "market_value": 14342.6,
-        "unrealized_pnl": 792.55,
-        "unrealized_pnl_pct": 5.8491,
+        "last_price": 715.62,
+        "market_value": 14312.4,
+        "unrealized_pnl": 762.35,
+        "unrealized_pnl_pct": 5.6262,
         "sector": "communication",
         "stale": false,
-        "weight_pct": 14.2478
+        "weight_pct": 14.2214
       },
       {
         "ticker": "MSFT",
         "shares": 29.0,
         "avg_cost": 493.78,
         "cost_basis": 14319.62,
-        "last_price": 508.97,
-        "market_value": 14760.13,
-        "unrealized_pnl": 440.51,
-        "unrealized_pnl_pct": 3.0763,
+        "last_price": 509.22,
+        "market_value": 14767.38,
+        "unrealized_pnl": 447.76,
+        "unrealized_pnl_pct": 3.1269,
         "sector": "tech",
         "stale": false,
-        "weight_pct": 14.6626
+        "weight_pct": 14.6735
       },
       {
         "ticker": "NVDA",
         "shares": 27.0,
         "avg_cost": 222.39,
         "cost_basis": 6004.53,
-        "last_price": 228.4697,
-        "market_value": 6168.68,
-        "unrealized_pnl": 164.15,
-        "unrealized_pnl_pct": 2.7338,
+        "last_price": 228.86,
+        "market_value": 6179.22,
+        "unrealized_pnl": 174.69,
+        "unrealized_pnl_pct": 2.9093,
         "sector": "tech",
         "stale": false,
-        "weight_pct": 6.1279
+        "weight_pct": 6.1399
       },
       {
         "ticker": "XLE",
         "shares": 189.0,
         "avg_cost": 64.31,
         "cost_basis": 12154.59,
-        "last_price": 62.1352,
-        "market_value": 11743.55,
-        "unrealized_pnl": -411.04,
-        "unrealized_pnl_pct": -3.3817,
+        "last_price": 62.1,
+        "market_value": 11736.9,
+        "unrealized_pnl": -417.69,
+        "unrealized_pnl_pct": -3.4365,
         "sector": "energy",
         "stale": false,
-        "weight_pct": 11.6659
+        "weight_pct": 11.6623
       },
       {
         "ticker": "XLV",
         "shares": 53.0,
         "avg_cost": 168.39,
         "cost_basis": 8924.67,
-        "last_price": 171.35,
-        "market_value": 9081.55,
-        "unrealized_pnl": 156.88,
-        "unrealized_pnl_pct": 1.7578,
+        "last_price": 171.26,
+        "market_value": 9076.78,
+        "unrealized_pnl": 152.11,
+        "unrealized_pnl_pct": 1.7044,
         "sector": "health",
         "stale": false,
-        "weight_pct": 9.0215
+        "weight_pct": 9.0191
       }
     ],
     "prices_refreshed": true,
@@ -147,81 +147,81 @@
     },
     "vs_benchmark": {
       "benchmark": "SPY",
-      "return_pct": -1.0537,
+      "return_pct": -1.02,
       "same_day": false,
       "start_close": 773.5,
-      "end_close": 765.3495,
+      "end_close": 765.61,
       "note": "Versus SPY is sleeve total return since start minus SPY total return since the sleeve start date (rough, price-only)."
     },
     "start_date": "2026-09-20"
   },
   "crypto": {
-    "as_of": "2026-09-28T15:38:52-04:00",
-    "nav": 25625.18,
+    "as_of": "2026-09-28T16:38:59-04:00",
+    "nav": 25885.7,
     "cash": 5000.0,
-    "invested": 20625.18,
-    "invested_pct": 80.4879,
-    "cash_weight_pct": 19.5121,
+    "invested": 20885.7,
+    "invested_pct": 80.6843,
+    "cash_weight_pct": 19.3157,
     "starting_capital": 25000.0,
-    "total_pnl": 625.18,
-    "total_pnl_pct": 2.5007,
-    "unrealized_pnl_total": 625.18,
+    "total_pnl": 885.7,
+    "total_pnl_pct": 3.5428,
+    "unrealized_pnl_total": 885.71,
     "peak_nav": 26097.23,
-    "drawdown_pct": -1.8088,
+    "drawdown_pct": -0.8105,
     "benchmark": "BTC-USD",
-    "bench_last_close": 83230.0078,
+    "bench_last_close": 83501.5,
     "holdings": [
       {
         "ticker": "AVAX-USD",
         "shares": 551.243591,
         "avg_cost": 11.338,
         "cost_basis": 6250.0,
-        "last_price": 10.314,
-        "market_value": 5685.53,
-        "unrealized_pnl": -564.47,
-        "unrealized_pnl_pct": -9.0316,
+        "last_price": 10.46,
+        "market_value": 5766.01,
+        "unrealized_pnl": -483.99,
+        "unrealized_pnl_pct": -7.7439,
         "sector": "layer1",
         "stale": false,
-        "weight_pct": 22.1873
+        "weight_pct": 22.2749
       },
       {
         "ticker": "BTC-USD",
         "shares": 0.04394,
         "avg_cost": 81221.960938,
         "cost_basis": 3568.89,
-        "last_price": 83230.007812,
-        "market_value": 3657.13,
-        "unrealized_pnl": 88.24,
-        "unrealized_pnl_pct": 2.4724,
+        "last_price": 83501.5,
+        "market_value": 3669.06,
+        "unrealized_pnl": 100.17,
+        "unrealized_pnl_pct": 2.8066,
         "sector": "layer1",
         "stale": false,
-        "weight_pct": 14.2716
+        "weight_pct": 14.1741
       },
       {
         "ticker": "ETH-USD",
         "shares": 1.808428,
         "avg_cost": 2640.600098,
         "cost_basis": 4775.34,
-        "last_price": 2666.929932,
-        "market_value": 4822.95,
-        "unrealized_pnl": 47.61,
-        "unrealized_pnl_pct": 0.997,
+        "last_price": 2680.199951,
+        "market_value": 4846.95,
+        "unrealized_pnl": 71.61,
+        "unrealized_pnl_pct": 1.4996,
         "sector": "layer1",
         "stale": false,
-        "weight_pct": 18.8211
+        "weight_pct": 18.7244
       },
       {
         "ticker": "LINK-USD",
         "shares": 432.773144,
         "avg_cost": 12.491,
         "cost_basis": 5405.77,
-        "last_price": 14.926,
-        "market_value": 6459.57,
-        "unrealized_pnl": 1053.8,
-        "unrealized_pnl_pct": 19.494,
+        "last_price": 15.259,
+        "market_value": 6603.69,
+        "unrealized_pnl": 1197.92,
+        "unrealized_pnl_pct": 22.1599,
         "sector": "oracle",
         "stale": false,
-        "weight_pct": 25.2079
+        "weight_pct": 25.511
       }
     ],
     "prices_refreshed": true,
@@ -240,10 +240,10 @@
     },
     "vs_benchmark": {
       "benchmark": "BTC-USD",
-      "return_pct": 2.5725,
+      "return_pct": 2.9071,
       "same_day": false,
       "start_close": 81142.6094,
-      "end_close": 83230.0078,
+      "end_close": 83501.5,
       "note": "Versus BTC-USD is sleeve total return since start minus BTC-USD total return since the sleeve start date (rough, price-only)."
     },
     "start_date": "2026-09-20",
@@ -251,65 +251,65 @@
   },
   "active": {
     "household": {
-      "nav": 125385.04,
+      "nav": 125504.5,
       "starting_capital": 125000.0,
-      "total_pnl": 385.04,
-      "total_pnl_pct": 0.308
+      "total_pnl": 504.5,
+      "total_pnl_pct": 0.4036
     },
     "equity": {
-      "as_of": "2026-09-28T15:38:52-04:00",
-      "nav": 99104.88,
+      "as_of": "2026-09-28T16:38:59-04:00",
+      "nav": 99056.5,
       "cash": 55496.16,
-      "invested": 43608.72,
-      "invested_pct": 44.0026,
-      "cash_weight_pct": 55.9974,
+      "invested": 43560.34,
+      "invested_pct": 43.9752,
+      "cash_weight_pct": 56.0248,
       "starting_capital": 100000.0,
-      "total_pnl": -895.12,
-      "total_pnl_pct": -0.8951,
-      "unrealized_pnl_total": -895.12,
+      "total_pnl": -943.5,
+      "total_pnl_pct": -0.9435,
+      "unrealized_pnl_total": -943.5,
       "peak_nav": 100060.85,
-      "drawdown_pct": -0.9554,
+      "drawdown_pct": -1.0037,
       "benchmark": "SPY",
-      "bench_last_close": 765.3495,
+      "bench_last_close": 765.61,
       "holdings": [
         {
           "ticker": "META",
           "shares": 19.0,
           "avg_cost": 770.28,
           "cost_basis": 14635.32,
-          "last_price": 717.13,
-          "market_value": 13625.47,
-          "unrealized_pnl": -1009.85,
-          "unrealized_pnl_pct": -6.9001,
+          "last_price": 715.62,
+          "market_value": 13596.78,
+          "unrealized_pnl": -1038.54,
+          "unrealized_pnl_pct": -7.0961,
           "sector": "communication",
           "stale": false,
-          "weight_pct": 13.7485
+          "weight_pct": 13.7263
         },
         {
           "ticker": "XLP",
           "shares": 181.0,
           "avg_cost": 82.28,
           "cost_basis": 14892.68,
-          "last_price": 82.345,
-          "market_value": 14904.45,
-          "unrealized_pnl": 11.77,
-          "unrealized_pnl_pct": 0.079,
+          "last_price": 82.28,
+          "market_value": 14892.68,
+          "unrealized_pnl": -0.0,
+          "unrealized_pnl_pct": -0.0,
           "sector": "consumer_staples",
           "stale": false,
-          "weight_pct": 15.0391
+          "weight_pct": 15.0345
         },
         {
           "ticker": "XLV",
           "shares": 88.0,
           "avg_cost": 170.18,
           "cost_basis": 14975.84,
-          "last_price": 171.35,
-          "market_value": 15078.8,
-          "unrealized_pnl": 102.96,
-          "unrealized_pnl_pct": 0.6875,
+          "last_price": 171.26,
+          "market_value": 15070.88,
+          "unrealized_pnl": 95.04,
+          "unrealized_pnl_pct": 0.6346,
           "sector": "health",
           "stale": false,
-          "weight_pct": 15.215
+          "weight_pct": 15.2144
         }
       ],
       "prices_refreshed": true,
@@ -330,10 +330,10 @@
       },
       "vs_benchmark": {
         "benchmark": "SPY",
-        "return_pct": -0.2386,
+        "return_pct": -0.2046,
         "same_day": false,
         "start_close": 767.18,
-        "end_close": 765.3495,
+        "end_close": 765.61,
         "note": "Versus SPY is sleeve total return since start minus SPY total return since the sleeve start date (rough, price-only)."
       },
       "start_date": "2026-09-24",
@@ -341,33 +341,33 @@
       "strategy_id": "equity_15m_ema_trend"
     },
     "crypto": {
-      "as_of": "2026-09-28T15:38:52-04:00",
-      "nav": 26280.16,
+      "as_of": "2026-09-28T16:38:59-04:00",
+      "nav": 26448.0,
       "cash": 18757.46,
-      "invested": 7522.7,
-      "invested_pct": 28.625,
-      "cash_weight_pct": 71.375,
+      "invested": 7690.54,
+      "invested_pct": 29.078,
+      "cash_weight_pct": 70.922,
       "starting_capital": 25000.0,
-      "total_pnl": 1280.16,
-      "total_pnl_pct": 5.1206,
-      "unrealized_pnl_total": 1280.16,
+      "total_pnl": 1448.0,
+      "total_pnl_pct": 5.792,
+      "unrealized_pnl_total": 1448.0,
       "peak_nav": 26518.05,
-      "drawdown_pct": -0.8971,
+      "drawdown_pct": -0.2642,
       "benchmark": "BTC-USD",
-      "bench_last_close": 83230.0078,
+      "bench_last_close": 83501.5,
       "holdings": [
         {
           "ticker": "LINK-USD",
           "shares": 504.0,
           "avg_cost": 12.386,
           "cost_basis": 6242.54,
-          "last_price": 14.926,
-          "market_value": 7522.7,
-          "unrealized_pnl": 1280.16,
-          "unrealized_pnl_pct": 20.5071,
+          "last_price": 15.259,
+          "market_value": 7690.54,
+          "unrealized_pnl": 1448.0,
+          "unrealized_pnl_pct": 23.1956,
           "sector": "oracle",
           "stale": false,
-          "weight_pct": 28.625
+          "weight_pct": 29.078
         }
       ],
       "prices_refreshed": true,
@@ -386,10 +386,10 @@
       },
       "vs_benchmark": {
         "benchmark": "BTC-USD",
-        "return_pct": -1.3618,
+        "return_pct": -1.04,
         "same_day": false,
         "start_close": 84379.0625,
-        "end_close": 83230.0078,
+        "end_close": 83501.5,
         "note": "Versus BTC-USD is sleeve total return since start minus BTC-USD total return since the sleeve start date (rough, price-only)."
       },
       "start_date": "2026-09-24",
@@ -398,7 +398,7 @@
     }
   },
   "pnl_history": {
-    "as_of": "2026-09-28T15:38:56-04:00",
+    "as_of": "2026-09-28T16:39:03-04:00",
     "currency": "USD",
     "default_metric": "pnl_pct",
     "default_view": "household",
@@ -412,13 +412,13 @@
       "active_household": 125000.0
     },
     "counts": {
-      "equity": 147,
-      "crypto": 173,
-      "household": 268,
-      "spy": 268,
-      "active_equity": 40,
-      "active_crypto": 46,
-      "active_household": 47
+      "equity": 150,
+      "crypto": 176,
+      "household": 273,
+      "spy": 273,
+      "active_equity": 42,
+      "active_crypto": 48,
+      "active_household": 49
     },
     "series": {
       "equity": [
@@ -1597,6 +1597,30 @@
           "starting_capital": 100000.0,
           "pnl_pct": 0.66541,
           "nav_index": 100.66541
+        },
+        {
+          "ts": "2026-09-28T16:10:54-04:00",
+          "nav": 100647.42,
+          "pnl": 647.42,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.64742,
+          "nav_index": 100.64742
+        },
+        {
+          "ts": "2026-09-28T16:38:51-04:00",
+          "nav": 100640.03,
+          "pnl": 640.03,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.64003,
+          "nav_index": 100.64003
+        },
+        {
+          "ts": "2026-09-28T16:38:59-04:00",
+          "nav": 100640.03,
+          "pnl": 640.03,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.64003,
+          "nav_index": 100.64003
         }
       ],
       "crypto": [
@@ -2983,6 +3007,30 @@
           "starting_capital": 25000.0,
           "pnl_pct": 2.50072,
           "nav_index": 102.50072
+        },
+        {
+          "ts": "2026-09-28T16:10:59-04:00",
+          "nav": 25850.41,
+          "pnl": 850.41,
+          "starting_capital": 25000.0,
+          "pnl_pct": 3.40164,
+          "nav_index": 103.40164
+        },
+        {
+          "ts": "2026-09-28T16:38:53-04:00",
+          "nav": 25886.58,
+          "pnl": 886.58,
+          "starting_capital": 25000.0,
+          "pnl_pct": 3.54632,
+          "nav_index": 103.54632
+        },
+        {
+          "ts": "2026-09-28T16:38:59-04:00",
+          "nav": 25885.7,
+          "pnl": 885.7,
+          "starting_capital": 25000.0,
+          "pnl_pct": 3.5428,
+          "nav_index": 103.5428
         }
       ],
       "household": [
@@ -5665,6 +5713,56 @@
           "starting_capital": 125000.0,
           "pnl_pct": 1.032472,
           "nav_index": 101.032472
+        },
+        {
+          "ts": "2026-09-28T16:10:54-04:00",
+          "nav": 126272.6,
+          "pnl": 1272.6,
+          "equity_nav": 100647.42,
+          "crypto_nav": 25625.18,
+          "starting_capital": 125000.0,
+          "pnl_pct": 1.01808,
+          "nav_index": 101.01808
+        },
+        {
+          "ts": "2026-09-28T16:10:59-04:00",
+          "nav": 126497.83,
+          "pnl": 1497.83,
+          "equity_nav": 100647.42,
+          "crypto_nav": 25850.41,
+          "starting_capital": 125000.0,
+          "pnl_pct": 1.198264,
+          "nav_index": 101.198264
+        },
+        {
+          "ts": "2026-09-28T16:38:51-04:00",
+          "nav": 126490.44,
+          "pnl": 1490.44,
+          "equity_nav": 100640.03,
+          "crypto_nav": 25850.41,
+          "starting_capital": 125000.0,
+          "pnl_pct": 1.192352,
+          "nav_index": 101.192352
+        },
+        {
+          "ts": "2026-09-28T16:38:53-04:00",
+          "nav": 126526.61,
+          "pnl": 1526.61,
+          "equity_nav": 100640.03,
+          "crypto_nav": 25886.58,
+          "starting_capital": 125000.0,
+          "pnl_pct": 1.221288,
+          "nav_index": 101.221288
+        },
+        {
+          "ts": "2026-09-28T16:38:59-04:00",
+          "nav": 126525.73,
+          "pnl": 1525.73,
+          "equity_nav": 100640.03,
+          "crypto_nav": 25885.7,
+          "starting_capital": 125000.0,
+          "pnl_pct": 1.220584,
+          "nav_index": 101.220584
         }
       ],
       "spy": [
@@ -8079,6 +8177,51 @@
           "starting_capital": 100000.0,
           "pnl_pct": 0.48044,
           "nav_index": 100.48044
+        },
+        {
+          "ts": "2026-09-28T16:10:54-04:00",
+          "nav": 100506.77,
+          "pnl": 506.77,
+          "spy_px": 765.55,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.50677,
+          "nav_index": 100.50677
+        },
+        {
+          "ts": "2026-09-28T16:10:59-04:00",
+          "nav": 100506.77,
+          "pnl": 506.77,
+          "spy_px": 765.55,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.50677,
+          "nav_index": 100.50677
+        },
+        {
+          "ts": "2026-09-28T16:38:51-04:00",
+          "nav": 100514.64,
+          "pnl": 514.64,
+          "spy_px": 765.61,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.51464,
+          "nav_index": 100.51464
+        },
+        {
+          "ts": "2026-09-28T16:38:53-04:00",
+          "nav": 100514.64,
+          "pnl": 514.64,
+          "spy_px": 765.61,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.51464,
+          "nav_index": 100.51464
+        },
+        {
+          "ts": "2026-09-28T16:38:59-04:00",
+          "nav": 100514.64,
+          "pnl": 514.64,
+          "spy_px": 765.61,
+          "starting_capital": 100000.0,
+          "pnl_pct": 0.51464,
+          "nav_index": 100.51464
         }
       ],
       "active_equity": [
@@ -8401,6 +8544,22 @@
           "starting_capital": 100000.0,
           "pnl_pct": -0.89512,
           "nav_index": 99.10488
+        },
+        {
+          "ts": "2026-09-28T16:11:03-04:00",
+          "nav": 99058.31,
+          "pnl": -941.69,
+          "starting_capital": 100000.0,
+          "pnl_pct": -0.94169,
+          "nav_index": 99.05831
+        },
+        {
+          "ts": "2026-09-28T16:38:59-04:00",
+          "nav": 99056.5,
+          "pnl": -943.5,
+          "starting_capital": 100000.0,
+          "pnl_pct": -0.9435,
+          "nav_index": 99.0565
         }
       ],
       "active_crypto": [
@@ -8771,6 +8930,22 @@
           "starting_capital": 25000.0,
           "pnl_pct": 5.12064,
           "nav_index": 105.12064
+        },
+        {
+          "ts": "2026-09-28T16:11:03-04:00",
+          "nav": 26439.93,
+          "pnl": 1439.93,
+          "starting_capital": 25000.0,
+          "pnl_pct": 5.75972,
+          "nav_index": 105.75972
+        },
+        {
+          "ts": "2026-09-28T16:38:59-04:00",
+          "nav": 26448.0,
+          "pnl": 1448.0,
+          "starting_capital": 25000.0,
+          "pnl_pct": 5.792,
+          "nav_index": 105.792
         }
       ],
       "active_household": [
@@ -9243,119 +9418,139 @@
           "starting_capital": 125000.0,
           "pnl_pct": 0.308032,
           "nav_index": 100.308032
+        },
+        {
+          "ts": "2026-09-28T16:11:03-04:00",
+          "nav": 125498.24,
+          "pnl": 498.24,
+          "equity_nav": 99058.31,
+          "crypto_nav": 26439.93,
+          "starting_capital": 125000.0,
+          "pnl_pct": 0.398592,
+          "nav_index": 100.398592
+        },
+        {
+          "ts": "2026-09-28T16:38:59-04:00",
+          "nav": 125504.5,
+          "pnl": 504.5,
+          "equity_nav": 99056.5,
+          "crypto_nav": 26448.0,
+          "starting_capital": 125000.0,
+          "pnl_pct": 0.4036,
+          "nav_index": 100.4036
         }
       ]
     },
     "active_start": "2026-09-24",
     "note": "Active series starts 2026-09-24."
   },
-  "nav": 100665.41,
+  "nav": 100640.03,
   "cash": 21404.69,
-  "total_pnl": 665.41,
+  "total_pnl": 640.03,
   "holdings": [
     {
       "ticker": "AAPL",
       "shares": 27.0,
       "avg_cost": 336.13,
       "cost_basis": 9075.51,
-      "last_price": 338.094,
-      "market_value": 9128.54,
-      "unrealized_pnl": 53.03,
-      "unrealized_pnl_pct": 0.5843,
+      "last_price": 338.4,
+      "market_value": 9136.8,
+      "unrealized_pnl": 61.29,
+      "unrealized_pnl_pct": 0.6753,
       "sector": "tech",
       "stale": false,
-      "weight_pct": 9.0682
+      "weight_pct": 9.0787
     },
     {
       "ticker": "AMZN",
       "shares": 31.0,
       "avg_cost": 249.27,
       "cost_basis": 7727.37,
-      "last_price": 246.35,
-      "market_value": 7636.85,
-      "unrealized_pnl": -90.52,
-      "unrealized_pnl_pct": -1.1714,
+      "last_price": 246.15,
+      "market_value": 7630.65,
+      "unrealized_pnl": -96.72,
+      "unrealized_pnl_pct": -1.2517,
       "sector": "consumer_disc",
       "stale": false,
-      "weight_pct": 7.5864
+      "weight_pct": 7.5821
     },
     {
       "ticker": "JPM",
       "shares": 19.0,
       "avg_cost": 349.67,
       "cost_basis": 6643.73,
-      "last_price": 336.78,
-      "market_value": 6398.82,
-      "unrealized_pnl": -244.91,
-      "unrealized_pnl_pct": -3.6863,
+      "last_price": 336.59,
+      "market_value": 6395.21,
+      "unrealized_pnl": -248.52,
+      "unrealized_pnl_pct": -3.7407,
       "sector": "financials",
       "stale": false,
-      "weight_pct": 6.3565
+      "weight_pct": 6.3545
     },
     {
       "ticker": "META",
       "shares": 20.0,
       "avg_cost": 677.5,
       "cost_basis": 13550.05,
-      "last_price": 717.13,
-      "market_value": 14342.6,
-      "unrealized_pnl": 792.55,
-      "unrealized_pnl_pct": 5.8491,
+      "last_price": 715.62,
+      "market_value": 14312.4,
+      "unrealized_pnl": 762.35,
+      "unrealized_pnl_pct": 5.6262,
       "sector": "communication",
       "stale": false,
-      "weight_pct": 14.2478
+      "weight_pct": 14.2214
     },
     {
       "ticker": "MSFT",
       "shares": 29.0,
       "avg_cost": 493.78,
       "cost_basis": 14319.62,
-      "last_price": 508.97,
-      "market_value": 14760.13,
-      "unrealized_pnl": 440.51,
-      "unrealized_pnl_pct": 3.0763,
+      "last_price": 509.22,
+      "market_value": 14767.38,
+      "unrealized_pnl": 447.76,
+      "unrealized_pnl_pct": 3.1269,
       "sector": "tech",
       "stale": false,
-      "weight_pct": 14.6626
+      "weight_pct": 14.6735
     },
     {
       "ticker": "NVDA",
       "shares": 27.0,
       "avg_cost": 222.39,
       "cost_basis": 6004.53,
-      "last_price": 228.4697,
-      "market_value": 6168.68,
-      "unrealized_pnl": 164.15,
-      "unrealized_pnl_pct": 2.7338,
+      "last_price": 228.86,
+      "market_value": 6179.22,
+      "unrealized_pnl": 174.69,
+      "unrealized_pnl_pct": 2.9093,
       "sector": "tech",
       "stale": false,
-      "weight_pct": 6.1279
+      "weight_pct": 6.1399
     },
     {
       "ticker": "XLE",
       "shares": 189.0,
       "avg_cost": 64.31,
       "cost_basis": 12154.59,
-      "last_price": 62.1352,
-      "market_value": 11743.55,
-      "unrealized_pnl": -411.04,
-      "unrealized_pnl_pct": -3.3817,
+      "last_price": 62.1,
+      "market_value": 11736.9,
+      "unrealized_pnl": -417.69,
+      "unrealized_pnl_pct": -3.4365,
       "sector": "energy",
       "stale": false,
-      "weight_pct": 11.6659
+      "weight_pct": 11.6623
     },
     {
       "ticker": "XLV",
       "shares": 53.0,
       "avg_cost": 168.39,
       "cost_basis": 8924.67,
-      "last_price": 171.35,
-      "market_value": 9081.55,
-      "unrealized_pnl": 156.88,
-      "unrealized_pnl_pct": 1.7578,
+      "last_price": 171.26,
+      "market_value": 9076.78,
+      "unrealized_pnl": 152.11,
+      "unrealized_pnl_pct": 1.7044,
       "sector": "health",
       "stale": false,
-      "weight_pct": 9.0215
+      "weight_pct": 9.0191
     }
   ]
 }
