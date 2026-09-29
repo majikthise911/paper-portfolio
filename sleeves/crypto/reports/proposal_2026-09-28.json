@@ -2,7 +2,7 @@
   "as_of": "2026-09-28T09:19:43-04:00",
   "sleeve": "crypto",
   "mode": "propose",
-  "executed": false,
+  "executed": true,
   "nav": 25571.53,
   "proposed_trades": [
     {
@@ -54,5 +54,8 @@
   "proposed_invested": 20457.23,
   "proposed_cash_pct": 0.2,
   "failed_to_price": [],
-  "notes": "Proposal only. Do not write into sleeves/crypto/state/portfolio.json positions until Jordan approves seed capital and this allocation."
+  "notes": "Proposal only. Do not write into sleeves/crypto/state/portfolio.json positions until Jordan approves seed capital and this allocation.",
+  "executed_at": "2026-09-29T09:17:02-04:00",
+  "executed_via": "reports/rebalance_2026-09-28.json (crypto deltas)",
+  "executed_note": "Target reached via approved deltas; Jordan yes 2026-09-29. Fills in the ledger trade_batch at 2026-09-29T09:17:02-04:00. SOL booked 41.990463 units vs 43.50904 proposed (cash floor)."
 }
