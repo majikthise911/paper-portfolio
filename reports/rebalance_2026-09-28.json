@@ -1,7 +1,7 @@
 {
   "as_of": "2026-09-28T09:19:43-04:00",
   "mode": "monday_weekly_propose",
-  "executed": false,
+  "executed": true,
   "equity": {
     "nav": 101723.17,
     "current_cash": 21404.69,
@@ -104,7 +104,108 @@
     ],
     "proposed_cash": 21407.32,
     "proposed_invested": 80315.85,
-    "proposed_cash_pct": 0.210447
+    "proposed_cash_pct": 0.210447,
+    "executed": true,
+    "executed_at": "2026-09-29T09:35:21-04:00",
+    "fills": [
+      {
+        "ticker": "JPM",
+        "side": "SELL",
+        "shares": 19,
+        "price": 336.98,
+        "dollars": 6402.62
+      },
+      {
+        "ticker": "MSFT",
+        "side": "SELL",
+        "shares": 4,
+        "price": 507.46,
+        "dollars": 2029.84
+      },
+      {
+        "ticker": "XLE",
+        "side": "SELL",
+        "shares": 3,
+        "price": 61.1,
+        "dollars": 183.3
+      },
+      {
+        "ticker": "XLV",
+        "side": "SELL",
+        "shares": 1,
+        "price": 171.01,
+        "dollars": 171.01
+      },
+      {
+        "ticker": "AMZN",
+        "side": "BUY",
+        "shares": 5,
+        "price": 246.51,
+        "dollars": 1232.55
+      },
+      {
+        "ticker": "NVDA",
+        "side": "BUY",
+        "shares": 8,
+        "price": 231.28,
+        "dollars": 1850.24
+      },
+      {
+        "ticker": "XLK",
+        "side": "BUY",
+        "shares": 30,
+        "price": 195.13,
+        "dollars": 5853.9
+      }
+    ],
+    "executed_note": "Jordan yes 2026-09-29 09:14 ET: book BOTH equity and crypto weekly momentum deltas from the 2026-09-28 Monday pass; method stays weekly 63d momentum. Paper fills at live yfinance prices.",
+    "booked": {
+      "cash_before": 21404.69,
+      "cash_after": 21254.77,
+      "nav_after": 100518.56,
+      "invested": 79263.79,
+      "cash_pct_after": 0.211451,
+      "checks": {
+        "cash_after": 21254.77,
+        "cash_pct_after": 0.211451,
+        "min_cash_pct": 0.2,
+        "invested_pct_after": 0.788549,
+        "min_cash_during": 21254.77,
+        "name_weights": {
+          "META": 0.14417,
+          "MSFT": 0.126211,
+          "XLE": 0.11306,
+          "AAPL": 0.089589,
+          "XLV": 0.088466,
+          "AMZN": 0.088286,
+          "NVDA": 0.08053,
+          "XLK": 0.058237
+        },
+        "max_name": [
+          "META",
+          0.14417
+        ],
+        "max_single_name_pct": 0.15,
+        "tech_megacap_pct_after": 0.296329,
+        "tech_megacap_cap": 0.3,
+        "sector_weights": {
+          "tech": 0.354566,
+          "communication": 0.14417,
+          "energy": 0.11306,
+          "health": 0.088466,
+          "consumer_disc": 0.088286
+        },
+        "etf_sleeve_weights": {
+          "XLE": 0.11306,
+          "XLV": 0.088466,
+          "XLK": 0.058237
+        },
+        "sector_etf_sleeve_total": 0.259763,
+        "max_sector_pct": 0.354566,
+        "max_sector_etf_sleeve_pct": 0.4,
+        "breaches": []
+      }
+    }
   },
   "crypto": {
     "nav": 25575.28,
@@ -254,6 +355,9 @@
   },
   "notes": "Proposal only. Do not write into portfolio.json positions until Jordan approves.",
   "executed_sleeves": [
+    "equity",
     "crypto"
-  ]
+  ],
+  "executed_at": "2026-09-29T09:35:21-04:00",
+  "executed_note": "Jordan yes 2026-09-29 09:14 ET: book BOTH equity and crypto weekly momentum deltas from the 2026-09-28 Monday pass; method stays weekly 63d momentum. Crypto booked 2026-09-29T09:17:02-04:00; equity booked 2026-09-29T09:35:21-04:00."
 }

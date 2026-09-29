@@ -1,7 +1,7 @@
 {
   "as_of": "2026-09-28T09:19:36-04:00",
   "mode": "propose",
-  "executed": false,
+  "executed": true,
   "nav": 101723.17,
   "proposed_trades": [
     {
@@ -97,5 +97,8 @@
   "proposed_invested": 80315.85,
   "proposed_cash_pct": 0.210447,
   "failed_to_price": [],
-  "notes": "Proposal only. Do not write into portfolio.json positions until Jordan approves."
+  "notes": "Proposal only. Do not write into portfolio.json positions until Jordan approves.",
+  "executed_at": "2026-09-29T09:35:21-04:00",
+  "executed_via": "reports/rebalance_2026-09-28.json (equity deltas)",
+  "executed_note": "Target reached via approved deltas; Jordan yes 2026-09-29. Fills in the ledger trade_batch at 2026-09-29T09:35:21-04:00."
 }
