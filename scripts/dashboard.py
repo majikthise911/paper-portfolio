@@ -1150,6 +1150,219 @@ def build_pnl_history(
     }
 
 
+
+# ---------------------------------------------------------------------------
+# Trade history (read-only; rebuilt from all four ledgers on every run)
+# ---------------------------------------------------------------------------
+TRADE_BOOKS = [
+    ("mom-eq", "Momentum equity", EQUITY_LEDGER, "tag-momentum"),
+    ("mom-cr", "Momentum crypto", CRYPTO_LEDGER, "tag-momentum"),
+    ("act-eq", "Active equity", ACTIVE_EQUITY_LEDGER, "tag-active"),
+    ("act-cr", "Active crypto", ACTIVE_CRYPTO_LEDGER, "tag-active"),
+]
+
+
+def _fill_rows_from_entry(entry: dict) -> list[dict]:
+    """Return fill dicts from one ledger line (trade_batch or single-trade shapes)."""
+    fills = entry.get("fills")
+    if isinstance(fills, list):
+        return [f for f in fills if isinstance(f, dict)]
+    if entry.get("type") in ("trade", "fill") and entry.get("ticker"):
+        return [entry]
+    return []
+
+
+def collect_trade_history() -> list[dict]:
+    """All booked fills across momentum and active ledgers. Never writes anything."""
+    trades: list[dict] = []
+    for key, label, path, _tag in TRADE_BOOKS:
+        try:
+            if not path.exists():
+                continue
+            lines = path.read_text().splitlines()
+        except Exception as e:  # pragma: no cover - defensive
+            print(f"WARN: trade history could not read {path}: {e}", file=sys.stderr)
+            continue
+        for seq, line in enumerate(lines):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                entry = json.loads(line)
+            except Exception:
+                continue
+            if not isinstance(entry, dict):
+                continue
+            fills = _fill_rows_from_entry(entry)
+            if not fills:
+                continue
+            ts_raw = entry.get("ts") or ""
+            try:
+                dt = datetime.fromisoformat(str(ts_raw))
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=TZ)
+                dt = dt.astimezone(TZ)
+            except Exception:
+                dt = None
+            batch_note = entry.get("note") or entry.get("approval") or ""
+            source = entry.get("source") or ""
+            scaled = entry.get("scaled") if isinstance(entry.get("scaled"), dict) else None
+            for i, f in enumerate(fills):
+                try:
+                    qty = float(f.get("shares", f.get("qty", 0)) or 0)
+                    price = float(f.get("price", 0) or 0)
+                except (TypeError, ValueError):
+                    continue
+                notional = f.get("dollars", f.get("notional"))
+                try:
+                    notional = float(notional) if notional is not None else round(qty * price, 2)
+                except (TypeError, ValueError):
+                    notional = round(qty * price, 2)
+                note = f.get("note") or f.get("reason") or batch_note
+                ticker = str(f.get("ticker") or f.get("symbol") or "?")
+                if scaled and scaled.get("ticker") == ticker:
+                    note = (
+                        f"Scaled from {scaled.get('proposed_shares')} to {scaled.get('booked_shares')} "
+                        f"to hold the cash floor. " + (note or "")
+                    ).strip()
+                trades.append(
+                    {
+                        "book": key,
+                        "book_label": label,
+                        "ts": ts_raw,
+                        "dt": dt,
+                        "seq": (seq, i),
+                        "side": str(f.get("side") or "").upper(),
+                        "ticker": ticker,
+                        "qty": qty,
+                        "price": price,
+                        "notional": notional,
+                        "note": note,
+                        "source": source,
+                    }
+                )
+    epoch = datetime(1970, 1, 1, tzinfo=TZ)
+    # Newest first; within a batch keep ledger fill order.
+    trades.sort(key=lambda t: (t["dt"] or epoch, t["seq"][0], -t["seq"][1]), reverse=True)
+    return trades
+
+
+def _fmt_trade_qty(q: float) -> str:
+    if abs(q - round(q)) < 1e-9:
+        return f"{int(round(q)):,}"
+    return f"{q:,.6f}".rstrip("0").rstrip(".")
+
+
+def _fmt_trade_price(p: float) -> str:
+    if p >= 1000:
+        return f"${p:,.2f}"
+    s = f"{p:,.4f}".rstrip("0")
+    if len(s.split(".")[-1]) < 2:
+        s = f"{p:,.2f}"
+    return f"${s}"
+
+
+def trade_history_section() -> str:
+    """Compact, filterable trade history table. Plain string (no f-string braces in JS)."""
+    try:
+        trades = collect_trade_history()
+    except Exception as e:  # never break the dashboard build
+        print(f"WARN: trade history failed: {e}", file=sys.stderr)
+        trades = []
+    counts = {k: 0 for k, *_ in TRADE_BOOKS}
+    for t in trades:
+        counts[t["book"]] = counts.get(t["book"], 0) + 1
+    tags = {k: tag for k, _l, _p, tag in TRADE_BOOKS}
+    rows = []
+    for t in trades:
+        when = t["dt"].strftime("%Y-%m-%d %H:%M") if t["dt"] else escape(str(t["ts"]))
+        side_cls = "pos" if t["side"] == "BUY" else ("neg" if t["side"] == "SELL" else "muted")
+        note = str(t["note"] or "")
+        title = note + (f" (source: {t['source']})" if t["source"] else "")
+        rows.append(
+            f'<tr data-book="{t["book"]}">'
+            f'<td class="th-when">{when}</td>'
+            f'<td><span class="tag {tags.get(t["book"], "")} th-book">{escape(t["book_label"])}</span></td>'
+            f'<td class="{side_cls} th-side">{escape(t["side"])}</td>'
+            f'<td class="ticker">{escape(t["ticker"])}</td>'
+            f'<td class="num">{_fmt_trade_qty(t["qty"])}</td>'
+            f'<td class="num">{_fmt_trade_price(t["price"])}</td>'
+            f'<td class="num">{fmt_money(t["notional"])}</td>'
+            f'<td class="muted th-note" title="{escape(title)}">{escape(note)}</td>'
+            "</tr>"
+        )
+    if not rows:
+        rows.append('<tr><td colspan="8" class="muted">No trades booked yet.</td></tr>')
+    buttons = [
+        f'<button type="button" class="pnl-toggle th-filter" data-book="all" aria-pressed="true">All ({len(trades)})</button>'
+    ]
+    for key, label, _p, _t in TRADE_BOOKS:
+        buttons.append(
+            f'<button type="button" class="pnl-toggle th-filter" data-book="{key}" aria-pressed="false">'
+            f"{escape(label)} ({counts.get(key, 0)})</button>"
+        )
+    style = """
+<style>
+  #trade-history > details > summary { cursor: pointer; list-style: none; }
+  #trade-history > details > summary::-webkit-details-marker { display: none; }
+  #trade-history > details > summary h2 { display: inline-block; margin: 0; }
+  #trade-history > details > summary .th-caret { color: var(--muted); font-size: 0.8rem; margin-left: 8px; }
+  #trade-history > details[open] > summary .th-caret-closed { display: none; }
+  #trade-history > details:not([open]) > summary .th-caret-open { display: none; }
+  #trade-history .th-toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 10px; }
+  #trade-history .th-filter { font-size: 0.78rem; padding: 4px 10px; min-width: 0; font-weight: 500; background: transparent; color: var(--muted); }
+  #trade-history .th-filter[aria-pressed="true"] { background: #243044; color: var(--accent); border-color: #5a6a83; }
+  #trade-history .th-scroll { max-height: 360px; overflow: auto; border: 1px solid var(--panel-border); border-radius: 8px; }
+  #trade-history table { font-size: 0.82rem; }
+  #trade-history th, #trade-history td { padding: 5px 8px; white-space: nowrap; }
+  #trade-history thead th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
+  #trade-history .th-book { margin-left: 0; font-size: 0.65rem; }
+  #trade-history .th-side { font-weight: 600; }
+  #trade-history .th-note { max-width: 340px; overflow: hidden; text-overflow: ellipsis; }
+  #trade-history .th-when { font-family: var(--mono); font-size: 0.78rem; }
+</style>"""
+    script = """
+<script>
+(function () {
+  "use strict";
+  var root = document.getElementById("trade-history");
+  if (!root) return;
+  var btns = root.querySelectorAll(".th-filter");
+  var rows = root.querySelectorAll("tbody tr[data-book]");
+  function apply(book) {
+    Array.prototype.forEach.call(btns, function (b) {
+      b.setAttribute("aria-pressed", b.getAttribute("data-book") === book ? "true" : "false");
+    });
+    Array.prototype.forEach.call(rows, function (r) {
+      r.hidden = !(book === "all" || r.getAttribute("data-book") === book);
+    });
+  }
+  Array.prototype.forEach.call(btns, function (b) {
+    b.addEventListener("click", function () { apply(b.getAttribute("data-book")); });
+  });
+})();
+</script>"""
+    return (
+        style
+        + '\n  <section id="trade-history">\n    <details open>\n'
+        + '      <summary><h2>Trade history <span class="tag">all books</span></h2>'
+        + '<span class="th-caret th-caret-open">hide</span><span class="th-caret th-caret-closed">show</span></summary>\n'
+        + f'      <p class="blurb">Every paper fill booked across momentum and active sleeves, newest first, rebuilt from the ledgers on each dashboard run. '
+        + f"Times are America/New_York (ET). Hover a note for the full text and source file. {len(trades)} fills total.</p>\n"
+        + '      <div class="th-toolbar" role="group" aria-label="Filter trades by book">'
+        + "".join(buttons)
+        + "</div>\n"
+        + '      <div class="th-scroll">\n        <table>\n          <thead><tr>'
+        + '<th>Date/time ET</th><th>Book</th><th>Side</th><th>Symbol</th>'
+        + '<th class="num">Qty</th><th class="num">Price</th><th class="num">Notional</th><th>Note</th>'
+        + "</tr></thead>\n          <tbody>"
+        + "".join(rows)
+        + "</tbody>\n        </table>\n      </div>\n    </details>\n  </section>\n"
+        + script
+        + "\n"
+    )
+
+
 def build_html(data: dict) -> str:
     eq = data["equity"]
     cr = data["crypto"]
@@ -1899,7 +2112,7 @@ def build_html(data: dict) -> str:
     </p>
   </section>
   </div>
-
+{trade_history_section()}
   <section>
     <h2>Caps reminder</h2>
     <p class="blurb">Initiation caps from each sleeve config. Dashboard does not change them.</p>
