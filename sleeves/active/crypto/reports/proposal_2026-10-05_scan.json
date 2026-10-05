@@ -1,18 +1,49 @@
 {
-  "as_of": "2026-10-05T14:45:12.371806-04:00",
+  "as_of": "2026-10-05T15:32:40.737034-04:00",
   "mode": "auto_book",
   "executed": false,
   "strategy": "crypto_15m_ema_trend",
   "sleeve": "active_crypto",
-  "nav_before": 25706.11,
-  "cash_before": 25706.11,
+  "nav_before": 25693.21,
+  "cash_before": 6424.34,
   "session": "US_RTH",
   "in_rth": true,
-  "fills_today_before": 1,
+  "fills_today_before": 4,
   "max_new_trades_per_day": 6,
-  "remaining_budget_after_plan": 5,
+  "remaining_budget_after_plan": 2,
   "data_failures": [],
-  "signals_detected": [],
+  "signals_detected": [
+    {
+      "ticker": "ETH-USD",
+      "close": 2710.550049,
+      "ema_fast": 2707.873789,
+      "ema_slow": 2706.348531,
+      "strength": 0.255065,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-05 15:30:00-04:00"
+    },
+    {
+      "ticker": "SOL-USD",
+      "close": 120.169998,
+      "ema_fast": 120.045393,
+      "ema_slow": 119.988576,
+      "strength": 0.178942,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-05 15:30:00-04:00"
+    },
+    {
+      "ticker": "BTC-USD",
+      "close": 85759.171875,
+      "ema_fast": 85623.205191,
+      "ema_slow": 85601.44886,
+      "strength": 0.116634,
+      "bullish_cross": true,
+      "bearish_cross": false,
+      "last_bar": "2026-10-05 15:30:00-04:00"
+    }
+  ],
   "planned_trades": [],
   "notes": [],
   "governance": {
