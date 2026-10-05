@@ -1,0 +1,147 @@
+{
+  "as_of": "2026-10-05T09:22:00-04:00",
+  "mode": "monday_weekly_propose",
+  "executed": false,
+  "recommended": "hold_both_sleeves_and_adopt_rank_buffer_rule",
+  "equity": {
+    "nav": 101327.4,
+    "current_cash": 21254.77,
+    "tech_megacap_pct_now": 0.297413,
+    "tech_megacap_pct_cap": 0.3,
+    "tech_megacap_breach": false,
+    "tech_megacap_pct_if_full_rebalance": 0.293358,
+    "cash_pct_now": 0.209763,
+    "cash_floor": 0.2,
+    "cash_floor_breach": false,
+    "sector_etf_sleeve_pct_now": 0.259755,
+    "sector_etf_sleeve_cap": 0.4,
+    "max_name": "META 14.37%",
+    "name_breaches": [],
+    "target_from": "reports/proposal_2026-10-05.json",
+    "option_b_full_rebalance_deltas": [
+      {
+        "side": "BUY",
+        "ticker": "XLE",
+        "shares": 33,
+        "est_price": 62.82,
+        "est_dollars": 2073.06,
+        "from_shares": 186,
+        "to_shares": 219
+      },
+      {
+        "side": "BUY",
+        "ticker": "MSFT",
+        "shares": 1,
+        "est_price": 517.53,
+        "est_dollars": 517.53,
+        "from_shares": 25,
+        "to_shares": 26
+      },
+      {
+        "side": "BUY",
+        "ticker": "NVDA",
+        "shares": 16,
+        "est_price": 233.95,
+        "est_dollars": 3743.2,
+        "from_shares": 35,
+        "to_shares": 51
+      },
+      {
+        "side": "BUY",
+        "ticker": "QQQ",
+        "shares": 10,
+        "est_price": 749.58,
+        "est_dollars": 7495.8,
+        "from_shares": 0,
+        "to_shares": 10
+      },
+      {
+        "side": "SELL",
+        "ticker": "AMZN",
+        "shares": 7,
+        "est_price": 251.52,
+        "est_dollars": 1760.64,
+        "from_shares": 36,
+        "to_shares": 29
+      },
+      {
+        "side": "BUY",
+        "ticker": "XLK",
+        "shares": 5,
+        "est_price": 199.81,
+        "est_dollars": 999.05,
+        "from_shares": 30,
+        "to_shares": 35
+      },
+      {
+        "side": "SELL",
+        "ticker": "AAPL",
+        "shares": 14,
+        "est_price": 333.69,
+        "est_dollars": 4671.66,
+        "from_shares": 27,
+        "to_shares": 13
+      },
+      {
+        "side": "SELL",
+        "ticker": "XLV",
+        "shares": 52,
+        "est_price": 166.18,
+        "est_dollars": 8641.36,
+        "from_shares": 52,
+        "to_shares": 0
+      }
+    ],
+    "option_b_gross_turnover_usd": 29902.3,
+    "option_b_cash_after": 21499.79
+  },
+  "crypto": {
+    "nav": 25812.02,
+    "current_cash": 5345.61,
+    "cash_pct_now": 0.207098,
+    "cash_floor": 0.2,
+    "cash_floor_breach": false,
+    "max_name": "LINK-USD ~23.5% (cap 25%)",
+    "target_from": "sleeves/crypto/reports/proposal_2026-10-05.json",
+    "option_b_full_rebalance_deltas": [
+      {
+        "side": "SELL",
+        "ticker": "LINK-USD",
+        "shares": 7.532214,
+        "est_price": 14.112,
+        "est_dollars": 106.29,
+        "from_shares": 430.219559,
+        "to_shares": 422.687345
+      },
+      {
+        "side": "SELL",
+        "ticker": "AVAX-USD",
+        "shares": 14.092516,
+        "est_price": 10.983,
+        "est_dollars": 154.78,
+        "from_shares": 517.720988,
+        "to_shares": 503.628472
+      },
+      {
+        "side": "BUY",
+        "ticker": "SOL-USD",
+        "shares": 1.822374,
+        "est_price": 120.72,
+        "est_dollars": 220.0,
+        "from_shares": 41.990463,
+        "to_shares": 43.812837
+      },
+      {
+        "side": "BUY",
+        "ticker": "ETH-USD",
+        "shares": 0.078303,
+        "est_price": 2723.5601,
+        "est_dollars": 213.26,
+        "from_shares": 1.336471,
+        "to_shares": 1.414774
+      }
+    ],
+    "option_b_gross_turnover_usd": 694.34,
+    "note": "Same four names as held; deltas are drift noise. Recommend skip."
+  }
+}

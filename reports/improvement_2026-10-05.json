@@ -1,0 +1,20 @@
+{
+  "as_of": "2026-10-05T09:22:00-04:00",
+  "title": "Add a top-10 rank buffer to equity weekly momentum; hold both sleeves this week",
+  "rule_change": {
+    "file": "config/rules.json",
+    "add": {
+      "rebalance": {
+        "rank_buffer": {
+          "enabled": true,
+          "hold_if_rank_at_most": 10,
+          "buy_from_top": 8
+        }
+      }
+    }
+  },
+  "observation": "Equity caps all clean (tech 29.74%, cash 20.98%, META 14.37%). The 63d screen keeps 7 of 8 holdings in its top 8; the only cohort change is XLV (rank 9, +3.00%) out and QQQ (rank 7, +3.81%) in, a 0.81 pt gap. Full rebalance to allocate.py targets would trade about $29.9k gross (~30% of NAV) for that. QQQ also overlaps MSFT/NVDA/AAPL/META/AMZN already held. Walk-forward 1y check: weekly top8 +3.66% (turnover 9.0x) vs same with top-10 buffer +5.54% (6.2x); last 3m buffer -3.22% vs -2.71% (mixed).",
+  "logic": "Options: (1) book full allocate.py rebalance; (2) hold with no rule change; (3) adopt top-10 rank buffer (keep a holding while it ranks top 10, fill openings from top 8) and hold this week. Chose (3): cuts churn on near-tie ranks, standard momentum practice, 1y evidence positive, does not change the signal.",
+  "how_to_judge": "Next four Mondays: weekly turnover, equity vs SPY, and a shadow no-buffer book in the scorecard. Drop buffer if it trails no-buffer by more than 1 pt over 4 weeks.",
+  "requires_jordan_yes": true
+}

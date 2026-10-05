@@ -1,0 +1,194 @@
+{
+  "as_of": "2026-10-05T09:22:00-04:00",
+  "horizon_note": "Live book is 11 trading days (equity) since 2026-09-20 book. Added a simplified walk-forward backtest (scripts/method_backtest.py) instead of only cohort-average screen proxies.",
+  "equity": {
+    "method": "weekly_momentum_rs_63d",
+    "live_pnl_pct_since_book": 1.3274,
+    "spy_pct_same_window": 1.0437,
+    "spy_at_book_approx": 761.69,
+    "spy_now": 769.64,
+    "nav": 101327.4,
+    "walk_forward_1y": {
+      "start": "2025-10-01",
+      "end": "2026-10-02",
+      "results": [
+        {
+          "method": "weekly_mom_top8",
+          "total_ret": 3.66,
+          "max_dd": -8.57,
+          "turnover_x": 8.98,
+          "cost_drag_10bps": 1.8
+        },
+        {
+          "method": "weekly_mom_top8_buffer10",
+          "total_ret": 5.54,
+          "max_dd": -8.64,
+          "turnover_x": 6.22,
+          "cost_drag_10bps": 1.24
+        },
+        {
+          "method": "monthly_mom_top8",
+          "total_ret": 2.75,
+          "max_dd": -10.49,
+          "turnover_x": 4.0,
+          "cost_drag_10bps": 0.8
+        },
+        {
+          "method": "weekly_meanrev_bottom8",
+          "total_ret": 16.7,
+          "max_dd": -6.53,
+          "turnover_x": 11.09,
+          "cost_drag_10bps": 2.22
+        },
+        {
+          "method": "equal_weight_universe_80pct_monthly",
+          "total_ret": 9.89,
+          "max_dd": -6.67,
+          "turnover_x": 0.59,
+          "cost_drag_10bps": 0.12
+        },
+        {
+          "method": "SPY_buy_hold_100pct",
+          "total_ret": 16.38,
+          "max_dd": -8.88,
+          "turnover_x": 0,
+          "cost_drag_10bps": 0.0
+        },
+        {
+          "method": "SPY_buy_hold_80pct_approx",
+          "total_ret": 13.1
+        }
+      ]
+    },
+    "walk_forward_3m": {
+      "start": "2026-07-06",
+      "results": [
+        {
+          "method": "weekly_mom_top8",
+          "total_ret": -2.71,
+          "max_dd": -3.34,
+          "turnover_x": 3.05,
+          "cost_drag_10bps": 0.61
+        },
+        {
+          "method": "weekly_mom_top8_buffer10",
+          "total_ret": -3.22,
+          "max_dd": -4.31,
+          "turnover_x": 2.35,
+          "cost_drag_10bps": 0.47
+        },
+        {
+          "method": "monthly_mom_top8",
+          "total_ret": -2.03,
+          "max_dd": -6.3,
+          "turnover_x": 1.7,
+          "cost_drag_10bps": 0.34
+        },
+        {
+          "method": "weekly_meanrev_bottom8",
+          "total_ret": 5.38,
+          "max_dd": -4.11,
+          "turnover_x": 3.22,
+          "cost_drag_10bps": 0.64
+        },
+        {
+          "method": "SPY_buy_hold_100pct",
+          "total_ret": 2.7,
+          "max_dd": -3.38,
+          "turnover_x": 0,
+          "cost_drag_10bps": 0.0
+        }
+      ]
+    },
+    "recommendation": "stay_with_rank_buffer_proposal; flag mean_reversion as shadow candidate"
+  },
+  "crypto": {
+    "method": "weekly_momentum_rs_63d",
+    "live_pnl_pct_since_book": 3.2481,
+    "btc_pct_same_window": 5.7751,
+    "btc_at_book_approx": 81458.9922,
+    "btc_now": 86163.2969,
+    "nav": 25812.02,
+    "walk_forward_1y": {
+      "start": "2025-10-05",
+      "end": "2026-10-05",
+      "results": [
+        {
+          "method": "weekly_mom_top4",
+          "total_ret": -48.82,
+          "max_dd": -55.63,
+          "turnover_x": 5.39,
+          "cost_drag_10bps": 1.08
+        },
+        {
+          "method": "weekly_mom_top4_buffer",
+          "total_ret": -48.89,
+          "max_dd": -55.97,
+          "turnover_x": 4.99,
+          "cost_drag_10bps": 1.0
+        },
+        {
+          "method": "monthly_mom_top4",
+          "total_ret": -44.59,
+          "max_dd": -56.01,
+          "turnover_x": 2.23,
+          "cost_drag_10bps": 0.45
+        },
+        {
+          "method": "weekly_mom_top2",
+          "total_ret": -47.13,
+          "max_dd": -53.81,
+          "turnover_x": 6.16,
+          "cost_drag_10bps": 1.23
+        },
+        {
+          "method": "equal_weight_5_80pct_monthly",
+          "total_ret": -33.95,
+          "max_dd": -59.2,
+          "turnover_x": 0.69,
+          "cost_drag_10bps": 0.14
+        },
+        {
+          "method": "BTC_buy_hold_100pct",
+          "total_ret": -30.25,
+          "max_dd": -53.06,
+          "turnover_x": 0,
+          "cost_drag_10bps": 0.0
+        }
+      ]
+    },
+    "walk_forward_3m": {
+      "start": "2026-07-06",
+      "results": [
+        {
+          "method": "weekly_mom_top4",
+          "total_ret": 11.12,
+          "max_dd": -7.3,
+          "turnover_x": 1.68,
+          "cost_drag_10bps": 0.34
+        },
+        {
+          "method": "monthly_mom_top4",
+          "total_ret": 11.6,
+          "max_dd": -7.69,
+          "turnover_x": 0.61,
+          "cost_drag_10bps": 0.12
+        },
+        {
+          "method": "BTC_buy_hold_100pct",
+          "total_ret": 34.63,
+          "max_dd": -6.96,
+          "turnover_x": 0,
+          "cost_drag_10bps": 0.0
+        }
+      ]
+    },
+    "swap_check": {
+      "SOL_since_fill_pct": -0.35,
+      "BTC_since_exit_pct": 2.12
+    },
+    "recommendation": "stay this week; BTC-core proposal likely next Monday if lag persists"
+  },
+  "hft_note": "No day-trading or HFT case. True HFT needs tick/L2 data and low-latency execution this paper stack does not have. The 15m active sleeve is the parallel higher-frequency test and is -0.48% vs momentum household +1.71%.",
+  "overall_recommendation": "stay"
+}
