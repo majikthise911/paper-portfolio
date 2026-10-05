@@ -584,7 +584,7 @@ def strategy_section() -> str:
     <ul class="caps">
       <li><strong>Momentum equity:</strong> <code>{escape(str(eq_signal))}</code> uses simple momentum / relative strength to rank liquid US ETFs and a short mega-cap list on about a 3-month total return ({days(eq_rules, 'primary_trading_days', 63)} trading days), with a 12-month sanity check that is {not_deeply_negative(eq_rules)}. It is long-only. {str(eq_cadence).capitalize()} rebalance proposals are made Monday; marks between weeks are not trades.{buffer_text} Caps are {pct(eq_caps.get('max_single_name_pct'), 0.15)} per name, {pct(eq_caps.get('max_sector_etf_sleeve_pct'), 0.40)} per sector sleeve, and combined {escape(tech_names_text)} is capped at {pct(eq_caps.get('max_tech_megacap_sleeve_pct'), 0.30)} of equity NAV. Benchmark {escape(str(eq_benchmark))}. Paper only. Paper decides trades and rule changes from research and updates Jordan afterward; Jordan can still override.</li>
       <li><strong>Momentum crypto:</strong> This is a separate sleeve and cash book using <code>{escape(str(cr_signal))}</code>, a similar {str(cr_cadence)} momentum screen on {escape(crypto_assets_text)}, with the same roughly 3-month signal and 12-month sanity check that is {not_deeply_negative(cr_rules)}. Its benchmark is {escape(str(cr_benchmark))} (BTC), with its own caps: {pct(cr_rules.get('position_caps', {}).get('max_single_name_pct'), 0.25)} per name, {pct(cr_rules.get('position_caps', {}).get('max_invested_pct'), 0.80)} invested maximum, and {pct(cr_rules.get('position_caps', {}).get('min_cash_pct'), 0.20)} minimum cash.</li>
-      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. The active 15m EMA sleeve is a parallel experiment on this same page. It does not replace momentum unless research plus standing order (or a Jordan override) says so.</li>
+      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. The chart vs B&amp;H toggle and the Versus buy-and-hold cards track buy-and-hold baselines (SPY $100k, BTC $25k, stacked household $125k) against momentum and the active sleeve. The active 15m EMA sleeve is a parallel experiment on this same page. It does not replace momentum unless research plus standing order (or a Jordan override) says so.</li>
     </ul>
     <p class="blurb">For approved strategy changes, see <a href="./changelog.html">the strategy change log</a>.</p>
   </section>
@@ -804,17 +804,22 @@ def align_household_series(
     return out
 
 
-def spy_pnl_series(
-    equity_ledger: Path,
-    equity_portfolio: Path,
+def benchmark_bh_series(
+    ledger: Path,
+    portfolio: Path,
     aligned_points: list[dict],
-    equity_start: float,
+    starting_capital: float,
+    *,
+    yf_ticker: str,
+    ledger_price_key: str,
+    price_field: str,
+    label: str,
 ) -> tuple[list[dict], str | None]:
-    """Build a SPY buy-and-hold baseline aligned to household timestamps.
+    """Build a 100% invested buy-and-hold baseline aligned to target timestamps.
 
-    Returns (series, optional_flat_note). Always attempts a yfinance history merge
-    for the mark window; baseline spy_0 is the last price at or before the first
-    household/equity timestamp.
+    Returns (series, optional_flat_note). Merges ledger/portfolio marks with
+    yfinance history. Baseline price_0 is the last price at or before the first
+    target timestamp. Distinct from the Monday scorecard SPY-at-80% shadow.
     """
     target_dts = []
     for point in aligned_points:
@@ -835,8 +840,8 @@ def spy_pnl_series(
         if dt is not None and price > 0:
             prices[dt] = price
 
-    if equity_ledger.exists():
-        for line in equity_ledger.read_text().splitlines():
+    if ledger.exists():
+        for line in ledger.read_text().splitlines():
             line = line.strip()
             if not line:
                 continue
@@ -844,15 +849,15 @@ def spy_pnl_series(
                 entry = json.loads(line)
             except json.JSONDecodeError:
                 continue
-            if entry.get("type") == "mark" and entry.get("spy_last_close") is not None:
-                add_price(entry.get("ts"), entry.get("spy_last_close"))
+            if entry.get("type") == "mark" and entry.get(ledger_price_key) is not None:
+                add_price(entry.get("ts"), entry.get(ledger_price_key))
 
-    if equity_portfolio.exists():
+    if portfolio.exists():
         try:
-            portfolio = load_json(equity_portfolio)
-            portfolio_price = portfolio.get("spy_last_close", portfolio.get("bench_last_close"))
+            pf = load_json(portfolio)
+            portfolio_price = pf.get(ledger_price_key, pf.get("bench_last_close"))
             if portfolio_price is not None:
-                add_price(portfolio.get("as_of"), portfolio_price)
+                add_price(pf.get("as_of"), portfolio_price)
         except Exception:
             pass
 
@@ -869,7 +874,7 @@ def spy_pnl_series(
             )
             if interval != "1d":
                 kwargs["interval"] = interval
-            history = yf.Ticker("SPY").history(**kwargs)
+            history = yf.Ticker(yf_ticker).history(**kwargs)
             if history is None or history.empty:
                 return
             for idx, row in history.iterrows():
@@ -886,11 +891,12 @@ def spy_pnl_series(
                 except (TypeError, ValueError, AttributeError):
                     continue
         except Exception as e:
-            print(f"WARN: SPY baseline history failed ({interval}): {e}", file=sys.stderr)
+            print(
+                f"WARN: {label} baseline history failed ({interval}): {e}",
+                file=sys.stderr,
+            )
 
-    # Always attempt daily SPY history for the mark window.
     merge_yfinance_history(interval="1d")
-    # If portfolio life is a single calendar day, also try hourly bars so intraday marks can move.
     if first_target.date() == last_target.date():
         merge_yfinance_history(interval="1h")
         if len({dt.date() for dt in prices}) <= 1:
@@ -899,42 +905,89 @@ def spy_pnl_series(
     if not prices:
         return [], None
     ordered_prices = sorted(prices.items())
-    # Baseline = last price at or before first household/equity timestamp (not earliest lookback).
     at_or_before = [(dt, price) for dt, price in ordered_prices if dt <= first_target]
     if at_or_before:
-        spy_0 = at_or_before[-1][1]
+        price_0 = at_or_before[-1][1]
     else:
-        # Keep the chart useful if a provider has no pre-window history.
-        spy_0 = ordered_prices[0][1]
+        price_0 = ordered_prices[0][1]
 
     out = []
     price_idx = 0
-    current_price = spy_0
+    current_price = price_0
+    start = float(starting_capital)
     for target_dt, target_ts in ordered_targets:
         while price_idx < len(ordered_prices) and ordered_prices[price_idx][0] <= target_dt:
             current_price = ordered_prices[price_idx][1]
             price_idx += 1
-        spy_nav = float(equity_start) * (current_price / spy_0)
+        nav = start * (current_price / price_0)
         out.append(
             {
                 "ts": target_ts,
-                "nav": round(spy_nav, 2),
-                "pnl": round(spy_nav - float(equity_start), 2),
-                "spy_px": round(current_price, 4),
-                "starting_capital": float(equity_start),
+                "nav": round(nav, 2),
+                "pnl": round(nav - start, 2),
+                price_field: round(current_price, 4),
+                "starting_capital": start,
             }
         )
 
     flat_note = None
     if out:
         pnls = [abs(float(p.get("pnl") or 0.0)) for p in out]
-        pxes = [float(p.get("spy_px") or 0.0) for p in out]
-        # Still all ~0 PnL / flat price after merge → note for chart visibility.
+        pxes = [float(p.get(price_field) or 0.0) for p in out]
         if max(pnls) < 0.02 and (max(pxes) - min(pxes) < 0.02):
             flat_note = (
-                f"SPY baseline is flat until SPY moves from the start print (${spy_0:.2f})."
+                f"{label} baseline is flat until {label} moves from the start print "
+                f"(${price_0:.2f})."
             )
     return out, flat_note
+
+
+def spy_pnl_series(
+    equity_ledger: Path,
+    equity_portfolio: Path,
+    aligned_points: list[dict],
+    equity_start: float,
+) -> tuple[list[dict], str | None]:
+    """SPY buy-and-hold at 100% invested from experiment start ($100k equity B&H)."""
+    return benchmark_bh_series(
+        equity_ledger,
+        equity_portfolio,
+        aligned_points,
+        equity_start,
+        yf_ticker="SPY",
+        ledger_price_key="spy_last_close",
+        price_field="spy_px",
+        label="SPY",
+    )
+
+
+def btc_pnl_series(
+    crypto_ledger: Path,
+    crypto_portfolio: Path,
+    aligned_points: list[dict],
+    crypto_start: float,
+) -> tuple[list[dict], str | None]:
+    """BTC buy-and-hold at 100% invested from experiment start ($25k crypto B&H)."""
+    return benchmark_bh_series(
+        crypto_ledger,
+        crypto_portfolio,
+        aligned_points,
+        crypto_start,
+        yf_ticker="BTC-USD",
+        ledger_price_key="btc_last_close",
+        price_field="btc_px",
+        label="BTC",
+    )
+
+
+def household_bh_series(
+    spy: list[dict],
+    btc: list[dict],
+    equity_start: float,
+    crypto_start: float,
+) -> list[dict]:
+    """Stack equity SPY B&H + crypto BTC B&H into a $125k household buy-and-hold."""
+    return align_household_series(spy, btc, equity_start, crypto_start)
 
 
 
@@ -1079,6 +1132,11 @@ def build_pnl_history(
     )
     spy, spy_flat_note = spy_pnl_series(equity_ledger, equity_portfolio, household, eq_start)
     spy = enrich_pct_fields(spy)
+    btc, btc_flat_note = btc_pnl_series(crypto_ledger, crypto_portfolio, household, cr_start)
+    btc = enrich_pct_fields(btc)
+    household_bh = enrich_pct_fields(
+        household_bh_series(spy, btc, eq_start, cr_start)
+    )
 
     ae_ledger = active_equity_ledger or ACTIVE_EQUITY_LEDGER
     ac_ledger = active_crypto_ledger or ACTIVE_CRYPTO_LEDGER
@@ -1121,6 +1179,12 @@ def build_pnl_history(
         )
     if spy_flat_note:
         note_parts.append(spy_flat_note)
+    if btc_flat_note:
+        note_parts.append(btc_flat_note)
+    note_parts.append(
+        "Buy-and-hold baselines: equity SPY 100% ($100k), crypto BTC 100% ($25k), "
+        "household = stacked SPY+BTC ($125k). Distinct from Monday SPY-at-80% shadow."
+    )
     note = " ".join(note_parts) if note_parts else None
 
     return {
@@ -1129,6 +1193,7 @@ def build_pnl_history(
         "default_metric": "pnl_pct",
         "default_view": "household",
         "default_show_spy": False,
+        "default_show_bh": False,
         "starting_capital": {
             "equity": round(eq_start, 2),
             "crypto": round(cr_start, 2),
@@ -1136,12 +1201,17 @@ def build_pnl_history(
             "active_equity": round(ae_start, 2),
             "active_crypto": round(ac_start, 2),
             "active_household": round(ae_start + ac_start, 2),
+            "spy": round(eq_start, 2),
+            "btc": round(cr_start, 2),
+            "household_bh": round(eq_start + cr_start, 2),
         },
         "counts": {
             "equity": len(equity),
             "crypto": len(crypto),
             "household": len(household),
             "spy": len(spy),
+            "btc": len(btc),
+            "household_bh": len(household_bh),
             "active_equity": len(active_equity),
             "active_crypto": len(active_crypto),
             "active_household": len(active_household),
@@ -1151,6 +1221,8 @@ def build_pnl_history(
             "crypto": crypto,
             "household": household,
             "spy": spy,
+            "btc": btc,
+            "household_bh": household_bh,
             "active_equity": active_equity,
             "active_crypto": active_crypto,
             "active_household": active_household,
@@ -1470,6 +1542,58 @@ def build_html(data: dict) -> str:
             f"{vs_spy['note']}"
         )
         vs_class = pnl_class(alpha)
+
+    def _last_pct(series_name: str) -> float | None:
+        pts = (pnl_hist or {}).get("series", {}).get(series_name) or []
+        if not pts:
+            return None
+        try:
+            return float(pts[-1].get("pnl_pct"))
+        except (TypeError, ValueError):
+            return None
+
+    bh_eq = _last_pct("spy")
+    bh_cr = _last_pct("btc")
+    bh_hh = _last_pct("household_bh")
+    mom_hh = hh.get("total_pnl_pct")
+    act_hh = ah.get("total_pnl_pct")
+    mom_cr = cr.get("total_pnl_pct")
+    cr_vs = cr.get("vs_benchmark") or {}
+    btc_ret = cr_vs.get("return_pct")
+
+    def _pp(a, b):
+        if a is None or b is None:
+            return "n/a"
+        return f"{(a - b):+.2f} pp"
+
+    bh_compare_html = f"""
+  <section id="versus-buyhold">
+    <h2>Versus buy-and-hold</h2>
+    <p class="blurb">Live baselines from experiment start 2026-09-20. Equity B&amp;H is SPY 100% invested ($100k). Crypto B&amp;H is BTC 100% invested ($25k). Household B&amp;H stacks those two ($125k). Distinct from the Monday scorecard SPY-at-80% shadow (cash-matched rough peer for the 80% invested book).</p>
+    <div class="cards">
+      <div class="card">
+        <div class="label">Momentum household vs Household B&amp;H</div>
+        <div class="value {pnl_class(None if mom_hh is None or bh_hh is None else mom_hh - bh_hh)}">{_pp(mom_hh, bh_hh)}</div>
+        <div class="sub">Mom {fmt_pct(mom_hh)} · B&amp;H {fmt_pct(bh_hh)}</div>
+      </div>
+      <div class="card">
+        <div class="label">Active household vs Household B&amp;H</div>
+        <div class="value {pnl_class(None if act_hh is None or bh_hh is None else act_hh - bh_hh)}">{_pp(act_hh, bh_hh)}</div>
+        <div class="sub">Active {fmt_pct(act_hh)} · B&amp;H {fmt_pct(bh_hh)}</div>
+      </div>
+      <div class="card">
+        <div class="label">Momentum equity vs SPY B&amp;H</div>
+        <div class="value {vs_class}">{vs_spy_display}</div>
+        <div class="sub">Equity {fmt_pct(port_ret)} · SPY {fmt_pct(bh_eq if bh_eq is not None else spy_ret)}</div>
+      </div>
+      <div class="card">
+        <div class="label">Momentum crypto vs BTC B&amp;H</div>
+        <div class="value {pnl_class(None if mom_cr is None or (bh_cr if bh_cr is not None else btc_ret) is None else mom_cr - (bh_cr if bh_cr is not None else btc_ret))}">{_pp(mom_cr, bh_cr if bh_cr is not None else btc_ret)}</div>
+        <div class="sub">Crypto {fmt_pct(mom_cr)} · BTC {fmt_pct(bh_cr if bh_cr is not None else btc_ret)}</div>
+      </div>
+    </div>
+  </section>
+"""
 
     cr_nav_sub = f"Cash {fmt_money(cr['cash'])}"
     if cr.get("status") == "cash_only" and not cr["holdings"]:
@@ -1797,6 +1921,8 @@ def build_html(data: dict) -> str:
   .pnl-swatch.cr {{ background: #e6b450; }}
   .pnl-swatch.ac {{ background: #f0886a; }}
   .pnl-swatch.spy {{ background: #f0c14a; }}
+  .pnl-swatch.btc {{ background: #f0a05a; }}
+  .pnl-swatch.hhbh {{ background: #c4a35a; }}
   .pnl-toggle[aria-pressed="true"] {{
     border-color: var(--accent);
     color: var(--accent);
@@ -1837,6 +1963,8 @@ def build_html(data: dict) -> str:
   #pnl-chart .line-cr {{ fill: none; stroke: #e6b450; stroke-width: 1.8; }}
   #pnl-chart .line-ac {{ fill: none; stroke: #f0886a; stroke-width: 1.8; }}
   #pnl-chart .line-spy {{ fill: none; stroke: #f0c14a; stroke-width: 2.4; stroke-dasharray: 6 4; }}
+  #pnl-chart .line-btc {{ fill: none; stroke: #f0a05a; stroke-width: 2.4; stroke-dasharray: 6 4; }}
+  #pnl-chart .line-hhbh {{ fill: none; stroke: #c4a35a; stroke-width: 2.4; stroke-dasharray: 6 4; }}
   #pnl-chart .dot {{ stroke: #0f1419; stroke-width: 1; }}
   #pnl-chart .dot-hh {{ fill: #5b9fd4; }}
   #pnl-chart .dot-ah {{ fill: #e6c86a; }}
@@ -1845,6 +1973,8 @@ def build_html(data: dict) -> str:
   #pnl-chart .dot-cr {{ fill: #e6b450; }}
   #pnl-chart .dot-ac {{ fill: #f0886a; }}
   #pnl-chart .dot-spy {{ fill: #f0c14a; }}
+  #pnl-chart .dot-btc {{ fill: #f0a05a; }}
+  #pnl-chart .dot-hhbh {{ fill: #c4a35a; }}
   .band-title {{
     margin: 4px 0 6px;
     font-size: 1.15rem;
@@ -1977,7 +2107,7 @@ def build_html(data: dict) -> str:
         <button type="button" class="pnl-toggle" id="pnl-view-equity" aria-pressed="false" title="Compare equity sleeves only">Equity</button>
         <button type="button" class="pnl-toggle" id="pnl-view-crypto" aria-pressed="false" title="Compare crypto sleeves only">Crypto</button>
       </div>
-      <button type="button" class="pnl-toggle quiet" id="pnl-vs-spy" aria-pressed="false" title="Toggle SPY baseline comparison">vs SPY</button>
+      <button type="button" class="pnl-toggle quiet" id="pnl-vs-bh" aria-pressed="false" title="Toggle buy-and-hold baseline (SPY / BTC / stacked household by view)">vs B&amp;H</button>
       <div class="pnl-legend" id="pnl-legend" aria-label="Series legend">
         <span data-legend="hh"><i class="pnl-swatch hh" aria-hidden="true"></i>Momentum</span>
         <span data-legend="ah"><i class="pnl-swatch ah" aria-hidden="true"></i>Active</span>
@@ -1985,7 +2115,9 @@ def build_html(data: dict) -> str:
         <span data-legend="ae" hidden><i class="pnl-swatch ae" aria-hidden="true"></i>Active</span>
         <span data-legend="cr" hidden><i class="pnl-swatch cr" aria-hidden="true"></i>Momentum</span>
         <span data-legend="ac" hidden><i class="pnl-swatch ac" aria-hidden="true"></i>Active</span>
-        <span data-legend="spy" hidden><i class="pnl-swatch spy" aria-hidden="true"></i>SPY</span>
+        <span data-legend="spy" hidden><i class="pnl-swatch spy" aria-hidden="true"></i>SPY B&amp;H</span>
+        <span data-legend="btc" hidden><i class="pnl-swatch btc" aria-hidden="true"></i>BTC B&amp;H</span>
+        <span data-legend="hhbh" hidden><i class="pnl-swatch hhbh" aria-hidden="true"></i>Household B&amp;H</span>
       </div>
       <details class="pnl-advanced">
         <summary>More</summary>
@@ -2004,7 +2136,7 @@ def build_html(data: dict) -> str:
       </div>
       <button type="button" class="pnl-toggle" id="pnl-reset-zoom" title="Reset drag-rectangle zoom">Reset zoom</button>
     </div>
-    <p class="blurb" id="pnl-spy-note">Each series starts at 0%. Drag to zoom. Turn on vs SPY to compare.</p>
+    <p class="blurb" id="pnl-spy-note">Each series starts at 0%. Drag to zoom. Turn on vs B&amp;H for the matching buy-and-hold baseline (household = SPY $100k + BTC $25k; equity = SPY; crypto = BTC).</p>
     <div id="pnl-chart-wrap">
       <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="Momentum versus active P and L over time">{render_pnl_svg(pnl_hist)}</svg>
     </div>
@@ -2140,8 +2272,9 @@ def build_html(data: dict) -> str:
   </section>
 
 {strategy_and_changelog_row()}
-{architecture_section()}  <section>
-    <h2>Versus SPY (equity sleeve)</h2>
+{architecture_section()}{bh_compare_html}
+  <section>
+    <h2>Versus SPY (equity sleeve detail)</h2>
     <p class="blurb">{vs_spy_detail}</p>
   </section>
 
@@ -2623,9 +2756,9 @@ def build_html(data: dict) -> str:
     "1m": 30 * 24 * 60 * 60 * 1000
   }};
   var baseNote = (hist && hist.note) || "";
-  var showSpy = (hist && typeof hist.default_show_spy === "boolean")
-    ? hist.default_show_spy
-    : false;
+  var showBh = false;
+  if (hist && typeof hist.default_show_bh === "boolean") showBh = hist.default_show_bh;
+  else if (hist && typeof hist.default_show_spy === "boolean") showBh = hist.default_show_spy;
   var brushZoom = null; // null | {{ tMin, tMax, yMin, yMax }}
   var noteEl = document.getElementById("pnl-history-note");
   var spyNoteEl = document.getElementById("pnl-spy-note");
@@ -2636,7 +2769,7 @@ def build_html(data: dict) -> str:
   var btnRange1w = document.getElementById("pnl-range-1w");
   var btnRange1m = document.getElementById("pnl-range-1m");
   var btnRangeAll = document.getElementById("pnl-range-all");
-  var btnSpy = document.getElementById("pnl-vs-spy");
+  var btnSpy = document.getElementById("pnl-vs-bh") || document.getElementById("pnl-vs-spy");
   var btnResetZoom = document.getElementById("pnl-reset-zoom");
   var btnViewHh = document.getElementById("pnl-view-household");
   var btnViewEq = document.getElementById("pnl-view-equity");
@@ -2709,10 +2842,40 @@ def build_html(data: dict) -> str:
         y = Number(p.pnl);
       }}
       if (!isFinite(y)) return;
-      out.push({{ t: d.getTime(), d: d, y: y, ts: p.ts, spy_px: p.spy_px }});
+      out.push({{ t: d.getTime(), d: d, y: y, ts: p.ts, spy_px: p.spy_px, btc_px: p.btc_px }});
     }});
     out.sort(function (a, b) {{ return a.t - b.t; }});
     return out;
+  }}
+
+  function bhKeyForView() {{
+    if (view === "equity") return "spy";
+    if (view === "crypto") return "btc";
+    return "household_bh";
+  }}
+
+  function bhLegendKey() {{
+    if (view === "equity") return "spy";
+    if (view === "crypto") return "btc";
+    return "hhbh";
+  }}
+
+  function bhLabel() {{
+    if (view === "equity") return "SPY B&H";
+    if (view === "crypto") return "BTC B&H";
+    return "Household B&H";
+  }}
+
+  function bhLineClass() {{
+    if (view === "equity") return "line-spy";
+    if (view === "crypto") return "line-btc";
+    return "line-hhbh";
+  }}
+
+  function bhDotClass() {{
+    if (view === "equity") return "dot-spy";
+    if (view === "crypto") return "dot-btc";
+    return "dot-hhbh";
   }}
 
   function updateLegend() {{
@@ -2724,7 +2887,9 @@ def build_html(data: dict) -> str:
       ae: view === "equity",
       cr: view === "crypto",
       ac: view === "crypto",
-      spy: showSpy
+      spy: showBh && view === "equity",
+      btc: showBh && view === "crypto",
+      hhbh: showBh && view === "household"
     }};
     Array.prototype.forEach.call(legendEl.querySelectorAll("[data-legend]"), function (el) {{
       var key = el.getAttribute("data-legend");
@@ -2888,14 +3053,14 @@ def build_html(data: dict) -> str:
           : "active_household";
     var momAll = seriesPoints(momKey);
     var actAll = seriesPoints(actKey);
-    var spyAll = seriesPoints("spy");
+    var bhAll = seriesPoints(bhKeyForView());
     var mom = filterByBrush(filterByRange(momAll));
     var act = filterByBrush(filterByRange(actAll));
-    var spy = showSpy ? filterByBrush(filterByRange(spyAll)) : [];
+    var spy = showBh ? filterByBrush(filterByRange(bhAll)) : [];
     // Domain calculation uses timeframe-filtered points (before brush filter) unless zoomed.
     var momR = filterByRange(momAll);
     var actR = filterByRange(actAll);
-    var spyR = showSpy ? filterByRange(spyAll) : [];
+    var spyR = showBh ? filterByRange(bhAll) : [];
     var allRange = momR.concat(actR).concat(spyR);
     var all = mom.concat(act).concat(spy);
     var noteFull = momAll.length ? momAll.length : actAll.length;
@@ -3098,6 +3263,9 @@ def build_html(data: dict) -> str:
         if (p.spy_px != null && isFinite(Number(p.spy_px))) {{
           tooltip += " · SPY px $" + Number(p.spy_px).toFixed(2);
         }}
+        if (p.btc_px != null && isFinite(Number(p.btc_px))) {{
+          tooltip += " · BTC px $" + Number(p.btc_px).toFixed(2);
+        }}
         parts.push(
           '<circle class="dot ' +
             dotCls +
@@ -3125,7 +3293,7 @@ def build_html(data: dict) -> str:
       drawSeries(mom, "line-cr", "dot-cr", "Momentum");
       drawSeries(act, "line-ac", "dot-ac", "Active");
     }}
-    drawSeries(spy, "line-spy", "dot-spy", "SPY", 4.8);
+    drawSeries(spy, bhLineClass(), bhDotClass(), bhLabel(), 4.8);
 
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.innerHTML = parts.join("");
@@ -3150,7 +3318,7 @@ def build_html(data: dict) -> str:
   }}
 
   function setSpy(enabled) {{
-    showSpy = enabled;
+    showBh = enabled;
     if (btnSpy) btnSpy.setAttribute("aria-pressed", enabled ? "true" : "false");
     render();
   }}
@@ -3252,9 +3420,9 @@ def build_html(data: dict) -> str:
   if (btnRange1w) btnRange1w.addEventListener("click", function () {{ setRange("1w"); }});
   if (btnRange1m) btnRange1m.addEventListener("click", function () {{ setRange("1m"); }});
   if (btnRangeAll) btnRangeAll.addEventListener("click", function () {{ setRange("all"); }});
-  if (btnSpy) btnSpy.addEventListener("click", function () {{ setSpy(!showSpy); }});
+  if (btnSpy) btnSpy.addEventListener("click", function () {{ setSpy(!showBh); }});
   if (btnResetZoom) btnResetZoom.addEventListener("click", function () {{ resetZoom(); }});
-  setSpy(showSpy);
+  setSpy(showBh);
   setMetric(metric);
   setView(view);
 }})();

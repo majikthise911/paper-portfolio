@@ -22,12 +22,21 @@
 <div class="wrap">
   <h1>Strategy change log</h1>
   <p class="sub">Approved tweaks with observation and decision logic. <a href="./">Back to dashboard</a></p>
+  <article class="entry"><h2>2026-10-05, Buy-and-hold baselines on scorecard and dashboard</h2><ul>
+<li><strong>Sleeve:</strong> household (momentum + active compare)</li>
+<li><strong>Change:</strong> Added live buy-and-hold baselines from experiment start 2026-09-20: equity SPY 100% invested ($100k), crypto BTC 100% invested ($25k), and household B&amp;H as the stack of those two ($125k). Wired into <code>reports/pnl_history.json</code> series (<code>spy</code>, <code>btc</code>, <code>household_bh</code>), the chart **vs B&amp;H** toggle (view-aware: household / equity / crypto), Versus buy-and-hold cards, Current strategy copy, and the Monday method scorecard shadow list. No positions changed.</li>
+<li><strong>Observation:</strong> Jordan asked whether we should track &quot;just buy the stack and hold&quot; against momentum and the active sleeve. The chart already had a SPY series at $100k 100% invested; it was missing BTC and the stacked household line, and the Monday scorecard SPY-at-80% shadow is a different peer (cash-matched rough analog for the 80% invested book).</li>
+<li><strong>Logic:</strong> Buy-and-hold is the cleanest zero-skill control. Keep SPY-at-80% as a separate Monday shadow for the backtest/scorecard. Show 100% invested SPY/BTC/household B&amp;H on the live dashboard so Momentum household, Active household, and Household B&amp;H share one chart.</li>
+<li><strong>Jordan approval:</strong> Chat 2026-10-05 standing order (decide from research and update afterward). Question posed by Jordan; Paper agreed and implemented.</li>
+<li><strong>Effective:</strong> 2026-10-05T10:39:30-04:00. Series rebuild on each dashboard run. No trades.</li>
+<li><strong>How we judge:</strong> Compare live Momentum household and Active household to Household B&amp;H (and sleeve-level SPY/BTC B&amp;H) on each mark and each Monday scorecard. Informational only; does not change the live method.</li>
+</ul></article>
   <article class="entry"><h2>2026-10-05, Equity momentum top-10 rank buffer</h2><ul>
 <li><strong>Sleeve:</strong> equity (momentum)</li>
-<li><strong>Change:</strong> Added <code>rebalance.rank_buffer</code> in <code>config/rules.json</code> (<code>rule_version 3</code>): keep a holding while it stays in the top 10 on the 63-day screen; fill open slots from the top 8. No positions changed this week.</li>
+<li><strong>Change:</strong> Added <code>rebalance.rank_buffer</code> in <code>config/rules.json</code> (rule_version 3): keep a holding while it stays in the top 10 on the 63-day screen; fill open slots from the top 8. No positions changed this week.</li>
 <li><strong>Observation:</strong> Caps were clean (tech mega-cap 29.74%, cash 20.98%, META 14.37%). The screen kept 7 of 8 holdings in its top 8. The only cohort swap wanted was XLV (rank 9, +3.00%) out for QQQ (rank 7, +3.81%), a 0.81 pt gap, at about $29.9k gross turnover (~30% of equity NAV). QQQ also overlaps MSFT, NVDA, AAPL, META, and AMZN already held. Walk-forward 1y: weekly top 8 +3.66% with 9.0x turnover vs top-10 buffer +5.54% with 6.2x; last 3m buffer slightly worse (-3.22% vs -2.71%).</li>
 <li><strong>Logic:</strong> Options were (1) book the full allocate.py rebalance, (2) hold with no rule change, (3) adopt the top-10 rank buffer and hold this week. Chose (3): standard momentum practice for cutting churn on near-tie ranks, keeps the 63d signal unchanged, and 1y evidence is positive. Crypto deltas were only ~$694 of drift and were skipped. Method stays weekly momentum. Monday scorecard now tracks mean reversion and SPY-at-80% as shadow lines, plus a no-buffer shadow for this judge window.</li>
-<li><strong>Jordan approval:</strong> Chat 2026-10-05 ~10:16 ET standing order: Paper decides trade and rule changes from research, books what seems best, and updates afterward. Jordan can still override. This week's Monday recommendation is applied under that order.</li>
+<li><strong>Jordan approval:</strong> Chat 2026-10-05 ~10:16 ET standing order: Paper decides trade and rule changes from research, books what seems best, and updates afterward. Jordan can still override. This week&#x27;s Monday recommendation is applied under that order.</li>
 <li><strong>Effective:</strong> Rule locked 2026-10-05T10:18:11-04:00. Positions unchanged (hold both sleeves).</li>
 <li><strong>How we judge:</strong> Over the next four Mondays, track weekly turnover, equity vs SPY, and a shadow no-buffer book in the scorecard. Drop the buffer if it trails that shadow by more than 1 pt over the window.</li>
 </ul></article>
@@ -43,16 +52,16 @@
 <li><strong>Sleeve:</strong> active (new parallel)</li>
 <li><strong>Change:</strong> Add active 15m paper experiment with $100,000 US equities + $25,000 crypto under <code>sleeves/active/</code> (household $125k). Separate config/state/reports from momentum books.</li>
 <li><strong>Observation:</strong> Jordan wants apples-to-apples vs weekly momentum household; Freqtrade-style higher activity on 15m bars without switching the momentum method.</li>
-<li><strong>Logic:</strong> Parallel sleeve, not a method switch on momentum books. Keep root equity and sleeves/crypto/ untouched. Scaffold cash-only books; no fills until strategy yes.</li>
+<li><strong>Logic:</strong> Parallel sleeve, not a method switch on momentum books. Keep root equity and <code>sleeves/crypto/</code> untouched. Scaffold cash-only books; no fills until strategy yes.</li>
 <li><strong>Jordan approval:</strong> Chat 2026-09-24 widget, both universes, 15m, $125k split ($100k+$25k).</li>
 <li><strong>Effective:</strong> Scaffold only as of 2026-09-24T09:11:09-04:00. No fills until Jordan approves starter strategies.</li>
 <li><strong>How we judge:</strong> Same-window NAV / P&amp;L / drawdown for active household vs momentum household; equity active vs SPY; crypto active vs BTC.</li>
 </ul></article>
   <article class="entry"><h2>2026-09-24, Active starter strategies locked (equity + crypto 15m EMA trend)</h2><ul>
 <li><strong>Sleeve:</strong> active (equity + crypto)</li>
-<li><strong>Change:</strong> Lock starter strategies equity_15m_ema_trend and crypto_15m_ema_trend under <code>sleeves/active/</code>strategies/. Params locked: EMA_fast=8, EMA_slow=21, ATR period 14; equity stop 1.5×ATR (RTH only); crypto stop 2×ATR (24/7). Config mirror: <code>sleeves/active/</code>config/locked_strategies.json.</li>
+<li><strong>Change:</strong> Lock starter strategies <code>equity_15m_ema_trend</code> and <code>crypto_15m_ema_trend</code> under <code>sleeves/active/strategies/</code>. Params locked: EMA_fast=8, EMA_slow=21, ATR period 14; equity stop 1.5×ATR (RTH only); crypto stop 2×ATR (24/7). Config mirror: <code>sleeves/active/config/locked_strategies.json</code>.</li>
 <li><strong>Observation:</strong> Strategies were scaffold-proposed earlier the same day; Jordan locked both active starters (chat 2026-09-24). Books remain all-cash; no paper fills yet.</li>
-<li><strong>Logic:</strong> Strategy lock authorizes scanning and writing proposals with executed: false. It does **not** authorize booking fills into <code>sleeves/active/</code>*/state/portfolio.json. Propose-before-fill governance unchanged: each trade batch still needs Jordan yes. Alternatives considered: (1) lock + auto-fill first signals (rejected, breaks propose-before-fill), (2) lock + first paper signal pass as proposals only (chosen).</li>
+<li><strong>Logic:</strong> Strategy lock authorizes scanning and writing proposals with <code>executed: false</code>. It does **not** authorize booking fills into <code>sleeves/active/*/state/portfolio.json</code>. Propose-before-fill governance unchanged: each trade batch still needs Jordan yes. Alternatives considered: (1) lock + auto-fill first signals (rejected, breaks propose-before-fill), (2) lock + first paper signal pass as proposals only (chosen).</li>
 <li><strong>Jordan approval:</strong> Chat 2026-09-24, lock both active starter strategies. Still no fills until trade-batch yes.</li>
 <li><strong>Effective:</strong> Strategies locked 2026-09-24T09:13:00-04:00. Positions unchanged (all cash). First proposals may be written the same day for Jordan yes/no.</li>
 <li><strong>How we judge:</strong> After first approved fill batch (if any), track same-window active vs momentum household NAV/P&amp;L/drawdown; until then, judge process compliance (proposals written, books untouched without yes).</li>

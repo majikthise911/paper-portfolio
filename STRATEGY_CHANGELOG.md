@@ -5,6 +5,17 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-10-05, Buy-and-hold baselines on scorecard and dashboard
+
+- **Sleeve:** household (momentum + active compare)
+- **Change:** Added live buy-and-hold baselines from experiment start 2026-09-20: equity SPY 100% invested ($100k), crypto BTC 100% invested ($25k), and household B&H as the stack of those two ($125k). Wired into `reports/pnl_history.json` series (`spy`, `btc`, `household_bh`), the chart **vs B&H** toggle (view-aware: household / equity / crypto), Versus buy-and-hold cards, Current strategy copy, and the Monday method scorecard shadow list. No positions changed.
+- **Observation:** Jordan asked whether we should track "just buy the stack and hold" against momentum and the active sleeve. The chart already had a SPY series at $100k 100% invested; it was missing BTC and the stacked household line, and the Monday scorecard SPY-at-80% shadow is a different peer (cash-matched rough analog for the 80% invested book).
+- **Logic:** Buy-and-hold is the cleanest zero-skill control. Keep SPY-at-80% as a separate Monday shadow for the backtest/scorecard. Show 100% invested SPY/BTC/household B&H on the live dashboard so Momentum household, Active household, and Household B&H share one chart.
+- **Jordan approval:** Chat 2026-10-05 standing order (decide from research and update afterward). Question posed by Jordan; Paper agreed and implemented.
+- **Effective:** 2026-10-05T10:39:30-04:00. Series rebuild on each dashboard run. No trades.
+- **How we judge:** Compare live Momentum household and Active household to Household B&H (and sleeve-level SPY/BTC B&H) on each mark and each Monday scorecard. Informational only; does not change the live method.
+
+
 ## 2026-10-05, Equity momentum top-10 rank buffer
 
 - **Sleeve:** equity (momentum)

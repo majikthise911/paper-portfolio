@@ -194,8 +194,15 @@
   "shadow_lines": {
     "enabled": true,
     "as_of": "2026-10-05T10:18:11-04:00",
-    "note": "Going forward, each Monday scorecard reports these as shadows (not live method switches). Live method stays weekly 63d momentum with the top-10 rank buffer.",
+    "note": "Live B&H baselines (SPY 100%, BTC 100%, household stack) sit on the dashboard chart and Versus cards. Monday scorecard also keeps mean reversion, SPY-at-80%, and no-buffer as research shadows (not live method switches). Live method stays weekly 63d momentum with the top-10 rank buffer.",
     "equity": [
+      {
+        "id": "SPY_buy_hold_100pct_live",
+        "label": "Equity B&H SPY 100% ($100k) live since 2026-09-20",
+        "role": "live_baseline",
+        "source": "scripts/dashboard.py series.spy",
+        "note": "Distinct from SPY_buy_hold_80pct_approx backtest shadow."
+      },
       {
         "id": "weekly_meanrev_bottom8",
         "label": "Weekly mean reversion bottom 8",
@@ -218,10 +225,24 @@
     ],
     "crypto": [
       {
+        "id": "BTC_buy_hold_100pct_live",
+        "label": "Crypto B&H BTC 100% ($25k) live since 2026-09-20",
+        "role": "live_baseline",
+        "source": "scripts/dashboard.py series.btc"
+      },
+      {
         "id": "BTC_buy_hold_100pct",
         "label": "BTC buy-and-hold",
         "role": "benchmark_shadow",
         "source": "scripts/method_backtest.py"
+      }
+    ],
+    "household": [
+      {
+        "id": "household_buy_hold_spy_btc",
+        "label": "Household B&H SPY+BTC stacked ($125k) live since 2026-09-20",
+        "role": "live_baseline",
+        "source": "scripts/dashboard.py series.household_bh"
       }
     ]
   },
@@ -231,5 +252,54 @@
     "equity_trades": "held",
     "crypto_trades": "skipped",
     "shadows_enabled": true
+  },
+  "live_buy_and_hold_baselines": {
+    "as_of_note": "Rebuilt from pnl_history on each dashboard run. Start 2026-09-20. 100% invested.",
+    "equity_spy_100pct": {
+      "id": "SPY_buy_hold_100pct_live",
+      "label": "Equity B&H: SPY 100% invested ($100k)",
+      "role": "live_baseline",
+      "distinct_from": "SPY_buy_hold_80pct_approx (Monday backtest shadow)",
+      "source": "scripts/dashboard.py series.spy"
+    },
+    "crypto_btc_100pct": {
+      "id": "BTC_buy_hold_100pct_live",
+      "label": "Crypto B&H: BTC 100% invested ($25k)",
+      "role": "live_baseline",
+      "source": "scripts/dashboard.py series.btc"
+    },
+    "household_stacked": {
+      "id": "household_buy_hold_spy_btc",
+      "label": "Household B&H: SPY $100k + BTC $25k stacked ($125k)",
+      "role": "live_baseline",
+      "source": "scripts/dashboard.py series.household_bh"
+    },
+    "latest": {
+      "equity_spy_100pct": {
+        "pnl_pct": 1.38245,
+        "nav": 101382.45,
+        "ts": "2026-10-05T10:39:38-04:00"
+      },
+      "crypto_btc_100pct": {
+        "pnl_pct": 5.5458,
+        "nav": 26386.45,
+        "ts": "2026-10-05T10:39:38-04:00"
+      },
+      "household_stacked": {
+        "pnl_pct": 2.21512,
+        "nav": 127768.9,
+        "ts": "2026-10-05T10:39:38-04:00"
+      },
+      "momentum_household": {
+        "pnl_pct": 2.054128,
+        "nav": 127567.66,
+        "ts": "2026-10-05T10:39:38-04:00"
+      },
+      "active_household": {
+        "pnl_pct": -0.355728,
+        "nav": 124555.34,
+        "ts": "2026-10-05T10:39:38-04:00"
+      }
+    }
   }
 }
