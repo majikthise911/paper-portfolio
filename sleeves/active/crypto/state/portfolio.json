@@ -1,30 +1,54 @@
 {
-  "as_of": "2026-10-05T14:58:21-04:00",
+  "as_of": "2026-10-05T15:18:41-04:00",
   "currency": "USD",
   "sleeve": "active_crypto",
-  "cash": 19279.58,
+  "cash": 6424.34,
   "positions": {
     "ETH-USD": {
       "shares": 2.371045,
       "avg_cost": 2710.419922,
       "cost_basis": 6426.53,
-      "last_price": 2710.419922,
-      "market_value": 6426.53,
+      "last_price": 2712.47998,
+      "market_value": 6431.41,
       "sector": "layer1",
       "opened_at": "2026-10-05T14:58:20.793993-04:00",
-      "unrealized_pnl": 0.0,
+      "unrealized_pnl": 4.36,
       "stop_price": 2697.032765,
+      "weight": 0.250127
+    },
+    "BTC-USD": {
+      "shares": 0.074914,
+      "avg_cost": 85799.992188,
+      "cost_basis": 6427.62,
+      "last_price": 85799.992188,
+      "market_value": 6427.62,
+      "sector": "layer1",
+      "opened_at": "2026-10-05T15:18:40.632297-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 85408.776301,
+      "weight": 0.25
+    },
+    "SOL-USD": {
+      "shares": 53.403271,
+      "avg_cost": 120.360001,
+      "cost_basis": 6427.62,
+      "last_price": 120.360001,
+      "market_value": 6427.62,
+      "sector": "layer1",
+      "opened_at": "2026-10-05T15:18:40.632297-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 119.697107,
       "weight": 0.25
     }
   },
-  "nav": 25706.11,
+  "nav": 25710.99,
   "starting_capital": 25000.0,
   "peak_nav": 26518.05,
-  "btc_last_close": 85651.0391,
-  "total_pnl": 706.11,
-  "total_pnl_pct": 2.8244,
-  "drawdown_pct": -3.0618,
-  "last_trade_batch": "active_auto_2026-10-05_145820",
+  "btc_last_close": 85799.9922,
+  "total_pnl": 710.99,
+  "total_pnl_pct": 2.844,
+  "drawdown_pct": -3.0434,
+  "last_trade_batch": "active_auto_2026-10-05_151840",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",
@@ -33,5 +57,5 @@
     "AVAX-USD",
     "LINK-USD"
   ],
-  "notes": "Active auto-book 2026-10-05T14:58:20.793993-04:00: 1 BUY / 0 SELL under standing order. Strategy crypto_15m_ema_trend. Paper only."
+  "notes": "Active auto-book 2026-10-05T15:18:40.632297-04:00: 2 BUY / 0 SELL under standing order. Strategy crypto_15m_ema_trend. Paper only."
 }
