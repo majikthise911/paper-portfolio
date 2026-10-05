@@ -1,7 +1,7 @@
 # Active active_equity scan 2026-10-05
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-05T16:51:51.490459-04:00
+- **As of:** 2026-10-05T17:01:40.620423-04:00
 - **Mode:** auto_book
 - **executed:** false
 - **Session:** outside_RTH
