@@ -5,6 +5,17 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-10-05, Active sleeve live daily EMA paper trading
+
+- **Sleeve:** active (equity + crypto)
+- **Change:** Wired `sleeves/active/scripts/run_active.py` to scan 15m bars, apply locked EMA entry/exit rules, and auto-book paper fills into active equity/crypto ledgers. Added `scripts/market_hours_refresh.py` (active then dashboard). Per-day fill caps: equity 8, crypto 6. Updated active rules to rule_version 2 (auto_book under standing order). Momentum books unchanged.
+- **Observation:** Jordan clarified Active was supposed to be a daily trading strategy vs weekly momentum. Instead it had only booked Sep 24 opens (META/XLP/XLV + LINK) and been mark-to-market only since. That froze the experiment and made Trade history look empty for Active.
+- **Logic:** Scanners already existed but wrote proposals with `executed: false` and never booked. Standing order 2026-10-05 authorizes Paper to decide and book. Wire scanners to book fills on signal, respect cash/caps/stops, and run inside the market-hours refresh path so Active actually turns over across days.
+- **Jordan approval:** Chat 2026-10-05 standing order (decide and update) plus explicit clarification that Active must trade daily. Implemented immediately.
+- **Effective:** 2026-10-05T10:55:09-04:00. First live scan booked on this date if signals fired.
+- **How we judge:** Active trade count and Trade history fills across days; same-window Active household vs Momentum and vs Household B&H. Drop or retune only with research + standing order (or Jordan override).
+
+
 ## 2026-10-05, Buy-and-hold baselines on scorecard and dashboard
 
 - **Sleeve:** household (momentum + active compare)

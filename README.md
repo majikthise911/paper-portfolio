@@ -11,7 +11,7 @@ Simulated long-only US portfolio. No real brokerage. No live orders.
 - `reports/` - mark reports, allocation proposals, and dashboard
 - `scripts/` - mark.py, screen.py, allocate.py, dashboard.py, crypto_*.py
 - `sleeves/crypto/` - separate crypto paper sleeve (booked; not mixed into equity rank)
-- `sleeves/active/` - parallel 15m EMA experiment (equity $100k + crypto $25k; shown on the same Pages dashboard)
+- `sleeves/active/` - live daily 15m EMA paper day-trader (equity $100k + crypto $25k; shown on the same Pages dashboard)
 
 ## Ops
 
@@ -25,6 +25,7 @@ python scripts/crypto_mark.py
 python scripts/crypto_screen.py
 python scripts/crypto_allocate.py   # propose only; does not book positions
 python scripts/dashboard.py         # momentum + active household HTML (marks active too)
+python scripts/market_hours_refresh.py  # active EMA scan+book, then dashboard
 ```
 
 ## Dashboard
@@ -57,9 +58,9 @@ Equity live browser quotes are often limited. Weekday rebuild routines on the bo
 
 ## Governance
 
-- Propose strategy tweaks only. Never change rules without Jordan approval.
-- Never place real trades. Proposals stay in `reports/` until Jordan approves.
-- Do not write approved proposals into `portfolio.json` positions until Jordan says so.
+- Under standing order 2026-10-05, Paper decides paper trades and rule tweaks from research, books them, and updates Jordan. Jordan may override.
+- Never place real brokerage trades. Paper fills only.
+- Active sleeve auto-books EMA paper fills via `run_active.py` / `market_hours_refresh.py`.
 - 30% APY is an aspiration metric only, never an auto-rewire stop.
 
 ## Caps (initiation)

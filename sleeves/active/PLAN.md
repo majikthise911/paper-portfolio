@@ -6,7 +6,7 @@ This document locks the **parallel** active (Freqtrade-style, higher-activity) p
 - Momentum crypto stays at `sleeves/crypto/`.
 - This sleeve lives only under `sleeves/active/`.
 
-Strategy micro-rules and starter strategy approval need Jordan's explicit yes before any paper fills. Never place real trades. Never mix active signals into weekly momentum ranks.
+Starter strategies are locked. Paper fills auto-book under Jordan standing order 2026-10-05 (Paper decides; Jordan may override). Never place real trades. Never mix active signals into weekly momentum ranks.
 
 ## Goal
 
@@ -27,7 +27,7 @@ Cadence: **15-minute bars**. Paper only.
 - $125,000 paper capital split like momentum: **$100k equity + $25k crypto**
 - Apples-to-apples vs momentum household
 - Paper only. Never real trades. Never mix into weekly momentum ranks.
-- **Locked starter strategies (Jordan chat 2026-09-24):** `equity_15m_ema_trend` and `crypto_15m_ema_trend`. Still no fills until trade-batch yes.
+- **Locked starter strategies (Jordan chat 2026-09-24):** `equity_15m_ema_trend` and `crypto_15m_ema_trend`. **Live daily auto-book** as of 2026-10-05 under standing order.
 
 ## Separation rules
 
@@ -41,8 +41,8 @@ Cadence: **15-minute bars**. Paper only.
 ### Shared
 
 - Long only. No shorts, no leverage, no options. (Shorts/leverage flagged as a later upgrade only.)
-- Paper only. Proposals require Jordan yes before fills.
-- Starter strategies **Locked** 2026-09-24: `equity_15m_ema_trend` and `crypto_15m_ema_trend` (see `strategies/` and `config/locked_strategies.json`). Params: EMA 8/21, ATR 14; equity stop 1.5×ATR RTH; crypto stop 2×ATR 24/7. Still propose-before-fill: no paper fills until Jordan yes on a trade-batch proposal.
+- Paper only. Auto-book under standing order 2026-10-05; Jordan may override.
+- Starter strategies **Locked** 2026-09-24: `equity_15m_ema_trend` and `crypto_15m_ema_trend` (see `strategies/` and `config/locked_strategies.json`). Params: EMA 8/21, ATR 14; equity stop 1.5×ATR RTH; crypto stop 2×ATR 24/7. Live runner: `scripts/run_active.py` via `scripts/market_hours_refresh.py`.
 
 ### Active equity (`sleeves/active/equity/`)
 
@@ -64,12 +64,13 @@ Cadence: **15-minute bars**. Paper only.
 2. Active crypto NAV / P&L / drawdown vs BTC and vs momentum crypto.
 3. Active household ($125k) vs momentum household ($125k) over the same date window.
 
-## Scaffold / lock status
+## Live status (2026-10-05)
 
-- Cash books initialized; positions empty.
-- Starter strategies **Locked** 2026-09-24 (Jordan yes). Strategy lock is not a fill authorization.
-- **No fills** until Jordan says yes to a written trade-batch proposal (`executed: false` until then).
-- Minimal Python+yfinance 15m scanners under `scripts/` (Freqtrade stack still deferred / optional).
+- Starter strategies **Locked** 2026-09-24 (Jordan yes).
+- **Live daily paper trading** wired 2026-10-05 after Jordan clarified Active must trade daily vs weekly momentum (not a frozen open).
+- Runner: `sleeves/active/scripts/run_active.py`. Pipeline: `scripts/market_hours_refresh.py`.
+- Per-day fill caps: equity 8, crypto 6. Paper only. Momentum books untouched.
+- Minimal Python+yfinance 15m stack under `scripts/` (Freqtrade still deferred / optional).
 
 ## Dashboard (phase 2: done 2026-09-24)
 
@@ -86,4 +87,4 @@ Same Pages dashboard as momentum (`docs/index.html` / https://majikthise911.gith
 
 ## Governance reminder
 
-Jordan-facing markdown uses full sentences, no em dashes, and defines jargon on first use. Agent Paper proposes; Jordan decides. Active sleeve strategy yes is separate from momentum weekly trade yes.
+Jordan-facing markdown uses full sentences, no em dashes, and defines jargon on first use. Under standing order 2026-10-05, Paper decides and books, then updates Jordan. Jordan may override.

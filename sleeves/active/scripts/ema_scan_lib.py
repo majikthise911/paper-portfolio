@@ -102,6 +102,7 @@ def evaluate_ticker(
 
     bullish_state = f > s and c > s
     bullish_cross = f_prev <= s_prev and f > s and c > s
+    bearish_cross = f_prev >= s_prev and f < s
     # "trend long signal NOW" per brief: fast>slow and close>slow
     signal = bullish_state
 
@@ -124,6 +125,7 @@ def evaluate_ticker(
         "error": None,
         "signal": bool(signal),
         "bullish_cross": bool(bullish_cross),
+        "bearish_cross": bool(bearish_cross),
         "close": round(c, 6),
         "ema_fast": round(f, 6),
         "ema_slow": round(s, 6),
@@ -222,3 +224,77 @@ def write_proposal(
     jp.write_text(json.dumps(payload, indent=2) + "\n")
     mp.write_text(md_body)
     return jp, mp
+
+
+
+def last_price(ticker: str) -> float | None:
+    """Best-effort last price via yfinance (for paper fills)."""
+    try:
+        t = yf.Ticker(ticker)
+        fi = getattr(t, "fast_info", None)
+        if fi is not None:
+            for key in ("lastPrice", "last_price", "regularMarketPrice"):
+                try:
+                    v = fi[key] if hasattr(fi, "__getitem__") else getattr(fi, key, None)
+                except Exception:  # noqa: BLE001
+                    v = None
+                if v is not None:
+                    try:
+                        fv = float(v)
+                        if fv == fv and fv > 0:
+                            return fv
+                    except (TypeError, ValueError):
+                        pass
+        hist = t.history(period="1d", interval="1m", auto_adjust=True)
+        if hist is not None and not hist.empty:
+            return float(hist["Close"].iloc[-1])
+        hist = t.history(period="5d", interval="15m", auto_adjust=True)
+        if hist is not None and not hist.empty:
+            return float(hist["Close"].iloc[-1])
+    except Exception:  # noqa: BLE001
+        return None
+    return None
+
+
+def count_fills_today(ledger_path: Path, day: str | None = None) -> int:
+    """Count paper fills booked today (America/New_York date) in a ledger."""
+    day = day or now_et().strftime("%Y-%m-%d")
+    if not ledger_path.exists():
+        return 0
+    n = 0
+    for line in ledger_path.read_text().splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            entry = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        ts = str(entry.get("ts") or "")
+        if not ts.startswith(day):
+            continue
+        if entry.get("type") == "trade_batch":
+            fills = entry.get("fills") or []
+            n += len(fills) if isinstance(fills, list) else 0
+        elif entry.get("type") in ("trade", "fill") and entry.get("ticker"):
+            n += 1
+    return n
+
+
+def size_shares(dollars: float, price: float, *, fractional: bool) -> float:
+    if price <= 0 or dollars <= 0:
+        return 0.0
+    if fractional:
+        return round(dollars / price, 6)
+    return float(int(dollars // price))
+
+
+def save_json(path: Path, obj: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(obj, indent=2) + "\n")
+
+
+def append_ledger(path: Path, entry: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a") as f:
+        f.write(json.dumps(entry) + "\n")

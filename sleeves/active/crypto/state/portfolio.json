@@ -1,30 +1,17 @@
 {
-  "as_of": "2026-10-05T10:46:39-04:00",
+  "as_of": "2026-10-05T10:57:16-04:00",
   "currency": "USD",
   "sleeve": "active_crypto",
-  "cash": 18757.46,
-  "positions": {
-    "LINK-USD": {
-      "shares": 504,
-      "avg_cost": 12.386,
-      "cost_basis": 6242.54,
-      "last_price": 13.924,
-      "market_value": 7017.7,
-      "sector": "oracle",
-      "opened_at": "2026-09-24T09:21:48-04:00",
-      "weight": 0.249702,
-      "unrealized_pnl": 0.0,
-      "stop_price": 12.227801
-    }
-  },
-  "nav": 25775.16,
+  "cash": 25706.11,
+  "positions": {},
+  "nav": 25706.11,
   "starting_capital": 25000.0,
   "peak_nav": 26518.05,
-  "btc_last_close": 85571.8281,
-  "total_pnl": 775.16,
-  "total_pnl_pct": 3.1006,
-  "drawdown_pct": -2.8015,
-  "last_trade_batch": "proposal_2026-09-24",
+  "btc_last_close": 85553.8828,
+  "total_pnl": 706.11,
+  "total_pnl_pct": 2.8244,
+  "drawdown_pct": -3.0618,
+  "last_trade_batch": "active_auto_2026-10-05_105606",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",
@@ -33,5 +20,5 @@
     "AVAX-USD",
     "LINK-USD"
   ],
-  "notes": "Booked LINK-USD paper BUY 504 @ 12.386 ($6,242.54, ~24.97% weight) on Jordan yes 2026-09-24 (chat widget: Book LINK now). Fill refreshed via yfinance last=12.386. Cash $18,757.46 (~75.0%). Paper only. Momentum sleeves/crypto/ untouched."
+  "notes": "Active auto-book 2026-10-05T10:56:06.570033-04:00: 0 BUY / 1 SELL under standing order. Strategy crypto_15m_ema_trend. Paper only."
 }

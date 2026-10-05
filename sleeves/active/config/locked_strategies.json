@@ -1,10 +1,14 @@
 {
   "locked_as_of": "2026-09-24T09:13:00-04:00",
-  "jordan_approval": "Chat 2026-09-24 — both active starter strategies locked",
+  "jordan_approval": "Chat 2026-09-24 \u2014 both active starter strategies locked",
   "governance": {
-    "fills_require_trade_batch_yes": true,
-    "proposals_write_executed_false": true,
-    "do_not_touch_momentum_books": true
+    "fills_require_trade_batch_yes": false,
+    "auto_book_paper_fills": true,
+    "paper_decides_from_research": true,
+    "jordan_may_override": true,
+    "do_not_touch_momentum_books": true,
+    "standing_order": "2026-10-05: Paper auto-books active EMA paper fills; Jordan may override.",
+    "live_as_of": "2026-10-05"
   },
   "strategies": [
     {
@@ -22,9 +26,9 @@
       },
       "caps": {
         "max_single_name_pct": 0.15,
-        "min_cash_pct": 0.20,
+        "min_cash_pct": 0.2,
         "max_concurrent_positions": 8,
-        "max_tech_megacap_sleeve_pct": 0.30
+        "max_tech_megacap_sleeve_pct": 0.3
       },
       "spec": "strategies/equity_15m_ema_trend.md"
     },
@@ -42,10 +46,11 @@
       },
       "caps": {
         "max_single_name_pct": 0.25,
-        "min_cash_pct": 0.20,
+        "min_cash_pct": 0.2,
         "max_concurrent_positions": 4
       },
       "spec": "strategies/crypto_15m_ema_trend.md"
     }
-  ]
+  ],
+  "status_note": "Active is a live daily EMA paper day-trader (run_active.py), not a frozen Sep 24 open. Momentum books unchanged."
 }

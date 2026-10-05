@@ -11,21 +11,22 @@
   "bar_timeframe": "15m",
   "signal": {
     "starter_strategy_ref": "strategies/crypto_15m_ema_trend.md",
-    "note": "Starter strategy LOCKED 2026-09-24; Jordan yes on strategy. Still no paper fills until Jordan yes on a trade-batch proposal (executed:false). Not the weekly 63d momentum rank."
+    "note": "Starter strategy LOCKED 2026-09-24. Live auto-book under Jordan standing order 2026-10-05 (Paper decides and books paper fills; Jordan may override). Not the weekly 63d momentum rank."
   },
   "position_caps": {
     "max_single_name_pct": 0.25,
     "max_invested_pct": 0.8,
     "min_cash_pct": 0.2,
     "max_concurrent_positions": 4,
-    "caps_note": "Mirrors momentum crypto caps (25% single / 20% min cash). Added max_concurrent_positions=4 given 5-name universe."
+    "caps_note": "Mirrors momentum crypto caps (25% single / 20% min cash). max_concurrent_positions=4. max_new_trades_per_day=6 spam cap.",
+    "max_new_trades_per_day": 6
   },
   "rebalance": {
     "cadence": "15m",
     "propose_during": "24/7",
     "benchmark": "BTC-USD",
     "mark_to_market": true,
-    "note": "Crypto paper marks and proposals may run 24/7 on 15m bars. Separate from weekly momentum crypto sleeve."
+    "note": "Live scan+book on 15m bars 24/7 (driven by market_hours_refresh / run_active.py). Exits on EMA bearish cross or ATR stop; entries on bullish cross/state into open slots. Separate from weekly momentum crypto sleeve."
   },
   "differences_vs_momentum": [
     "Cadence 15m vs weekly",
@@ -37,14 +38,18 @@
   "aspiration_apy": 0.3,
   "aspiration_note": "30% APY is aspiration metric only; never an auto-rewire stop",
   "governance": {
-    "propose_tweaks_only": true,
-    "never_change_rules_without_jordan_approval": true,
+    "propose_tweaks_only": false,
+    "never_change_rules_without_jordan_approval": false,
     "never_place_real_trades": true,
-    "proposals_require_approval_before_execution": true,
+    "proposals_require_approval_before_execution": false,
     "scaffold_only_until_strategy_yes": false,
     "strategy_locked": true,
-    "fills_require_trade_batch_yes": true
+    "fills_require_trade_batch_yes": false,
+    "paper_decides_from_research": true,
+    "jordan_may_override": true,
+    "auto_book_paper_fills": true,
+    "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide and book. Active live daily EMA wired 2026-10-05 after Jordan clarified Active must trade daily vs weekly momentum."
   },
   "starting_capital": 25000.0,
-  "rule_version": 1
+  "rule_version": 2
 }
