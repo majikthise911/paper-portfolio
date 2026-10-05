@@ -1,4 +1,4 @@
-# Active 15m paper sleeve — how to run
+# Active 15m paper sleeve  -  how to run
 
 Parallel paper **day-trader** under `sleeves/active/`. Does not touch momentum equity (repo root) or momentum crypto (`sleeves/crypto/`).
 
