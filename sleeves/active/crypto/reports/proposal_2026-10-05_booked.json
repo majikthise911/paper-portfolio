@@ -1,81 +1,85 @@
 {
-  "as_of": "2026-10-05T15:18:40.632297-04:00",
+  "as_of": "2026-10-05T16:20:50.931555-04:00",
   "mode": "auto_book",
   "executed": true,
   "strategy": "crypto_15m_ema_trend",
   "sleeve": "active_crypto",
-  "nav_before": 25710.47,
-  "cash_before": 19279.58,
-  "session": "US_RTH",
-  "in_rth": true,
-  "fills_today_before": 2,
+  "nav_before": 25704.98,
+  "cash_before": 6424.34,
+  "session": "outside_RTH",
+  "in_rth": false,
+  "fills_today_before": 4,
   "max_new_trades_per_day": 6,
-  "remaining_budget_after_plan": 2,
+  "remaining_budget_after_plan": 1,
   "data_failures": [],
   "signals_detected": [
     {
-      "ticker": "ETH-USD",
-      "close": 2712.26001,
-      "ema_fast": 2707.64468,
-      "ema_slow": 2706.147462,
-      "strength": 0.238691,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-05 15:15:00-04:00"
-    },
-    {
       "ticker": "SOL-USD",
-      "close": 120.360001,
-      "ema_fast": 120.06757,
-      "ema_slow": 119.99407,
-      "strength": 0.221754,
+      "close": 120.309998,
+      "ema_fast": 120.148243,
+      "ema_slow": 120.048613,
+      "strength": 0.333082,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-05 15:15:00-04:00"
+      "last_bar": "2026-10-05 16:15:00-04:00"
     },
     {
       "ticker": "BTC-USD",
       "close": 85799.992188,
-      "ema_fast": 85599.897497,
-      "ema_slow": 85592.033803,
-      "strength": 0.040201,
+      "ema_fast": 85682.63646,
+      "ema_slow": 85632.94935,
+      "strength": 0.283929,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-05 16:15:00-04:00"
+    },
+    {
+      "ticker": "ETH-USD",
+      "close": 2711.070068,
+      "ema_fast": 2708.558766,
+      "ema_slow": 2706.999607,
+      "strength": 0.281666,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-05 16:15:00-04:00"
+    },
+    {
+      "ticker": "LINK-USD",
+      "close": 13.957,
+      "ema_fast": 13.926123,
+      "ema_slow": 13.91986,
+      "strength": 0.131113,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-05 16:15:00-04:00"
+    },
+    {
+      "ticker": "AVAX-USD",
+      "close": 10.961,
+      "ema_fast": 10.910983,
+      "ema_slow": 10.907552,
+      "strength": 0.084901,
       "bullish_cross": true,
       "bearish_cross": false,
-      "last_bar": "2026-10-05 15:15:00-04:00"
+      "last_bar": "2026-10-05 16:15:00-04:00"
     }
   ],
   "planned_trades": [
     {
-      "ticker": "BTC-USD",
+      "ticker": "AVAX-USD",
       "side": "BUY",
-      "shares": 0.074914,
-      "price": 85799.992188,
-      "dollars": 6427.62,
+      "shares": 117.0828,
+      "price": 10.961,
+      "dollars": 1283.34,
       "sector": "layer1",
       "reason": "ema_bullish_cross",
       "signal": "ema_trend_long",
-      "stop_price": 85408.776301,
-      "ema_fast": 85599.897497,
-      "ema_slow": 85592.033803,
-      "strength": 0.040201,
+      "stop_price": 10.880181,
+      "ema_fast": 10.910983,
+      "ema_slow": 10.907552,
+      "strength": 0.084901,
       "bullish_cross": true,
-      "last_bar": "2026-10-05 15:15:00-04:00"
-    },
-    {
-      "ticker": "SOL-USD",
-      "side": "BUY",
-      "shares": 53.403271,
-      "price": 120.360001,
-      "dollars": 6427.62,
-      "sector": "layer1",
-      "reason": "ema_trend_long",
-      "signal": "ema_trend_long",
-      "stop_price": 119.697107,
-      "ema_fast": 120.06757,
-      "ema_slow": 119.99407,
-      "strength": 0.221754,
-      "bullish_cross": false,
-      "last_bar": "2026-10-05 15:15:00-04:00"
+      "last_bar": "2026-10-05 16:15:00-04:00"
     }
   ],
   "notes": [],
@@ -87,36 +91,25 @@
   },
   "booked_fills": [
     {
-      "ticker": "BTC-USD",
+      "ticker": "AVAX-USD",
       "side": "BUY",
-      "shares": 0.074914,
-      "price": 85799.992188,
-      "dollars": 6427.62,
+      "shares": 117.0828,
+      "price": 10.961,
+      "dollars": 1283.34,
       "sector": "layer1",
       "reason": "ema_bullish_cross",
-      "stop_price": 85408.776301,
-      "fill_source": "yfinance_15m_close"
-    },
-    {
-      "ticker": "SOL-USD",
-      "side": "BUY",
-      "shares": 53.403271,
-      "price": 120.360001,
-      "dollars": 6427.62,
-      "sector": "layer1",
-      "reason": "ema_trend_long",
-      "stop_price": 119.697107,
+      "stop_price": 10.880181,
       "fill_source": "yfinance_15m_close"
     }
   ],
-  "nav_after": 25710.47,
-  "cash_after": 6424.34,
+  "nav_after": 25704.98,
+  "cash_after": 5141.0,
   "summary": {
-    "n_planned": 2,
-    "n_buys": 2,
+    "n_planned": 1,
+    "n_buys": 1,
     "n_sells": 0,
     "booked": true,
-    "cash_after": 6424.34,
-    "nav_after": 25710.47
+    "cash_after": 5141.0,
+    "nav_after": 25704.98
   }
 }

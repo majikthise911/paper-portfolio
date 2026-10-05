@@ -1,10 +1,10 @@
 # Active active_equity scan 2026-10-05
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-05T15:58:08.844354-04:00
+- **As of:** 2026-10-05T16:20:46.777544-04:00
 - **Mode:** auto_book
 - **executed:** false
-- **Session:** US_RTH
+- **Session:** outside_RTH
 - **Fills today before:** 8 / cap 8
 
 ## Planned / booked trades
@@ -14,7 +14,7 @@
 ## Notes
 
 - daily_trade_cap_reached_before_exit:MSFT
-- daily_trade_cap_reached_no_entries
+- outside_RTH_no_new_entries
 
 ## Governance
 
