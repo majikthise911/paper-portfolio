@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-05T16:20:55-04:00",
+  "as_of": "2026-10-05T16:31:23-04:00",
   "currency": "USD",
   "default_metric": "pnl_pct",
   "default_view": "household",
@@ -17,15 +17,15 @@
     "household_bh": 125000.0
   },
   "counts": {
-    "equity": 300,
-    "crypto": 329,
-    "household": 509,
-    "spy": 509,
-    "btc": 509,
-    "household_bh": 509,
-    "active_equity": 131,
+    "equity": 301,
+    "crypto": 330,
+    "household": 510,
+    "spy": 510,
+    "btc": 510,
+    "household_bh": 510,
+    "active_equity": 132,
     "active_crypto": 129,
-    "active_household": 151
+    "active_household": 152
   },
   "series": {
     "equity": [
@@ -2428,6 +2428,14 @@
         "starting_capital": 100000.0,
         "pnl_pct": 2.15318,
         "nav_index": 102.15318
+      },
+      {
+        "ts": "2026-10-05T16:31:19-04:00",
+        "nav": 102155.04,
+        "pnl": 2155.04,
+        "starting_capital": 100000.0,
+        "pnl_pct": 2.15504,
+        "nav_index": 102.15504
       }
     ],
     "crypto": [
@@ -5062,6 +5070,14 @@
         "starting_capital": 25000.0,
         "pnl_pct": 2.80024,
         "nav_index": 102.80024
+      },
+      {
+        "ts": "2026-10-05T16:31:19-04:00",
+        "nav": 25691.19,
+        "pnl": 691.19,
+        "starting_capital": 25000.0,
+        "pnl_pct": 2.76476,
+        "nav_index": 102.76476
       }
     ],
     "household": [
@@ -10154,6 +10170,16 @@
         "starting_capital": 125000.0,
         "pnl_pct": 2.282592,
         "nav_index": 102.282592
+      },
+      {
+        "ts": "2026-10-05T16:31:19-04:00",
+        "nav": 127846.23,
+        "pnl": 2846.23,
+        "equity_nav": 102155.04,
+        "crypto_nav": 25691.19,
+        "starting_capital": 125000.0,
+        "pnl_pct": 2.276984,
+        "nav_index": 102.276984
       }
     ],
     "spy": [
@@ -14737,6 +14763,15 @@
         "starting_capital": 100000.0,
         "pnl_pct": 1.72511,
         "nav_index": 101.72511
+      },
+      {
+        "ts": "2026-10-05T16:31:19-04:00",
+        "nav": 101725.11,
+        "pnl": 1725.11,
+        "spy_px": 774.83,
+        "starting_capital": 100000.0,
+        "pnl_pct": 1.72511,
+        "nav_index": 101.72511
       }
     ],
     "btc": [
@@ -18936,12 +18971,12 @@
       },
       {
         "ts": "2026-10-05T08:22:12-04:00",
-        "nav": 26434.94,
-        "pnl": 1434.94,
-        "btc_px": 85799.9922,
+        "nav": 26424.45,
+        "pnl": 1424.45,
+        "btc_px": 85765.9688,
         "starting_capital": 25000.0,
-        "pnl_pct": 5.73976,
-        "nav_index": 105.73976
+        "pnl_pct": 5.6978,
+        "nav_index": 105.6978
       },
       {
         "ts": "2026-10-05T08:22:19-04:00",
@@ -19320,6 +19355,15 @@
         "starting_capital": 25000.0,
         "pnl_pct": 5.73976,
         "nav_index": 105.73976
+      },
+      {
+        "ts": "2026-10-05T16:31:19-04:00",
+        "nav": 26424.45,
+        "pnl": 1424.45,
+        "btc_px": 85765.9688,
+        "starting_capital": 25000.0,
+        "pnl_pct": 5.6978,
+        "nav_index": 105.6978
       }
     ],
     "household_bh": [
@@ -23985,13 +24029,13 @@
       },
       {
         "ts": "2026-10-05T08:22:12-04:00",
-        "nav": 127478.67,
-        "pnl": 2478.67,
+        "nav": 127468.18,
+        "pnl": 2468.18,
         "equity_nav": 101043.73,
-        "crypto_nav": 26434.94,
+        "crypto_nav": 26424.45,
         "starting_capital": 125000.0,
-        "pnl_pct": 1.982936,
-        "nav_index": 101.982936
+        "pnl_pct": 1.974544,
+        "nav_index": 101.974544
       },
       {
         "ts": "2026-10-05T08:22:19-04:00",
@@ -24412,6 +24456,16 @@
         "starting_capital": 125000.0,
         "pnl_pct": 2.52804,
         "nav_index": 102.52804
+      },
+      {
+        "ts": "2026-10-05T16:31:19-04:00",
+        "nav": 128149.56,
+        "pnl": 3149.56,
+        "equity_nav": 101725.11,
+        "crypto_nav": 26424.45,
+        "starting_capital": 125000.0,
+        "pnl_pct": 2.519648,
+        "nav_index": 102.519648
       }
     ],
     "active_equity": [
@@ -25462,6 +25516,14 @@
         "starting_capital": 100000.0,
         "pnl_pct": -1.02484,
         "nav_index": 98.97516
+      },
+      {
+        "ts": "2026-10-05T16:31:19-04:00",
+        "nav": 98975.16,
+        "pnl": -1024.84,
+        "starting_capital": 100000.0,
+        "pnl_pct": -1.02484,
+        "nav_index": 98.97516
       }
     ],
     "active_crypto": [
@@ -26490,12 +26552,12 @@
         "nav_index": 102.81992
       },
       {
-        "ts": "2026-10-05T16:20:51-04:00",
-        "nav": 25704.98,
-        "pnl": 704.98,
+        "ts": "2026-10-05T16:31:19-04:00",
+        "nav": 25700.15,
+        "pnl": 700.15,
         "starting_capital": 25000.0,
-        "pnl_pct": 2.81992,
-        "nav_index": 102.81992
+        "pnl_pct": 2.8006,
+        "nav_index": 102.8006
       }
     ],
     "active_household": [
@@ -28008,6 +28070,16 @@
         "starting_capital": 125000.0,
         "pnl_pct": -0.255888,
         "nav_index": 99.744112
+      },
+      {
+        "ts": "2026-10-05T16:31:19-04:00",
+        "nav": 124675.31,
+        "pnl": -324.69,
+        "equity_nav": 98975.16,
+        "crypto_nav": 25700.15,
+        "starting_capital": 125000.0,
+        "pnl_pct": -0.259752,
+        "nav_index": 99.740248
       }
     ]
   },
