@@ -100,7 +100,7 @@
         }
       ]
     },
-    "recommendation": "stay_with_rank_buffer_proposal; flag mean_reversion as shadow candidate"
+    "recommendation": "stay_weekly_momentum_with_rank_buffer; shadows: mean_reversion, SPY_80pct, no_buffer"
   },
   "crypto": {
     "method": "weekly_momentum_rs_63d",
@@ -190,5 +190,46 @@
     "recommendation": "stay this week; BTC-core proposal likely next Monday if lag persists"
   },
   "hft_note": "No day-trading or HFT case. True HFT needs tick/L2 data and low-latency execution this paper stack does not have. The 15m active sleeve is the parallel higher-frequency test and is -0.48% vs momentum household +1.71%.",
-  "overall_recommendation": "stay"
+  "overall_recommendation": "stay_with_rank_buffer_adopted_hold_both",
+  "shadow_lines": {
+    "enabled": true,
+    "as_of": "2026-10-05T10:18:11-04:00",
+    "note": "Going forward, each Monday scorecard reports these as shadows (not live method switches). Live method stays weekly 63d momentum with the top-10 rank buffer.",
+    "equity": [
+      {
+        "id": "weekly_meanrev_bottom8",
+        "label": "Weekly mean reversion bottom 8",
+        "role": "shadow_candidate",
+        "source": "scripts/method_backtest.py"
+      },
+      {
+        "id": "SPY_buy_hold_80pct_approx",
+        "label": "SPY buy-and-hold at 80% invested",
+        "role": "benchmark_shadow",
+        "source": "scripts/method_backtest.py"
+      },
+      {
+        "id": "weekly_mom_top8",
+        "label": "Weekly momentum top 8 with no rank buffer",
+        "role": "buffer_judge_shadow",
+        "source": "scripts/method_backtest.py",
+        "judge": "Drop the live top-10 buffer if live buffer book trails this no-buffer shadow by more than 1 pt over the next four Mondays."
+      }
+    ],
+    "crypto": [
+      {
+        "id": "BTC_buy_hold_100pct",
+        "label": "BTC buy-and-hold",
+        "role": "benchmark_shadow",
+        "source": "scripts/method_backtest.py"
+      }
+    ]
+  },
+  "decision_2026-10-05": {
+    "live_method": "weekly_momentum_rs_63d_with_rank_buffer",
+    "rank_buffer_adopted": true,
+    "equity_trades": "held",
+    "crypto_trades": "skipped",
+    "shadows_enabled": true
+  }
 }

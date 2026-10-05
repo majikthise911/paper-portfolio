@@ -143,5 +143,21 @@
     ],
     "option_b_gross_turnover_usd": 694.34,
     "note": "Same four names as held; deltas are drift noise. Recommend skip."
-  }
+  },
+  "decision": "hold_both_sleeves",
+  "held": true,
+  "skipped": true,
+  "held_at": "2026-10-05T10:18:11-04:00",
+  "held_reason": "Adopted top-10 rank buffer (rule_version 3). Equity XLV->QQQ / full rebalance not booked. Crypto ~$694 drift trims skipped. Method stays weekly momentum. Jordan standing order 2026-10-05 ~10:16 ET: Paper decides from research and books; applied this week's Monday recommendation.",
+  "rule_change_applied": {
+    "file": "config/rules.json",
+    "rule_version": 3,
+    "rank_buffer": {
+      "enabled": true,
+      "hold_if_rank_at_most": 10,
+      "buy_from_top": 8,
+      "note": "Keep a holding while it ranks in the top hold_if_rank_at_most on the 63d screen; fill open slots from the top buy_from_top. Adopted 2026-10-05."
+    }
+  },
+  "trades_booked": []
 }

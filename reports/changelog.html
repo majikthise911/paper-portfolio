@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Strategy change log — Paper Portfolio</title>
+<title>Strategy change log - Paper Portfolio</title>
 <style>
   :root { --bg:#0f1419; --panel:#1a2332; --border:#2a3548; --text:#e7ecf3; --muted:#9aa8bc; --accent:#5b9fd4; --font:"Segoe UI",system-ui,sans-serif; }
   body { margin:0; padding:24px 20px 48px; font-family:var(--font); background:var(--bg); color:var(--text); line-height:1.5; }
@@ -22,7 +22,41 @@
 <div class="wrap">
   <h1>Strategy change log</h1>
   <p class="sub">Approved tweaks with observation and decision logic. <a href="./">Back to dashboard</a></p>
-  <article class="entry"><h2>2026-09-21 — Equity tech mega-cap sleeve cap 30%</h2><ul><li><strong>Sleeve:</strong> equity</li><li><strong>Change:</strong> Added hard cap: combined AAPL + MSFT + NVDA weight max 30% of equity NAV (<code>config/rules.json</code> keys <code>max_tech_megacap_sleeve_pct</code> and <code>tech_megacap_tickers</code>).</li><li><strong>Observation:</strong> At initiation the equity book held MSFT ~14.8%, AAPL ~10.1%, NVDA ~5.8% (about 30.7% combined) under one tech factor, while still inside the 15% single-name and 40% sector caps. Morning mark 2026-09-21 left equity flat on Friday closes; concentration risk was structural, not a same-day blowup.</li><li><strong>Logic:</strong> Keep the 63-day momentum signal, but stop the three mega-cap tech names from drifting as one oversized bet. Alternatives considered: (1) do nothing until a hard sector-cap breach, (2) cut all tech to cash, (3) add a combined AAPL+MSFT+NVDA 30% sleeve cap and recycle trim into non-tech screen names or cash on the next approved rebalance. Chose (3) because it is targeted, still momentum-compatible, and measurable. Did not execute trades pre-open on stale Friday marks; trim waits for the Monday weekly proposal with fresh prices.</li><li><strong>Jordan approval:</strong> Chat 2026-09-21: lock the rule now; execute trim on the weekly pass after approving exact paper trades.</li><li><strong>Effective:</strong> Rule locked 2026-09-21T08:54:41-04:00. No positions changed yet.</li><li><strong>How we judge:</strong> Equity max drawdown and vs-SPY over the next four Monday marks versus the pre-cap book.</li></ul></article>
+  <article class="entry"><h2>2026-10-05, Equity momentum top-10 rank buffer</h2><ul>
+<li><strong>Sleeve:</strong> equity (momentum)</li>
+<li><strong>Change:</strong> Added <code>rebalance.rank_buffer</code> in <code>config/rules.json</code> (<code>rule_version 3</code>): keep a holding while it stays in the top 10 on the 63-day screen; fill open slots from the top 8. No positions changed this week.</li>
+<li><strong>Observation:</strong> Caps were clean (tech mega-cap 29.74%, cash 20.98%, META 14.37%). The screen kept 7 of 8 holdings in its top 8. The only cohort swap wanted was XLV (rank 9, +3.00%) out for QQQ (rank 7, +3.81%), a 0.81 pt gap, at about $29.9k gross turnover (~30% of equity NAV). QQQ also overlaps MSFT, NVDA, AAPL, META, and AMZN already held. Walk-forward 1y: weekly top 8 +3.66% with 9.0x turnover vs top-10 buffer +5.54% with 6.2x; last 3m buffer slightly worse (-3.22% vs -2.71%).</li>
+<li><strong>Logic:</strong> Options were (1) book the full allocate.py rebalance, (2) hold with no rule change, (3) adopt the top-10 rank buffer and hold this week. Chose (3): standard momentum practice for cutting churn on near-tie ranks, keeps the 63d signal unchanged, and 1y evidence is positive. Crypto deltas were only ~$694 of drift and were skipped. Method stays weekly momentum. Monday scorecard now tracks mean reversion and SPY-at-80% as shadow lines, plus a no-buffer shadow for this judge window.</li>
+<li><strong>Jordan approval:</strong> Chat 2026-10-05 ~10:16 ET standing order: Paper decides trade and rule changes from research, books what seems best, and updates afterward. Jordan can still override. This week's Monday recommendation is applied under that order.</li>
+<li><strong>Effective:</strong> Rule locked 2026-10-05T10:18:11-04:00. Positions unchanged (hold both sleeves).</li>
+<li><strong>How we judge:</strong> Over the next four Mondays, track weekly turnover, equity vs SPY, and a shadow no-buffer book in the scorecard. Drop the buffer if it trails that shadow by more than 1 pt over the window.</li>
+</ul></article>
+  <article class="entry"><h2>2026-09-21, Equity tech mega-cap sleeve cap 30%</h2><ul>
+<li><strong>Sleeve:</strong> equity</li>
+<li><strong>Change:</strong> Added hard cap: combined AAPL + MSFT + NVDA weight max 30% of equity NAV. Tickers listed in <code>config/rules.json</code> as <code>tech_megacap_tickers</code>.</li>
+<li><strong>Why:</strong> Reduce single-factor tech concentration while keeping the 63-day momentum signal. Combined weight was about 31% at initiation.</li>
+<li><strong>Jordan approval:</strong> Chat 2026-09-21: lock rule now; execute trim on weekly pass after approving exact paper trades.</li>
+<li><strong>Effective:</strong> Rule locked 2026-09-21T08:54:41-04:00. No positions changed yet. First trim awaits Monday weekly proposal + yes.</li>
+<li><strong>How we judge:</strong> Equity max drawdown and vs-SPY over the next four Monday marks versus the pre-cap book.</li>
+</ul></article>
+  <article class="entry"><h2>2026-09-24, Active 15m paper experiment sleeve (parallel)</h2><ul>
+<li><strong>Sleeve:</strong> active (new parallel)</li>
+<li><strong>Change:</strong> Add active 15m paper experiment with $100,000 US equities + $25,000 crypto under <code>sleeves/active/</code> (household $125k). Separate config/state/reports from momentum books.</li>
+<li><strong>Observation:</strong> Jordan wants apples-to-apples vs weekly momentum household; Freqtrade-style higher activity on 15m bars without switching the momentum method.</li>
+<li><strong>Logic:</strong> Parallel sleeve, not a method switch on momentum books. Keep root equity and sleeves/crypto/ untouched. Scaffold cash-only books; no fills until strategy yes.</li>
+<li><strong>Jordan approval:</strong> Chat 2026-09-24 widget, both universes, 15m, $125k split ($100k+$25k).</li>
+<li><strong>Effective:</strong> Scaffold only as of 2026-09-24T09:11:09-04:00. No fills until Jordan approves starter strategies.</li>
+<li><strong>How we judge:</strong> Same-window NAV / P&amp;L / drawdown for active household vs momentum household; equity active vs SPY; crypto active vs BTC.</li>
+</ul></article>
+  <article class="entry"><h2>2026-09-24, Active starter strategies locked (equity + crypto 15m EMA trend)</h2><ul>
+<li><strong>Sleeve:</strong> active (equity + crypto)</li>
+<li><strong>Change:</strong> Lock starter strategies equity_15m_ema_trend and crypto_15m_ema_trend under <code>sleeves/active/</code>strategies/. Params locked: EMA_fast=8, EMA_slow=21, ATR period 14; equity stop 1.5×ATR (RTH only); crypto stop 2×ATR (24/7). Config mirror: <code>sleeves/active/</code>config/locked_strategies.json.</li>
+<li><strong>Observation:</strong> Strategies were scaffold-proposed earlier the same day; Jordan locked both active starters (chat 2026-09-24). Books remain all-cash; no paper fills yet.</li>
+<li><strong>Logic:</strong> Strategy lock authorizes scanning and writing proposals with executed: false. It does **not** authorize booking fills into <code>sleeves/active/</code>*/state/portfolio.json. Propose-before-fill governance unchanged: each trade batch still needs Jordan yes. Alternatives considered: (1) lock + auto-fill first signals (rejected, breaks propose-before-fill), (2) lock + first paper signal pass as proposals only (chosen).</li>
+<li><strong>Jordan approval:</strong> Chat 2026-09-24, lock both active starter strategies. Still no fills until trade-batch yes.</li>
+<li><strong>Effective:</strong> Strategies locked 2026-09-24T09:13:00-04:00. Positions unchanged (all cash). First proposals may be written the same day for Jordan yes/no.</li>
+<li><strong>How we judge:</strong> After first approved fill batch (if any), track same-window active vs momentum household NAV/P&amp;L/drawdown; until then, judge process compliance (proposals written, books untouched without yes).</li>
+</ul></article>
 </div>
 </body>
 </html>

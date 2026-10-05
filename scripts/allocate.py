@@ -66,7 +66,54 @@ def main():
     # Cap selection size so equal-ish weights stay under 15%
     # With 80% invested and 15% max name => at least ceil(0.80/0.15)=6 names
     min_names = max(6, int((max_invested / max_name) + 0.999))
-    candidates = rankings[:12]  # look at top 12, pick until caps bind
+    target_n = 8
+
+    # Optional top-N rank buffer (rule_version 3+): keep current holdings while they
+    # stay inside hold_if_rank_at_most; fill open slots from buy_from_top.
+    rb = (rules.get("rebalance") or {}).get("rank_buffer") or {}
+    buffer_on = bool(rb.get("enabled"))
+    hold_at_most = int(rb.get("hold_if_rank_at_most") or 10)
+    buy_from_top = int(rb.get("buy_from_top") or target_n)
+    held_tickers = []
+    positions = pf.get("positions") or {}
+    if isinstance(positions, dict):
+        held_tickers = [
+            t for t, pos in positions.items()
+            if float((pos or {}).get("shares") or 0) > 0
+        ]
+    elif isinstance(positions, list):
+        held_tickers = [
+            p.get("ticker") for p in positions
+            if p.get("ticker") and float(p.get("shares") or 0) > 0
+        ]
+
+    rank_index = {r["ticker"]: i + 1 for i, r in enumerate(rankings)}
+    by_ticker = {r["ticker"]: r for r in rankings}
+
+    if buffer_on and held_tickers:
+        keep = [
+            t for t in held_tickers
+            if rank_index.get(t, 10**9) <= hold_at_most and t in by_ticker
+        ]
+        rest = [
+            r["ticker"] for r in rankings[: max(buy_from_top, hold_at_most, 12)]
+            if r["ticker"] not in keep
+        ]
+        # Fill openings from the top buy_from_top names not already kept
+        fill_pool = [t for t in rest if rank_index.get(t, 10**9) <= buy_from_top]
+        # If still short of target_n, allow next ranks after buy_from_top
+        if len(keep) + len(fill_pool) < target_n:
+            fill_pool = rest
+        ordered = keep + fill_pool[: max(0, target_n - len(keep))]
+        candidates = [by_ticker[t] for t in ordered if t in by_ticker]
+        # Also allow a small look-ahead beyond selected for cap fallbacks
+        for r in rankings:
+            if r["ticker"] not in {c["ticker"] for c in candidates}:
+                candidates.append(r)
+            if len(candidates) >= 12:
+                break
+    else:
+        candidates = rankings[:12]  # look at top 12, pick until caps bind
 
     selected = []
     sector_w = {}
@@ -75,7 +122,7 @@ def main():
     for r in candidates:
         if len(selected) >= min_names and sum(s["raw_score"] for s in selected) > 0:
             # stop once we have enough names if adding more would dilute under util
-            if len(selected) >= 8:
+            if len(selected) >= target_n:
                 break
         t = r["ticker"]
         # Keep SPY eligible but do not force cash into SPY
@@ -234,7 +281,7 @@ def main():
         "proposed_invested": round(actual_invested, 2),
         "proposed_cash_pct": round(proposed_cash / nav, 6) if nav else None,
         "failed_to_price": failed_price,
-        "notes": "Proposal only. Do not write into portfolio.json positions until Jordan approves.",
+        "notes": "Proposal only. Do not write into portfolio.json positions until Paper books under standing order (or Jordan overrides).",
     }
 
     prop_path = REPORTS / f"proposal_{day}.json"

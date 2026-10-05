@@ -26,15 +26,24 @@
   "rebalance": {
     "cadence": "weekly",
     "benchmark": "SPY",
-    "mark_to_market": true
+    "mark_to_market": true,
+    "rank_buffer": {
+      "enabled": true,
+      "hold_if_rank_at_most": 10,
+      "buy_from_top": 8,
+      "note": "Keep a holding while it ranks in the top hold_if_rank_at_most on the 63d screen; fill open slots from the top buy_from_top. Adopted 2026-10-05."
+    }
   },
   "aspiration_apy": 0.3,
   "aspiration_note": "30% APY is aspiration metric only; never an auto-rewire stop",
   "governance": {
-    "propose_tweaks_only": true,
-    "never_change_rules_without_jordan_approval": true,
+    "propose_tweaks_only": false,
+    "never_change_rules_without_jordan_approval": false,
     "never_place_real_trades": true,
-    "proposals_require_approval_before_execution": true
+    "proposals_require_approval_before_execution": false,
+    "paper_decides_from_research": true,
+    "jordan_may_override": true,
+    "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide trade and rule changes from research, book what seems best, and update afterward. Jordan can still override."
   },
-  "rule_version": 2
+  "rule_version": 3
 }

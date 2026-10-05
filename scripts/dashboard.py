@@ -568,13 +568,23 @@ def strategy_section() -> str:
     ]
     crypto_assets_text = ", ".join(crypto_assets) or "the configured crypto universe"
 
+    rb = (eq_rules.get("rebalance") or {}).get("rank_buffer") or {}
+    if rb.get("enabled"):
+        buffer_text = (
+            f" A top-{int(rb.get('hold_if_rank_at_most') or 10)} rank buffer is on: "
+            f"keep a holding while it stays in that band, and fill open slots from the "
+            f"top {int(rb.get('buy_from_top') or 8)}."
+        )
+    else:
+        buffer_text = ""
+
     return f"""
   <section id="current-strategy">
     <h2>Current strategy <span class="tag tag-momentum">momentum</span></h2>
     <ul class="caps">
-      <li><strong>Momentum equity:</strong> <code>{escape(str(eq_signal))}</code> uses simple momentum / relative strength to rank liquid US ETFs and a short mega-cap list on about a 3-month total return ({days(eq_rules, 'primary_trading_days', 63)} trading days), with a 12-month sanity check that is {not_deeply_negative(eq_rules)}. It is long-only. {str(eq_cadence).capitalize()} rebalance proposals are made Monday; marks between weeks are not trades. Caps are {pct(eq_caps.get('max_single_name_pct'), 0.15)} per name, {pct(eq_caps.get('max_sector_etf_sleeve_pct'), 0.40)} per sector sleeve, and combined {escape(tech_names_text)} is capped at {pct(eq_caps.get('max_tech_megacap_sleeve_pct'), 0.30)} of equity NAV. Benchmark {escape(str(eq_benchmark))}. Paper only; Jordan approves trades and rule changes.</li>
+      <li><strong>Momentum equity:</strong> <code>{escape(str(eq_signal))}</code> uses simple momentum / relative strength to rank liquid US ETFs and a short mega-cap list on about a 3-month total return ({days(eq_rules, 'primary_trading_days', 63)} trading days), with a 12-month sanity check that is {not_deeply_negative(eq_rules)}. It is long-only. {str(eq_cadence).capitalize()} rebalance proposals are made Monday; marks between weeks are not trades.{buffer_text} Caps are {pct(eq_caps.get('max_single_name_pct'), 0.15)} per name, {pct(eq_caps.get('max_sector_etf_sleeve_pct'), 0.40)} per sector sleeve, and combined {escape(tech_names_text)} is capped at {pct(eq_caps.get('max_tech_megacap_sleeve_pct'), 0.30)} of equity NAV. Benchmark {escape(str(eq_benchmark))}. Paper only. Paper decides trades and rule changes from research and updates Jordan afterward; Jordan can still override.</li>
       <li><strong>Momentum crypto:</strong> This is a separate sleeve and cash book using <code>{escape(str(cr_signal))}</code>, a similar {str(cr_cadence)} momentum screen on {escape(crypto_assets_text)}, with the same roughly 3-month signal and 12-month sanity check that is {not_deeply_negative(cr_rules)}. Its benchmark is {escape(str(cr_benchmark))} (BTC), with its own caps: {pct(cr_rules.get('position_caps', {}).get('max_single_name_pct'), 0.25)} per name, {pct(cr_rules.get('position_caps', {}).get('max_invested_pct'), 0.80)} invested maximum, and {pct(cr_rules.get('position_caps', {}).get('min_cash_pct'), 0.20)} minimum cash.</li>
-      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. The active 15m EMA sleeve is a parallel experiment on this same page. It does not replace momentum until Jordan says so.</li>
+      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. The active 15m EMA sleeve is a parallel experiment on this same page. It does not replace momentum unless research plus standing order (or a Jordan override) says so.</li>
     </ul>
     <p class="blurb">For approved strategy changes, see <a href="./changelog.html">the strategy change log</a>.</p>
   </section>

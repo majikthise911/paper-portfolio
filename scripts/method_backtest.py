@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Walk-forward method scorecard (simplified). Equal-weight picks, 80% invested, same-close fills, no tech cap,
-no costs in total_ret (cost_drag_10bps shows 10 bps per side). Evidence for Monday scorecards only; never trades."""
+no costs in total_ret (cost_drag_10bps shows 10 bps per side). Evidence for Monday scorecards only; never trades.
+
+Required shadow lines on each Monday equity scorecard (live method stays weekly momentum + rank buffer):
+weekly_meanrev_bottom8, SPY_buy_hold_80pct_approx, and weekly_mom_top8 (no-buffer judge for the rank buffer).
+"""
 import json, warnings, sys
 warnings.filterwarnings("ignore")
 import numpy as np, pandas as pd, yfinance as yf
