@@ -1,7 +1,7 @@
 # Active active_crypto scan 2026-10-05
 
 - **Strategy:** crypto_15m_ema_trend
-- **As of:** 2026-10-05T15:32:40.737034-04:00
+- **As of:** 2026-10-05T15:42:13.082570-04:00
 - **Mode:** auto_book
 - **executed:** false
 - **Session:** US_RTH
