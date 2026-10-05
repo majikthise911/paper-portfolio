@@ -1,33 +1,45 @@
 {
-  "as_of": "2026-10-05T10:56:06.570033-04:00",
+  "as_of": "2026-10-05T14:58:20.793993-04:00",
   "mode": "auto_book",
   "executed": true,
   "strategy": "crypto_15m_ema_trend",
   "sleeve": "active_crypto",
   "nav_before": 25706.11,
-  "cash_before": 18757.46,
+  "cash_before": 25706.11,
   "session": "US_RTH",
   "in_rth": true,
-  "fills_today_before": 0,
+  "fills_today_before": 1,
   "max_new_trades_per_day": 6,
-  "remaining_budget_after_plan": 5,
+  "remaining_budget_after_plan": 4,
   "data_failures": [],
-  "signals_detected": [],
+  "signals_detected": [
+    {
+      "ticker": "ETH-USD",
+      "close": 2710.419922,
+      "ema_fast": 2705.445163,
+      "ema_slow": 2705.151818,
+      "strength": 0.043825,
+      "bullish_cross": true,
+      "bearish_cross": false,
+      "last_bar": "2026-10-05 14:45:00-04:00"
+    }
+  ],
   "planned_trades": [
     {
-      "ticker": "LINK-USD",
-      "side": "SELL",
-      "shares": 504.0,
-      "price": 13.787,
-      "dollars": 6948.65,
-      "sector": "oracle",
-      "reason": "ema_trend_broken",
-      "signal": "ema_trend_exit",
-      "stop_price": 12.227801,
-      "ema_fast": 13.99674,
-      "ema_slow": 14.075979,
-      "last_bar": "2026-10-05 10:45:00-04:00",
-      "realized_pnl": 706.11
+      "ticker": "ETH-USD",
+      "side": "BUY",
+      "shares": 2.371045,
+      "price": 2710.419922,
+      "dollars": 6426.53,
+      "sector": "layer1",
+      "reason": "ema_bullish_cross",
+      "signal": "ema_trend_long",
+      "stop_price": 2697.032765,
+      "ema_fast": 2705.445163,
+      "ema_slow": 2705.151818,
+      "strength": 0.043825,
+      "bullish_cross": true,
+      "last_bar": "2026-10-05 14:45:00-04:00"
     }
   ],
   "notes": [],
@@ -39,25 +51,25 @@
   },
   "booked_fills": [
     {
-      "ticker": "LINK-USD",
-      "side": "SELL",
-      "shares": 504.0,
-      "price": 13.787,
-      "dollars": 6948.65,
-      "sector": "oracle",
-      "realized_pnl": 706.11,
-      "reason": "ema_trend_broken",
+      "ticker": "ETH-USD",
+      "side": "BUY",
+      "shares": 2.371045,
+      "price": 2710.419922,
+      "dollars": 6426.53,
+      "sector": "layer1",
+      "reason": "ema_bullish_cross",
+      "stop_price": 2697.032765,
       "fill_source": "yfinance_15m_close"
     }
   ],
   "nav_after": 25706.11,
-  "cash_after": 25706.11,
+  "cash_after": 19279.58,
   "summary": {
     "n_planned": 1,
-    "n_buys": 0,
-    "n_sells": 1,
+    "n_buys": 1,
+    "n_sells": 0,
     "booked": true,
-    "cash_after": 25706.11,
+    "cash_after": 19279.58,
     "nav_after": 25706.11
   }
 }
