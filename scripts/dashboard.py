@@ -1932,6 +1932,7 @@ def build_html(data: dict) -> str:
     margin: 0 0 8px;
   }}
   #pnl-chart-wrap {{
+    position: relative;
     width: 100%;
     overflow-x: auto;
   }}
@@ -1975,6 +1976,40 @@ def build_html(data: dict) -> str:
   #pnl-chart .dot-spy {{ fill: #f0c14a; }}
   #pnl-chart .dot-btc {{ fill: #f0a05a; }}
   #pnl-chart .dot-hhbh {{ fill: #c4a35a; }}
+  #pnl-chart .hover-guide {{
+    stroke: #8a9bb3;
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+    pointer-events: none;
+  }}
+  #pnl-chart .hover-dot {{
+    stroke: #0f1419;
+    stroke-width: 1.5;
+    pointer-events: none;
+  }}
+  #pnl-hover-tip {{
+    position: absolute;
+    z-index: 5;
+    display: none;
+    pointer-events: none;
+    background: rgba(15, 20, 25, 0.94);
+    border: 1px solid #3a4a63;
+    border-radius: 6px;
+    padding: 6px 9px;
+    font-size: 0.78rem;
+    line-height: 1.35;
+    color: var(--text);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    max-width: min(280px, 70%);
+    white-space: nowrap;
+  }}
+  #pnl-hover-tip .tip-name {{
+    font-weight: 650;
+    color: var(--accent);
+  }}
+  #pnl-hover-tip .tip-meta {{
+    color: var(--muted);
+  }}
   .band-title {{
     margin: 4px 0 6px;
     font-size: 1.15rem;
@@ -2136,9 +2171,10 @@ def build_html(data: dict) -> str:
       </div>
       <button type="button" class="pnl-toggle" id="pnl-reset-zoom" title="Reset drag-rectangle zoom">Reset zoom</button>
     </div>
-    <p class="blurb" id="pnl-spy-note">Each series starts at 0%. Drag to zoom. Turn on vs B&amp;H for the matching buy-and-hold baseline (household = SPY $100k + BTC $25k; equity = SPY; crypto = BTC).</p>
+    <p class="blurb" id="pnl-spy-note">Each series starts at 0%. Hover a line for its name and value. Drag to zoom. Turn on vs B&amp;H for the matching buy-and-hold baseline (household = SPY $100k + BTC $25k; equity = SPY; crypto = BTC).</p>
     <div id="pnl-chart-wrap">
       <svg id="pnl-chart" viewBox="0 0 1000 280" role="img" aria-label="Momentum versus active P and L over time">{render_pnl_svg(pnl_hist)}</svg>
+      <div id="pnl-hover-tip" role="tooltip" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -2779,6 +2815,9 @@ def build_html(data: dict) -> str:
   var PLOT = {{ W: 1000, H: 280, pad: {{ l: 64, r: 16, t: 16, b: 40 }} }};
   var lastScales = null; // {{ tMin, tMax, yMin, yMax }} after each render
   var brushDrag = null; // {{ x0, y0, x1, y1 }} in SVG viewBox coords while dragging
+  var hoverTipEl = document.getElementById("pnl-hover-tip");
+  var hoverSeries = []; // [{{ label, color, pts }}] rebuilt each render
+  var hoverActive = false;
 
   function parseTs(ts) {{
     var d = new Date(ts);
@@ -2864,6 +2903,33 @@ def build_html(data: dict) -> str:
     if (view === "equity") return "SPY B&H";
     if (view === "crypto") return "BTC B&H";
     return "Household B&H";
+  }}
+
+  function momLabel() {{
+    if (view === "equity") return "Momentum equity";
+    if (view === "crypto") return "Momentum crypto";
+    return "Momentum household";
+  }}
+
+  function actLabel() {{
+    if (view === "equity") return "Active equity";
+    if (view === "crypto") return "Active crypto";
+    return "Active household";
+  }}
+
+  function seriesColor(key) {{
+    var colors = {{
+      hh: "#5b9fd4",
+      ah: "#e6c86a",
+      eq: "#3ecf8e",
+      ae: "#9b7edc",
+      cr: "#e6b450",
+      ac: "#f0886a",
+      spy: "#f0c14a",
+      btc: "#f0a05a",
+      hhbh: "#c4a35a"
+    }};
+    return colors[key] || "#8a9bb3";
   }}
 
   function bhLineClass() {{
@@ -3282,22 +3348,38 @@ def build_html(data: dict) -> str:
       }});
     }}
 
-    // Draw SPY last for visibility over overlapping series.
+    // Draw B&H last for visibility over overlapping series.
+    hoverSeries = [];
     if (view === "household") {{
-      drawSeries(mom, "line-hh", "dot-hh", "Momentum");
-      drawSeries(act, "line-ah", "dot-ah", "Active");
+      drawSeries(mom, "line-hh", "dot-hh", momLabel());
+      drawSeries(act, "line-ah", "dot-ah", actLabel());
+      if (mom.length) hoverSeries.push({{ label: momLabel(), color: seriesColor("hh"), pts: mom }});
+      if (act.length) hoverSeries.push({{ label: actLabel(), color: seriesColor("ah"), pts: act }});
     }} else if (view === "equity") {{
-      drawSeries(mom, "line-eq", "dot-eq", "Momentum");
-      drawSeries(act, "line-ae", "dot-ae", "Active");
+      drawSeries(mom, "line-eq", "dot-eq", momLabel());
+      drawSeries(act, "line-ae", "dot-ae", actLabel());
+      if (mom.length) hoverSeries.push({{ label: momLabel(), color: seriesColor("eq"), pts: mom }});
+      if (act.length) hoverSeries.push({{ label: actLabel(), color: seriesColor("ae"), pts: act }});
     }} else {{
-      drawSeries(mom, "line-cr", "dot-cr", "Momentum");
-      drawSeries(act, "line-ac", "dot-ac", "Active");
+      drawSeries(mom, "line-cr", "dot-cr", momLabel());
+      drawSeries(act, "line-ac", "dot-ac", actLabel());
+      if (mom.length) hoverSeries.push({{ label: momLabel(), color: seriesColor("cr"), pts: mom }});
+      if (act.length) hoverSeries.push({{ label: actLabel(), color: seriesColor("ac"), pts: act }});
     }}
     drawSeries(spy, bhLineClass(), bhDotClass(), bhLabel(), 4.8);
+    if (spy.length) {{
+      hoverSeries.push({{ label: bhLabel(), color: seriesColor(bhLegendKey()), pts: spy }});
+    }}
 
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.innerHTML = parts.join("");
     if (brushDrag) drawBrushOverlay();
+    // Re-apply hover highlight after render wipe if pointer is still over chart.
+    if (hoverActive) {{
+      // no-op here; pointermove will refresh on next move
+    }} else {{
+      clearHover();
+    }}
   }}
 
   function setMetric(m) {{
@@ -3333,7 +3415,146 @@ def build_html(data: dict) -> str:
     render();
   }}
 
+  function clearHover() {{
+    hoverActive = false;
+    if (hoverTipEl) {{
+      hoverTipEl.style.display = "none";
+      hoverTipEl.setAttribute("aria-hidden", "true");
+      hoverTipEl.innerHTML = "";
+    }}
+    var guide = svg.querySelector(".hover-guide");
+    if (guide) guide.remove();
+    var hdot = svg.querySelector(".hover-dot");
+    if (hdot) hdot.remove();
+  }}
+
+  function nearestHoverHit(pt) {{
+    if (!lastScales || !hoverSeries.length || !inPlotArea(pt)) return null;
+    var pad = PLOT.pad;
+    var iw = PLOT.W - pad.l - pad.r;
+    var ih = PLOT.H - pad.t - pad.b;
+    if (!(iw > 0) || !(ih > 0)) return null;
+    var tAt = lastScales.tMin + ((pt.x - pad.l) / iw) * (lastScales.tMax - lastScales.tMin);
+    var best = null;
+    var maxDist = 28; // viewBox units (~pixels at default width)
+    hoverSeries.forEach(function (series) {{
+      var pts = series.pts;
+      if (!pts.length) return;
+      // Nearest point by time, then score by pixel distance to cursor.
+      var lo = 0;
+      var hi = pts.length - 1;
+      while (lo < hi) {{
+        var mid = (lo + hi) >> 1;
+        if (pts[mid].t < tAt) lo = mid + 1;
+        else hi = mid;
+      }}
+      var candidates = [pts[lo]];
+      if (lo > 0) candidates.push(pts[lo - 1]);
+      if (lo + 1 < pts.length) candidates.push(pts[lo + 1]);
+      candidates.forEach(function (p) {{
+        var px = pad.l + ((p.t - lastScales.tMin) / (lastScales.tMax - lastScales.tMin)) * iw;
+        var py = pad.t + ((lastScales.yMax - p.y) / (lastScales.yMax - lastScales.yMin)) * ih;
+        var dx = px - pt.x;
+        var dy = py - pt.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        // Prefer closeness in y when x is near the vertical (line hover feel).
+        var xBias = Math.abs(dx);
+        var score = dist + xBias * 0.15;
+        if (score > maxDist && Math.abs(dx) > 18) return;
+        if (!best || score < best.score) {{
+          best = {{
+            score: score,
+            series: series,
+            point: p,
+            px: px,
+            py: py
+          }};
+        }}
+      }});
+    }});
+    return best;
+  }}
+
+  function showHover(hit, clientPt) {{
+    if (!hit || !hoverTipEl) {{
+      clearHover();
+      return;
+    }}
+    hoverActive = true;
+    var guide = svg.querySelector(".hover-guide");
+    if (guide) guide.remove();
+    var hdot = svg.querySelector(".hover-dot");
+    if (hdot) hdot.remove();
+    var pad = PLOT.pad;
+    guide = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    guide.setAttribute("class", "hover-guide");
+    guide.setAttribute("x1", hit.px.toFixed(2));
+    guide.setAttribute("x2", hit.px.toFixed(2));
+    guide.setAttribute("y1", pad.t);
+    guide.setAttribute("y2", (PLOT.H - pad.b).toFixed(2));
+    svg.appendChild(guide);
+    hdot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    hdot.setAttribute("class", "hover-dot");
+    hdot.setAttribute("cx", hit.px.toFixed(2));
+    hdot.setAttribute("cy", hit.py.toFixed(2));
+    hdot.setAttribute("r", "5.5");
+    hdot.setAttribute("fill", hit.series.color);
+    svg.appendChild(hdot);
+
+    var p = hit.point;
+    var html =
+      '<div class="tip-name">' +
+      hit.series.label +
+      "</div>" +
+      '<div class="tip-meta">' +
+      fmtEt(p.d) +
+      " ET · " +
+      fmtAxisValue(p.y) +
+      "</div>";
+    if (p.spy_px != null && isFinite(Number(p.spy_px))) {{
+      html += '<div class="tip-meta">SPY px $' + Number(p.spy_px).toFixed(2) + "</div>";
+    }}
+    if (p.btc_px != null && isFinite(Number(p.btc_px))) {{
+      html += '<div class="tip-meta">BTC px $' + Number(p.btc_px).toFixed(2) + "</div>";
+    }}
+    hoverTipEl.innerHTML = html;
+    hoverTipEl.style.display = "block";
+    hoverTipEl.setAttribute("aria-hidden", "false");
+
+    var wrap = document.getElementById("pnl-chart-wrap");
+    if (!wrap) return;
+    var wrapRect = wrap.getBoundingClientRect();
+    var tipW = hoverTipEl.offsetWidth || 160;
+    var tipH = hoverTipEl.offsetHeight || 48;
+    var left = clientPt.clientX - wrapRect.left + 14;
+    var top = clientPt.clientY - wrapRect.top - tipH - 10;
+    if (left + tipW > wrapRect.width - 4) left = clientPt.clientX - wrapRect.left - tipW - 14;
+    if (top < 4) top = clientPt.clientY - wrapRect.top + 16;
+    if (left < 4) left = 4;
+    hoverTipEl.style.left = left + "px";
+    hoverTipEl.style.top = top + "px";
+  }}
+
+  function onHoverMove(evt) {{
+    if (brushDrag) {{
+      clearHover();
+      return;
+    }}
+    var pt = svgPointFromEvent(evt);
+    if (!inPlotArea(pt)) {{
+      clearHover();
+      return;
+    }}
+    var hit = nearestHoverHit(pt);
+    if (!hit) {{
+      clearHover();
+      return;
+    }}
+    showHover(hit, {{ clientX: evt.clientX, clientY: evt.clientY }});
+  }}
+
   function onBrushDown(evt) {{
+    clearHover();
     if (evt.button != null && evt.button !== 0) return;
     var pt = svgPointFromEvent(evt);
     if (!inPlotArea(pt) || !lastScales) return;
@@ -3402,6 +3623,8 @@ def build_html(data: dict) -> str:
   window.addEventListener("pointermove", onBrushMove);
   window.addEventListener("pointerup", onBrushUp);
   window.addEventListener("pointercancel", onBrushUp);
+  svg.addEventListener("pointermove", onHoverMove);
+  svg.addEventListener("pointerleave", function () {{ clearHover(); }});
   svg.addEventListener("dblclick", function (evt) {{
     evt.preventDefault();
     resetZoom();
