@@ -1,89 +1,89 @@
 {
-  "as_of": "2026-10-06T10:37:40-04:00",
+  "as_of": "2026-10-06T10:47:32-04:00",
   "currency": "USD",
   "sleeve": "active_equity",
-  "cash": 20045.62,
+  "cash": 20070.34,
   "positions": {
     "MSFT": {
       "shares": 28,
       "avg_cost": 526.0,
       "cost_basis": 14728.0,
-      "last_price": 533.31,
-      "market_value": 14932.68,
+      "last_price": 534.09,
+      "market_value": 14954.52,
       "sector": "tech",
       "opened_at": "2026-10-05T10:56:01.845527-04:00",
-      "unrealized_pnl": 216.5,
+      "unrealized_pnl": 226.24,
       "stop_price": 522.616237,
-      "weight": 0.149489
+      "weight": 0.149621
     },
     "AVGO": {
       "shares": 41,
       "avg_cost": 361.309998,
       "cost_basis": 14813.71,
-      "last_price": 375.7587,
-      "market_value": 15406.11,
+      "last_price": 377.06,
+      "market_value": 15459.46,
       "sector": "tech",
       "opened_at": "2026-10-05T10:56:01.845527-04:00",
-      "unrealized_pnl": 615.0,
+      "unrealized_pnl": 647.19,
       "stop_price": 358.671222,
-      "weight": 0.154333
+      "weight": 0.15469
     },
     "SPY": {
       "shares": 19,
       "avg_cost": 772.299988,
       "cost_basis": 14673.7,
-      "last_price": 779.53,
-      "market_value": 14811.07,
+      "last_price": 779.95,
+      "market_value": 14819.05,
       "sector": "broad",
       "opened_at": "2026-10-05T10:56:01.845527-04:00",
-      "unrealized_pnl": 156.65,
+      "unrealized_pnl": 146.3,
       "stop_price": 770.684948,
-      "weight": 0.148348
+      "weight": 0.148278
     },
     "QQQ": {
       "shares": 19,
       "avg_cost": 753.429993,
       "cost_basis": 14315.17,
-      "last_price": 760.75,
-      "market_value": 14454.25,
+      "last_price": 761.53,
+      "market_value": 14469.07,
       "sector": "tech_growth",
       "opened_at": "2026-10-05T10:56:01.845527-04:00",
-      "unrealized_pnl": 161.88,
+      "unrealized_pnl": 155.23,
       "stop_price": 751.164045,
-      "weight": 0.144813
+      "weight": 0.14478
     },
     "NVDA": {
       "shares": 23,
       "avg_cost": 241.889999,
       "cost_basis": 5563.47,
-      "last_price": 242.2,
-      "market_value": 5570.6,
+      "last_price": 242.205,
+      "market_value": 5570.72,
       "sector": "tech",
       "opened_at": "2026-10-06T09:38:12.742959-04:00",
-      "unrealized_pnl": 0.46,
+      "unrealized_pnl": 7.47,
       "stop_price": 240.488005,
-      "weight": 0.055656
+      "weight": 0.055739
     },
-    "JPM": {
-      "shares": 44,
-      "avg_cost": 333.299194,
-      "cost_basis": 14665.16,
-      "last_price": 332.9,
-      "market_value": 14647.6,
-      "sector": "financials",
-      "opened_at": "2026-10-06T09:51:50.024744-04:00",
-      "unrealized_pnl": 15.0,
-      "stop_price": 332.12151,
-      "weight": 0.146845
+    "XLK": {
+      "shares": 72,
+      "avg_cost": 202.789993,
+      "cost_basis": 14600.88,
+      "last_price": 202.79,
+      "market_value": 14600.88,
+      "sector": "tech",
+      "opened_at": "2026-10-06T10:47:26.769668-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 202.14441,
+      "weight": 0.146085
     }
   },
-  "nav": 99867.93,
+  "nav": 99944.04,
   "starting_capital": 100000.0,
   "peak_nav": 100060.85,
-  "spy_last_close": 779.53,
-  "total_pnl": -132.07,
-  "total_pnl_pct": -0.1321,
-  "drawdown_pct": -0.1928,
-  "last_trade_batch": "active_auto_2026-10-06_101022",
-  "notes": "Active auto-book 2026-10-06T10:10:22.985766-04:00: 0 BUY / 2 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
+  "spy_last_close": 779.95,
+  "total_pnl": -55.96,
+  "total_pnl_pct": -0.056,
+  "drawdown_pct": -0.1167,
+  "last_trade_batch": "active_auto_2026-10-06_104726",
+  "notes": "Active auto-book 2026-10-06T10:47:26.769668-04:00: 1 BUY / 1 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
 }

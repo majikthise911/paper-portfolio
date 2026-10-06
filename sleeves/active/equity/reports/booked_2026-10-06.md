@@ -1,36 +1,36 @@
 # Active active_equity booked 2026-10-06
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-06T10:10:22.985766-04:00
+- **As of:** 2026-10-06T10:47:26.769668-04:00
 - **Mode:** auto_book
 - **executed:** true
 - **Session:** US_RTH
-- **Entries today before:** 4 / cap 8 (exits exempt; all fills today: 5)
+- **Entries today before:** 4 / cap 8 (exits exempt; all fills today: 7)
 - **Min order:** $1,000
 
 ## Planned / booked trades
 
-- SELL 1 XLP @ 81.580002 (~$81.58; exit_dust_below_min_order)
-- SELL 1 XLU @ 40.849998 (~$40.85; exit_dust_below_min_order)
+- SELL 44 JPM @ 332.399994 (~$14,625.60; ema_bearish_cross+ema_trend_broken)
+- BUY 72 XLK @ 202.789993 (~$14,600.88; ema_trend_long)
 
 ## Notes
 
-- exit_dust_below_min_order:XLP
-- exit_dust_below_min_order:XLU
-- entry_skip_too_small:XLK
+- entry_skip_cooldown:XLP:23m
+- entry_skip_cooldown:XLU:23m
+- entry_skip_below_min_order:XLF:budget_$80.80<min_$1,000
 - entry_skip_too_small:DIA
-- entry_skip_too_small:XLF
-- entry_skip_too_small:BRK-B
 - entry_skip_too_small:XLY
+- entry_skip_too_small:BRK-B
+- entry_skip_below_min_order:XLRE:budget_$80.80<min_$1,000
+- entry_skip_below_min_order:TLT:budget_$80.80<min_$1,000
 - entry_skip_too_small:XLI
-- entry_skip_below_min_order:XLB:budget_$51.56<min_$1,000
-- entry_skip_below_min_order:XLRE:budget_$51.56<min_$1,000
+- entry_skip_below_min_order:XLB:budget_$80.80<min_$1,000
+- entry_skip_too_small:AMZN
 - entry_skip_too_small:GLD
 - entry_skip_too_small:TSLA
-- entry_skip_too_small:XLC
-- entry_skip_too_small:IWM
-- entry_skip_too_small:TLT
-- entry_skip_too_small:AMZN
+- entry_skip_too_small:GOOGL
+- entry_skip_cooldown:XLC:5m
+- entry_skip_below_min_order:XLE:budget_$80.80<min_$1,000
 
 ## Governance
 
