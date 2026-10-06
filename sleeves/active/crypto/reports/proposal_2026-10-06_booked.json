@@ -1,104 +1,69 @@
 {
-  "as_of": "2026-10-06T10:37:39.883003-04:00",
+  "as_of": "2026-10-06T11:42:13.437569-04:00",
   "mode": "auto_book",
   "executed": true,
   "strategy": "crypto_15m_ema_trend",
   "sleeve": "active_crypto",
-  "nav_before": 25866.0,
-  "cash_before": 12893.97,
+  "nav_before": 25886.55,
+  "cash_before": 5173.2,
   "session": "US_RTH",
   "in_rth": true,
-  "fills_today_before": 6,
-  "entries_today_before": 2,
+  "fills_today_before": 8,
+  "entries_today_before": 4,
   "max_new_trades_per_day": 6,
   "cap_counts": "entries_only (exits exempt)",
   "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
   "remaining_budget_after_plan": 2,
   "data_failures": [],
   "signals_detected": [
     {
       "ticker": "SOL-USD",
-      "close": 121.269997,
-      "ema_fast": 120.822858,
-      "ema_slow": 120.516445,
-      "strength": 0.753349,
+      "close": 121.169998,
+      "ema_fast": 121.219459,
+      "ema_slow": 120.827561,
+      "strength": 0.883576,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-06 10:30:00-04:00"
+      "last_bar": "2026-10-06 11:30:00-04:00"
     },
     {
       "ticker": "AVAX-USD",
-      "close": 11.511,
-      "ema_fast": 11.463215,
-      "ema_slow": 11.427138,
-      "strength": 0.452151,
+      "close": 11.557,
+      "ema_fast": 11.527188,
+      "ema_slow": 11.471762,
+      "strength": 0.720501,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-06 10:30:00-04:00"
-    },
-    {
-      "ticker": "BTC-USD",
-      "close": 86206.53125,
-      "ema_fast": 86188.474379,
-      "ema_slow": 86114.889277,
-      "strength": 0.334276,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-06 10:30:00-04:00"
+      "last_bar": "2026-10-06 11:30:00-04:00"
     },
     {
       "ticker": "LINK-USD",
-      "close": 14.021,
-      "ema_fast": 14.005039,
-      "ema_slow": 13.995723,
-      "strength": 0.177536,
+      "close": 14.041,
+      "ema_fast": 14.043114,
+      "ema_slow": 14.019593,
+      "strength": 0.39324,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-06 10:30:00-04:00"
-    },
-    {
-      "ticker": "ETH-USD",
-      "close": 2712.360107,
-      "ema_fast": 2712.769581,
-      "ema_slow": 2712.06478,
-      "strength": 0.108375,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-06 10:30:00-04:00"
+      "last_bar": "2026-10-06 11:30:00-04:00"
     }
   ],
   "planned_trades": [
     {
       "ticker": "BTC-USD",
-      "side": "BUY",
+      "side": "SELL",
       "shares": 0.075012,
-      "price": 86206.53125,
-      "dollars": 6466.52,
+      "price": 86181.71875,
+      "dollars": 6464.66,
       "sector": "layer1",
-      "reason": "ema_trend_long",
-      "signal": "ema_trend_long",
+      "reason": "ema_trend_broken",
+      "signal": "ema_trend_exit",
       "stop_price": 85766.265274,
-      "ema_fast": 86188.474379,
-      "ema_slow": 86114.889277,
-      "strength": 0.334276,
-      "bullish_cross": false,
-      "last_bar": "2026-10-06 10:30:00-04:00"
-    },
-    {
-      "ticker": "LINK-USD",
-      "side": "BUY",
-      "shares": 89.454989,
-      "price": 14.021,
-      "dollars": 1254.25,
-      "sector": "oracle",
-      "reason": "ema_trend_long",
-      "signal": "ema_trend_long",
-      "stop_price": 13.916055,
-      "ema_fast": 14.005039,
-      "ema_slow": 13.995723,
-      "strength": 0.177536,
-      "bullish_cross": false,
-      "last_bar": "2026-10-06 10:30:00-04:00"
+      "ema_fast": 86305.512859,
+      "ema_slow": 86208.53491,
+      "last_bar": "2026-10-06 11:30:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": -1.86
     }
   ],
   "notes": [],
@@ -111,35 +76,24 @@
   "booked_fills": [
     {
       "ticker": "BTC-USD",
-      "side": "BUY",
+      "side": "SELL",
       "shares": 0.075012,
-      "price": 86206.53125,
-      "dollars": 6466.52,
+      "price": 86181.71875,
+      "dollars": 6464.66,
       "sector": "layer1",
-      "reason": "ema_trend_long",
-      "stop_price": 85766.265274,
-      "fill_source": "yfinance_15m_close"
-    },
-    {
-      "ticker": "LINK-USD",
-      "side": "BUY",
-      "shares": 89.454989,
-      "price": 14.021,
-      "dollars": 1254.25,
-      "sector": "oracle",
-      "reason": "ema_trend_long",
-      "stop_price": 13.916055,
+      "realized_pnl": -1.86,
+      "reason": "ema_trend_broken",
       "fill_source": "yfinance_15m_close"
     }
   ],
-  "nav_after": 25866.0,
-  "cash_after": 5173.2,
+  "nav_after": 25886.55,
+  "cash_after": 11637.86,
   "summary": {
-    "n_planned": 2,
-    "n_buys": 2,
-    "n_sells": 0,
+    "n_planned": 1,
+    "n_buys": 0,
+    "n_sells": 1,
     "booked": true,
-    "cash_after": 5173.2,
-    "nav_after": 25866.0
+    "cash_after": 11637.86,
+    "nav_after": 25886.55
   }
 }

@@ -1,66 +1,54 @@
 {
-  "as_of": "2026-10-06T11:29:48-04:00",
+  "as_of": "2026-10-06T11:42:14-04:00",
   "currency": "USD",
   "sleeve": "active_crypto",
-  "cash": 5173.2,
+  "cash": 11637.86,
   "positions": {
     "SOL-USD": {
       "shares": 53.403271,
       "avg_cost": 120.360001,
       "cost_basis": 6427.62,
-      "last_price": 121.449997,
-      "market_value": 6485.83,
+      "last_price": 121.169998,
+      "market_value": 6470.87,
       "sector": "layer1",
       "opened_at": "2026-10-05T15:18:40.632297-04:00",
-      "unrealized_pnl": 48.59,
+      "unrealized_pnl": 43.25,
       "stop_price": 119.697107,
-      "weight": 0.250375
+      "weight": 0.24997
     },
     "AVAX-USD": {
       "shares": 564.31406,
       "avg_cost": 11.43,
       "cost_basis": 6450.11,
-      "last_price": 11.562,
-      "market_value": 6524.6,
+      "last_price": 11.557,
+      "market_value": 6521.78,
       "sector": "layer1",
       "opened_at": "2026-10-06T10:10:27.777120-04:00",
-      "unrealized_pnl": 45.71,
+      "unrealized_pnl": 71.67,
       "stop_price": 11.277028,
-      "weight": 0.251134
-    },
-    "BTC-USD": {
-      "shares": 0.075012,
-      "avg_cost": 86206.53125,
-      "cost_basis": 6466.52,
-      "last_price": 86272.210938,
-      "market_value": 6471.45,
-      "sector": "layer1",
-      "opened_at": "2026-10-06T10:37:39.883003-04:00",
-      "unrealized_pnl": 0.0,
-      "stop_price": 85766.265274,
-      "weight": 0.250001
+      "weight": 0.251937
     },
     "LINK-USD": {
       "shares": 89.454989,
       "avg_cost": 14.021,
       "cost_basis": 1254.25,
-      "last_price": 14.045,
-      "market_value": 1256.4,
+      "last_price": 14.041,
+      "market_value": 1256.04,
       "sector": "oracle",
       "opened_at": "2026-10-06T10:37:39.883003-04:00",
-      "unrealized_pnl": 0.0,
+      "unrealized_pnl": 1.79,
       "stop_price": 13.916055,
-      "weight": 0.04849
+      "weight": 0.048521
     }
   },
-  "nav": 25911.47,
+  "nav": 25886.55,
   "starting_capital": 25000.0,
   "peak_nav": 26518.05,
-  "btc_last_close": 86272.2109,
-  "total_pnl": 911.47,
-  "total_pnl_pct": 3.6459,
-  "drawdown_pct": -2.2874,
-  "last_trade_batch": "active_auto_2026-10-06_103739",
+  "btc_last_close": 86180.0938,
+  "total_pnl": 886.55,
+  "total_pnl_pct": 3.5462,
+  "drawdown_pct": -2.3814,
+  "last_trade_batch": "active_auto_2026-10-06_114213",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",
@@ -69,5 +57,5 @@
     "AVAX-USD",
     "LINK-USD"
   ],
-  "notes": "Active auto-book 2026-10-06T10:37:39.883003-04:00: 2 BUY / 0 SELL under standing order. Strategy crypto_15m_ema_trend. Paper only."
+  "notes": "Active auto-book 2026-10-06T11:42:13.437569-04:00: 0 BUY / 1 SELL under standing order. Strategy crypto_15m_ema_trend. Paper only."
 }
