@@ -18,8 +18,11 @@
     "max_invested_pct": 0.8,
     "min_cash_pct": 0.2,
     "max_concurrent_positions": 4,
-    "caps_note": "Mirrors momentum crypto caps (25% single / 20% min cash). max_concurrent_positions=4. max_new_trades_per_day=6 spam cap.",
-    "max_new_trades_per_day": 6
+    "caps_note": "Mirrors momentum crypto caps (25% single / 20% min cash). max_concurrent_positions=4. max_new_trades_per_day=6 spam cap. Rule v3 2026-10-06: max_new_trades_per_day=6 counts BUY entries only; exits (trend break / ATR stop) are never capped. Buys under min_order_usd ($1,000) are skipped as dust and use no cap slot.",
+    "max_new_trades_per_day": 6,
+    "min_order_usd": 1000,
+    "daily_cap_counts": "entries_only",
+    "exits_exempt_from_daily_cap": true
   },
   "rebalance": {
     "cadence": "15m",
@@ -51,5 +54,5 @@
     "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide and book. Active live daily EMA wired 2026-10-05 after Jordan clarified Active must trade daily vs weekly momentum."
   },
   "starting_capital": 25000.0,
-  "rule_version": 2
+  "rule_version": 3
 }

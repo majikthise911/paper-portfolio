@@ -30,5 +30,5 @@ Same idea as the equity starter, adapted for always-on crypto. On each of the fi
 **Locked** 2026-09-24. **Live daily paper trading** as of 2026-10-05.
 
 Runner: `sleeves/active/scripts/run_active.py` (also via `scripts/market_hours_refresh.py`).
-Exits on EMA bearish cross or 2×ATR stop. Entries on bullish cross/state into open slots, respecting caps and a per-day trade cap.
+Exits on EMA bearish cross or 2×ATR stop. Entries on bullish cross/state into open slots, respecting caps and a per-day entry cap. Exits are never capped and do not use cap slots; buys under `min_order_usd` ($1,000) are skipped as dust.
 Auto-books paper fills under Jordan standing order 2026-10-05. Never places real broker trades. Momentum books untouched.

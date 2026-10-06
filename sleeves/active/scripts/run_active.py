@@ -8,6 +8,12 @@ Under Jordan standing order 2026-10-05, Paper auto-books paper fills when
 signals fire (no per-batch yes). Caps, cash floors, and max_new_trades_per_day
 still apply.
 
+Rule v3 (2026-10-06):
+  - Exits (trend break / ATR stop) are never capped and never count toward
+    max_new_trades_per_day. Only BUY entries count. Equity exits still need RTH.
+  - Buys under position_caps.min_order_usd (default $1,000) are skipped as
+    dust; a skipped buy uses no cap slot and no position slot.
+
 Usage:
   python sleeves/active/scripts/run_active.py
   python sleeves/active/scripts/run_active.py --dry-run
@@ -28,6 +34,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from ema_scan_lib import (  # noqa: E402
     append_ledger,
+    count_entries_today,
     count_fills_today,
     evaluate_ticker,
     is_rth,
@@ -40,6 +47,7 @@ from ema_scan_lib import (  # noqa: E402
 )
 
 DEFAULT_MAX_NEW_TRADES = {"active_equity": 8, "active_crypto": 6}
+DEFAULT_MIN_ORDER_USD = 1000.0
 
 
 def _sector(universe: dict, ticker: str) -> str | None:
@@ -159,12 +167,18 @@ def run_sleeve(
         caps.get("max_new_trades_per_day")
         or DEFAULT_MAX_NEW_TRADES.get(sleeve_key, 8)
     )
+    min_order_raw = caps.get("min_order_usd")
+    min_order_usd = float(
+        DEFAULT_MIN_ORDER_USD if min_order_raw is None else min_order_raw
+    )
 
     ts = now_et()
     date_str = ts.strftime("%Y-%m-%d")
     rth = is_rth(ts)
     fills_today = count_fills_today(ledger_path, date_str)
-    remaining_budget = max(0, max_new - fills_today)
+    # Only entries count toward the daily cap (exits are uncapped risk control).
+    entries_today = count_entries_today(ledger_path, date_str)
+    remaining_budget = max(0, max_new - entries_today)
 
     # Evaluate universe
     evals: dict[str, dict] = {}
@@ -191,11 +205,8 @@ def run_sleeve(
     planned: list[dict[str, Any]] = []
     notes: list[str] = []
 
-    # --- Exits first ---
+    # --- Exits first (never capped; do not consume remaining_budget) ---
     for ticker, pos in list(positions.items()):
-        if remaining_budget <= 0:
-            notes.append(f"daily_trade_cap_reached_before_exit:{ticker}")
-            break
         ev = evals.get(ticker) or {}
         reasons = _exit_reasons(pos, ev)
         if not reasons:
@@ -227,9 +238,9 @@ def run_sleeve(
                 "ema_fast": ev.get("ema_fast"),
                 "ema_slow": ev.get("ema_slow"),
                 "last_bar": ev.get("last_bar"),
+                "cap_exempt": True,
             }
         )
-        remaining_budget -= 1
 
     # Apply exits to a working copy for sizing entries
     work_positions = {k: dict(v) for k, v in positions.items()}
@@ -304,6 +315,12 @@ def run_sleeve(
             if dollars_budget <= 0:
                 notes.append("entry_stop_cash_floor")
                 break
+            if dollars_budget < min_order_usd:
+                notes.append(
+                    f"entry_skip_below_min_order:{ticker}:"
+                    f"budget_${dollars_budget:,.2f}<min_${min_order_usd:,.0f}"
+                )
+                continue
 
             # Tech mega-cap sleeve cap
             if max_tech is not None and ticker in tech_tickers:
@@ -333,6 +350,14 @@ def run_sleeve(
                 if shares <= 0 or dollars <= 0:
                     notes.append("entry_stop_cash_floor")
                     break
+
+            # Dust filter: skip buys under min_order_usd. No cap or slot used.
+            if dollars < min_order_usd:
+                notes.append(
+                    f"entry_skip_below_min_order:{ticker}:"
+                    f"${dollars:,.2f}<min_${min_order_usd:,.0f}"
+                )
+                continue
 
             stop_px = ev.get("stop_price")
             if stop_px is None and ev.get("atr") is not None:
@@ -386,7 +411,10 @@ def run_sleeve(
         "session": "US_RTH" if rth else "outside_RTH",
         "in_rth": rth,
         "fills_today_before": fills_today,
+        "entries_today_before": entries_today,
         "max_new_trades_per_day": max_new,
+        "cap_counts": "entries_only (exits exempt)",
+        "min_order_usd": min_order_usd,
         "remaining_budget_after_plan": remaining_budget,
         "data_failures": failures,
         "signals_detected": [
@@ -577,8 +605,10 @@ def _md_report(payload: dict, *, booked: bool) -> str:
         f"- **Mode:** {payload['mode']}",
         f"- **executed:** {str(booked).lower()}",
         f"- **Session:** {payload.get('session')}",
-        f"- **Fills today before:** {payload.get('fills_today_before')} / "
-        f"cap {payload.get('max_new_trades_per_day')}",
+        f"- **Entries today before:** {payload.get('entries_today_before')} / "
+        f"cap {payload.get('max_new_trades_per_day')} "
+        f"(exits exempt; all fills today: {payload.get('fills_today_before')})",
+        f"- **Min order:** ${float(payload.get('min_order_usd') or 0):,.0f}",
         "",
         "## Planned / booked trades",
         "",

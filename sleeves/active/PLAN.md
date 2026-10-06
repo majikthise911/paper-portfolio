@@ -69,7 +69,7 @@ Cadence: **15-minute bars**. Paper only.
 - Starter strategies **Locked** 2026-09-24 (Jordan yes).
 - **Live daily paper trading** wired 2026-10-05 after Jordan clarified Active must trade daily vs weekly momentum (not a frozen open).
 - Runner: `sleeves/active/scripts/run_active.py`. Pipeline: `scripts/market_hours_refresh.py`.
-- Per-day fill caps: equity 8, crypto 6. Paper only. Momentum books untouched.
+- Per-day entry caps: equity 8, crypto 6 (exits uncapped; buys under $1,000 skipped, rule_version 3 on 2026-10-06). Paper only. Momentum books untouched.
 - Minimal Python+yfinance 15m stack under `scripts/` (Freqtrade still deferred / optional).
 
 ## Dashboard (phase 2: done 2026-09-24)

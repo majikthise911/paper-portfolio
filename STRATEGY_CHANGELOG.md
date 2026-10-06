@@ -5,6 +5,17 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-10-06, Active exits uncapped and $1,000 minimum order
+
+- **Sleeve:** active (equity + crypto)
+- **Change:** In `sleeves/active/scripts/run_active.py`, exits (EMA trend break, bearish cross, ATR stop) no longer count against `max_new_trades_per_day` and always run even when the cap is hit (equity exits still only during RTH). Only BUY entries count toward the cap (equity 8, crypto 6), via new `count_entries_today` in `ema_scan_lib.py`. Added `position_caps.min_order_usd: 1000` to both active `rules.json` files: any buy under $1,000 notional is skipped with an `entry_skip_below_min_order` note and uses no cap slot or position slot. Added `daily_cap_counts: entries_only` and `exits_exempt_from_daily_cap: true`. Bumped active equity and crypto `rule_version` 2 to 3.
+- **Observation:** On 10/5 the equity cap filled with morning churn and then blocked an MSFT exit signal all afternoon. On 10/6 at 9:51 ET the sleeve booked 1-share XLP ($81) and XLU ($41) top-ups that used two cap slots (and two of eight position slots) for almost no exposure.
+- **Logic:** Exits are risk control and should never be capped; a spam cap exists to limit new risk, not to trap a position the rules say to close. Dust orders add churn and burn cap slots without meaningful exposure, so a $1,000 floor (about 1% of equity NAV, 4% of crypto NAV) filters them while leaving normal entries untouched. Signal, stops, and sizing caps are unchanged.
+- **Jordan approval:** Chat 2026-10-05 standing order for Active (Paper decides rule changes from research and updates afterward; Jordan may override). Jordan extended the same standing order explicitly to Active ("same thing goes for active").
+- **Effective:** Next market-hours refresh after this commit on 2026-10-06. No trades booked by this change. Existing 1-share XLP and XLU positions stay until their own exit signals fire.
+- **How we judge:** Over the next two weeks, count exits that would have been blocked under the old cap (target: zero blocked) and sub-$1,000 buys (target: zero). Compare Active household vs Momentum on the same marks. Revisit the floor if it skips more than a few otherwise valid entries per week.
+
+
 ## 2026-10-05, Active sleeve live daily EMA paper trading
 
 - **Sleeve:** active (equity + crypto)

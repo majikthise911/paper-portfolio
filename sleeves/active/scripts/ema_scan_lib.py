@@ -281,6 +281,43 @@ def count_fills_today(ledger_path: Path, day: str | None = None) -> int:
     return n
 
 
+def count_entries_today(ledger_path: Path, day: str | None = None) -> int:
+    """Count paper ENTRY fills (BUY side) booked today (America/New_York date).
+
+    Rule v3 (2026-10-06): exits (SELL fills on trend break / ATR stop) are risk
+    control and never count against the daily new-trade cap. Legacy single-fill
+    entries without a side are counted conservatively as entries.
+    """
+    day = day or now_et().strftime("%Y-%m-%d")
+    if not ledger_path.exists():
+        return 0
+    n = 0
+    for line in ledger_path.read_text().splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            entry = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        ts = str(entry.get("ts") or "")
+        if not ts.startswith(day):
+            continue
+        if entry.get("type") == "trade_batch":
+            fills = entry.get("fills") or []
+            if not isinstance(fills, list):
+                continue
+            for f in fills:
+                if not isinstance(f, dict):
+                    continue
+                if str(f.get("side") or "BUY").upper() != "SELL":
+                    n += 1
+        elif entry.get("type") in ("trade", "fill") and entry.get("ticker"):
+            if str(entry.get("side") or "BUY").upper() != "SELL":
+                n += 1
+    return n
+
+
 def size_shares(dollars: float, price: float, *, fractional: bool) -> float:
     if price <= 0 or dollars <= 0:
         return 0.0
