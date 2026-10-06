@@ -5,6 +5,17 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-10-06, Active per-ticker re-entry cooldown (1 hour)
+
+- **Sleeve:** active (equity + crypto)
+- **Change:** Added `position_caps.reentry_cooldown_bars: 4` to both active `rules.json` files (rule_version 5). After any SELL of a ticker, `run_active.py` blocks new BUYs of that same ticker for 4 bars of 15m (1 hour). Last exit time comes from ledger SELL fills (new `last_exit_times` in `ema_scan_lib.py`). Skips log `entry_skip_cooldown:<ticker>:<minutes_left>m` and use no cap slot or position slot. Modeled on Freqtrade's CooldownPeriod protection. Exits are not affected.
+- **Observation:** On 10/6 Active crypto round-tripped within 20 to 40 minutes three times: AVAX sold at 11.41 and rebought at 11.43; LINK bought 9:51, sold 10:10, rebought 10:37 at 14.02; BTC sold at 86,041.72 at 10:20 and rebought at 86,206.53 at 10:37.
+- **Logic:** 15m EMA crosses whipsaw in chop, so the sleeve sells and then buys back the same name a bar or two later at a worse price. A cooldown is the standard Freqtrade protection for this and costs little in real trends, since a genuine trend is still in place an hour later. Signal, stops, sizing, caps, and the dust rules are unchanged.
+- **Jordan approval:** Chat 2026-10-05 standing order for Active (Paper decides rule changes from research and updates afterward; Jordan may override), extended explicitly to Active ("same thing goes for active").
+- **Effective:** Next market-hours refresh after this commit on 2026-10-06. No trades booked by this change.
+- **How we judge:** At the Monday review, compare Active realized P&L and fill count against the prior week. Drop or shorten the cooldown if it causes clearly missed trends.
+
+
 ## 2026-10-06, Active exits uncapped and $1,000 minimum order
 
 - **Sleeve:** active (equity + crypto)

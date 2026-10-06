@@ -318,6 +318,49 @@ def count_entries_today(ledger_path: Path, day: str | None = None) -> int:
     return n
 
 
+def last_exit_times(ledger_path: Path) -> dict[str, datetime]:
+    """Map ticker -> timestamp of its most recent SELL fill in a ledger.
+
+    Used for the rule v5 re-entry cooldown (Freqtrade CooldownPeriod style).
+    Batch fills use the batch ts; legacy single-fill rows use their own ts.
+    """
+    out: dict[str, datetime] = {}
+    if not ledger_path.exists():
+        return out
+    for line in ledger_path.read_text().splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            entry = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        rows: list[dict] = []
+        if entry.get("type") == "trade_batch":
+            fills = entry.get("fills") or []
+            if isinstance(fills, list):
+                rows = [f for f in fills if isinstance(f, dict)]
+        elif entry.get("type") in ("trade", "fill") and entry.get("ticker"):
+            rows = [entry]
+        if not rows:
+            continue
+        try:
+            ts = datetime.fromisoformat(str(entry.get("ts") or ""))
+        except ValueError:
+            continue
+        if ts.tzinfo is None:
+            ts = ts.replace(tzinfo=ET)
+        for f in rows:
+            if str(f.get("side") or "").upper() != "SELL":
+                continue
+            tk = f.get("ticker")
+            if not tk:
+                continue
+            if tk not in out or ts > out[tk]:
+                out[tk] = ts
+    return out
+
+
 def size_shares(dollars: float, price: float, *, fractional: bool) -> float:
     if price <= 0 or dollars <= 0:
         return 0.0

@@ -20,6 +20,12 @@ Rule v4 (2026-10-06):
     position_caps.liquidate_dust_positions is true it is sold as an uncapped
     exit (reason exit_dust_below_min_order; equity only during RTH).
 
+Rule v5 (2026-10-06):
+  - Re-entry cooldown (Freqtrade CooldownPeriod style): after any SELL of a
+    ticker, block new BUYs of that ticker for position_caps.reentry_cooldown_bars
+    15m bars (default 4 = 1 hour). Last exit time comes from ledger fills.
+    Skips log entry_skip_cooldown:<ticker>:<minutes_left>m and use no cap slot.
+
 Usage:
   python sleeves/active/scripts/run_active.py
   python sleeves/active/scripts/run_active.py --dry-run
@@ -30,7 +36,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
+from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
@@ -42,6 +50,7 @@ from ema_scan_lib import (  # noqa: E402
     append_ledger,
     count_entries_today,
     count_fills_today,
+    last_exit_times,
     evaluate_ticker,
     is_rth,
     last_price,
@@ -178,6 +187,8 @@ def run_sleeve(
         DEFAULT_MIN_ORDER_USD if min_order_raw is None else min_order_raw
     )
     liquidate_dust = bool(caps.get("liquidate_dust_positions", False))
+    cooldown_bars = int(caps.get("reentry_cooldown_bars") or 0)
+    cooldown = timedelta(minutes=15 * max(0, cooldown_bars))
 
     ts = now_et()
     date_str = ts.strftime("%Y-%m-%d")
@@ -186,6 +197,7 @@ def run_sleeve(
     # Only entries count toward the daily cap (exits are uncapped risk control).
     entries_today = count_entries_today(ledger_path, date_str)
     remaining_budget = max(0, max_new - entries_today)
+    last_exits = last_exit_times(ledger_path) if cooldown_bars > 0 else {}
 
     # Evaluate universe
     evals: dict[str, dict] = {}
@@ -319,6 +331,14 @@ def run_sleeve(
         for cross_flag, strength, ticker, ev in candidates:
             if open_slots <= 0 or remaining_budget <= 0:
                 break
+            # Re-entry cooldown after a SELL (no cap or position slot used).
+            last_exit = last_exits.get(ticker)
+            if last_exit is not None and cooldown_bars > 0:
+                left = cooldown - (ts - last_exit)
+                if left.total_seconds() > 0:
+                    mins = int(math.ceil(left.total_seconds() / 60.0))
+                    notes.append(f"entry_skip_cooldown:{ticker}:{mins}m")
+                    continue
             px = _fill_price(ticker, ev)
             if px is None or px <= 0:
                 notes.append(f"entry_skip_no_price:{ticker}")
@@ -440,6 +460,7 @@ def run_sleeve(
         "max_new_trades_per_day": max_new,
         "cap_counts": "entries_only (exits exempt)",
         "min_order_usd": min_order_usd,
+        "reentry_cooldown_bars": cooldown_bars,
         "remaining_budget_after_plan": remaining_budget,
         "data_failures": failures,
         "signals_detected": [

@@ -7,7 +7,7 @@ Parallel paper **day-trader** under `sleeves/active/`. Does not touch momentum e
 - Starter strategies locked: `equity_15m_ema_trend` / `crypto_15m_ema_trend`.
 - **Live auto-book:** `run_active.py` scans 15m bars and books paper fills when EMA entry/exit signals fire (standing order 2026-10-05).
 - Equity: US RTH only for new entries/exits. Crypto: 24/7.
-- Spam caps: equity max 8 new entries/day; crypto max 6/day. Exits (trend break / ATR stop) are never capped and do not count. Buys under $1,000 (`min_order_usd`) are skipped as dust (rule_version 3, 2026-10-06). Open positions under $1,000 are dust: not counted toward max positions and sold as uncapped exits (`liquidate_dust_positions`, rule_version 4).
+- Spam caps: equity max 8 new entries/day; crypto max 6/day. Exits (trend break / ATR stop) are never capped and do not count. Buys under $1,000 (`min_order_usd`) are skipped as dust (rule_version 3, 2026-10-06). Open positions under $1,000 are dust: not counted toward max positions and sold as uncapped exits (`liquidate_dust_positions`, rule_version 4). After any SELL, the same ticker cannot be re-bought for 4 bars / 1 hour (`reentry_cooldown_bars`, rule_version 5).
 - Public dashboard: same Pages site as momentum shows Active cards, holdings, and Trade history.
 
 ## Layout

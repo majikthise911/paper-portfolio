@@ -24,12 +24,13 @@
       "NVDA"
     ],
     "max_concurrent_positions": 8,
-    "caps_note": "Mirrors momentum equity caps where they still fit active trading. max_concurrent_positions=8. max_new_trades_per_day=8 spam cap. Tech mega-cap sleeve cap retained. Rule v3 2026-10-06: max_new_trades_per_day=8 counts BUY entries only; exits (trend break / ATR stop) are never capped. Buys under min_order_usd ($1,000) are skipped as dust and use no cap slot. Rule v4 2026-10-06: open positions under min_order_usd are dust; they do not count toward max_concurrent_positions and are sold as uncapped exits (liquidate_dust_positions).",
+    "caps_note": "Mirrors momentum equity caps where they still fit active trading. max_concurrent_positions=8. max_new_trades_per_day=8 spam cap. Tech mega-cap sleeve cap retained. Rule v3 2026-10-06: max_new_trades_per_day=8 counts BUY entries only; exits (trend break / ATR stop) are never capped. Buys under min_order_usd ($1,000) are skipped as dust and use no cap slot. Rule v4 2026-10-06: open positions under min_order_usd are dust; they do not count toward max_concurrent_positions and are sold as uncapped exits (liquidate_dust_positions). Rule v5 2026-10-06: reentry_cooldown_bars=4 (1 hour) blocks re-buying a ticker after any SELL of it (Freqtrade CooldownPeriod style).",
     "max_new_trades_per_day": 8,
     "min_order_usd": 1000,
     "daily_cap_counts": "entries_only",
     "exits_exempt_from_daily_cap": true,
-    "liquidate_dust_positions": true
+    "liquidate_dust_positions": true,
+    "reentry_cooldown_bars": 4
   },
   "rebalance": {
     "cadence": "15m",
@@ -62,5 +63,5 @@
     "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide and book. Active live daily EMA wired 2026-10-05 after Jordan clarified Active must trade daily vs weekly momentum."
   },
   "starting_capital": 100000.0,
-  "rule_version": 4
+  "rule_version": 5
 }
