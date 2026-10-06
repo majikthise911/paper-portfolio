@@ -1,0 +1,81 @@
+{
+  "as_of": "2026-10-06T09:25:33.012274-04:00",
+  "mode": "auto_book",
+  "executed": false,
+  "strategy": "crypto_15m_ema_trend",
+  "sleeve": "active_crypto",
+  "nav_before": 25786.56,
+  "cash_before": 5141.0,
+  "session": "outside_RTH",
+  "in_rth": false,
+  "fills_today_before": 0,
+  "max_new_trades_per_day": 6,
+  "remaining_budget_after_plan": 6,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "AVAX-USD",
+      "close": 11.421,
+      "ema_fast": 11.460369,
+      "ema_slow": 11.409488,
+      "strength": 0.634891,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-06 09:15:00-04:00"
+    },
+    {
+      "ticker": "BTC-USD",
+      "close": 86076.101562,
+      "ema_fast": 86152.714372,
+      "ema_slow": 86054.240804,
+      "strength": 0.550587,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-06 09:15:00-04:00"
+    },
+    {
+      "ticker": "LINK-USD",
+      "close": 14.002,
+      "ema_fast": 14.009914,
+      "ema_slow": 13.990126,
+      "strength": 0.428718,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-06 09:15:00-04:00"
+    },
+    {
+      "ticker": "ETH-USD",
+      "close": 2712.459961,
+      "ema_fast": 2713.141983,
+      "ema_slow": 2711.510602,
+      "strength": 0.296347,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-06 09:15:00-04:00"
+    },
+    {
+      "ticker": "SOL-USD",
+      "close": 120.379997,
+      "ema_fast": 120.316998,
+      "ema_slow": 120.222637,
+      "strength": 0.264616,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-06 09:15:00-04:00"
+    }
+  ],
+  "planned_trades": [],
+  "notes": [],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "summary": {
+    "n_planned": 0,
+    "n_buys": 0,
+    "n_sells": 0,
+    "booked": false
+  }
+}
