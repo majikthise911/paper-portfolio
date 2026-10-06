@@ -1,33 +1,25 @@
 # Active active_equity booked 2026-10-06
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-06T09:38:12.742959-04:00
+- **As of:** 2026-10-06T09:51:50.024744-04:00
 - **Mode:** auto_book
 - **executed:** true
 - **Session:** US_RTH
-- **Fills today before:** 0 / cap 8
+- **Fills today before:** 1 / cap 8
 
 ## Planned / booked trades
 
-- BUY 23 NVDA @ 241.889999 (~$5,563.47; ema_trend_long)
+- SELL 133 XLC @ 111.279999 (~$14,800.24; ema_trend_broken)
+- BUY 44 JPM @ 333.299194 (~$14,665.16; ema_bullish_cross)
+- BUY 1 XLP @ 81.285004 (~$81.29; ema_trend_long)
+- BUY 1 XLU @ 40.639999 (~$40.64; ema_trend_long)
 
 ## Notes
 
 - entry_skip_too_small:XLV
-- entry_skip_too_small:XLB
-- entry_skip_too_small:XLP
 - entry_skip_too_small:XLK
 - entry_skip_too_small:DIA
 - entry_skip_too_small:XLF
-- entry_skip_too_small:IWM
-- entry_skip_too_small:TSLA
-- entry_skip_too_small:XLY
-- entry_skip_too_small:BRK-B
-- entry_skip_too_small:XLU
-- entry_skip_too_small:GLD
-- entry_skip_too_small:META
-- entry_skip_too_small:TLT
-- entry_skip_too_small:XLI
 
 ## Governance
 

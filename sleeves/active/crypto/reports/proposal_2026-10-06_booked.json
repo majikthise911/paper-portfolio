@@ -1,0 +1,131 @@
+{
+  "as_of": "2026-10-06T09:51:54.115342-04:00",
+  "mode": "auto_book",
+  "executed": true,
+  "strategy": "crypto_15m_ema_trend",
+  "sleeve": "active_crypto",
+  "nav_before": 25849.87,
+  "cash_before": 5141.0,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "max_new_trades_per_day": 6,
+  "remaining_budget_after_plan": 4,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "BTC-USD",
+      "close": 86379.570312,
+      "ema_fast": 86228.273007,
+      "ema_slow": 86103.113086,
+      "strength": 0.639929,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-06 09:45:00-04:00"
+    },
+    {
+      "ticker": "SOL-USD",
+      "close": 120.959999,
+      "ema_fast": 120.559118,
+      "ema_slow": 120.344373,
+      "strength": 0.56576,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-06 09:45:00-04:00"
+    },
+    {
+      "ticker": "LINK-USD",
+      "close": 14.025,
+      "ema_fast": 14.017045,
+      "ema_slow": 13.996848,
+      "strength": 0.433655,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-06 09:45:00-04:00"
+    },
+    {
+      "ticker": "ETH-USD",
+      "close": 2717.25,
+      "ema_fast": 2714.57187,
+      "ema_slow": 2712.386395,
+      "strength": 0.376653,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-06 09:45:00-04:00"
+    }
+  ],
+  "planned_trades": [
+    {
+      "ticker": "AVAX-USD",
+      "side": "SELL",
+      "shares": 117.0828,
+      "price": 11.406,
+      "dollars": 1335.45,
+      "sector": "layer1",
+      "reason": "ema_trend_broken",
+      "signal": "ema_trend_exit",
+      "stop_price": 10.880181,
+      "ema_fast": 11.434492,
+      "ema_slow": 11.406508,
+      "last_bar": "2026-10-06 09:45:00-04:00",
+      "realized_pnl": 52.11
+    },
+    {
+      "ticker": "LINK-USD",
+      "side": "BUY",
+      "shares": 93.153358,
+      "price": 14.025,
+      "dollars": 1306.48,
+      "sector": "oracle",
+      "reason": "ema_trend_long",
+      "signal": "ema_trend_long",
+      "stop_price": 13.931848,
+      "ema_fast": 14.017045,
+      "ema_slow": 13.996848,
+      "strength": 0.433655,
+      "bullish_cross": false,
+      "last_bar": "2026-10-06 09:45:00-04:00"
+    }
+  ],
+  "notes": [],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "booked_fills": [
+    {
+      "ticker": "AVAX-USD",
+      "side": "SELL",
+      "shares": 117.0828,
+      "price": 11.406,
+      "dollars": 1335.45,
+      "sector": "layer1",
+      "realized_pnl": 52.11,
+      "reason": "ema_trend_broken",
+      "fill_source": "yfinance_15m_close"
+    },
+    {
+      "ticker": "LINK-USD",
+      "side": "BUY",
+      "shares": 93.153358,
+      "price": 14.025,
+      "dollars": 1306.48,
+      "sector": "oracle",
+      "reason": "ema_trend_long",
+      "stop_price": 13.931848,
+      "fill_source": "yfinance_15m_close"
+    }
+  ],
+  "nav_after": 25849.87,
+  "cash_after": 5169.97,
+  "summary": {
+    "n_planned": 2,
+    "n_buys": 1,
+    "n_sells": 1,
+    "booked": true,
+    "cash_after": 5169.97,
+    "nav_after": 25849.87
+  }
+}
