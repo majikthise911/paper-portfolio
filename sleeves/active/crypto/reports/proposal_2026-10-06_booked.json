@@ -1,15 +1,15 @@
 {
-  "as_of": "2026-10-06T10:10:27.777120-04:00",
+  "as_of": "2026-10-06T10:20:22.267119-04:00",
   "mode": "auto_book",
   "executed": true,
   "strategy": "crypto_15m_ema_trend",
   "sleeve": "active_crypto",
-  "nav_before": 25800.43,
-  "cash_before": 5169.97,
+  "nav_before": 25817.29,
+  "cash_before": 6448.24,
   "session": "US_RTH",
   "in_rth": true,
-  "fills_today_before": 2,
-  "entries_today_before": 1,
+  "fills_today_before": 5,
+  "entries_today_before": 2,
   "max_new_trades_per_day": 6,
   "cap_counts": "entries_only (exits exempt)",
   "min_order_usd": 1000.0,
@@ -18,83 +18,41 @@
   "signals_detected": [
     {
       "ticker": "SOL-USD",
-      "close": 120.75,
-      "ema_fast": 120.591166,
-      "ema_slow": 120.37629,
-      "strength": 0.546734,
+      "close": 120.769997,
+      "ema_fast": 120.67066,
+      "ema_slow": 120.43109,
+      "strength": 0.607689,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-06 10:00:00-04:00"
-    },
-    {
-      "ticker": "BTC-USD",
-      "close": 86147.367188,
-      "ema_fast": 86197.127077,
-      "ema_slow": 86100.840344,
-      "strength": 0.464733,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-06 10:00:00-04:00"
+      "last_bar": "2026-10-06 10:15:00-04:00"
     },
     {
       "ticker": "AVAX-USD",
-      "close": 11.43,
-      "ema_fast": 11.437469,
-      "ema_slow": 11.410545,
-      "strength": 0.352017,
+      "close": 11.472,
+      "ema_fast": 11.456896,
+      "ema_slow": 11.421751,
+      "strength": 0.443477,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-06 10:00:00-04:00"
+      "last_bar": "2026-10-06 10:15:00-04:00"
     }
   ],
   "planned_trades": [
     {
-      "ticker": "ETH-USD",
+      "ticker": "BTC-USD",
       "side": "SELL",
-      "shares": 2.371045,
-      "price": 2710.23999,
-      "dollars": 6426.1,
+      "shares": 0.074914,
+      "price": 86041.71875,
+      "dollars": 6445.73,
       "sector": "layer1",
       "reason": "ema_trend_broken",
       "signal": "ema_trend_exit",
-      "stop_price": 2697.032765,
-      "ema_fast": 2713.125271,
-      "ema_slow": 2711.959859,
-      "last_bar": "2026-10-06 10:00:00-04:00",
+      "stop_price": 85408.776301,
+      "ema_fast": 86188.388189,
+      "ema_slow": 86107.800364,
+      "last_bar": "2026-10-06 10:15:00-04:00",
       "cap_exempt": true,
-      "realized_pnl": -0.43
-    },
-    {
-      "ticker": "LINK-USD",
-      "side": "SELL",
-      "shares": 93.153358,
-      "price": 13.98,
-      "dollars": 1302.28,
-      "sector": "oracle",
-      "reason": "ema_trend_broken",
-      "signal": "ema_trend_exit",
-      "stop_price": 13.931848,
-      "ema_fast": 14.004838,
-      "ema_slow": 13.993415,
-      "last_bar": "2026-10-06 10:00:00-04:00",
-      "cap_exempt": true,
-      "realized_pnl": -4.2
-    },
-    {
-      "ticker": "AVAX-USD",
-      "side": "BUY",
-      "shares": 564.31406,
-      "price": 11.43,
-      "dollars": 6450.11,
-      "sector": "layer1",
-      "reason": "ema_trend_long",
-      "signal": "ema_trend_long",
-      "stop_price": 11.277028,
-      "ema_fast": 11.437469,
-      "ema_slow": 11.410545,
-      "strength": 0.352017,
-      "bullish_cross": false,
-      "last_bar": "2026-10-06 10:00:00-04:00"
+      "realized_pnl": 18.11
     }
   ],
   "notes": [],
@@ -106,47 +64,25 @@
   },
   "booked_fills": [
     {
-      "ticker": "ETH-USD",
+      "ticker": "BTC-USD",
       "side": "SELL",
-      "shares": 2.371045,
-      "price": 2710.23999,
-      "dollars": 6426.1,
+      "shares": 0.074914,
+      "price": 86041.71875,
+      "dollars": 6445.73,
       "sector": "layer1",
-      "realized_pnl": -0.43,
+      "realized_pnl": 18.11,
       "reason": "ema_trend_broken",
-      "fill_source": "yfinance_15m_close"
-    },
-    {
-      "ticker": "LINK-USD",
-      "side": "SELL",
-      "shares": 93.153358,
-      "price": 13.98,
-      "dollars": 1302.28,
-      "sector": "oracle",
-      "realized_pnl": -4.2,
-      "reason": "ema_trend_broken",
-      "fill_source": "yfinance_15m_close"
-    },
-    {
-      "ticker": "AVAX-USD",
-      "side": "BUY",
-      "shares": 564.31406,
-      "price": 11.43,
-      "dollars": 6450.11,
-      "sector": "layer1",
-      "reason": "ema_trend_long",
-      "stop_price": 11.277028,
       "fill_source": "yfinance_15m_close"
     }
   ],
-  "nav_after": 25800.43,
-  "cash_after": 6448.24,
+  "nav_after": 25817.29,
+  "cash_after": 12893.97,
   "summary": {
-    "n_planned": 3,
-    "n_buys": 1,
-    "n_sells": 2,
+    "n_planned": 1,
+    "n_buys": 0,
+    "n_sells": 1,
     "booked": true,
-    "cash_after": 6448.24,
-    "nav_after": 25800.43
+    "cash_after": 12893.97,
+    "nav_after": 25817.29
   }
 }

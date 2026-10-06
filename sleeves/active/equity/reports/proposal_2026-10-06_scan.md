@@ -1,11 +1,12 @@
 # Active active_equity scan 2026-10-06
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-06T09:25:29.099674-04:00
+- **As of:** 2026-10-06T10:20:17.881672-04:00
 - **Mode:** auto_book
 - **executed:** false
-- **Session:** outside_RTH
-- **Fills today before:** 0 / cap 8
+- **Session:** US_RTH
+- **Entries today before:** 4 / cap 8 (exits exempt; all fills today: 7)
+- **Min order:** $1,000
 
 ## Planned / booked trades
 
@@ -13,8 +14,23 @@
 
 ## Notes
 
-- exit_deferred_outside_rth:MSFT:ema_trend_broken
-- outside_RTH_no_new_entries
+- entry_skip_too_small:XLE
+- entry_skip_too_small:XLK
+- entry_skip_too_small:XLP
+- entry_skip_too_small:DIA
+- entry_skip_below_min_order:XLU:budget_$53.06<min_$1,000
+- entry_skip_too_small:XLF
+- entry_skip_too_small:BRK-B
+- entry_skip_too_small:XLY
+- entry_skip_too_small:XLI
+- entry_skip_below_min_order:XLRE:budget_$53.06<min_$1,000
+- entry_skip_below_min_order:XLB:budget_$53.06<min_$1,000
+- entry_skip_too_small:GLD
+- entry_skip_too_small:TSLA
+- entry_skip_too_small:TLT
+- entry_skip_too_small:XLC
+- entry_skip_too_small:AMZN
+- entry_skip_too_small:GOOGL
 
 ## Governance
 
