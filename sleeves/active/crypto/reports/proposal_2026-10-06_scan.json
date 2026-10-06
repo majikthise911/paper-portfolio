@@ -1,14 +1,14 @@
 {
-  "as_of": "2026-10-06T11:29:47.061046-04:00",
+  "as_of": "2026-10-06T11:48:21.267474-04:00",
   "mode": "auto_book",
   "executed": false,
   "strategy": "crypto_15m_ema_trend",
   "sleeve": "active_crypto",
-  "nav_before": 25911.48,
-  "cash_before": 5173.2,
+  "nav_before": 25891.24,
+  "cash_before": 11637.86,
   "session": "US_RTH",
   "in_rth": true,
-  "fills_today_before": 8,
+  "fills_today_before": 9,
   "entries_today_before": 4,
   "max_new_trades_per_day": 6,
   "cap_counts": "entries_only (exits exempt)",
@@ -18,54 +18,34 @@
   "data_failures": [],
   "signals_detected": [
     {
-      "ticker": "SOL-USD",
-      "close": 121.449997,
-      "ema_fast": 121.255812,
-      "ema_slow": 120.802408,
-      "strength": 1.02137,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-06 11:15:00-04:00"
-    },
-    {
       "ticker": "AVAX-USD",
-      "close": 11.562,
-      "ema_fast": 11.521782,
-      "ema_slow": 11.464511,
-      "strength": 0.72005,
+      "close": 11.574,
+      "ema_fast": 11.540702,
+      "ema_slow": 11.482544,
+      "strength": 0.793259,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-06 11:15:00-04:00"
+      "last_bar": "2026-10-06 11:45:00-04:00"
     },
     {
-      "ticker": "BTC-USD",
-      "close": 86272.210938,
-      "ema_fast": 86343.205521,
-      "ema_slow": 86212.16681,
-      "strength": 0.519029,
+      "ticker": "SOL-USD",
+      "close": 121.089996,
+      "ema_fast": 121.164763,
+      "ema_slow": 120.839021,
+      "strength": 0.767524,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-06 11:15:00-04:00"
+      "last_bar": "2026-10-06 11:45:00-04:00"
     },
     {
       "ticker": "LINK-USD",
-      "close": 14.045,
-      "ema_fast": 14.046384,
-      "ema_slow": 14.018543,
-      "strength": 0.47824,
+      "close": 14.034,
+      "ema_fast": 14.039706,
+      "ema_slow": 14.020242,
+      "strength": 0.342522,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-06 11:15:00-04:00"
-    },
-    {
-      "ticker": "ETH-USD",
-      "close": 2715.419922,
-      "ema_fast": 2716.814352,
-      "ema_slow": 2714.296615,
-      "strength": 0.34344,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-06 11:15:00-04:00"
+      "last_bar": "2026-10-06 11:45:00-04:00"
     }
   ],
   "planned_trades": [],
