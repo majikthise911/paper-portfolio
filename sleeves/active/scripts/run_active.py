@@ -14,6 +14,12 @@ Rule v3 (2026-10-06):
   - Buys under position_caps.min_order_usd (default $1,000) are skipped as
     dust; a skipped buy uses no cap slot and no position slot.
 
+Rule v4 (2026-10-06):
+  - Open positions with market value below min_order_usd are dust. Dust does
+    not count toward max_concurrent_positions, and when
+    position_caps.liquidate_dust_positions is true it is sold as an uncapped
+    exit (reason exit_dust_below_min_order; equity only during RTH).
+
 Usage:
   python sleeves/active/scripts/run_active.py
   python sleeves/active/scripts/run_active.py --dry-run
@@ -171,6 +177,7 @@ def run_sleeve(
     min_order_usd = float(
         DEFAULT_MIN_ORDER_USD if min_order_raw is None else min_order_raw
     )
+    liquidate_dust = bool(caps.get("liquidate_dust_positions", False))
 
     ts = now_et()
     date_str = ts.strftime("%Y-%m-%d")
@@ -205,10 +212,22 @@ def run_sleeve(
     planned: list[dict[str, Any]] = []
     notes: list[str] = []
 
+    def _is_dust(p: dict) -> bool:
+        if min_order_usd <= 0:
+            return False
+        try:
+            mv = float(p.get("shares") or 0) * float(p.get("last_price") or 0)
+        except (TypeError, ValueError):
+            return False
+        return 0 < mv < min_order_usd
+
     # --- Exits first (never capped; do not consume remaining_budget) ---
     for ticker, pos in list(positions.items()):
         ev = evals.get(ticker) or {}
         reasons = _exit_reasons(pos, ev)
+        if liquidate_dust and _is_dust(pos):
+            reasons.append("exit_dust_below_min_order")
+            notes.append(f"exit_dust_below_min_order:{ticker}")
         if not reasons:
             continue
         # Equity exits only during RTH (can't fill US equity off-hours in paper
@@ -276,7 +295,13 @@ def run_sleeve(
         notes.append("daily_trade_cap_reached_no_entries")
     else:
         held = set(work_positions.keys())
-        open_slots = max(0, max_pos - len(held))
+        # Dust positions do not count toward max_concurrent_positions.
+        dust_held = {k for k, p in work_positions.items() if _is_dust(p)}
+        if dust_held:
+            notes.append(
+                "dust_not_counted_toward_max_positions:" + ",".join(sorted(dust_held))
+            )
+        open_slots = max(0, max_pos - len(held - dust_held))
         # Rank bullish signals not already held. Prefer fresh crosses, then state.
         # Do not re-buy a name we exited in this same scan (avoid stop-out churn).
         candidates = []
