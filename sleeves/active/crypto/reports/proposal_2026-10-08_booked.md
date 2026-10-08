@@ -1,18 +1,19 @@
 # Active active_crypto booked 2026-10-08
 
 - **Strategy:** crypto_15m_ema_trend
-- **As of:** 2026-10-08T09:33:17.188513-04:00
+- **As of:** 2026-10-08T17:38:59.241902-04:00
 - **Mode:** auto_book
 - **executed:** true
-- **Session:** US_RTH
-- **Entries today before:** 0 / cap 6 (exits exempt; all fills today: 0)
+- **Session:** outside_RTH
+- **Entries today before:** 0 / cap 6 (exits exempt; all fills today: 3)
 - **Min order:** $1,000
 
 ## Planned / booked trades
 
-- SELL 53.403271 SOL-USD @ 112.239998 (~$5,993.98; ema_trend_broken+atr_stop)
-- SELL 564.31406 AVAX-USD @ 10.592 (~$5,977.21; ema_trend_broken+atr_stop)
-- SELL 89.454989 LINK-USD @ 12.931 (~$1,156.74; ema_trend_broken+atr_stop)
+- BUY 487.323691 LINK-USD @ 12.705 (~$6,191.45; ema_trend_long)
+- BUY 56.219441 SOL-USD @ 110.129997 (~$6,191.45; ema_trend_long)
+- BUY 2.501008 ETH-USD @ 2475.580078 (~$6,191.45; ema_trend_long)
+- BUY 0.015164 BTC-USD @ 81660.476562 (~$1,238.30; ema_trend_long)
 
 ## Governance
 
