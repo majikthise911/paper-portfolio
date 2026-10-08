@@ -5,6 +5,17 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-10-08, Active equity skip entries in first 30 minutes after the open
+
+- **Sleeve:** active equity only (crypto unchanged)
+- **Change:** Added `position_caps.entry_open_delay_minutes: 30` to active equity `rules.json` (rule_version 6). In `run_active.py`, when that delay is set and the sleeve requires RTH (equity), new BUY entries are blocked from 09:30 ET until 09:30+delay (so before 10:00 ET with delay 30). Skips log `entry_skip_opening_window:delay_<N>m` and use no daily-cap slot and no position slot. Exits (trend break / ATR stop / dust) still run any time during RTH. Crypto keeps delay 0 / unset and is unaffected. Helper: `in_entry_opening_window`.
+- **Observation:** On 10/8 Active bought GOOGL and AMZN at the 9:33 refresh and sold both at 9:56 (GOOGL stopped out at -$95.53, AMZN trend break at -$19.35). On 10/6, JPM bought at 9:51 was sold at 10:47.
+- **Logic:** 15m EMA signals off the opening bars are noisy (opening auction and gap volatility), and skipping the first 30 minutes is a common intraday filter. Signal, stops, sizing, cooldown, and dust rules are unchanged.
+- **Jordan approval:** Chat 2026-10-05 standing order for Active (Paper decides rule changes from research and updates afterward; Jordan may override), extended explicitly to Active ("same thing goes for active").
+- **Effective:** Next market-hours refresh after this commit on 2026-10-08. No trades booked by this change.
+- **How we judge:** At the Monday review, compare the hit rate of opening-window trades so far vs later entries; drop the rule if it misses clear trends.
+
+
 ## 2026-10-06, Active per-ticker re-entry cooldown (1 hour)
 
 - **Sleeve:** active (equity + crypto)

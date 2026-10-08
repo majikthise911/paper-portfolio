@@ -26,6 +26,12 @@ Rule v5 (2026-10-06):
     15m bars (default 4 = 1 hour). Last exit time comes from ledger fills.
     Skips log entry_skip_cooldown:<ticker>:<minutes_left>m and use no cap slot.
 
+Rule v6 (2026-10-08):
+  - Equity only: position_caps.entry_open_delay_minutes (default 0; equity
+    config uses 30) blocks new BUY entries from 09:30 ET until 09:30+delay.
+    Skips log entry_skip_opening_window and use no cap slot. Exits still run
+    any time during RTH. Crypto is unaffected (delay 0 / not required).
+
 Usage:
   python sleeves/active/scripts/run_active.py
   python sleeves/active/scripts/run_active.py --dry-run
@@ -153,6 +159,19 @@ def _fill_price(ticker: str, ev: dict | None) -> float | None:
     return last_price(ticker)
 
 
+def in_entry_opening_window(ts, delay_minutes: int) -> bool:
+    """True if ts falls in [09:30, 09:30+delay) ET (equity opening filter).
+
+    delay_minutes <= 0 means the filter is off. Does not check weekday/RTH;
+    callers still enforce RTH separately for equity.
+    """
+    if delay_minutes <= 0:
+        return False
+    minutes = ts.hour * 60 + ts.minute
+    open_m = 9 * 60 + 30
+    return open_m <= minutes < open_m + int(delay_minutes)
+
+
 def run_sleeve(
     *,
     sleeve_key: str,
@@ -189,6 +208,10 @@ def run_sleeve(
     liquidate_dust = bool(caps.get("liquidate_dust_positions", False))
     cooldown_bars = int(caps.get("reentry_cooldown_bars") or 0)
     cooldown = timedelta(minutes=15 * max(0, cooldown_bars))
+    # Equity opening-window filter (crypto leaves this at 0 / unused).
+    entry_open_delay = int(caps.get("entry_open_delay_minutes") or 0)
+    if not require_rth_for_entries:
+        entry_open_delay = 0
 
     ts = now_et()
     date_str = ts.strftime("%Y-%m-%d")
@@ -301,8 +324,17 @@ def run_sleeve(
 
     # --- Entries ---
     can_enter = (not require_rth_for_entries) or rth
+    opening_blocked = bool(
+        require_rth_for_entries and in_entry_opening_window(ts, entry_open_delay)
+    )
     if not can_enter:
         notes.append("outside_RTH_no_new_entries")
+    elif opening_blocked:
+        # No new equity entries in the first N minutes after the open.
+        # Uses no daily-cap slot. Exits already processed above.
+        notes.append(
+            f"entry_skip_opening_window:delay_{entry_open_delay}m"
+        )
     elif remaining_budget <= 0:
         notes.append("daily_trade_cap_reached_no_entries")
     else:
@@ -461,6 +493,7 @@ def run_sleeve(
         "cap_counts": "entries_only (exits exempt)",
         "min_order_usd": min_order_usd,
         "reentry_cooldown_bars": cooldown_bars,
+        "entry_open_delay_minutes": entry_open_delay,
         "remaining_budget_after_plan": remaining_budget,
         "data_failures": failures,
         "signals_detected": [
