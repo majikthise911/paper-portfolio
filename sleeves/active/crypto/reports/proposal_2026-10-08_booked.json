@@ -1,0 +1,122 @@
+{
+  "as_of": "2026-10-08T09:33:17.188513-04:00",
+  "mode": "auto_book",
+  "executed": true,
+  "strategy": "crypto_15m_ema_trend",
+  "sleeve": "active_crypto",
+  "nav_before": 24765.79,
+  "cash_before": 11637.86,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 6,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "remaining_budget_after_plan": 6,
+  "data_failures": [],
+  "signals_detected": [],
+  "planned_trades": [
+    {
+      "ticker": "SOL-USD",
+      "side": "SELL",
+      "shares": 53.403271,
+      "price": 112.239998,
+      "dollars": 5993.98,
+      "sector": "layer1",
+      "reason": "ema_trend_broken+atr_stop",
+      "signal": "ema_trend_exit",
+      "stop_price": 119.697107,
+      "ema_fast": 112.705622,
+      "ema_slow": 113.526428,
+      "last_bar": "2026-10-08 09:30:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": -433.64
+    },
+    {
+      "ticker": "AVAX-USD",
+      "side": "SELL",
+      "shares": 564.31406,
+      "price": 10.592,
+      "dollars": 5977.21,
+      "sector": "layer1",
+      "reason": "ema_trend_broken+atr_stop",
+      "signal": "ema_trend_exit",
+      "stop_price": 11.277028,
+      "ema_fast": 10.627522,
+      "ema_slow": 10.713139,
+      "last_bar": "2026-10-08 09:30:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": -472.9
+    },
+    {
+      "ticker": "LINK-USD",
+      "side": "SELL",
+      "shares": 89.454989,
+      "price": 12.931,
+      "dollars": 1156.74,
+      "sector": "oracle",
+      "reason": "ema_trend_broken+atr_stop",
+      "signal": "ema_trend_exit",
+      "stop_price": 13.916055,
+      "ema_fast": 12.963083,
+      "ema_slow": 13.020547,
+      "last_bar": "2026-10-08 09:30:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": -97.51
+    }
+  ],
+  "notes": [],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "booked_fills": [
+    {
+      "ticker": "SOL-USD",
+      "side": "SELL",
+      "shares": 53.403271,
+      "price": 112.239998,
+      "dollars": 5993.98,
+      "sector": "layer1",
+      "realized_pnl": -433.64,
+      "reason": "ema_trend_broken+atr_stop",
+      "fill_source": "yfinance_15m_close"
+    },
+    {
+      "ticker": "AVAX-USD",
+      "side": "SELL",
+      "shares": 564.31406,
+      "price": 10.592,
+      "dollars": 5977.21,
+      "sector": "layer1",
+      "realized_pnl": -472.9,
+      "reason": "ema_trend_broken+atr_stop",
+      "fill_source": "yfinance_15m_close"
+    },
+    {
+      "ticker": "LINK-USD",
+      "side": "SELL",
+      "shares": 89.454989,
+      "price": 12.931,
+      "dollars": 1156.74,
+      "sector": "oracle",
+      "realized_pnl": -97.51,
+      "reason": "ema_trend_broken+atr_stop",
+      "fill_source": "yfinance_15m_close"
+    }
+  ],
+  "nav_after": 24765.79,
+  "cash_after": 24765.79,
+  "summary": {
+    "n_planned": 3,
+    "n_buys": 0,
+    "n_sells": 3,
+    "booked": true,
+    "cash_after": 24765.79,
+    "nav_after": 24765.79
+  }
+}
