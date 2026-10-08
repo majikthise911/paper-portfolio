@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-10-08T09:56:13.972525-04:00",
+  "mode": "auto_book",
+  "executed": false,
+  "strategy": "crypto_15m_ema_trend",
+  "sleeve": "active_crypto",
+  "nav_before": 24765.79,
+  "cash_before": 24765.79,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 3,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 6,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "remaining_budget_after_plan": 6,
+  "data_failures": [],
+  "signals_detected": [],
+  "planned_trades": [],
+  "notes": [],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "summary": {
+    "n_planned": 0,
+    "n_buys": 0,
+    "n_sells": 0,
+    "booked": false
+  }
+}
