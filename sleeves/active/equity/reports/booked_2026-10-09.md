@@ -1,35 +1,36 @@
 # Active active_equity booked 2026-10-09
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-09T11:24:34.708957-04:00
+- **As of:** 2026-10-09T13:05:15.725605-04:00
 - **Mode:** auto_book
 - **executed:** true
 - **Session:** US_RTH
-- **Entries today before:** 2 / cap 8 (exits exempt; all fills today: 4)
+- **Entries today before:** 3 / cap 8 (exits exempt; all fills today: 6)
 - **Min order:** $1,000
 
 ## Planned / booked trades
 
-- SELL 38 TSLA @ 383.209991 (~$14,561.98; atr_stop)
-- BUY 191 TLT @ 77.7369 (~$14,847.75; ema_bullish_cross)
+- SELL 229 XLE @ 65.419998 (~$14,981.18; ema_trend_broken)
+- BUY 75 XLK @ 198.385101 (~$14,878.88; ema_bullish_cross)
 
 ## Notes
 
-- entry_skip_too_small:QQQ
-- entry_skip_below_min_order:XLRE:budget_$332.13<min_$1,000
-- entry_skip_too_small:BRK-B
-- entry_skip_below_min_order:XLY:budget_$332.13<min_$1,000
 - entry_skip_too_small:DIA
-- entry_skip_below_min_order:XLV:budget_$332.13<min_$1,000
-- entry_skip_below_min_order:XLB:budget_$332.13<min_$1,000
+- entry_skip_below_min_order:XLRE:budget_$433.33<min_$1,000
+- entry_skip_below_min_order:XLV:budget_$433.33<min_$1,000
+- entry_skip_below_min_order:XLY:budget_$433.33<min_$1,000
 - entry_skip_too_small:MSFT
-- entry_skip_below_min_order:AMZN:budget_$332.13<min_$1,000
+- entry_skip_below_min_order:AMZN:budget_$433.33<min_$1,000
 - entry_skip_too_small:SPY
-- entry_skip_below_min_order:IWM:budget_$332.13<min_$1,000
-- entry_skip_below_min_order:XLU:budget_$332.13<min_$1,000
-- entry_skip_too_small:GOOGL
-- entry_skip_cooldown:XLP:33m
+- entry_skip_below_min_order:GOOGL:budget_$433.33<min_$1,000
+- entry_skip_too_small:BRK-B
+- entry_skip_below_min_order:XLU:budget_$433.33<min_$1,000
+- entry_skip_below_min_order:IWM:budget_$433.33<min_$1,000
+- entry_skip_below_min_order:TSLA:budget_$433.33<min_$1,000
+- entry_skip_below_min_order:XLB:budget_$433.33<min_$1,000
 - entry_skip_too_small:META
+- entry_skip_below_min_order:XLP:budget_$433.33<min_$1,000
+- entry_skip_too_small:QQQ
 
 ## Governance
 
