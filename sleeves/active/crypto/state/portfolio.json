@@ -1,17 +1,30 @@
 {
-  "as_of": "2026-10-09T10:15:31-04:00",
+  "as_of": "2026-10-09T10:57:07-04:00",
   "currency": "USD",
   "sleeve": "active_crypto",
-  "cash": 24801.19,
-  "positions": {},
+  "cash": 18600.88,
+  "positions": {
+    "BTC-USD": {
+      "shares": 0.07468,
+      "avg_cost": 83025.03125,
+      "cost_basis": 6200.31,
+      "last_price": 83025.03125,
+      "market_value": 6200.31,
+      "sector": "layer1",
+      "opened_at": "2026-10-09T10:57:06.398446-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 82517.921962,
+      "weight": 0.250001
+    }
+  },
   "nav": 24801.19,
   "starting_capital": 25000.0,
   "peak_nav": 26518.05,
-  "btc_last_close": 82847.9062,
+  "btc_last_close": 83025.0312,
   "total_pnl": -198.81,
   "total_pnl_pct": -0.7952,
   "drawdown_pct": -6.4743,
-  "last_trade_batch": "active_auto_2026-10-09_094036",
+  "last_trade_batch": "active_auto_2026-10-09_105706",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",
@@ -20,5 +33,5 @@
     "AVAX-USD",
     "LINK-USD"
   ],
-  "notes": "Active auto-book 2026-10-09T09:40:36.565261-04:00: 0 BUY / 3 SELL under standing order. Strategy crypto_15m_ema_trend. Paper only."
+  "notes": "Active auto-book 2026-10-09T10:57:06.398446-04:00: 1 BUY / 0 SELL under standing order. Strategy crypto_15m_ema_trend. Paper only."
 }
