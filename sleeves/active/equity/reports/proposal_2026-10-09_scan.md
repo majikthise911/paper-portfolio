@@ -1,7 +1,7 @@
 # Active active_equity scan 2026-10-09
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-09T15:34:32.860249-04:00
+- **As of:** 2026-10-09T15:55:24.702742-04:00
 - **Mode:** auto_book
 - **executed:** false
 - **Session:** US_RTH
@@ -15,19 +15,17 @@
 ## Notes
 
 - entry_skip_too_small:DIA
-- entry_skip_below_min_order:XLRE:budget_$418.80<min_$1,000
-- entry_skip_below_min_order:XLV:budget_$418.80<min_$1,000
+- entry_skip_below_min_order:XLRE:budget_$426.65<min_$1,000
+- entry_skip_below_min_order:XLV:budget_$426.65<min_$1,000
+- entry_skip_below_min_order:AMZN:budget_$426.65<min_$1,000
+- entry_skip_below_min_order:XLY:budget_$426.65<min_$1,000
 - entry_skip_too_small:SPY
-- entry_skip_below_min_order:XLY:budget_$418.80<min_$1,000
 - entry_skip_too_small:MSFT
-- entry_skip_below_min_order:AMZN:budget_$418.80<min_$1,000
-- entry_skip_below_min_order:XLU:budget_$418.80<min_$1,000
-- entry_skip_below_min_order:IWM:budget_$418.80<min_$1,000
-- entry_skip_below_min_order:TSLA:budget_$418.80<min_$1,000
-- entry_skip_below_min_order:XLP:budget_$418.80<min_$1,000
+- entry_skip_below_min_order:XLU:budget_$426.65<min_$1,000
+- entry_skip_below_min_order:IWM:budget_$426.65<min_$1,000
+- entry_skip_below_min_order:TSLA:budget_$426.65<min_$1,000
 - entry_skip_too_small:BRK-B
-- entry_skip_below_min_order:AAPL:budget_$418.80<min_$1,000
-- entry_skip_below_min_order:XLB:budget_$418.80<min_$1,000
+- entry_skip_below_min_order:AAPL:budget_$426.65<min_$1,000
 - entry_skip_too_small:QQQ
 
 ## Governance
