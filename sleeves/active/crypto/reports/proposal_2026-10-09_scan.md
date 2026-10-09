@@ -1,7 +1,7 @@
 # Active active_crypto scan 2026-10-09
 
 - **Strategy:** crypto_15m_ema_trend
-- **As of:** 2026-10-09T13:52:44.854887-04:00
+- **As of:** 2026-10-09T14:10:37.566747-04:00
 - **Mode:** auto_book
 - **executed:** false
 - **Session:** US_RTH
@@ -11,6 +11,10 @@
 ## Planned / booked trades
 
 - None.
+
+## Notes
+
+- entry_skip_cooldown:LINK-USD:22m
 
 ## Governance
 

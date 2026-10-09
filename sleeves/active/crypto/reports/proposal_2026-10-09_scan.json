@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-09T13:52:44.854887-04:00",
+  "as_of": "2026-10-09T14:10:37.566747-04:00",
   "mode": "auto_book",
   "executed": false,
   "strategy": "crypto_15m_ema_trend",
@@ -17,9 +17,22 @@
   "entry_open_delay_minutes": 0,
   "remaining_budget_after_plan": 4,
   "data_failures": [],
-  "signals_detected": [],
+  "signals_detected": [
+    {
+      "ticker": "LINK-USD",
+      "close": 12.832,
+      "ema_fast": 12.814567,
+      "ema_slow": 12.81018,
+      "strength": 0.080076,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-09 14:00:00-04:00"
+    }
+  ],
   "planned_trades": [],
-  "notes": [],
+  "notes": [
+    "entry_skip_cooldown:LINK-USD:22m"
+  ],
   "governance": {
     "paper_only": true,
     "auto_book_under_standing_order": true,
