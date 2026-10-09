@@ -1,16 +1,16 @@
 # Active active_crypto booked 2026-10-09
 
 - **Strategy:** crypto_15m_ema_trend
-- **As of:** 2026-10-09T13:05:20.640985-04:00
+- **As of:** 2026-10-09T13:32:24.323360-04:00
 - **Mode:** auto_book
 - **executed:** true
 - **Session:** US_RTH
-- **Entries today before:** 1 / cap 6 (exits exempt; all fills today: 6)
+- **Entries today before:** 2 / cap 6 (exits exempt; all fills today: 7)
 - **Min order:** $1,000
 
 ## Planned / booked trades
 
-- BUY 483.305439 LINK-USD @ 12.816 (~$6,194.04; ema_trend_long)
+- SELL 483.305439 LINK-USD @ 12.808 (~$6,190.18; ema_trend_broken)
 
 ## Governance
 

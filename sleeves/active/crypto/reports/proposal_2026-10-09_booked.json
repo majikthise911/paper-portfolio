@@ -1,15 +1,15 @@
 {
-  "as_of": "2026-10-09T13:05:20.640985-04:00",
+  "as_of": "2026-10-09T13:32:24.323360-04:00",
   "mode": "auto_book",
   "executed": true,
   "strategy": "crypto_15m_ema_trend",
   "sleeve": "active_crypto",
-  "nav_before": 24776.17,
-  "cash_before": 24776.17,
+  "nav_before": 24772.31,
+  "cash_before": 18582.13,
   "session": "US_RTH",
   "in_rth": true,
-  "fills_today_before": 6,
-  "entries_today_before": 1,
+  "fills_today_before": 7,
+  "entries_today_before": 2,
   "max_new_trades_per_day": 6,
   "cap_counts": "entries_only (exits exempt)",
   "min_order_usd": 1000.0,
@@ -17,34 +17,23 @@
   "entry_open_delay_minutes": 0,
   "remaining_budget_after_plan": 4,
   "data_failures": [],
-  "signals_detected": [
-    {
-      "ticker": "LINK-USD",
-      "close": 12.816,
-      "ema_fast": 12.811775,
-      "ema_slow": 12.809549,
-      "strength": 0.039476,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-09 13:00:00-04:00"
-    }
-  ],
+  "signals_detected": [],
   "planned_trades": [
     {
       "ticker": "LINK-USD",
-      "side": "BUY",
+      "side": "SELL",
       "shares": 483.305439,
-      "price": 12.816,
-      "dollars": 6194.04,
+      "price": 12.808,
+      "dollars": 6190.18,
       "sector": "oracle",
-      "reason": "ema_trend_long",
-      "signal": "ema_trend_long",
+      "reason": "ema_trend_broken",
+      "signal": "ema_trend_exit",
       "stop_price": 12.703211,
-      "ema_fast": 12.811775,
-      "ema_slow": 12.809549,
-      "strength": 0.039476,
-      "bullish_cross": false,
-      "last_bar": "2026-10-09 13:00:00-04:00"
+      "ema_fast": 12.804388,
+      "ema_slow": 12.806125,
+      "last_bar": "2026-10-09 13:30:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": -3.86
     }
   ],
   "notes": [],
@@ -57,24 +46,24 @@
   "booked_fills": [
     {
       "ticker": "LINK-USD",
-      "side": "BUY",
+      "side": "SELL",
       "shares": 483.305439,
-      "price": 12.816,
-      "dollars": 6194.04,
+      "price": 12.808,
+      "dollars": 6190.18,
       "sector": "oracle",
-      "reason": "ema_trend_long",
-      "stop_price": 12.703211,
+      "realized_pnl": -3.86,
+      "reason": "ema_trend_broken",
       "fill_source": "yfinance_15m_close"
     }
   ],
-  "nav_after": 24776.17,
-  "cash_after": 18582.13,
+  "nav_after": 24772.31,
+  "cash_after": 24772.31,
   "summary": {
     "n_planned": 1,
-    "n_buys": 1,
-    "n_sells": 0,
+    "n_buys": 0,
+    "n_sells": 1,
     "booked": true,
-    "cash_after": 18582.13,
-    "nav_after": 24776.17
+    "cash_after": 24772.31,
+    "nav_after": 24772.31
   }
 }
