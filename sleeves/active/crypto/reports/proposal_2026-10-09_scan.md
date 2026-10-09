@@ -1,10 +1,10 @@
 # Active active_crypto scan 2026-10-09
 
 - **Strategy:** crypto_15m_ema_trend
-- **As of:** 2026-10-09T15:55:29.455275-04:00
+- **As of:** 2026-10-09T16:05:43.509661-04:00
 - **Mode:** auto_book
 - **executed:** false
-- **Session:** US_RTH
+- **Session:** outside_RTH
 - **Entries today before:** 3 / cap 6 (exits exempt; all fills today: 10)
 - **Min order:** $1,000
 

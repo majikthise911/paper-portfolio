@@ -1,10 +1,10 @@
 # Active active_equity scan 2026-10-09
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-09T15:55:24.702742-04:00
+- **As of:** 2026-10-09T16:05:38.730739-04:00
 - **Mode:** auto_book
 - **executed:** false
-- **Session:** US_RTH
+- **Session:** outside_RTH
 - **Entries today before:** 4 / cap 8 (exits exempt; all fills today: 8)
 - **Min order:** $1,000
 
@@ -14,19 +14,7 @@
 
 ## Notes
 
-- entry_skip_too_small:DIA
-- entry_skip_below_min_order:XLRE:budget_$426.65<min_$1,000
-- entry_skip_below_min_order:XLV:budget_$426.65<min_$1,000
-- entry_skip_below_min_order:AMZN:budget_$426.65<min_$1,000
-- entry_skip_below_min_order:XLY:budget_$426.65<min_$1,000
-- entry_skip_too_small:SPY
-- entry_skip_too_small:MSFT
-- entry_skip_below_min_order:XLU:budget_$426.65<min_$1,000
-- entry_skip_below_min_order:IWM:budget_$426.65<min_$1,000
-- entry_skip_below_min_order:TSLA:budget_$426.65<min_$1,000
-- entry_skip_too_small:BRK-B
-- entry_skip_below_min_order:AAPL:budget_$426.65<min_$1,000
-- entry_skip_too_small:QQQ
+- outside_RTH_no_new_entries
 
 ## Governance
 
