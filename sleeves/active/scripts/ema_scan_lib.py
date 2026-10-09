@@ -67,6 +67,51 @@ def fetch_15m(ticker: str, period: str = "5d") -> tuple[pd.DataFrame | None, str
         return None, f"exception:{type(e).__name__}:{e}"
 
 
+def htf_trend(
+    ticker: str,
+    *,
+    interval: str = "1h",
+    ema_fast: int = 8,
+    ema_slow: int = 21,
+    period: str = "1mo",
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    """Higher-timeframe trend check (Freqtrade informative-pair style).
+
+    Fetches bars at `interval` (default 1h) and computes EMA fast/slow on
+    CLOSED bars only (a bar whose start + interval is after `now` is dropped).
+    Returns {ok, up, ema_fast, ema_slow, last_closed_bar, error}. up is True
+    only when ema_fast > ema_slow.
+    """
+    try:
+        df = yf.Ticker(ticker).history(period=period, interval=interval, auto_adjust=True)
+    except Exception as e:  # noqa: BLE001
+        return {"ok": False, "up": False, "error": f"exception:{type(e).__name__}:{e}"}
+    if df is None or df.empty or "Close" not in df.columns:
+        return {"ok": False, "up": False, "error": "empty_history"}
+    df = df.sort_index()
+    step = pd.Timedelta(interval)
+    ts = pd.Timestamp(now or now_et())
+    idx = df.index
+    if getattr(idx, "tz", None) is None:
+        idx = idx.tz_localize("UTC")
+    if ts.tzinfo is None:
+        ts = ts.tz_localize(ET)
+    closed = df["Close"].astype(float)[(idx + step) <= ts]
+    if len(closed) < ema_slow:
+        return {"ok": False, "up": False, "error": f"too_few_closed_bars:{len(closed)}"}
+    f = float(ema(closed, ema_fast).iloc[-1])
+    s = float(ema(closed, ema_slow).iloc[-1])
+    return {
+        "ok": True,
+        "up": bool(f > s),
+        "ema_fast": round(f, 6),
+        "ema_slow": round(s, 6),
+        "last_closed_bar": str(closed.index[-1]),
+        "error": None,
+    }
+
+
 def evaluate_ticker(
     ticker: str,
     *,

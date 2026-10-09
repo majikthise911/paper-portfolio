@@ -32,6 +32,15 @@ Rule v6 (2026-10-08):
     Skips log entry_skip_opening_window and use no cap slot. Exits still run
     any time during RTH. Crypto is unaffected (delay 0 / not required).
 
+Rule v6 crypto (2026-10-09):
+  - Crypto only: rules.htf_filter {enabled, interval '1h', ema_fast 8,
+    ema_slow 21} (Freqtrade informative-pair style). A new BUY on the 15m
+    signal is allowed only if the 1h EMA fast is above the 1h EMA slow,
+    computed on closed 1h bars. Skips log entry_skip_htf_trend:<ticker> and use
+    no cap slot or position slot. Exits are unchanged. Equity has no
+    htf_filter and is unaffected. If 1h data is unavailable the entry is
+    skipped (fail closed), logged entry_skip_htf_trend:<ticker>:no_data.
+
 Usage:
   python sleeves/active/scripts/run_active.py
   python sleeves/active/scripts/run_active.py --dry-run
@@ -58,6 +67,7 @@ from ema_scan_lib import (  # noqa: E402
     count_fills_today,
     last_exit_times,
     evaluate_ticker,
+    htf_trend,
     is_rth,
     last_price,
     load_json,
@@ -212,6 +222,13 @@ def run_sleeve(
     entry_open_delay = int(caps.get("entry_open_delay_minutes") or 0)
     if not require_rth_for_entries:
         entry_open_delay = 0
+    # Higher-timeframe trend filter for entries (crypto rule v6).
+    htf_cfg = dict(rules.get("htf_filter") or {})
+    htf_enabled = bool(htf_cfg.get("enabled", False))
+    htf_interval = str(htf_cfg.get("interval") or "1h")
+    htf_fast = int(htf_cfg.get("ema_fast") or 8)
+    htf_slow = int(htf_cfg.get("ema_slow") or 21)
+    htf_results: dict[str, dict] = {}
 
     ts = now_et()
     date_str = ts.strftime("%Y-%m-%d")
@@ -371,6 +388,22 @@ def run_sleeve(
                     mins = int(math.ceil(left.total_seconds() / 60.0))
                     notes.append(f"entry_skip_cooldown:{ticker}:{mins}m")
                     continue
+            # Higher-timeframe trend must agree (no cap or position slot used).
+            if htf_enabled:
+                htf = htf_trend(
+                    ticker,
+                    interval=htf_interval,
+                    ema_fast=htf_fast,
+                    ema_slow=htf_slow,
+                    now=ts,
+                )
+                htf_results[ticker] = htf
+                if not htf.get("ok"):
+                    notes.append(f"entry_skip_htf_trend:{ticker}:no_data")
+                    continue
+                if not htf.get("up"):
+                    notes.append(f"entry_skip_htf_trend:{ticker}")
+                    continue
             px = _fill_price(ticker, ev)
             if px is None or px <= 0:
                 notes.append(f"entry_skip_no_price:{ticker}")
@@ -494,6 +527,12 @@ def run_sleeve(
         "min_order_usd": min_order_usd,
         "reentry_cooldown_bars": cooldown_bars,
         "entry_open_delay_minutes": entry_open_delay,
+        "htf_filter": (
+            {"enabled": True, "interval": htf_interval, "ema_fast": htf_fast, "ema_slow": htf_slow}
+            if htf_enabled
+            else {"enabled": False}
+        ),
+        "htf_checks": htf_results,
         "remaining_budget_after_plan": remaining_budget,
         "data_failures": failures,
         "signals_detected": [

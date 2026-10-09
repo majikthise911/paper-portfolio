@@ -5,6 +5,17 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-10-09, Active crypto 1h trend filter on entries
+
+- **Sleeve:** active crypto only (equity unchanged)
+- **Change:** Added `htf_filter: {enabled: true, interval: "1h", ema_fast: 8, ema_slow: 21}` to active crypto `rules.json` (rule_version 6). A new crypto BUY on the 15m EMA signal is allowed only if the 1h EMA8 is above the 1h EMA21, computed on closed 1h bars only (new `htf_trend` in `ema_scan_lib.py`, Freqtrade informative-pair style). Skips log `entry_skip_htf_trend:<ticker>` (or `:no_data` if 1h bars are unavailable, fail closed) and use no daily-cap slot or position slot. Exits (15m trend break / ATR stop / dust) are unchanged.
+- **Observation:** 15m crypto signals churned all week. On 10/9 LINK was sold at 9:40 from the overnight buy, then bought and sold again 1:05 to 1:32 and 3:24 to 3:34. BTC round-tripped repeatedly (10/6 sold 10:20, rebought 10:37, sold 11:42; 10/9 bought 10:57, sold 12:41).
+- **Logic:** Requiring the higher timeframe trend to agree is a standard way to cut lower-timeframe whipsaw. Replay of the 11 actual Active crypto BUYs from 10/06 to 10/09 against closed 1h bars: the filter would have allowed 5 (realized -$601.49, mostly the 10/6 AVAX entry at -$472.90) and blocked 6 (realized +$13.68). Of the 5 entries closed within 2 hours, it blocks 2 (both 10/9 LINK, -$21.72) and allows 3 (10/6 LINK, 10/6 BTC, 10/9 BTC, -$31.08). It would also have blocked the four 10/8 evening entries, which netted +$35.40. So the replay shows a small improvement on churn, not a big one, and the 13:05 LINK block was marginal (1h EMAs within 0.05%).
+- **Jordan approval:** Chat 2026-10-05 standing order for Active (Paper decides rule changes from research and updates afterward; Jordan may override), extended explicitly to Active ("same thing goes for active").
+- **Effective:** Next market-hours refresh after this commit on 2026-10-09. No trades booked by this change.
+- **How we judge:** At the Monday review, alongside a backtest of a 1h-bar crypto strategy. Keep the filter if it cuts round trips without missing clear trends; replace it if the 1h-bar strategy does better outright.
+
+
 ## 2026-10-08, Active equity skip entries in first 30 minutes after the open
 
 - **Sleeve:** active equity only (crypto unchanged)

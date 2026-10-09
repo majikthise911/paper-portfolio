@@ -56,5 +56,12 @@
     "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide and book. Active live daily EMA wired 2026-10-05 after Jordan clarified Active must trade daily vs weekly momentum."
   },
   "starting_capital": 25000.0,
-  "rule_version": 5
+  "rule_version": 6,
+  "htf_filter": {
+    "enabled": true,
+    "interval": "1h",
+    "ema_fast": 8,
+    "ema_slow": 21,
+    "note": "Rule v6 2026-10-09: new 15m BUY entries require 1h EMA8 > 1h EMA21 on closed 1h bars (Freqtrade informative-pair style). Skips log entry_skip_htf_trend:<ticker>, use no cap slot. Exits unchanged."
+  }
 }
