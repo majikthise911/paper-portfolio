@@ -1,5 +1,5 @@
 {
-  "strategy_name": "simple_momentum_rs_crypto",
+  "strategy_name": "btc_core_plus_momentum_top2",
   "sleeve": "crypto",
   "long_only": true,
   "no_shorts": true,
@@ -11,26 +11,49 @@
     "primary_trading_days": 63,
     "secondary": "252d_total_return_not_deeply_negative",
     "secondary_trading_days": 252,
-    "secondary_min_return": -0.20
+    "secondary_min_return": -0.2
   },
   "position_caps": {
-    "max_single_name_pct": 0.25,
-    "max_invested_pct": 0.80,
-    "min_cash_pct": 0.20
+    "max_single_name_pct": 0.15,
+    "max_invested_pct": 0.8,
+    "min_cash_pct": 0.2,
+    "btc_core_pct": 0.5,
+    "btc_core_exception": "BTC-USD only may exceed single-name cap; fixed 50% NAV, rebalanced weekly",
+    "satellite_top_n": 2,
+    "satellite_weight_pct": 0.15,
+    "satellite_pool": [
+      "ETH-USD",
+      "SOL-USD",
+      "AVAX-USD",
+      "LINK-USD"
+    ]
   },
   "rebalance": {
     "cadence": "weekly",
     "benchmark": "BTC-USD",
     "mark_to_market": true
   },
-  "aspiration_apy": 0.30,
+  "aspiration_apy": 0.3,
   "aspiration_note": "30% APY is aspiration metric only; never an auto-rewire stop",
   "governance": {
     "propose_tweaks_only": true,
     "never_change_rules_without_jordan_approval": true,
     "never_place_real_trades": true,
     "proposals_require_approval_before_execution": true,
-    "seed_capital_requires_jordan_yes": true
+    "seed_capital_requires_jordan_yes": true,
+    "paper_decides_from_research": true,
+    "standing_order": "2026-10-05 Jordan: Paper decides and books; Jordan may override."
   },
-  "starting_capital_proposed": 25000.0
+  "starting_capital_proposed": 25000.0,
+  "rule_version": 2,
+  "review": {
+    "shadow": "state/portfolio.json shadow_old_top4",
+    "judge_mondays": [
+      "2026-10-19",
+      "2026-10-26",
+      "2026-11-02",
+      "2026-11-09"
+    ],
+    "revert_if_trails_old_by_pts": 2.0
+  }
 }

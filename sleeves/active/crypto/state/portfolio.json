@@ -1,17 +1,28 @@
 {
-  "as_of": "2026-10-12T09:28:59-04:00",
+  "as_of": "2026-10-12T09:31:58-04:00",
   "currency": "USD",
   "sleeve": "active_crypto",
-  "cash": 24754.45,
-  "positions": {},
-  "nav": 24754.45,
+  "cash": 9901.79,
+  "positions": {
+    "BTC-USD": {
+      "shares": 0.180075,
+      "avg_cost": 82480.4296875,
+      "cost_basis": 14852.66,
+      "last_price": 82432.632812,
+      "market_value": 14844.06,
+      "sector": "layer1",
+      "opened_at": "2026-10-12T09:31:47-04:00",
+      "role": "core"
+    }
+  },
+  "nav": 24745.85,
   "starting_capital": 25000.0,
   "peak_nav": 26518.05,
-  "btc_last_close": 82495.1328,
-  "total_pnl": -245.55,
-  "total_pnl_pct": -0.9822,
-  "drawdown_pct": -6.6506,
-  "last_trade_batch": "active_auto_2026-10-09_153437",
+  "btc_last_close": 82432.6328,
+  "total_pnl": -254.15,
+  "total_pnl_pct": -1.0166,
+  "drawdown_pct": -6.683,
+  "last_trade_batch": "core_satellite_2026-10-12",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",
@@ -20,5 +31,5 @@
     "AVAX-USD",
     "LINK-USD"
   ],
-  "notes": "Active auto-book 2026-10-09T15:34:37.106937-04:00: 0 BUY / 1 SELL under standing order. Strategy crypto_15m_ema_trend. Paper only."
+  "notes": "Rule v7 2026-10-12: core/satellite. 60% BTC core bought; 4h EMA satellite disabled (not yet implemented); 15m crypto entries off."
 }

@@ -114,3 +114,15 @@ Format per entry: date (America/New_York), what changed, why, Jordan approval no
 - **Effective:** Strategies locked 2026-09-24T09:13:00-04:00. Positions unchanged (all cash). First proposals may be written the same day for Jordan yes/no.
 - **How we judge:** After first approved fill batch (if any), track same-window active vs momentum household NAV/P&L/drawdown; until then, judge process compliance (proposals written, books untouched without yes).
 
+
+## 2026-10-12: Momentum crypto rule v2, BTC core 50% + top-2 momentum alts
+
+**Observation:** Momentum crypto trailed BTC two Mondays running (-1.55% vs BTC +1.67% since 9/20). The 9/29 SOL-for-BTC swap cost about 6.8 pts. scripts/btc_core_backtest.py: BTC 50% + top-2 beat the top-4 method on 1y (-32.0% vs -44.7%), 6m (+10.8% vs +5.8%) and 3m (+20.6% vs +5.8%) with lower 1y drawdown.
+
+**Logic:** BTC-only exception to the 25% single-name cap: BTC fixed at 50% NAV, rebalanced weekly. 63d momentum top 2 of ETH/SOL/AVAX/LINK at 15% each (today AVAX +69%, LINK +58%), other names max 15%, 20% cash floor unchanged. Booked at live prices: sold all SOL and ETH, trimmed AVAX and LINK, bought 0.14908 BTC. A frozen shadow of the old top-4 book sits in sleeves/crypto/state/portfolio.json (shadow_old_top4). Judge Mondays 10/19, 10/26, 11/2, 11/9; revert if the new book trails the shadow by more than 2 pts.
+
+## 2026-10-12: Active crypto rule v7, core/satellite
+
+**Observation:** The 15m EMA crypto book is -0.98% since 9/24 with many whipsaw round trips; v3 to v6 filters helped only marginally (HTF replay: blocked buys netted +$13.68, allowed buys lost $601.49). Holding BTC beat it.
+
+**Logic:** 60% NAV BTC core bought at live price (0.180075 BTC). Satellite up to 20% on 4h EMA 8/21 with 2.5x ATR stop, 20% cash floor. The 15m crypto scanner is disabled in run_active.py (legacy_15m_entries_enabled=false), so the market-hours refresh no longer trades 15m crypto. The 4h satellite logic is not implemented yet, so satellite_enabled=false and the sleeve holds 60% BTC and 40% cash until it is built.

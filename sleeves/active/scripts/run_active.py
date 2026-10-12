@@ -791,6 +791,15 @@ def main() -> int:
         uni = load_json(ACTIVE / "crypto/config/universe.json")
         rules = load_json(ACTIVE / "crypto/config/rules.json")
         tickers = list(uni.get("spot", []))
+    if args.sleeve in ("crypto", "both") and rules.get("legacy_15m_entries_enabled", True) is False:
+        # Rule v7 2026-10-12: crypto is core/satellite; 15m EMA scanner off.
+        results["active_crypto"] = {
+            "executed": False,
+            "summary": "15m crypto disabled (rule v7 core/satellite); no scan",
+            "planned_trades": [],
+            "notes": ["core held; 4h satellite disabled"],
+        }
+    elif args.sleeve in ("crypto", "both"):
         results["active_crypto"] = run_sleeve(
             sleeve_key="active_crypto",
             book_dir=ACTIVE / "crypto",

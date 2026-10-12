@@ -1,55 +1,46 @@
 {
-  "as_of": "2026-10-12T09:28:59-04:00",
+  "as_of": "2026-10-12T09:31:58-04:00",
   "currency": "USD",
   "sleeve": "crypto",
-  "cash": 5345.61,
+  "cash": 4918.51,
   "positions": {
     "LINK-USD": {
-      "shares": 430.219559,
+      "shares": 281.485058,
       "avg_cost": 12.491,
-      "cost_basis": 5373.87,
-      "last_price": 13.122,
-      "market_value": 5645.34,
+      "cost_basis": 3516.03,
+      "last_price": 13.093,
+      "market_value": 3685.48,
       "sector": "oracle",
       "opened_at": "2026-09-20T20:08:27-04:00"
     },
     "AVAX-USD": {
-      "shares": 517.720988,
+      "shares": 339.361693,
       "avg_cost": 11.338,
-      "cost_basis": 5869.92,
-      "last_price": 10.858,
-      "market_value": 5621.41,
+      "cost_basis": 3847.68,
+      "last_price": 10.86,
+      "market_value": 3685.47,
       "sector": "layer1",
       "opened_at": "2026-09-20T20:08:27-04:00"
     },
-    "SOL-USD": {
-      "shares": 41.990463,
-      "avg_cost": 121.089996,
-      "cost_basis": 5084.62,
-      "last_price": 110.110001,
-      "market_value": 4623.57,
+    "BTC-USD": {
+      "shares": 0.14908,
+      "avg_cost": 82480.4296875,
+      "cost_basis": 12296.18,
       "sector": "layer1",
-      "opened_at": "2026-09-29T09:17:02-04:00"
-    },
-    "ETH-USD": {
-      "shares": 1.336471,
-      "avg_cost": 2640.600098,
-      "cost_basis": 3529.09,
-      "last_price": 2526.810059,
-      "market_value": 3377.01,
-      "sector": "layer1",
-      "opened_at": "2026-09-20T20:08:27-04:00"
+      "opened_at": "2026-10-12T09:31:47-04:00",
+      "last_price": 82432.632812,
+      "market_value": 12289.06
     }
   },
-  "nav": 24612.94,
+  "nav": 24578.52,
   "starting_capital": 25000.0,
-  "notes": "Crypto weekly rebalance booked 2026-09-29 after Jordan yes (both sleeves). Source reports/rebalance_2026-09-28.json crypto deltas. Paper fills at live yfinance prices. BTC exited, SOL added (SOL scaled to hold 20% cash floor). Equity booked separately at/after 09:35 ET.",
+  "notes": "Rule v2 2026-10-12 (Jordan standing order): 50% BTC core + 63d top-2 alts at 15% + 20% cash. Booked at live yfinance prices.",
   "peak_nav": 26907.7,
-  "btc_last_close": 82495.1328,
-  "total_pnl": -387.06,
-  "total_pnl_pct": -1.5482,
-  "drawdown_pct": -8.5283,
-  "last_trade_batch": "rebalance_2026-09-28",
+  "btc_last_close": 82432.6328,
+  "total_pnl": -421.48,
+  "total_pnl_pct": -1.6859,
+  "drawdown_pct": -8.6562,
+  "last_trade_batch": "btc_core_2026-10-12",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",
@@ -57,5 +48,17 @@
     "SOL-USD",
     "AVAX-USD",
     "LINK-USD"
-  ]
+  ],
+  "shadow_old_top4": {
+    "as_of": "2026-10-12T09:31:47-04:00",
+    "start_nav": 24592.41,
+    "cash": 5345.61,
+    "shares": {
+      "LINK-USD": 430.219559,
+      "AVAX-USD": 517.720988,
+      "SOL-USD": 41.990463,
+      "ETH-USD": 1.336471
+    },
+    "note": "Frozen old top-4 book for comparison through 2026-11-09; revert if new rule trails by >2 pts."
+  }
 }

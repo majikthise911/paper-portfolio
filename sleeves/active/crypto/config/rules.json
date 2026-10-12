@@ -1,5 +1,5 @@
 {
-  "strategy_name": "active_15m_crypto_v1",
+  "strategy_name": "active_crypto_core_satellite_v7",
   "sleeve": "active_crypto",
   "parallel_to": "sleeves/crypto_momentum",
   "long_only": true,
@@ -56,12 +56,28 @@
     "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide and book. Active live daily EMA wired 2026-10-05 after Jordan clarified Active must trade daily vs weekly momentum."
   },
   "starting_capital": 25000.0,
-  "rule_version": 6,
+  "rule_version": 7,
   "htf_filter": {
     "enabled": true,
     "interval": "1h",
     "ema_fast": 8,
     "ema_slow": 21,
     "note": "Rule v6 2026-10-09: new 15m BUY entries require 1h EMA8 > 1h EMA21 on closed 1h bars (Freqtrade informative-pair style). Skips log entry_skip_htf_trend:<ticker>, use no cap slot. Exits unchanged."
+  },
+  "legacy_15m_entries_enabled": false,
+  "core_satellite": {
+    "enabled": true,
+    "core_ticker": "BTC-USD",
+    "core_pct": 0.6,
+    "satellite_max_pct": 0.2,
+    "satellite_enabled": false,
+    "satellite_signal": {
+      "interval": "4h",
+      "ema_fast": 8,
+      "ema_slow": 21,
+      "atr_stop_mult": 2.5
+    },
+    "min_cash_pct": 0.2,
+    "note": "v7 2026-10-12: 15m crypto scanner disabled in run_active.py. Satellite 4h EMA logic not implemented yet, so satellite stays disabled (sleeve is 60% BTC / 40% cash)."
   }
 }
