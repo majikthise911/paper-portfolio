@@ -1,89 +1,53 @@
 {
-  "as_of": "2026-10-12T09:31:58-04:00",
+  "as_of": "2026-10-12T09:42:45-04:00",
   "currency": "USD",
   "sleeve": "active_equity",
-  "cash": 20299.34,
+  "cash": 54963.77,
   "positions": {
     "XLF": {
       "shares": 275,
       "avg_cost": 53.875,
       "cost_basis": 14815.62,
-      "last_price": 55.095,
-      "market_value": 15151.13,
+      "last_price": 55.015,
+      "market_value": 15129.12,
       "sector": "financials",
       "opened_at": "2026-10-08T09:56:09.402027-04:00",
-      "unrealized_pnl": 239.25,
+      "unrealized_pnl": 313.5,
       "stop_price": 53.713174,
-      "weight": 0.151564
+      "weight": 0.152241
     },
     "JPM": {
       "shares": 43,
       "avg_cost": 329.299988,
       "cost_basis": 14159.9,
-      "last_price": 335.623,
-      "market_value": 14431.79,
+      "last_price": 334.8,
+      "market_value": 14396.4,
       "sector": "financials",
       "opened_at": "2026-10-08T09:56:09.402027-04:00",
-      "unrealized_pnl": 175.66,
+      "unrealized_pnl": 236.5,
       "stop_price": 327.824808,
-      "weight": 0.144323
-    },
-    "XLI": {
-      "shares": 88,
-      "avg_cost": 168.229996,
-      "cost_basis": 14804.24,
-      "last_price": 169.345,
-      "market_value": 14902.36,
-      "sector": "industrials",
-      "opened_at": "2026-10-08T14:29:17.829052-04:00",
-      "unrealized_pnl": 80.96,
-      "stop_price": 167.498309,
-      "weight": 0.149856
-    },
-    "GLD": {
-      "shares": 13,
-      "avg_cost": 384.13501,
-      "cost_basis": 4993.76,
-      "last_price": 382.5,
-      "market_value": 4972.5,
-      "sector": "commodities",
-      "opened_at": "2026-10-09T10:15:27.029066-04:00",
-      "unrealized_pnl": 1.62,
-      "stop_price": 382.697644,
-      "weight": 0.050291
+      "weight": 0.144868
     },
     "TLT": {
       "shares": 191,
       "avg_cost": 77.7369,
       "cost_basis": 14847.75,
-      "last_price": 77.85,
-      "market_value": 14869.35,
+      "last_price": 77.94,
+      "market_value": 14886.54,
       "sector": "bonds",
       "opened_at": "2026-10-09T11:24:34.708957-04:00",
-      "unrealized_pnl": 33.06,
+      "unrealized_pnl": 38.79,
       "stop_price": 77.547463,
-      "weight": 0.149812
-    },
-    "XLK": {
-      "shares": 75,
-      "avg_cost": 198.385101,
-      "cost_basis": 14878.88,
-      "last_price": 197.64,
-      "market_value": 14823.0,
-      "sector": "tech",
-      "opened_at": "2026-10-09T13:05:15.725605-04:00",
-      "unrealized_pnl": 0.0,
-      "stop_price": 197.644335,
-      "weight": 0.149792
+      "weight": 0.1498
     }
   },
-  "nav": 99449.46,
+  "nav": 99375.83,
   "starting_capital": 100000.0,
   "peak_nav": 100060.85,
-  "spy_last_close": 778.99,
-  "total_pnl": -550.54,
-  "total_pnl_pct": -0.5505,
-  "drawdown_pct": -0.611,
-  "last_trade_batch": "active_auto_2026-10-09_130515",
-  "notes": "Active auto-book 2026-10-09T13:05:15.725605-04:00: 1 BUY / 1 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
+  "spy_last_close": 779.1901,
+  "total_pnl": -624.17,
+  "total_pnl_pct": -0.6242,
+  "drawdown_pct": -0.6846,
+  "last_trade_batch": "active_auto_2026-10-12_094242",
+  "notes": "Active auto-book 2026-10-12T09:42:42.009558-04:00: 0 BUY / 3 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
 }
