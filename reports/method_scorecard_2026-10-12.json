@@ -1,0 +1,36 @@
+{
+ "as_of": "2026-10-12T09:29:00-04:00",
+ "equity": {
+  "method": "weekly_momentum_rs_63d_rank_buffer10",
+  "live_pnl_pct_since_book": 2.5169,
+  "spy_pct_same_window": 2.2161,
+  "nav": 102516.88,
+  "backtest": "reports/method_backtest_2026-10-12.json",
+  "recommendation": "stay; hold (top 8 == holdings); keep buffer; revisit mean reversion 2026-11-02"
+ },
+ "crypto": {
+  "method": "weekly_momentum_rs_63d",
+  "live_pnl_pct_since_book": -1.5482,
+  "btc_pct_same_window": 1.6668,
+  "nav": 24612.94,
+  "swap_check": {
+   "SOL_since_fill_pct": -9.07,
+   "BTC_since_exit_pct": -2.23
+  },
+  "btc_core_backtest": "reports/btc_core_backtest_2026-10-12.json",
+  "recommendation": "propose BTC core 50% + mom top2 at 15% each, 20% cash; needs Jordan yes"
+ },
+ "active": {
+  "household_nav": 124119.33,
+  "household_pnl_pct": -0.7045,
+  "equity_pnl_pct": -0.6351,
+  "crypto_pnl_pct": -0.9822
+ },
+ "household": {
+  "momentum_nav": 127129.82,
+  "momentum_pnl_pct": 1.7039,
+  "bh_nav": 127632.83,
+  "bh_pnl_pct": 2.1063
+ },
+ "hft_note": "No day-trading or HFT case; 15m active trails and crypto 15m backtests lost. True HFT needs tick/L2 data and low-latency execution this stack lacks."
+}

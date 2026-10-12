@@ -1,0 +1,58 @@
+{
+  "as_of": "2026-10-12T09:27:41-04:00",
+  "sleeve": "crypto",
+  "mode": "propose",
+  "executed": false,
+  "nav": 24616.47,
+  "proposed_trades": [
+    {
+      "ticker": "AVAX-USD",
+      "side": "BUY",
+      "shares": 566.990736,
+      "est_price": 10.854,
+      "est_dollars": 6154.12,
+      "weight": 0.25,
+      "target_weight": 0.25,
+      "sector": "layer1",
+      "ret_63d": 0.6875871735151913
+    },
+    {
+      "ticker": "LINK-USD",
+      "side": "BUY",
+      "shares": 425.000021,
+      "est_price": 13.14,
+      "est_dollars": 5584.5,
+      "weight": 0.22686,
+      "target_weight": 0.22686,
+      "sector": "oracle",
+      "ret_63d": 0.5852202538991425
+    },
+    {
+      "ticker": "SOL-USD",
+      "side": "BUY",
+      "shares": 40.06163,
+      "est_price": 110.18,
+      "est_dollars": 4413.99,
+      "weight": 0.17931,
+      "target_weight": 0.17931,
+      "sector": "layer1",
+      "ret_63d": 0.4507828283081967
+    },
+    {
+      "ticker": "ETH-USD",
+      "side": "BUY",
+      "shares": 1.40104,
+      "est_price": 2527.100098,
+      "est_dollars": 3540.57,
+      "weight": 0.143829,
+      "target_weight": 0.143829,
+      "sector": "layer1",
+      "ret_63d": 0.35046699129098347
+    }
+  ],
+  "proposed_cash": 4923.29,
+  "proposed_invested": 19693.18,
+  "proposed_cash_pct": 0.2,
+  "failed_to_price": [],
+  "notes": "Proposal only. Do not write into sleeves/crypto/state/portfolio.json positions until Jordan approves seed capital and this allocation."
+}

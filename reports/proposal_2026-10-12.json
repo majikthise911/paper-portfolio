@@ -1,0 +1,101 @@
+{
+  "as_of": "2026-10-12T09:27:33-04:00",
+  "mode": "propose",
+  "executed": false,
+  "nav": 102516.88,
+  "proposed_trades": [
+    {
+      "ticker": "MSFT",
+      "side": "BUY",
+      "shares": 27,
+      "est_price": 535.07,
+      "est_dollars": 14446.89,
+      "weight": 0.140922,
+      "target_weight": 0.142651,
+      "sector": "tech",
+      "ret_63d": 0.3710767071995553
+    },
+    {
+      "ticker": "XLE",
+      "side": "BUY",
+      "shares": 205,
+      "est_price": 65.08,
+      "est_dollars": 13341.4,
+      "weight": 0.130139,
+      "target_weight": 0.130344,
+      "sector": "energy",
+      "ret_63d": 0.15380394182073753
+    },
+    {
+      "ticker": "META",
+      "side": "BUY",
+      "shares": 14,
+      "est_price": 718.67,
+      "est_dollars": 10061.38,
+      "weight": 0.098144,
+      "target_weight": 0.104445,
+      "sector": "communication",
+      "ret_63d": 0.09517941837972588
+    },
+    {
+      "ticker": "NVDA",
+      "side": "BUY",
+      "shares": 45,
+      "est_price": 229.28,
+      "est_dollars": 10317.6,
+      "weight": 0.100643,
+      "target_weight": 0.101255,
+      "sector": "tech",
+      "ret_63d": 0.1277775363521345
+    },
+    {
+      "ticker": "XLV",
+      "side": "BUY",
+      "shares": 53,
+      "est_price": 170.81,
+      "est_dollars": 9052.93,
+      "weight": 0.088307,
+      "target_weight": 0.089913,
+      "sector": "health",
+      "ret_63d": 0.06228679208900201
+    },
+    {
+      "ticker": "AMZN",
+      "side": "BUY",
+      "shares": 34,
+      "est_price": 262.43,
+      "est_dollars": 8922.62,
+      "weight": 0.087036,
+      "target_weight": 0.089406,
+      "sector": "consumer_disc",
+      "ret_63d": 0.06113782405260504
+    },
+    {
+      "ticker": "XLK",
+      "side": "BUY",
+      "shares": 44,
+      "est_price": 198.78,
+      "est_dollars": 8746.32,
+      "weight": 0.085316,
+      "target_weight": 0.085892,
+      "sector": "tech",
+      "ret_63d": 0.09781538274327817
+    },
+    {
+      "ticker": "AAPL",
+      "side": "BUY",
+      "shares": 17,
+      "est_price": 336.64,
+      "est_dollars": 5722.88,
+      "weight": 0.055824,
+      "target_weight": 0.056094,
+      "sector": "tech",
+      "ret_63d": 0.061833419420841196
+    }
+  ],
+  "proposed_cash": 21904.86,
+  "proposed_invested": 80612.02,
+  "proposed_cash_pct": 0.213671,
+  "failed_to_price": [],
+  "notes": "Proposal only. Do not write into portfolio.json positions until Paper books under standing order (or Jordan overrides)."
+}
