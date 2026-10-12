@@ -1,11 +1,11 @@
 # Active active_equity scan 2026-10-12
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-12T15:11:55.235093-04:00
+- **As of:** 2026-10-12T16:00:38.865721-04:00
 - **Mode:** auto_book
 - **executed:** false
-- **Session:** US_RTH
-- **Entries today before:** 8 / cap 8 (exits exempt; all fills today: 17)
+- **Session:** outside_RTH
+- **Entries today before:** 8 / cap 8 (exits exempt; all fills today: 19)
 - **Min order:** $1,000
 
 ## Planned / booked trades
@@ -14,7 +14,7 @@
 
 ## Notes
 
-- daily_trade_cap_reached_no_entries
+- outside_RTH_no_new_entries
 
 ## Governance
 
