@@ -1,10 +1,10 @@
 {
-  "as_of": "2026-10-12T13:29:52.763639-04:00",
+  "as_of": "2026-10-12T13:55:26.752303-04:00",
   "mode": "auto_book",
   "executed": false,
   "strategy": "equity_15m_ema_trend",
   "sleeve": "active_equity",
-  "nav_before": 99358.69,
+  "nav_before": 99383.86,
   "cash_before": 20098.21,
   "session": "US_RTH",
   "in_rth": true,
@@ -24,177 +24,155 @@
   "signals_detected": [
     {
       "ticker": "XLP",
-      "close": 84.144997,
-      "ema_fast": 84.032129,
-      "ema_slow": 83.838219,
-      "strength": 1.707586,
+      "close": 84.150002,
+      "ema_fast": 84.07764,
+      "ema_slow": 83.89188,
+      "strength": 1.777915,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
+      "last_bar": "2026-10-12 13:45:00-04:00"
+    },
+    {
+      "ticker": "XLRE",
+      "close": 41.860001,
+      "ema_fast": 41.81628,
+      "ema_slow": 41.731512,
+      "strength": 1.118427,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-12 13:45:00-04:00"
     },
     {
       "ticker": "XLF",
       "close": 55.095001,
-      "ema_fast": 55.085576,
-      "ema_slow": 54.986357,
-      "strength": 1.15572,
+      "ema_fast": 55.0893,
+      "ema_slow": 55.005213,
+      "strength": 1.028087,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
-    },
-    {
-      "ticker": "XLRE",
-      "close": 41.814499,
-      "ema_fast": 41.792466,
-      "ema_slow": 41.706071,
-      "strength": 1.126106,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
+      "last_bar": "2026-10-12 13:45:00-04:00"
     },
     {
       "ticker": "DIA",
-      "close": 518.0,
-      "ema_fast": 518.008319,
-      "ema_slow": 517.453229,
-      "strength": 1.052357,
+      "close": 518.090027,
+      "ema_fast": 518.018503,
+      "ema_slow": 517.553073,
+      "strength": 0.952327,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
-    },
-    {
-      "ticker": "MSFT",
-      "close": 540.390015,
-      "ema_fast": 540.430402,
-      "ema_slow": 539.085619,
-      "strength": 0.951252,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
-    },
-    {
-      "ticker": "XLE",
-      "close": 66.035004,
-      "ema_fast": 65.997702,
-      "ema_slow": 65.841597,
-      "strength": 0.87292,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
+      "last_bar": "2026-10-12 13:45:00-04:00"
     },
     {
       "ticker": "META",
-      "close": 747.88501,
-      "ema_fast": 744.398578,
-      "ema_slow": 739.515587,
-      "strength": 0.8524,
+      "close": 747.869995,
+      "ema_fast": 745.908373,
+      "ema_slow": 741.036301,
+      "strength": 0.878982,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
+      "last_bar": "2026-10-12 13:45:00-04:00"
     },
     {
-      "ticker": "BRK-B",
-      "close": 517.890015,
-      "ema_fast": 517.410818,
-      "ema_slow": 516.690691,
-      "strength": 0.833798,
+      "ticker": "MSFT",
+      "close": 540.599976,
+      "ema_fast": 540.517699,
+      "ema_slow": 539.358324,
+      "strength": 0.862554,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
+      "last_bar": "2026-10-12 13:45:00-04:00"
+    },
+    {
+      "ticker": "XLE",
+      "close": 65.974998,
+      "ema_fast": 65.990287,
+      "ema_slow": 65.865546,
+      "strength": 0.767938,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-12 13:45:00-04:00"
     },
     {
       "ticker": "XLV",
-      "close": 171.464996,
-      "ema_fast": 171.362917,
-      "ema_slow": 171.15368,
-      "strength": 0.757669,
+      "close": 171.490005,
+      "ema_fast": 171.399583,
+      "ema_slow": 171.205739,
+      "strength": 0.720433,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
+      "last_bar": "2026-10-12 13:45:00-04:00"
+    },
+    {
+      "ticker": "BRK-B",
+      "close": 517.219971,
+      "ema_fast": 517.384977,
+      "ema_slow": 516.806896,
+      "strength": 0.679673,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-12 13:45:00-04:00"
     },
     {
       "ticker": "XLU",
-      "close": 41.5443,
-      "ema_fast": 41.549084,
-      "ema_slow": 41.501419,
-      "strength": 0.609135,
+      "close": 41.5424,
+      "ema_fast": 41.548523,
+      "ema_slow": 41.509587,
+      "strength": 0.540505,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
-    },
-    {
-      "ticker": "AAPL",
-      "close": 339.304993,
-      "ema_fast": 339.776885,
-      "ema_slow": 339.283439,
-      "strength": 0.528072,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
-    },
-    {
-      "ticker": "XLB",
-      "close": 49.602001,
-      "ema_fast": 49.627819,
-      "ema_slow": 49.587639,
-      "strength": 0.49214,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
+      "last_bar": "2026-10-12 13:45:00-04:00"
     },
     {
       "ticker": "JPM",
-      "close": 334.48999,
-      "ema_fast": 334.360888,
-      "ema_slow": 334.037124,
-      "strength": 0.451773,
+      "close": 334.670013,
+      "ema_fast": 334.42799,
+      "ema_slow": 334.120819,
+      "strength": 0.447671,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
-    },
-    {
-      "ticker": "TLT",
-      "close": 78.010002,
-      "ema_fast": 77.971527,
-      "ema_slow": 77.937125,
-      "strength": 0.415112,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
-    },
-    {
-      "ticker": "XLI",
-      "close": 169.660004,
-      "ema_fast": 169.648736,
-      "ema_slow": 169.56143,
-      "strength": 0.357039,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
+      "last_bar": "2026-10-12 13:45:00-04:00"
     },
     {
       "ticker": "XLC",
-      "close": 111.379997,
-      "ema_fast": 111.337546,
-      "ema_slow": 111.244695,
-      "strength": 0.319952,
+      "close": 111.599998,
+      "ema_fast": 111.424811,
+      "ema_slow": 111.298508,
+      "strength": 0.445774,
       "bullish_cross": false,
       "bearish_cross": false,
-      "last_bar": "2026-10-12 13:15:00-04:00"
+      "last_bar": "2026-10-12 13:45:00-04:00"
+    },
+    {
+      "ticker": "AAPL",
+      "close": 339.670013,
+      "ema_fast": 339.676187,
+      "ema_slow": 339.322732,
+      "strength": 0.411682,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-12 13:45:00-04:00"
+    },
+    {
+      "ticker": "TLT",
+      "close": 77.964996,
+      "ema_fast": 77.965491,
+      "ema_slow": 77.940309,
+      "strength": 0.320475,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-12 13:45:00-04:00"
     }
   ],
   "planned_trades": [],
   "notes": [
-    "entry_skip_below_min_order:XLE:budget_$226.47<min_$1,000",
+    "entry_skip_below_min_order:XLE:budget_$221.44<min_$1,000",
+    "entry_skip_below_min_order:XLV:budget_$221.44<min_$1,000",
     "entry_skip_too_small:BRK-B",
-    "entry_skip_cooldown:XLV:12m",
-    "entry_skip_below_min_order:XLU:budget_$226.47<min_$1,000",
+    "entry_skip_below_min_order:XLU:budget_$221.44<min_$1,000",
+    "entry_skip_too_small:JPM",
+    "entry_skip_below_min_order:XLC:budget_$221.44<min_$1,000",
     "entry_skip_too_small:AAPL",
-    "entry_skip_below_min_order:XLB:budget_$226.47<min_$1,000",
-    "entry_skip_cooldown:JPM:12m",
-    "entry_skip_below_min_order:TLT:budget_$226.47<min_$1,000",
-    "entry_skip_below_min_order:XLI:budget_$226.47<min_$1,000",
-    "entry_skip_below_min_order:XLC:budget_$226.47<min_$1,000"
+    "entry_skip_below_min_order:TLT:budget_$221.44<min_$1,000"
   ],
   "governance": {
     "paper_only": true,
