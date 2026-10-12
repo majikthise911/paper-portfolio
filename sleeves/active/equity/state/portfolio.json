@@ -1,53 +1,89 @@
 {
-  "as_of": "2026-10-12T09:42:45-04:00",
+  "as_of": "2026-10-12T10:11:01-04:00",
   "currency": "USD",
   "sleeve": "active_equity",
-  "cash": 54963.77,
+  "cash": 20481.01,
   "positions": {
     "XLF": {
       "shares": 275,
       "avg_cost": 53.875,
       "cost_basis": 14815.62,
-      "last_price": 55.015,
-      "market_value": 15129.12,
+      "last_price": 55.04,
+      "market_value": 15136.0,
       "sector": "financials",
       "opened_at": "2026-10-08T09:56:09.402027-04:00",
-      "unrealized_pnl": 313.5,
+      "unrealized_pnl": 321.75,
       "stop_price": 53.713174,
-      "weight": 0.152241
+      "weight": 0.152282
     },
     "JPM": {
       "shares": 43,
       "avg_cost": 329.299988,
       "cost_basis": 14159.9,
-      "last_price": 334.8,
-      "market_value": 14396.4,
+      "last_price": 334.865,
+      "market_value": 14399.19,
       "sector": "financials",
       "opened_at": "2026-10-08T09:56:09.402027-04:00",
-      "unrealized_pnl": 236.5,
+      "unrealized_pnl": 239.08,
       "stop_price": 327.824808,
-      "weight": 0.144868
+      "weight": 0.144853
     },
     "TLT": {
       "shares": 191,
       "avg_cost": 77.7369,
       "cost_basis": 14847.75,
-      "last_price": 77.94,
-      "market_value": 14886.54,
+      "last_price": 78.03,
+      "market_value": 14903.73,
       "sector": "bonds",
       "opened_at": "2026-10-09T11:24:34.708957-04:00",
-      "unrealized_pnl": 38.79,
+      "unrealized_pnl": 55.98,
       "stop_price": 77.547463,
-      "weight": 0.1498
+      "weight": 0.149931
+    },
+    "DIA": {
+      "shares": 28,
+      "avg_cost": 517.830017,
+      "cost_basis": 14499.24,
+      "last_price": 517.84,
+      "market_value": 14499.52,
+      "sector": "broad",
+      "opened_at": "2026-10-12T10:10:57.719515-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 516.84425,
+      "weight": 0.145862
+    },
+    "XLV": {
+      "shares": 86,
+      "avg_cost": 171.899994,
+      "cost_basis": 14783.4,
+      "last_price": 171.91,
+      "market_value": 14784.26,
+      "sector": "health",
+      "opened_at": "2026-10-12T10:10:57.719515-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 171.313728,
+      "weight": 0.148721
+    },
+    "META": {
+      "shares": 7,
+      "avg_cost": 742.874573,
+      "cost_basis": 5200.12,
+      "last_price": 742.8746,
+      "market_value": 5200.12,
+      "sector": "communication",
+      "opened_at": "2026-10-12T10:10:57.719515-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 735.788346,
+      "weight": 0.052313
     }
   },
-  "nav": 99375.83,
+  "nav": 99403.84,
   "starting_capital": 100000.0,
   "peak_nav": 100060.85,
-  "spy_last_close": 779.1901,
-  "total_pnl": -624.17,
-  "total_pnl_pct": -0.6242,
-  "drawdown_pct": -0.6846,
-  "last_trade_batch": "active_auto_2026-10-12_094242",
-  "notes": "Active auto-book 2026-10-12T09:42:42.009558-04:00: 0 BUY / 3 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
+  "spy_last_close": 777.96,
+  "total_pnl": -596.16,
+  "total_pnl_pct": -0.5962,
+  "drawdown_pct": -0.6566,
+  "last_trade_batch": "active_auto_2026-10-12_101057",
+  "notes": "Active auto-book 2026-10-12T10:10:57.719515-04:00: 3 BUY / 0 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
 }
