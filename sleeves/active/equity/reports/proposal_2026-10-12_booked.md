@@ -1,31 +1,31 @@
 # Active active_equity booked 2026-10-12
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-12T10:10:57.719515-04:00
+- **As of:** 2026-10-12T12:04:55.433788-04:00
 - **Mode:** auto_book
 - **executed:** true
 - **Session:** US_RTH
-- **Entries today before:** 0 / cap 8 (exits exempt; all fills today: 3)
+- **Entries today before:** 3 / cap 8 (exits exempt; all fills today: 6)
 - **Min order:** $1,000
 
 ## Planned / booked trades
 
-- BUY 28 DIA @ 517.830017 (~$14,499.24; ema_trend_long)
-- BUY 86 XLV @ 171.899994 (~$14,783.40; ema_trend_long)
-- BUY 7 META @ 742.874573 (~$5,200.12; ema_trend_long)
+- SELL 191 TLT @ 77.893303 (~$14,877.62; ema_trend_broken)
+- BUY 27 MSFT @ 541.460022 (~$14,619.42; ema_trend_long)
 
 ## Notes
 
-- entry_skip_below_min_order:MSFT:budget_$600.24<min_$1,000
-- entry_skip_below_min_order:AAPL:budget_$600.24<min_$1,000
-- entry_skip_below_min_order:XLRE:budget_$600.24<min_$1,000
-- entry_skip_below_min_order:XLP:budget_$600.24<min_$1,000
-- entry_skip_below_min_order:BRK-B:budget_$600.24<min_$1,000
-- entry_skip_below_min_order:XLE:budget_$600.24<min_$1,000
-- entry_skip_below_min_order:XLU:budget_$600.24<min_$1,000
-- entry_skip_cooldown:XLI:32m
-- entry_skip_below_min_order:GOOGL:budget_$600.24<min_$1,000
-- entry_skip_below_min_order:XLC:budget_$600.24<min_$1,000
+- entry_skip_below_min_order:XLP:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:XLRE:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:AAPL:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:XLU:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:XLI:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:XLE:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:XLC:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:XLB:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:BRK-B:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:GOOGL:budget_$862.82<min_$1,000
+- entry_skip_below_min_order:SPY:budget_$862.82<min_$1,000
 
 ## Governance
 
