@@ -1,18 +1,20 @@
 # Active active_equity booked 2026-10-12
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-12T14:59:17.261432-04:00
+- **As of:** 2026-10-12T15:23:31.164402-04:00
 - **Mode:** auto_book
 - **executed:** true
 - **Session:** US_RTH
-- **Entries today before:** 7 / cap 8 (exits exempt; all fills today: 14)
+- **Entries today before:** 8 / cap 8 (exits exempt; all fills today: 17)
 - **Min order:** $1,000
 
 ## Planned / booked trades
 
-- SELL 28 DIA @ 517.559998 (~$14,491.68; ema_trend_broken)
-- SELL 356 XLRE @ 41.735001 (~$14,857.66; ema_trend_broken)
-- BUY 28 BRK-B @ 518.219971 (~$14,510.16; ema_trend_long)
+- SELL 275 XLF @ 55.009998 (~$15,127.75; ema_trend_broken)
+
+## Notes
+
+- daily_trade_cap_reached_no_entries
 
 ## Governance
 
