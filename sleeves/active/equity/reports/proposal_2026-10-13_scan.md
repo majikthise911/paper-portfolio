@@ -1,7 +1,7 @@
 # Active active_equity scan 2026-10-13
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-13T10:34:40.962645-04:00
+- **As of:** 2026-10-13T10:54:23.883124-04:00
 - **Mode:** auto_book
 - **executed:** false
 - **Session:** US_RTH
@@ -14,9 +14,9 @@
 
 ## Notes
 
+- entry_skip_too_small:XLF
 - entry_skip_too_small:XLC
 - entry_skip_too_small:META
-- entry_skip_too_small:AMZN
 - entry_skip_too_small:JPM
 - entry_skip_too_small:GOOGL
 
