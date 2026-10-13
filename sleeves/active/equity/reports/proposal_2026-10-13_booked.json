@@ -1,0 +1,256 @@
+{
+  "as_of": "2026-10-13T09:47:09.496097-04:00",
+  "mode": "auto_book",
+  "executed": true,
+  "strategy": "equity_15m_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 99292.21,
+  "cash_before": 55077.44,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 8,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 8,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "MSFT",
+      "close": 549.39502,
+      "ema_fast": 543.911019,
+      "ema_slow": 541.419404,
+      "strength": 1.420678,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "TLT",
+      "close": 78.449997,
+      "ema_fast": 78.176672,
+      "ema_slow": 78.051164,
+      "strength": 1.292894,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "XLE",
+      "close": 66.709999,
+      "ema_fast": 66.254253,
+      "ema_slow": 66.047129,
+      "strength": 1.088462,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 84.452499,
+      "ema_fast": 84.306507,
+      "ema_slow": 84.127765,
+      "strength": 1.047887,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "XLC",
+      "close": 112.620003,
+      "ema_fast": 111.862287,
+      "ema_slow": 111.574836,
+      "strength": 0.92114,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "BRK-B",
+      "close": 520.27002,
+      "ema_fast": 518.609131,
+      "ema_slow": 517.705641,
+      "strength": 0.846191,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "DIA",
+      "close": 519.830017,
+      "ema_fast": 518.527438,
+      "ema_slow": 517.976245,
+      "strength": 0.678554,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "AAPL",
+      "close": 341.980011,
+      "ema_fast": 340.97956,
+      "ema_slow": 340.177929,
+      "strength": 0.668228,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "XLRE",
+      "close": 41.91,
+      "ema_fast": 41.860682,
+      "ema_slow": 41.79687,
+      "strength": 0.589246,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "META",
+      "close": 756.361572,
+      "ema_fast": 748.17222,
+      "ema_slow": 744.863499,
+      "strength": 0.575735,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "JPM",
+      "close": 336.279999,
+      "ema_fast": 335.292714,
+      "ema_slow": 334.707909,
+      "strength": 0.393659,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "GOOGL",
+      "close": 355.540009,
+      "ema_fast": 353.741177,
+      "ema_slow": 353.220585,
+      "strength": 0.393178,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "XLF",
+      "close": 55.174999,
+      "ema_fast": 55.095795,
+      "ema_slow": 55.049592,
+      "strength": 0.374084,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "AMZN",
+      "close": 262.279999,
+      "ema_fast": 260.600751,
+      "ema_slow": 260.371206,
+      "strength": 0.304538,
+      "bullish_cross": true,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "XLY",
+      "close": 112.809998,
+      "ema_fast": 112.472741,
+      "ema_slow": 112.432452,
+      "strength": 0.260853,
+      "bullish_cross": true,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "XLB",
+      "close": 49.73,
+      "ema_fast": 49.567627,
+      "ema_slow": 49.552729,
+      "strength": 0.154261,
+      "bullish_cross": true,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "GLD",
+      "close": 382.890015,
+      "ema_fast": 382.368514,
+      "ema_slow": 382.30657,
+      "strength": 0.112759,
+      "bullish_cross": true,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    },
+    {
+      "ticker": "SPY",
+      "close": 778.299988,
+      "ema_fast": 777.930039,
+      "ema_slow": 777.862558,
+      "strength": 0.111079,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-13 09:45:00-04:00"
+    }
+  ],
+  "planned_trades": [
+    {
+      "ticker": "XLV",
+      "side": "SELL",
+      "shares": 86.0,
+      "price": 170.919998,
+      "dollars": 14699.12,
+      "sector": "health",
+      "reason": "ema_trend_broken+atr_stop",
+      "signal": "ema_trend_exit",
+      "stop_price": 171.125685,
+      "ema_fast": 171.424997,
+      "ema_slow": 171.390227,
+      "last_bar": "2026-10-13 09:45:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": -48.16
+    }
+  ],
+  "notes": [
+    "entry_skip_opening_window:delay_30m"
+  ],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "booked_fills": [
+    {
+      "ticker": "XLV",
+      "side": "SELL",
+      "shares": 86,
+      "price": 170.919998,
+      "dollars": 14699.12,
+      "sector": "health",
+      "realized_pnl": -48.16,
+      "reason": "ema_trend_broken+atr_stop",
+      "fill_source": "yfinance_15m_close"
+    }
+  ],
+  "nav_after": 99292.21,
+  "cash_after": 69776.56,
+  "summary": {
+    "n_planned": 1,
+    "n_buys": 0,
+    "n_sells": 1,
+    "booked": true,
+    "cash_after": 69776.56,
+    "nav_after": 99292.21
+  }
+}
