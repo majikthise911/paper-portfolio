@@ -1,20 +1,27 @@
 # Active active_equity booked 2026-10-13
 
 - **Strategy:** equity_15m_ema_trend
-- **As of:** 2026-10-13T09:47:09.496097-04:00
+- **As of:** 2026-10-13T10:12:32.953594-04:00
 - **Mode:** auto_book
 - **executed:** true
 - **Session:** US_RTH
-- **Entries today before:** 0 / cap 8 (exits exempt; all fills today: 0)
+- **Entries today before:** 0 / cap 8 (exits exempt; all fills today: 1)
 - **Min order:** $1,000
 
 ## Planned / booked trades
 
-- SELL 86 XLV @ 170.919998 (~$14,699.12; ema_trend_broken+atr_stop)
+- BUY 27 MSFT @ 548.169983 (~$14,800.59; ema_trend_long)
+- BUY 223 XLE @ 66.445 (~$14,817.23; ema_trend_long)
+- BUY 43 AAPL @ 345.470001 (~$14,855.21; ema_trend_long)
+- BUY 69 TLT @ 78.364998 (~$5,407.18; ema_trend_long)
 
 ## Notes
 
-- entry_skip_opening_window:delay_30m
+- entry_skip_too_small:XLC
+- entry_skip_too_small:META
+- entry_skip_too_small:GOOGL
+- entry_skip_too_small:AMZN
+- entry_skip_too_small:JPM
 
 ## Governance
 
