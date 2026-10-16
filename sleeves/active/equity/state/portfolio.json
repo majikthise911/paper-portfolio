@@ -1,89 +1,77 @@
 {
-  "as_of": "2026-10-16T11:26:56-04:00",
+  "as_of": "2026-10-16T15:24:41-04:00",
   "currency": "USD",
   "sleeve": "active_equity",
-  "cash": 20310.71,
+  "cash": 24798.82,
   "positions": {
     "TLT": {
       "shares": 188,
       "avg_cost": 78.844803,
       "cost_basis": 14822.82,
-      "last_price": 80.185,
-      "market_value": 15074.78,
+      "last_price": 80.0599,
+      "market_value": 15051.26,
       "sector": "bonds",
       "opened_at": "2026-10-14T15:28:56.101681-04:00",
-      "unrealized_pnl": 251.96,
+      "unrealized_pnl": 227.52,
       "stop_price": 78.648608,
-      "weight": 0.151194
+      "weight": 0.151627
     },
     "BRK-B": {
       "shares": 28,
       "avg_cost": 525.690002,
       "cost_basis": 14719.32,
-      "last_price": 530.505,
-      "market_value": 14854.14,
+      "last_price": 529.54,
+      "market_value": 14827.12,
       "sector": "financials",
       "opened_at": "2026-10-14T15:28:56.101681-04:00",
-      "unrealized_pnl": 134.82,
+      "unrealized_pnl": 107.8,
       "stop_price": 524.065272,
-      "weight": 0.148981
+      "weight": 0.149378
     },
-    "JPM": {
-      "shares": 14,
-      "avg_cost": 334.859985,
-      "cost_basis": 4688.04,
-      "last_price": 342.62,
-      "market_value": 4796.68,
-      "sector": "financials",
-      "opened_at": "2026-10-14T15:28:56.101681-04:00",
-      "unrealized_pnl": 107.66,
-      "stop_price": 333.010533,
-      "weight": 0.048099
-    },
-    "XLI": {
-      "shares": 88,
-      "avg_cost": 166.977905,
-      "cost_basis": 14694.06,
-      "last_price": 168.46,
-      "market_value": 14824.48,
-      "sector": "industrials",
-      "opened_at": "2026-10-15T11:24:18.932719-04:00",
-      "unrealized_pnl": 129.54,
-      "stop_price": 166.216064,
-      "weight": 0.148675
-    },
-    "XLB": {
-      "shares": 292,
-      "avg_cost": 51.18,
-      "cost_basis": 14944.56,
-      "last_price": 51.17,
-      "market_value": 14941.64,
-      "sector": "materials",
-      "opened_at": "2026-10-16T11:26:52.512783-04:00",
+    "XLE": {
+      "shares": 218,
+      "avg_cost": 68.089996,
+      "cost_basis": 14843.62,
+      "last_price": 68.0901,
+      "market_value": 14843.64,
+      "sector": "energy",
+      "opened_at": "2026-10-16T15:24:36.946281-04:00",
       "unrealized_pnl": 0.0,
-      "stop_price": 50.925193,
-      "weight": 0.149888
+      "stop_price": 67.813784,
+      "weight": 0.149545
     },
-    "XLF": {
-      "shares": 267,
-      "avg_cost": 55.810001,
-      "cost_basis": 14901.27,
-      "last_price": 55.81,
-      "market_value": 14901.27,
-      "sector": "financials",
-      "opened_at": "2026-10-16T11:26:52.512783-04:00",
+    "XLU": {
+      "shares": 353,
+      "avg_cost": 42.165001,
+      "cost_basis": 14884.25,
+      "last_price": 42.165,
+      "market_value": 14884.25,
+      "sector": "utilities",
+      "opened_at": "2026-10-16T15:24:36.946281-04:00",
       "unrealized_pnl": 0.0,
-      "stop_price": 55.583886,
-      "weight": 0.149454
+      "stop_price": 42.03326,
+      "weight": 0.149954
+    },
+    "XLP": {
+      "shares": 170,
+      "avg_cost": 87.379997,
+      "cost_basis": 14854.6,
+      "last_price": 87.38,
+      "market_value": 14854.6,
+      "sector": "consumer_staples",
+      "opened_at": "2026-10-16T15:24:36.946281-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 87.112769,
+      "weight": 0.149655
     }
   },
-  "nav": 99703.7,
+  "nav": 99259.69,
   "starting_capital": 100000.0,
   "peak_nav": 100060.85,
-  "spy_last_close": 769.1,
-  "total_pnl": -296.3,
-  "total_pnl_pct": -0.2963,
-  "drawdown_pct": -0.3569,
-  "last_trade_batch": "active_auto_2026-10-16_112652",
-  "notes": "Active auto-book 2026-10-16T11:26:52.512783-04:00: 2 BUY / 2 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
+  "spy_last_close": 763.07,
+  "total_pnl": -740.31,
+  "total_pnl_pct": -0.7403,
+  "drawdown_pct": -0.8007,
+  "last_trade_batch": "active_auto_2026-10-16_152436",
+  "notes": "Active auto-book 2026-10-16T15:24:36.946281-04:00: 3 BUY / 4 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
 }
