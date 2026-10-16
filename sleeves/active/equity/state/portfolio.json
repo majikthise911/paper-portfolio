@@ -1,89 +1,89 @@
 {
-  "as_of": "2026-10-16T08:18:38-04:00",
+  "as_of": "2026-10-16T11:26:56-04:00",
   "currency": "USD",
   "sleeve": "active_equity",
-  "cash": 20656.02,
+  "cash": 20310.71,
   "positions": {
-    "XLV": {
-      "shares": 85,
-      "avg_cost": 172.990005,
-      "cost_basis": 14704.15,
-      "last_price": 177.19,
-      "market_value": 15061.15,
-      "sector": "health",
-      "opened_at": "2026-10-14T11:30:51.452244-04:00",
-      "unrealized_pnl": 437.32,
-      "stop_price": 172.259222,
-      "weight": 0.151636
-    },
     "TLT": {
       "shares": 188,
       "avg_cost": 78.844803,
       "cost_basis": 14822.82,
-      "last_price": 79.97,
-      "market_value": 15034.36,
+      "last_price": 80.185,
+      "market_value": 15074.78,
       "sector": "bonds",
       "opened_at": "2026-10-14T15:28:56.101681-04:00",
-      "unrealized_pnl": 212.48,
+      "unrealized_pnl": 251.96,
       "stop_price": 78.648608,
-      "weight": 0.150573
+      "weight": 0.151194
     },
     "BRK-B": {
       "shares": 28,
       "avg_cost": 525.690002,
       "cost_basis": 14719.32,
-      "last_price": 525.68,
-      "market_value": 14719.04,
+      "last_price": 530.505,
+      "market_value": 14854.14,
       "sector": "financials",
       "opened_at": "2026-10-14T15:28:56.101681-04:00",
-      "unrealized_pnl": 69.16,
+      "unrealized_pnl": 134.82,
       "stop_price": 524.065272,
-      "weight": 0.148101
+      "weight": 0.148981
     },
     "JPM": {
       "shares": 14,
       "avg_cost": 334.859985,
       "cost_basis": 4688.04,
-      "last_price": 335.53,
-      "market_value": 4697.42,
+      "last_price": 342.62,
+      "market_value": 4796.68,
       "sector": "financials",
       "opened_at": "2026-10-14T15:28:56.101681-04:00",
-      "unrealized_pnl": 10.36,
+      "unrealized_pnl": 107.66,
       "stop_price": 333.010533,
-      "weight": 0.047053
+      "weight": 0.048099
     },
     "XLI": {
       "shares": 88,
       "avg_cost": 166.977905,
       "cost_basis": 14694.06,
-      "last_price": 167.89,
-      "market_value": 14774.32,
+      "last_price": 168.46,
+      "market_value": 14824.48,
       "sector": "industrials",
       "opened_at": "2026-10-15T11:24:18.932719-04:00",
-      "unrealized_pnl": 58.7,
+      "unrealized_pnl": 129.54,
       "stop_price": 166.216064,
-      "weight": 0.147743
+      "weight": 0.148675
     },
-    "AVGO": {
-      "shares": 43,
-      "avg_cost": 343.755005,
-      "cost_basis": 14781.47,
-      "last_price": 344.33,
-      "market_value": 14806.19,
-      "sector": "tech",
-      "opened_at": "2026-10-15T15:24:22.570716-04:00",
+    "XLB": {
+      "shares": 292,
+      "avg_cost": 51.18,
+      "cost_basis": 14944.56,
+      "last_price": 51.17,
+      "market_value": 14941.64,
+      "sector": "materials",
+      "opened_at": "2026-10-16T11:26:52.512783-04:00",
       "unrealized_pnl": 0.0,
-      "stop_price": 341.218883,
-      "weight": 0.148031
+      "stop_price": 50.925193,
+      "weight": 0.149888
+    },
+    "XLF": {
+      "shares": 267,
+      "avg_cost": 55.810001,
+      "cost_basis": 14901.27,
+      "last_price": 55.81,
+      "market_value": 14901.27,
+      "sector": "financials",
+      "opened_at": "2026-10-16T11:26:52.512783-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 55.583886,
+      "weight": 0.149454
     }
   },
-  "nav": 99748.5,
+  "nav": 99703.7,
   "starting_capital": 100000.0,
   "peak_nav": 100060.85,
-  "spy_last_close": 771.79,
-  "total_pnl": -251.5,
-  "total_pnl_pct": -0.2515,
-  "drawdown_pct": -0.3122,
-  "last_trade_batch": "active_auto_2026-10-15_152422",
-  "notes": "Active auto-book 2026-10-15T15:24:22.570716-04:00: 1 BUY / 1 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
+  "spy_last_close": 769.1,
+  "total_pnl": -296.3,
+  "total_pnl_pct": -0.2963,
+  "drawdown_pct": -0.3569,
+  "last_trade_batch": "active_auto_2026-10-16_112652",
+  "notes": "Active auto-book 2026-10-16T11:26:52.512783-04:00: 2 BUY / 2 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
 }

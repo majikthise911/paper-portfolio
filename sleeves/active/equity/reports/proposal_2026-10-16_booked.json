@@ -1,0 +1,304 @@
+{
+  "as_of": "2026-10-16T11:26:52.512783-04:00",
+  "mode": "auto_book",
+  "executed": true,
+  "strategy": "equity_15m_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 99704.76,
+  "cash_before": 20656.02,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 8,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 6,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "JPM",
+      "close": 342.549988,
+      "ema_fast": 341.823861,
+      "ema_slow": 338.922891,
+      "strength": 1.98353,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLB",
+      "close": 51.18,
+      "ema_fast": 51.180066,
+      "ema_slow": 50.877875,
+      "strength": 1.778941,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLF",
+      "close": 55.810001,
+      "ema_fast": 55.762004,
+      "ema_slow": 55.500534,
+      "strength": 1.734536,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLRE",
+      "close": 42.450001,
+      "ema_fast": 42.291649,
+      "ema_slow": 42.134453,
+      "strength": 1.492522,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLI",
+      "close": 168.449997,
+      "ema_fast": 168.712373,
+      "ema_slow": 168.074604,
+      "strength": 1.318272,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLU",
+      "close": 42.130001,
+      "ema_fast": 42.033166,
+      "ema_slow": 41.881641,
+      "strength": 1.297955,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLY",
+      "close": 113.830002,
+      "ema_fast": 113.941242,
+      "ema_slow": 113.597731,
+      "strength": 1.266529,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "GLD",
+      "close": 382.679993,
+      "ema_fast": 383.152492,
+      "ema_slow": 382.158764,
+      "strength": 1.260952,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 87.675003,
+      "ema_fast": 87.529052,
+      "ema_slow": 87.260981,
+      "strength": 0.992146,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "DIA",
+      "close": 522.179871,
+      "ema_fast": 522.673549,
+      "ema_slow": 521.712226,
+      "strength": 0.975163,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLE",
+      "close": 67.345001,
+      "ema_fast": 67.170498,
+      "ema_slow": 66.956238,
+      "strength": 0.914158,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "BRK-B",
+      "close": 530.505005,
+      "ema_fast": 530.583529,
+      "ema_slow": 529.49059,
+      "strength": 0.748296,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "AAPL",
+      "close": 346.089996,
+      "ema_fast": 344.943647,
+      "ema_slow": 344.192063,
+      "strength": 0.515342,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "TLT",
+      "close": 80.184998,
+      "ema_fast": 80.107222,
+      "ema_slow": 80.028371,
+      "strength": 0.506895,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    }
+  ],
+  "planned_trades": [
+    {
+      "ticker": "XLV",
+      "side": "SELL",
+      "shares": 85.0,
+      "price": 177.220001,
+      "dollars": 15063.7,
+      "sector": "health",
+      "reason": "ema_bearish_cross+ema_trend_broken",
+      "signal": "ema_trend_exit",
+      "stop_price": 172.259222,
+      "ema_fast": 177.518876,
+      "ema_slow": 177.546259,
+      "last_bar": "2026-10-16 11:15:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": 359.55
+    },
+    {
+      "ticker": "AVGO",
+      "side": "SELL",
+      "shares": 43.0,
+      "price": 335.73999,
+      "dollars": 14436.82,
+      "sector": "tech",
+      "reason": "ema_trend_broken+atr_stop",
+      "signal": "ema_trend_exit",
+      "stop_price": 341.218883,
+      "ema_fast": 337.939914,
+      "ema_slow": 339.337937,
+      "last_bar": "2026-10-16 11:15:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": -344.65
+    },
+    {
+      "ticker": "XLB",
+      "side": "BUY",
+      "shares": 292.0,
+      "price": 51.18,
+      "dollars": 14944.56,
+      "sector": "materials",
+      "reason": "ema_trend_long",
+      "signal": "ema_trend_long",
+      "stop_price": 50.925193,
+      "ema_fast": 51.180066,
+      "ema_slow": 50.877875,
+      "strength": 1.778941,
+      "bullish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLF",
+      "side": "BUY",
+      "shares": 267.0,
+      "price": 55.810001,
+      "dollars": 14901.27,
+      "sector": "financials",
+      "reason": "ema_trend_long",
+      "signal": "ema_trend_long",
+      "stop_price": 55.583886,
+      "ema_fast": 55.762004,
+      "ema_slow": 55.500534,
+      "strength": 1.734536,
+      "bullish_cross": false,
+      "last_bar": "2026-10-16 11:15:00-04:00"
+    }
+  ],
+  "notes": [
+    "entry_skip_below_min_order:XLRE:budget_$369.76<min_$1,000",
+    "entry_skip_below_min_order:XLU:budget_$369.76<min_$1,000",
+    "entry_skip_below_min_order:XLY:budget_$369.76<min_$1,000",
+    "entry_skip_too_small:GLD",
+    "entry_skip_below_min_order:XLP:budget_$369.76<min_$1,000",
+    "entry_skip_too_small:DIA",
+    "entry_skip_below_min_order:XLE:budget_$369.76<min_$1,000",
+    "entry_skip_below_min_order:AAPL:budget_$369.76<min_$1,000"
+  ],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "booked_fills": [
+    {
+      "ticker": "XLV",
+      "side": "SELL",
+      "shares": 85,
+      "price": 177.220001,
+      "dollars": 15063.7,
+      "sector": "health",
+      "realized_pnl": 359.55,
+      "reason": "ema_bearish_cross+ema_trend_broken",
+      "fill_source": "yfinance_15m_close"
+    },
+    {
+      "ticker": "AVGO",
+      "side": "SELL",
+      "shares": 43,
+      "price": 335.73999,
+      "dollars": 14436.82,
+      "sector": "tech",
+      "realized_pnl": -344.65,
+      "reason": "ema_trend_broken+atr_stop",
+      "fill_source": "yfinance_15m_close"
+    },
+    {
+      "ticker": "XLB",
+      "side": "BUY",
+      "shares": 292,
+      "price": 51.18,
+      "dollars": 14944.56,
+      "sector": "materials",
+      "reason": "ema_trend_long",
+      "stop_price": 50.925193,
+      "fill_source": "yfinance_15m_close"
+    },
+    {
+      "ticker": "XLF",
+      "side": "BUY",
+      "shares": 267,
+      "price": 55.810001,
+      "dollars": 14901.27,
+      "sector": "financials",
+      "reason": "ema_trend_long",
+      "stop_price": 55.583886,
+      "fill_source": "yfinance_15m_close"
+    }
+  ],
+  "nav_after": 99704.76,
+  "cash_after": 20310.71,
+  "summary": {
+    "n_planned": 4,
+    "n_buys": 2,
+    "n_sells": 2,
+    "booked": true,
+    "cash_after": 20310.71,
+    "nav_after": 99704.76
+  }
+}
