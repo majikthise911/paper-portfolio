@@ -5,6 +5,35 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-10-19, Equity momentum rebalances monthly (first Monday), weekly shadow kept
+
+- **Sleeve:** momentum equity only (crypto stays weekly under rule v2)
+- **Change:** `config/rules.json` rule_version 3 to 4. `rebalance.cadence` is now `monthly`, `schedule: first_monday_of_month`, first monthly rebalance 2026-11-02. Signal (63d return, 252d filter), top-10 rank buffer, buy-from-top-8, and all hard caps are unchanged. Non-first Mondays are mark and scorecard only, except a hard-cap breach can still force a trade. Today's AMZN to BRK-B rotation is the last weekly-cadence trade. A weekly shadow book (`state/shadow_weekly.json`) starts from the post-trade book on 2026-10-19 and is re-run each Monday under the old weekly rule, never booked.
+- **Observation:** In the 1y walk-forward (`reports/method_backtest_2026-10-19.json`), monthly top 8 returned +4.45% vs +4.51% for the live weekly buffer (a tie), with a shallower drawdown (-7.82% vs -8.64%) and a third less turnover (4.3x vs 6.3x). Over the last 3 months monthly returned +3.35% vs -0.07% for weekly (SPY +3.11%).
+- **Logic:** Options were keep weekly, go monthly, switch to weekly mean reversion (+17.04% 1y but 10.8x turnover and a different method), or drop to SPY. Monthly matches the 1y return with less churn and drawdown and leads over 3m. It changes cadence only, so the experiment still tests momentum. Mean reversion stays a shadow until the 11/02 checkpoint.
+- **Jordan approval:** Chat 2026-10-05 standing order (Paper decides rule changes from research and updates afterward; Jordan may override).
+- **Effective:** 2026-10-19. First monthly rebalance 2026-11-02.
+- **How we judge:** Four monthly rebalances (2026-11-02, 12-07, 2027-01-04, 02-01) vs the weekly shadow. Revert to weekly if monthly trails the shadow by more than 1.5 pts or adds more than 1 pt of drawdown.
+
+## 2026-10-19, Crypto sizing script now uses rule v2
+
+- **Sleeve:** momentum crypto (tooling only, no rule change)
+- **Change:** Rewrote `scripts/crypto_allocate.py` to size the v2 book: BTC core at `btc_core_pct` (50%), top `satellite_top_n` (2) names from `satellite_pool` by 63d return at `satellite_weight_pct` (15%) each, rest cash with the 20% floor. It now proposes deltas against the current book at live prices (sells first), with bands from `rules.json` (`core_band_pct` 1 pt, `satellite_band_pct` 2 pts, `min_trade_usd` $100), and scales buys down if cash would fall under the floor.
+- **Observation:** On 2026-10-19 the old script still proposed the pre-10/12 strength-weighted top-5 book and ignored the BTC core, so the weekly trades had to be sized by hand.
+- **Logic:** The sizing tool has to match the live rule or the weekly routine proposes the wrong book. Run on 2026-10-19 it reproduced the hand-sized trades (sell LINK, trim BTC to 50%, buy SOL to 15%, hold AVAX within band).
+- **Jordan approval:** Standing order 2026-10-05.
+- **Effective:** 2026-10-19.
+
+## 2026-10-19, Active daily entry cap: audit and booking-time re-check
+
+- **Sleeve:** active equity and crypto
+- **Change:** `run_active.py` re-reads today's BUY entries from the ledger right before booking and drops any planned BUY beyond `max_new_trades_per_day` (note `entry_skip_daily_cap_recheck:<tickers>`). Reports now show entries and exits after the run separately. Added `sleeves/active/scripts/audit_daily_cap.py`, which lists entries and exits per day and exits nonzero if any day has more entries than the cap.
+- **Observation:** The 10/14 (10 fills) and 10/16 (11 fills) summaries were read as cap breaches. The ledger shows 5 entries and 5 exits on 10/14 and 5 entries and 6 exits on 10/16. No day since 9/24 has had more than 8 equity entries or 6 crypto entries. Exits are exempt by design (rule v3, 2026-10-06), so the cap held. The real gap was that the cap was only checked against the ledger at the start of a run, so two overlapping runs (like the 10/9 stale-Marvin run) could each see a free budget.
+- **Logic:** Keep the entries-only cap and close the overlap gap with a check at booking time. Report entries and exits separately so the daily summary does not count exits against the cap.
+- **Jordan approval:** Standing order 2026-10-05, extended to Active.
+- **Effective:** Next market-hours refresh after this commit.
+
+
 ## 2026-10-09, Active crypto 1h trend filter on entries
 
 - **Sleeve:** active crypto only (equity unchanged)

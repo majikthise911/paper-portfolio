@@ -1,14 +1,14 @@
 {
-  "as_of": "2026-10-19T09:07:33-04:00",
+  "as_of": "2026-10-19T09:32:16-04:00",
   "currency": "USD",
-  "cash": 21254.77,
+  "cash": 22006.93,
   "positions": {
     "META": {
       "shares": 20,
       "avg_cost": 677.5,
       "cost_basis": 13550.05,
-      "last_price": 709.33,
-      "market_value": 14186.6,
+      "last_price": 706.04,
+      "market_value": 14120.8,
       "sector": "communication",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
@@ -16,8 +16,8 @@
       "shares": 25,
       "avg_cost": 493.78,
       "cost_basis": 12344.5,
-      "last_price": 529.05,
-      "market_value": 13226.25,
+      "last_price": 529.7901,
+      "market_value": 13244.75,
       "sector": "tech",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
@@ -25,8 +25,8 @@
       "shares": 186,
       "avg_cost": 64.31,
       "cost_basis": 11961.66,
-      "last_price": 68.24,
-      "market_value": 12692.64,
+      "last_price": 68.185,
+      "market_value": 12682.41,
       "sector": "energy",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
@@ -34,8 +34,8 @@
       "shares": 27,
       "avg_cost": 336.13,
       "cost_basis": 9075.51,
-      "last_price": 343.46,
-      "market_value": 9273.42,
+      "last_price": 342.4144,
+      "market_value": 9245.19,
       "sector": "tech",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
@@ -43,26 +43,17 @@
       "shares": 52,
       "avg_cost": 168.39,
       "cost_basis": 8756.28,
-      "last_price": 176.71,
-      "market_value": 9188.92,
+      "last_price": 176.58,
+      "market_value": 9182.16,
       "sector": "health",
       "opened_at": "2026-09-20T12:53:19-04:00"
-    },
-    "AMZN": {
-      "shares": 36,
-      "avg_cost": 248.89,
-      "cost_basis": 8959.92,
-      "last_price": 250.0,
-      "market_value": 9000.0,
-      "sector": "consumer_disc",
-      "opened_at": "2026-09-24T09:08:07-04:00"
     },
     "NVDA": {
       "shares": 35,
       "avg_cost": 224.42,
       "cost_basis": 7854.77,
-      "last_price": 214.13,
-      "market_value": 7494.55,
+      "last_price": 216.23,
+      "market_value": 7568.05,
       "sector": "tech",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
@@ -70,19 +61,28 @@
       "shares": 30,
       "avg_cost": 195.13,
       "cost_basis": 5853.9,
-      "last_price": 183.47,
-      "market_value": 5504.1,
+      "last_price": 186.4,
+      "market_value": 5592.0,
       "sector": "tech",
       "opened_at": "2026-09-29T09:35:21-04:00"
+    },
+    "BRK-B": {
+      "shares": 16,
+      "avg_cost": 530.52,
+      "cost_basis": 8488.32,
+      "last_price": 530.14,
+      "market_value": 8482.24,
+      "sector": "financials",
+      "opened_at": "2026-10-19T09:32:07-04:00"
     }
   },
-  "nav": 101821.25,
+  "nav": 102124.53,
   "starting_capital": 100000.0,
-  "notes": "Equity weekly rebalance booked 2026-09-29 after Jordan yes (both sleeves). Source reports/rebalance_2026-09-28.json equity deltas. Paper fills at live yfinance prices after the 09:30 ET open, sells before buys. JPM exited, XLK added. Crypto booked same morning.",
+  "notes": "Weekly rebalance 2026-10-19 under Jordan standing order 2026-10-05: AMZN out (rank 17, outside top-10 buffer), BRK-B in (rank 5). Last weekly-cadence trade; monthly cadence from 2026-11-02. Paper fills at live yfinance 1m prices after the 09:30 ET open.",
   "peak_nav": 104118.18,
-  "spy_last_close": 763.25,
-  "total_pnl": 1821.25,
-  "total_pnl_pct": 1.8213,
-  "drawdown_pct": -2.2061,
-  "last_trade_batch": "rebalance_2026-09-28"
+  "spy_last_close": 767.8805,
+  "total_pnl": 2124.53,
+  "total_pnl_pct": 2.1245,
+  "drawdown_pct": -1.9148,
+  "last_trade_batch": "rebalance_2026-10-19"
 }

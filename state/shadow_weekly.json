@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-10-19T09:32:07-04:00",
+  "method": "weekly 63d momentum + top-10 rank buffer, simulated each Monday, never booked",
+  "start_nav": 102112.88,
+  "cash": 22006.93,
+  "shares": {
+    "META": 20,
+    "MSFT": 25,
+    "XLE": 186,
+    "AAPL": 27,
+    "XLV": 52,
+    "NVDA": 35,
+    "XLK": 30,
+    "BRK-B": 16
+  },
+  "start_prices": {
+    "META": 705.69,
+    "MSFT": 529.98,
+    "XLE": 68.15,
+    "AAPL": 342.18,
+    "XLV": 176.56,
+    "NVDA": 216.21,
+    "XLK": 186.37,
+    "BRK-B": 530.52
+  },
+  "peak_nav": 102112.88,
+  "history": [
+    {
+      "date": "2026-10-19",
+      "nav": 102112.88
+    }
+  ],
+  "judge": "Revert monthly if it trails this shadow by >1.5 pts or adds >1 pt drawdown over the 4 monthly rebalances 2026-11-02 to 2027-02-01."
+}

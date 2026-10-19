@@ -1,46 +1,46 @@
 {
-  "as_of": "2026-10-19T09:07:33-04:00",
+  "as_of": "2026-10-19T09:32:16-04:00",
   "currency": "USD",
   "sleeve": "crypto",
-  "cash": 4918.51,
+  "cash": 5061.74,
   "positions": {
-    "LINK-USD": {
-      "shares": 281.485058,
-      "avg_cost": 12.491,
-      "cost_basis": 3516.03,
-      "last_price": 12.115,
-      "market_value": 3410.19,
-      "sector": "oracle",
-      "opened_at": "2026-09-20T20:08:27-04:00"
-    },
     "AVAX-USD": {
       "shares": 339.361693,
       "avg_cost": 11.338,
       "cost_basis": 3847.68,
-      "last_price": 9.757,
-      "market_value": 3311.15,
+      "last_price": 9.725,
+      "market_value": 3300.29,
       "sector": "layer1",
       "opened_at": "2026-09-20T20:08:27-04:00"
     },
     "BTC-USD": {
-      "shares": 0.14908,
+      "shares": 0.145014,
       "avg_cost": 82480.4296875,
-      "cost_basis": 12296.18,
+      "cost_basis": 11960.81,
       "sector": "layer1",
       "opened_at": "2026-10-12T09:31:47-04:00",
-      "last_price": 82612.671875,
-      "market_value": 12315.9
+      "last_price": 82388.507812,
+      "market_value": 11947.49
+    },
+    "SOL-USD": {
+      "shares": 34.142473,
+      "avg_cost": 104.959999,
+      "cost_basis": 3583.59,
+      "sector": "layer1",
+      "opened_at": "2026-10-19T09:32:07-04:00",
+      "last_price": 104.989998,
+      "market_value": 3584.62
     }
   },
-  "nav": 23955.75,
+  "nav": 23894.14,
   "starting_capital": 25000.0,
-  "notes": "Rule v2 2026-10-12 (Jordan standing order): 50% BTC core + 63d top-2 alts at 15% + 20% cash. Booked at live yfinance prices.",
+  "notes": "Rule v2 weekly rebalance 2026-10-19 (Jordan standing order): LINK out, SOL in at 15%, BTC trimmed to 50%. AVAX held (within band). Booked at live yfinance 1m prices.",
   "peak_nav": 26907.7,
-  "btc_last_close": 82612.6719,
-  "total_pnl": -1044.25,
-  "total_pnl_pct": -4.177,
-  "drawdown_pct": -10.9707,
-  "last_trade_batch": "btc_core_2026-10-12",
+  "btc_last_close": 82388.5078,
+  "total_pnl": -1105.86,
+  "total_pnl_pct": -4.4234,
+  "drawdown_pct": -11.1996,
+  "last_trade_batch": "crypto_v2_2026-10-19",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",

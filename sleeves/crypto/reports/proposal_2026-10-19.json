@@ -1,69 +1,63 @@
 {
-  "as_of": "2026-10-19T09:06:27-04:00",
+  "as_of": "2026-10-19T09:11:30-04:00",
   "sleeve": "crypto",
+  "rule": "btc_core_plus_momentum_top2 v2",
   "mode": "propose",
   "executed": false,
-  "nav": 23965.86,
-  "proposed_trades": [
+  "nav": 23920.31,
+  "cash_before": 4918.51,
+  "targets": {
+    "BTC-USD": 0.5,
+    "AVAX-USD": 0.15,
+    "SOL-USD": 0.15
+  },
+  "satellites": [
+    "AVAX-USD",
+    "SOL-USD"
+  ],
+  "satellite_ranks": {
+    "AVAX-USD": 0.539865,
+    "SOL-USD": 0.387995,
+    "LINK-USD": 0.271413,
+    "ETH-USD": 0.268872
+  },
+  "trades": [
     {
-      "ticker": "AVAX-USD",
-      "side": "BUY",
-      "shares": 368.214603,
-      "est_price": 9.763,
-      "est_dollars": 3594.88,
-      "weight": 0.15,
-      "target_weight": 0.15,
-      "sector": "layer1",
-      "ret_63d": 0.5398649656235681
+      "ticker": "BTC-USD",
+      "side": "SELL",
+      "shares": 0.004137,
+      "reason": "trim_to_target",
+      "price": 82516.429688,
+      "dollars": 341.37
+    },
+    {
+      "ticker": "LINK-USD",
+      "side": "SELL",
+      "shares": 281.485058,
+      "reason": "not_in_target",
+      "price": 12.069,
+      "dollars": 3397.24
     },
     {
       "ticker": "SOL-USD",
       "side": "BUY",
-      "shares": 34.094072,
-      "est_price": 105.440002,
-      "est_dollars": 3594.88,
-      "weight": 0.15,
-      "target_weight": 0.15,
-      "sector": "layer1",
-      "ret_63d": 0.38799520722079395
-    },
-    {
-      "ticker": "BTC-USD",
-      "side": "BUY",
-      "shares": 0.043503,
-      "est_price": 82634.90625,
-      "est_dollars": 3594.87,
-      "weight": 0.149999,
-      "target_weight": 0.15,
-      "sector": "layer1",
-      "ret_63d": 0.28096676188312886
-    },
-    {
-      "ticker": "LINK-USD",
-      "side": "BUY",
-      "shares": 296.435973,
-      "est_price": 12.127,
-      "est_dollars": 3594.88,
-      "weight": 0.15,
-      "target_weight": 0.15,
-      "sector": "oracle",
-      "ret_63d": 0.2714133194794557
-    },
-    {
-      "ticker": "ETH-USD",
-      "side": "BUY",
-      "shares": 1.481575,
-      "est_price": 2426.389893,
-      "est_dollars": 3594.88,
-      "weight": 0.15,
-      "target_weight": 0.15,
-      "sector": "layer1",
-      "ret_63d": 0.2688721691235614
+      "shares": 34.103664,
+      "reason": "new_or_topup",
+      "price": 105.209999,
+      "dollars": 3588.05
     }
   ],
-  "proposed_cash": 5991.48,
-  "proposed_invested": 17974.38,
-  "proposed_cash_pct": 0.250001,
+  "holds": [
+    {
+      "ticker": "AVAX-USD",
+      "weight": 0.138084,
+      "target": 0.15,
+      "reason": "within_band"
+    }
+  ],
+  "buys_scaled_to_cash_floor": false,
+  "cash_after": 5069.07,
+  "cash_after_pct": 0.211915,
   "failed_to_price": [],
-  "notes": "Proposal only. Do not write into sleeves/crypto/state/portfolio.json positions until Jordan approves seed capital and this allocation."
+  "notes": "Proposal only. Book under the 2026-10-05 standing order at live prices."
 }

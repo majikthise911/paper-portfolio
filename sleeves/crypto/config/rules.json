@@ -26,7 +26,11 @@
       "SOL-USD",
       "AVAX-USD",
       "LINK-USD"
-    ]
+    ],
+    "core_band_pct": 0.01,
+    "satellite_band_pct": 0.02,
+    "min_trade_usd": 100.0,
+    "sizing_script": "scripts/crypto_allocate.py (v2 logic since 2026-10-19)"
   },
   "rebalance": {
     "cadence": "weekly",

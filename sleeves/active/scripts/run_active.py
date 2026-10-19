@@ -581,6 +581,39 @@ def run_sleeve(
         payload["report_md"] = str(mp)
         return payload
 
+    # --- Daily entry cap re-check at booking time (2026-10-19) ---
+    # The plan used entries_today read at the start of the run. Re-read the
+    # ledger right before booking so a concurrent or overlapping run (box and
+    # Marvin, or a retried refresh) can never push BUY entries past the cap.
+    # Exits stay exempt.
+    entries_now = count_entries_today(ledger_path, date_str)
+    budget_now = max(0, max_new - entries_now)
+    kept, dropped = [], []
+    for tr in planned:
+        if tr["side"] == "BUY":
+            if budget_now <= 0:
+                dropped.append(tr["ticker"])
+                continue
+            budget_now -= 1
+        kept.append(tr)
+    if dropped:
+        notes.append("entry_skip_daily_cap_recheck:" + ",".join(dropped))
+        planned = kept
+        payload["planned_trades"] = planned
+    payload["entries_today_at_book"] = entries_now
+    if not planned:
+        payload["executed"] = False
+        payload["summary"] = {"n_planned": 0, "n_buys": 0, "n_sells": 0, "booked": False}
+        jp, mp = write_proposal(
+            out_dir=reports_dir,
+            date_str=f"{date_str}_scan",
+            payload=payload,
+            md_body=_md_report(payload, booked=False),
+        )
+        payload["report_json"] = str(jp)
+        payload["report_md"] = str(mp)
+        return payload
+
     # --- Book fills ---
     booked_fills = []
     for tr in planned:
@@ -656,6 +689,8 @@ def run_sleeve(
     _recompute_nav(portfolio, hv)
     buy_n = sum(1 for f in booked_fills if f["side"] == "BUY")
     sell_n = sum(1 for f in booked_fills if f["side"] == "SELL")
+    payload["entries_today_after"] = entries_now + buy_n
+    payload["exits_today_after"] = (fills_today - entries_today) + sell_n
     portfolio["notes"] = (
         f"Active auto-book {ts.isoformat()}: {buy_n} BUY / {sell_n} SELL under "
         f"standing order. Strategy {strategy_id}. Paper only."
@@ -726,6 +761,9 @@ def _md_report(payload: dict, *, booked: bool) -> str:
         f"- **Entries today before:** {payload.get('entries_today_before')} / "
         f"cap {payload.get('max_new_trades_per_day')} "
         f"(exits exempt; all fills today: {payload.get('fills_today_before')})",
+        f"- **Entries today after:** {payload.get('entries_today_after', payload.get('entries_today_before'))} / "
+        f"cap {payload.get('max_new_trades_per_day')}; exits today after: "
+        f"{payload.get('exits_today_after', 'n/a')} (exits do not count toward the cap)",
         f"- **Min order:** ${float(payload.get('min_order_usd') or 0):,.0f}",
         "",
         "## Planned / booked trades",

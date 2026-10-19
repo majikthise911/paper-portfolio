@@ -24,7 +24,7 @@
     ]
   },
   "rebalance": {
-    "cadence": "weekly",
+    "cadence": "monthly",
     "benchmark": "SPY",
     "mark_to_market": true,
     "rank_buffer": {
@@ -32,6 +32,26 @@
       "hold_if_rank_at_most": 10,
       "buy_from_top": 8,
       "note": "Keep a holding while it ranks in the top hold_if_rank_at_most on the 63d screen; fill open slots from the top buy_from_top. Adopted 2026-10-05."
+    },
+    "schedule": "first_monday_of_month",
+    "first_monthly_rebalance": "2026-11-02",
+    "cadence_note": "Changed weekly to monthly 2026-10-19 (rule_version 4). The 2026-10-19 AMZN to BRK-B rotation is the last weekly-cadence trade. Non-first Mondays are mark and scorecard only. Hard caps are still enforced any week.",
+    "shadow_weekly": {
+      "enabled": true,
+      "state": "state/shadow_weekly.json",
+      "method": "weekly 63d momentum with the top-10 rank buffer (rule v3 cadence), simulated each Monday at Monday prices, never booked",
+      "start": "2026-10-19 after the AMZN to BRK-B fills"
+    },
+    "review": {
+      "judge_rebalances": [
+        "2026-11-02",
+        "2026-12-07",
+        "2027-01-04",
+        "2027-02-01"
+      ],
+      "revert_if_trails_weekly_shadow_by_pts": 1.5,
+      "revert_if_extra_drawdown_pts": 1.0,
+      "source": "reports/improvement_2026-10-19.json"
     }
   },
   "aspiration_apy": 0.3,
@@ -45,5 +65,5 @@
     "jordan_may_override": true,
     "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide trade and rule changes from research, book what seems best, and update afterward. Jordan can still override."
   },
-  "rule_version": 3
+  "rule_version": 4
 }
