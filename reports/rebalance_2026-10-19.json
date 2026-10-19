@@ -1,0 +1,27 @@
+{
+  "as_of": "2026-10-19T09:07:33-04:00",
+  "status": "proposed_not_booked",
+  "governance": "Weekly routine runs propose-only; book only after Jordan yes (or parent under the 2026-10-05 standing order). Rescale to live prices at fill.",
+  "equity": {
+    "reason": "Rule v3 top-10 rank buffer: AMZN fell to rank 17 (63d +0.00%), outside top 10. Fill the open slot from top 8: BRK-B rank 5 (63d +8.30%), the only top-8 name not held.",
+    "trades": [
+      {"side": "SELL", "ticker": "AMZN", "qty": 36, "px": 250.00, "usd": 9000.00, "from": 36, "to": 0},
+      {"side": "BUY", "ticker": "BRK-B", "qty": 16, "px": 532.02, "usd": 8512.32, "from": 0, "to": 16}
+    ],
+    "cash_after": 21742.45,
+    "cash_after_pct": 21.35,
+    "tech_megacap_after_pct": 29.46,
+    "max_name_after": "META 13.93%"
+  },
+  "crypto": {
+    "reason": "Rule v2 (BTC core 50% + 63d top-2 alts at 15%): satellite ranks AVAX +53.99%, SOL +38.80%, LINK +27.14%, ETH +26.89%. LINK out, SOL in. BTC drifted to 51.4%, trim to 50%.",
+    "trades": [
+      {"side": "SELL", "ticker": "LINK-USD", "qty": 281.485058, "px": 12.127, "usd": 3413.57, "from": 281.485058, "to": 0},
+      {"side": "SELL", "ticker": "BTC-USD", "qty": 0.004062, "px": 82630.5, "usd": 335.64, "from": 0.14908, "to": 0.145018},
+      {"side": "BUY", "ticker": "SOL-USD", "qty": 34.0973, "px": 105.43, "usd": 3594.88, "from": 0, "to": 34.0973}
+    ],
+    "cash_after": 5072.84,
+    "cash_after_pct": 21.17,
+    "note": "AVAX left at 13.8% (no top-up) to keep cash clear of the 20% floor."
+  }
+}

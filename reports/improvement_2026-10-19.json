@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-19",
+  "sleeve": "equity",
+  "proposal": "Switch equity momentum rebalance from weekly to monthly (first Monday of the month), keep the 63d signal, top-10 buffer, and all caps. First monthly rebalance 2026-11-02.",
+  "observation": {
+    "walk_forward_1y": {"weekly_buffer_live": 4.51, "monthly_top8": 4.45, "spy_100": 15.98, "dd_weekly_buffer": -8.64, "dd_monthly": -7.82, "turnover_weekly_buffer": 6.33, "turnover_monthly": 4.27},
+    "walk_forward_3m": {"weekly_buffer_live": -0.07, "monthly_top8": 3.35, "spy_100": 3.11},
+    "source": "reports/method_backtest_2026-10-19.json"
+  },
+  "logic": "Options: (1) keep weekly with buffer, (2) monthly cadence, (3) switch to weekly mean reversion (+17.04% 1y but 10.8x turnover and a method switch), (4) drop to SPY buy-and-hold. Monthly ties weekly over 1y, beats it by 3.4 pts over 3m, has a shallower drawdown, and a third less turnover. It is a cadence change only, so the experiment still tests momentum. Mean reversion stays a shadow until the planned 11-02 checkpoint.",
+  "how_to_judge": "Four monthly rebalances (Nov to Feb). Keep the weekly shadow in the Monday scorecard. Revert if monthly trails the weekly shadow by more than 1.5 pts or adds more than 1 pt of drawdown.",
+  "needs": "Jordan yes (rule change)"
+}

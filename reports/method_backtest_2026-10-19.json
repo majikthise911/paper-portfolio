@@ -1,0 +1,175 @@
+{
+ "equity_1y": {
+  "start": "2025-10-15",
+  "end": "2026-10-16",
+  "results": [
+   {
+    "method": "weekly_mom_top8",
+    "total_ret": 2.43,
+    "max_dd": -8.57,
+    "turnover_x": 9.09,
+    "cost_drag_10bps": 1.82
+   },
+   {
+    "method": "weekly_mom_top8_buffer10",
+    "total_ret": 4.51,
+    "max_dd": -8.64,
+    "turnover_x": 6.33,
+    "cost_drag_10bps": 1.27
+   },
+   {
+    "method": "monthly_mom_top8",
+    "total_ret": 4.45,
+    "max_dd": -7.82,
+    "turnover_x": 4.27,
+    "cost_drag_10bps": 0.85
+   },
+   {
+    "method": "weekly_meanrev_bottom8",
+    "total_ret": 17.04,
+    "max_dd": -6.53,
+    "turnover_x": 10.8,
+    "cost_drag_10bps": 2.16
+   },
+   {
+    "method": "equal_weight_universe_80pct_monthly",
+    "total_ret": 9.82,
+    "max_dd": -6.69,
+    "turnover_x": 0.59,
+    "cost_drag_10bps": 0.12
+   },
+   {
+    "method": "SPY_buy_hold_100pct",
+    "total_ret": 15.98,
+    "max_dd": -8.88,
+    "turnover_x": 0,
+    "cost_drag_10bps": 0.0
+   },
+   {
+    "method": "SPY_buy_hold_80pct_approx",
+    "total_ret": 12.79
+   }
+  ]
+ },
+ "equity_3m": {
+  "start": "2026-07-20",
+  "results": [
+   {
+    "method": "weekly_mom_top8",
+    "total_ret": -0.15,
+    "max_dd": -3.2,
+    "turnover_x": 3.05,
+    "cost_drag_10bps": 0.61
+   },
+   {
+    "method": "weekly_mom_top8_buffer10",
+    "total_ret": -0.07,
+    "max_dd": -3.95,
+    "turnover_x": 2.16,
+    "cost_drag_10bps": 0.43
+   },
+   {
+    "method": "monthly_mom_top8",
+    "total_ret": 3.35,
+    "max_dd": -2.73,
+    "turnover_x": 1.41,
+    "cost_drag_10bps": 0.28
+   },
+   {
+    "method": "weekly_meanrev_bottom8",
+    "total_ret": 5.0,
+    "max_dd": -4.08,
+    "turnover_x": 2.73,
+    "cost_drag_10bps": 0.55
+   },
+   {
+    "method": "SPY_buy_hold_100pct",
+    "total_ret": 3.11,
+    "max_dd": -3.06,
+    "turnover_x": 0,
+    "cost_drag_10bps": 0.0
+   }
+  ]
+ },
+ "crypto_1y": {
+  "start": "2025-10-19",
+  "end": "2026-10-19",
+  "results": [
+   {
+    "method": "weekly_mom_top4",
+    "total_ret": -44.97,
+    "max_dd": -47.47,
+    "turnover_x": 5.38,
+    "cost_drag_10bps": 1.08
+   },
+   {
+    "method": "weekly_mom_top4_buffer",
+    "total_ret": -43.57,
+    "max_dd": -47.47,
+    "turnover_x": 4.99,
+    "cost_drag_10bps": 1.0
+   },
+   {
+    "method": "monthly_mom_top4",
+    "total_ret": -37.57,
+    "max_dd": -45.9,
+    "turnover_x": 2.17,
+    "cost_drag_10bps": 0.43
+   },
+   {
+    "method": "weekly_mom_top2",
+    "total_ret": -41.57,
+    "max_dd": -45.04,
+    "turnover_x": 5.79,
+    "cost_drag_10bps": 1.16
+   },
+   {
+    "method": "equal_weight_5_80pct_monthly",
+    "total_ret": -29.03,
+    "max_dd": -52.34,
+    "turnover_x": 0.64,
+    "cost_drag_10bps": 0.13
+   },
+   {
+    "method": "BTC_buy_hold_100pct",
+    "total_ret": -23.99,
+    "max_dd": -48.84,
+    "turnover_x": 0,
+    "cost_drag_10bps": 0.0
+   }
+  ]
+ },
+ "crypto_3m": {
+  "start": "2026-07-20",
+  "results": [
+   {
+    "method": "weekly_mom_top4",
+    "total_ret": 0.28,
+    "max_dd": -11.31,
+    "turnover_x": 1.9,
+    "cost_drag_10bps": 0.38
+   },
+   {
+    "method": "monthly_mom_top4",
+    "total_ret": -2.62,
+    "max_dd": -10.38,
+    "turnover_x": 0.62,
+    "cost_drag_10bps": 0.12
+   },
+   {
+    "method": "BTC_buy_hold_100pct",
+    "total_ret": 26.62,
+    "max_dd": -6.96,
+    "turnover_x": 0,
+    "cost_drag_10bps": 0.0
+   }
+  ]
+ },
+ "spot": {
+  "JPM": 339.7200012207031,
+  "XLV": 176.7100067138672,
+  "QQQ": 709.7999877929688,
+  "XLK": 183.47000122070312,
+  "SPY": 763.25
+ }
+}

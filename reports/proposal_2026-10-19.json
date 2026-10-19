@@ -1,0 +1,101 @@
+{
+  "as_of": "2026-10-19T09:06:26-04:00",
+  "mode": "propose",
+  "executed": false,
+  "nav": 101821.25,
+  "proposed_trades": [
+    {
+      "ticker": "MSFT",
+      "side": "BUY",
+      "shares": 28,
+      "est_price": 529.05,
+      "est_dollars": 14813.4,
+      "weight": 0.145484,
+      "target_weight": 0.15,
+      "sector": "tech",
+      "ret_63d": 0.3175716912141924
+    },
+    {
+      "ticker": "XLE",
+      "side": "BUY",
+      "shares": 223,
+      "est_price": 68.24,
+      "est_dollars": 15217.52,
+      "weight": 0.149453,
+      "target_weight": 0.15,
+      "sector": "energy",
+      "ret_63d": 0.18477078590292328
+    },
+    {
+      "ticker": "XLV",
+      "side": "BUY",
+      "shares": 61,
+      "est_price": 176.71,
+      "est_dollars": 10779.31,
+      "weight": 0.105865,
+      "target_weight": 0.107369,
+      "sector": "health",
+      "ret_63d": 0.11388571003166548
+    },
+    {
+      "ticker": "META",
+      "side": "BUY",
+      "shares": 14,
+      "est_price": 709.33,
+      "est_dollars": 9930.62,
+      "weight": 0.09753,
+      "target_weight": 0.098321,
+      "sector": "communication",
+      "ret_63d": 0.0991558707237179
+    },
+    {
+      "ticker": "BRK-B",
+      "side": "BUY",
+      "shares": 16,
+      "est_price": 532.02,
+      "est_dollars": 8512.32,
+      "weight": 0.083601,
+      "target_weight": 0.088393,
+      "sector": "financials",
+      "ret_63d": 0.08299240617048342
+    },
+    {
+      "ticker": "NVDA",
+      "side": "BUY",
+      "shares": 33,
+      "est_price": 214.13,
+      "est_dollars": 7066.29,
+      "weight": 0.069399,
+      "target_weight": 0.070924,
+      "sector": "tech",
+      "ret_63d": 0.054553346336753794
+    },
+    {
+      "ticker": "AAPL",
+      "side": "BUY",
+      "shares": 20,
+      "est_price": 343.46,
+      "est_dollars": 6869.2,
+      "weight": 0.067463,
+      "target_weight": 0.069701,
+      "sector": "tech",
+      "ret_63d": 0.05256199240606407
+    },
+    {
+      "ticker": "XLK",
+      "side": "BUY",
+      "shares": 36,
+      "est_price": 183.47,
+      "est_dollars": 6604.92,
+      "weight": 0.064868,
+      "target_weight": 0.065291,
+      "sector": "tech",
+      "ret_63d": 0.04538220962991524
+    }
+  ],
+  "proposed_cash": 22027.67,
+  "proposed_invested": 79793.58,
+  "proposed_cash_pct": 0.216337,
+  "failed_to_price": [],
+  "notes": "Proposal only. Do not write into portfolio.json positions until Paper books under standing order (or Jordan overrides)."
+}
