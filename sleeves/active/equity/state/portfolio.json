@@ -1,89 +1,89 @@
 {
-  "as_of": "2026-10-19T11:54:00-04:00",
+  "as_of": "2026-10-19T15:28:16-04:00",
   "currency": "USD",
   "sleeve": "active_equity",
-  "cash": 19848.05,
+  "cash": 19810.87,
   "positions": {
-    "BRK-B": {
-      "shares": 28,
-      "avg_cost": 525.690002,
-      "cost_basis": 14719.32,
-      "last_price": 531.52,
-      "market_value": 14882.56,
-      "sector": "financials",
-      "opened_at": "2026-10-14T15:28:56.101681-04:00",
-      "unrealized_pnl": 163.24,
-      "stop_price": 524.065272,
-      "weight": 0.150505
-    },
     "AMZN": {
       "shares": 56,
       "avg_cost": 263.339996,
       "cost_basis": 14747.04,
-      "last_price": 263.43,
-      "market_value": 14752.08,
+      "last_price": 263.29,
+      "market_value": 14744.24,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": 0.0,
+      "unrealized_pnl": -3.91,
       "stop_price": 261.252609,
-      "weight": 0.149134
+      "weight": 0.149208
     },
     "XLY": {
       "shares": 129,
       "avg_cost": 114.43,
       "cost_basis": 14761.47,
-      "last_price": 114.44,
-      "market_value": 14762.76,
+      "last_price": 114.55,
+      "market_value": 14776.95,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": 0.0,
+      "unrealized_pnl": 14.19,
       "stop_price": 113.981288,
-      "weight": 0.14928
+      "weight": 0.149537
     },
     "TSLA": {
       "shares": 40,
       "avg_cost": 368.054993,
       "cost_basis": 14722.2,
-      "last_price": 368.005,
-      "market_value": 14720.2,
+      "last_price": 368.465,
+      "market_value": 14738.6,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": 0.0,
+      "unrealized_pnl": 16.4,
       "stop_price": 364.470749,
-      "weight": 0.148883
+      "weight": 0.149162
     },
-    "QQQ": {
-      "shares": 20,
-      "avg_cost": 723.88501,
-      "cost_basis": 14477.7,
-      "last_price": 723.9,
-      "market_value": 14478.0,
-      "sector": "tech_growth",
-      "opened_at": "2026-10-19T11:53:56.352399-04:00",
+    "META": {
+      "shares": 21,
+      "avg_cost": 705.065002,
+      "cost_basis": 14806.37,
+      "last_price": 705.065,
+      "market_value": 14806.37,
+      "sector": "communication",
+      "opened_at": "2026-10-19T15:28:11.333548-04:00",
       "unrealized_pnl": 0.0,
-      "stop_price": 720.407327,
-      "weight": 0.146411
+      "stop_price": 701.343759,
+      "weight": 0.149848
     },
-    "XLK": {
-      "shares": 29,
-      "avg_cost": 187.764999,
-      "cost_basis": 5445.18,
-      "last_price": 187.765,
-      "market_value": 5445.18,
+    "MSFT": {
+      "shares": 27,
+      "avg_cost": 534.440002,
+      "cost_basis": 14429.88,
+      "last_price": 534.41,
+      "market_value": 14429.07,
       "sector": "tech",
-      "opened_at": "2026-10-19T11:53:56.352399-04:00",
+      "opened_at": "2026-10-19T15:28:11.333548-04:00",
       "unrealized_pnl": 0.0,
-      "stop_price": 186.627362,
-      "weight": 0.055066
+      "stop_price": 532.748598,
+      "weight": 0.146038
+    },
+    "XLB": {
+      "shares": 108,
+      "avg_cost": 50.969799,
+      "cost_basis": 5504.74,
+      "last_price": 50.965,
+      "market_value": 5504.22,
+      "sector": "materials",
+      "opened_at": "2026-10-19T15:28:11.333548-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 50.842236,
+      "weight": 0.055711
     }
   },
-  "nav": 98888.84,
+  "nav": 98810.32,
   "starting_capital": 100000.0,
   "peak_nav": 100060.85,
-  "spy_last_close": 769.94,
-  "total_pnl": -1111.16,
-  "total_pnl_pct": -1.1112,
-  "drawdown_pct": -1.1713,
-  "last_trade_batch": "active_auto_2026-10-19_115356",
-  "notes": "Active auto-book 2026-10-19T11:53:56.352399-04:00: 5 BUY / 4 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
+  "spy_last_close": 768.165,
+  "total_pnl": -1189.68,
+  "total_pnl_pct": -1.1897,
+  "drawdown_pct": -1.2498,
+  "last_trade_batch": "active_auto_2026-10-19_152811",
+  "notes": "Active auto-book 2026-10-19T15:28:11.333548-04:00: 3 BUY / 3 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
 }
