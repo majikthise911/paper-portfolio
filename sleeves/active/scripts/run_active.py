@@ -41,6 +41,18 @@ Rule v6 crypto (2026-10-09):
     htf_filter and is unaffected. If 1h data is unavailable the entry is
     skipped (fail closed), logged entry_skip_htf_trend:<ticker>:no_data.
 
+Rule v8 equity (2026-10-20):
+  - Equity only, when rules.signal_mode == "daily". Signals use daily bars:
+    EMA10 / EMA30 on daily closes; long when EMA10 > EMA30 and close > EMA30.
+  - Evaluate once per day, only inside daily_eval.window_et (15:00-16:00 ET,
+    the 3:23 PM refresh). Any other run (for example 11:23) marks only and
+    makes no equity fills. A marker file (state/daily_eval_marker.json)
+    blocks a second evaluation on the same date.
+  - Minimum hold of 3 trading days before a trend exit. Hard stop at -8% from
+    average cost exits at any evaluation regardless of hold time.
+  - max_new_trades_per_day = 4 counts ALL equity fills (buys and trend
+    exits); hard stops are exempt. Position caps unchanged.
+
 Usage:
   python sleeves/active/scripts/run_active.py
   python sleeves/active/scripts/run_active.py --dry-run
@@ -67,6 +79,7 @@ from ema_scan_lib import (  # noqa: E402
     count_fills_today,
     last_exit_times,
     evaluate_ticker,
+    evaluate_ticker_daily,
     htf_trend,
     is_rth,
     last_price,
@@ -163,6 +176,19 @@ def _exit_reasons(pos: dict, ev: dict) -> list[str]:
     return out
 
 
+def _trading_days_held(opened_at, ts) -> int | None:
+    """Weekday count from entry date to ts date (holidays ignored)."""
+    if not opened_at:
+        return None
+    try:
+        import numpy as np
+        from datetime import datetime as _dt
+        d0 = _dt.fromisoformat(str(opened_at)).date()
+        return int(np.busday_count(d0, ts.date()))
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def _fill_price(ticker: str, ev: dict | None) -> float | None:
     if ev and ev.get("ok") and ev.get("close"):
         return float(ev["close"])
@@ -194,6 +220,7 @@ def run_sleeve(
     fractional: bool,
     require_rth_for_entries: bool,
     dry_run: bool,
+    force_eval: bool = False,
 ) -> dict[str, Any]:
     portfolio_path = book_dir / "state" / "portfolio.json"
     ledger_path = book_dir / "state" / "ledger.jsonl"
@@ -233,6 +260,33 @@ def run_sleeve(
     ts = now_et()
     date_str = ts.strftime("%Y-%m-%d")
     rth = is_rth(ts)
+    # --- Rule v8 daily mode (equity) ---
+    daily = str(rules.get("signal_mode") or "") == "daily"
+    dcfg = dict(rules.get("daily_eval") or {})
+    d_fast = int(dcfg.get("ema_fast") or 10)
+    d_slow = int(dcfg.get("ema_slow") or 30)
+    d_min_hold = int(dcfg.get("min_hold_trading_days") or 3)
+    d_stop = float(dcfg.get("hard_stop_pct") or 0.08)
+    d_win = dcfg.get("window_et") or ["15:00", "16:00"]
+    marker_path = book_dir / "state" / "daily_eval_marker.json"
+    mark_only = False
+    mark_only_reason = ""
+    if daily:
+        hm = ts.hour * 60 + ts.minute
+        w0 = int(d_win[0][:2]) * 60 + int(d_win[0][3:])
+        w1 = int(d_win[1][:2]) * 60 + int(d_win[1][3:])
+        already = False
+        if marker_path.exists():
+            try:
+                already = load_json(marker_path).get("date") == date_str
+            except Exception:  # noqa: BLE001
+                already = False
+        if force_eval:
+            pass
+        elif not rth or not (w0 <= hm < w1):
+            mark_only, mark_only_reason = True, f"daily_mode_mark_only:outside_eval_window_{d_win[0]}-{d_win[1]}"
+        elif already:
+            mark_only, mark_only_reason = True, "daily_mode_mark_only:already_evaluated_today"
     fills_today = count_fills_today(ledger_path, date_str)
     # Only entries count toward the daily cap (exits are uncapped risk control).
     entries_today = count_entries_today(ledger_path, date_str)
@@ -243,14 +297,17 @@ def run_sleeve(
     evals: dict[str, dict] = {}
     failures = []
     for t in tickers:
-        ev = evaluate_ticker(
-            t,
-            ema_fast=8,
-            ema_slow=21,
-            atr_period=14,
-            stop_atr_mult=stop_atr_mult,
-            period="5d",
-        )
+        if daily:
+            ev = evaluate_ticker_daily(t, ema_fast=d_fast, ema_slow=d_slow)
+        else:
+            ev = evaluate_ticker(
+                t,
+                ema_fast=8,
+                ema_slow=21,
+                atr_period=14,
+                stop_atr_mult=stop_atr_mult,
+                period="5d",
+            )
         evals[t] = ev
         if not ev.get("ok"):
             failures.append({"ticker": t, "error": ev.get("error")})
@@ -273,10 +330,43 @@ def run_sleeve(
             return False
         return 0 < mv < min_order_usd
 
-    # --- Exits first (never capped; do not consume remaining_budget) ---
+    if mark_only:
+        notes.append(mark_only_reason)
+    if daily:
+        # Rule v8: cap counts all fills today (hard stops exempt).
+        remaining_budget = max(0, max_new - fills_today)
+
+    # --- Exits first (15m mode: never capped; daily mode: see rule v8) ---
     for ticker, pos in list(positions.items()):
+        if mark_only:
+            break
         ev = evals.get(ticker) or {}
-        reasons = _exit_reasons(pos, ev)
+        if daily:
+            reasons = []
+            hard = False
+            try:
+                avg = float(pos.get("avg_cost") or 0)
+                c = float(ev.get("close")) if ev.get("ok") else None
+            except (TypeError, ValueError):
+                avg, c = 0.0, None
+            if c is not None and avg > 0 and c <= avg * (1.0 - d_stop):
+                reasons.append(f"hard_stop_-{int(d_stop*100)}pct")
+                hard = True
+            elif ev.get("ok") and not ev.get("signal"):
+                held = _trading_days_held(pos.get("opened_at"), ts)
+                if held is not None and held < d_min_hold:
+                    notes.append(f"exit_skip_min_hold:{ticker}:{held}d<{d_min_hold}d")
+                elif remaining_budget <= 0:
+                    notes.append(f"exit_deferred_daily_fill_cap:{ticker}")
+                else:
+                    reasons.append("daily_ema_trend_broken")
+                    remaining_budget -= 1
+            if liquidate_dust and _is_dust(pos) and not reasons:
+                reasons.append("exit_dust_below_min_order")
+            if not reasons:
+                continue
+        else:
+            reasons = _exit_reasons(pos, ev)
         if liquidate_dust and _is_dust(pos):
             reasons.append("exit_dust_below_min_order")
             notes.append(f"exit_dust_below_min_order:{ticker}")
@@ -352,6 +442,8 @@ def run_sleeve(
         notes.append(
             f"entry_skip_opening_window:delay_{entry_open_delay}m"
         )
+    elif mark_only:
+        pass
     elif remaining_budget <= 0:
         notes.append("daily_trade_cap_reached_no_entries")
     else:
@@ -470,7 +562,9 @@ def run_sleeve(
                 continue
 
             stop_px = ev.get("stop_price")
-            if stop_px is None and ev.get("atr") is not None:
+            if daily:
+                stop_px = round(px * (1.0 - d_stop), 6)
+            elif stop_px is None and ev.get("atr") is not None:
                 stop_px = round(px - float(ev["atr"]) * stop_atr_mult, 6)
 
             planned.append(
@@ -509,8 +603,13 @@ def run_sleeve(
             open_slots -= 1
             remaining_budget -= 1
 
+    if daily and not mark_only and not dry_run:
+        save_json(marker_path, {"date": date_str, "ts": ts.isoformat(), "n_planned": len(planned)})
+
     # Build payload / report
     payload = {
+        "signal_mode": "daily" if daily else "15m",
+        "mark_only": mark_only,
         "as_of": ts.isoformat(),
         "mode": "dry_run" if dry_run else "auto_book",
         "executed": False,
@@ -588,6 +687,9 @@ def run_sleeve(
     # Exits stay exempt.
     entries_now = count_entries_today(ledger_path, date_str)
     budget_now = max(0, max_new - entries_now)
+    if daily:
+        budget_now = max(0, max_new - count_fills_today(ledger_path, date_str)
+                         - sum(1 for t in planned if t["side"] == "SELL" and "hard_stop" not in str(t.get("reason"))))
     kept, dropped = [], []
     for tr in planned:
         if tr["side"] == "BUY":
@@ -641,7 +743,7 @@ def run_sleeve(
                     "sector": tr.get("sector"),
                     "realized_pnl": realized,
                     "reason": tr.get("reason"),
-                    "fill_source": "yfinance_15m_close",
+                    "fill_source": "yfinance_daily_close_proxy_at_eval" if daily else "yfinance_15m_close",
                 }
             )
         else:  # BUY
@@ -670,7 +772,7 @@ def run_sleeve(
                     "sector": tr.get("sector"),
                     "reason": tr.get("reason"),
                     "stop_price": stop_px,
-                    "fill_source": "yfinance_15m_close",
+                    "fill_source": "yfinance_daily_close_proxy_at_eval" if daily else "yfinance_15m_close",
                 }
             )
 
@@ -806,6 +908,11 @@ def main() -> int:
         action="store_true",
         help="Scan and plan only; do not write portfolio/ledger",
     )
+    ap.add_argument(
+        "--force-eval",
+        action="store_true",
+        help="Equity daily mode: ignore eval window/marker (use with --dry-run for tests)",
+    )
     args = ap.parse_args()
 
     results = {}
@@ -816,7 +923,7 @@ def main() -> int:
         results["active_equity"] = run_sleeve(
             sleeve_key="active_equity",
             book_dir=ACTIVE / "equity",
-            strategy_id="equity_15m_ema_trend",
+            strategy_id=str(rules.get("strategy_id") or "equity_15m_ema_trend"),
             tickers=tickers,
             universe=uni,
             rules=rules,
@@ -824,6 +931,7 @@ def main() -> int:
             fractional=False,
             require_rth_for_entries=True,
             dry_run=args.dry_run,
+            force_eval=args.force_eval,
         )
     if args.sleeve in ("crypto", "both"):
         uni = load_json(ACTIVE / "crypto/config/universe.json")

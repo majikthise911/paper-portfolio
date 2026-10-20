@@ -187,6 +187,57 @@ def evaluate_ticker(
     }
 
 
+def evaluate_ticker_daily(
+    ticker: str,
+    *,
+    ema_fast: int = 10,
+    ema_slow: int = 30,
+    atr_period: int = 14,
+    period: str = "1y",
+    min_bars: int = 60,
+) -> dict[str, Any]:
+    """Daily-bar EMA trend check (Active equity rule v8, 2026-10-20).
+
+    Uses daily closes. During RTH the last bar is today's in-progress bar, so
+    the 3:23 PM evaluation treats the current price as today's close proxy.
+    signal = EMA fast > EMA slow and close > EMA slow.
+    """
+    try:
+        df = yf.Ticker(ticker).history(period=period, interval="1d", auto_adjust=True)
+    except Exception as e:  # noqa: BLE001
+        return {"ticker": ticker, "ok": False, "error": f"exception:{type(e).__name__}:{e}", "signal": False}
+    if df is None or df.empty or "Close" not in df.columns:
+        return {"ticker": ticker, "ok": False, "error": "empty_history", "signal": False}
+    df = df.sort_index()
+    if len(df) < min_bars:
+        return {"ticker": ticker, "ok": False, "error": f"too_few_bars:{len(df)}", "signal": False}
+    close = df["Close"].astype(float)
+    fast = ema(close, ema_fast)
+    slow = ema(close, ema_slow)
+    atr_s = atr(df, atr_period)
+    c, f, sl = float(close.iloc[-1]), float(fast.iloc[-1]), float(slow.iloc[-1])
+    fp, sp = float(fast.iloc[-2]), float(slow.iloc[-2])
+    a = float(atr_s.iloc[-1]) if not np.isnan(atr_s.iloc[-1]) else None
+    strength = (f - sl) / a if a and a > 0 else ((f - sl) / c if c else 0.0)
+    return {
+        "ticker": ticker,
+        "ok": True,
+        "error": None,
+        "signal": bool(f > sl and c > sl),
+        "bullish_cross": bool(fp <= sp and f > sl and c > sl),
+        "bearish_cross": bool(fp >= sp and f < sl),
+        "close": round(c, 6),
+        "ema_fast": round(f, 6),
+        "ema_slow": round(sl, 6),
+        "atr": None if a is None else round(a, 6),
+        "stop_price": None,
+        "strength": round(float(strength), 6),
+        "bars": int(len(df)),
+        "last_bar": str(df.index[-1]),
+        "timeframe": "1d",
+    }
+
+
 def allocate_longs(
     signals: list[dict[str, Any]],
     *,

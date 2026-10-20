@@ -5,6 +5,17 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-10-20, Active equity moves from 15m EMA to daily-bar signals (rule v8)
+
+- **Sleeve:** active equity only (Active crypto stays rule v7: 60% BTC core, 15m off)
+- **Change:** `sleeves/active/equity/config/rules.json` rule_version 6 to 8, `signal_mode: daily`, strategy `equity_daily_ema_trend` (`sleeves/active/strategies/equity_daily_ema_trend.md`). EMA10/EMA30 on daily closes; long when EMA10 > EMA30 and price > EMA30. Evaluated once per day at the 3:23 PM ET refresh only; the 11:23 run marks only. Trend exits need a 3 trading day minimum hold; hard stop at -8% from average cost is always live at evaluation. `max_new_trades_per_day` 8 to 4, now counting all fills (hard stops exempt). Position caps unchanged.
+- **Baseline added:** 50/50 SPY+BTC buy-and-hold household from 2026-09-20 at $125k ($62.5k each, no rebalance), series `bh_5050` in `pnl_history.json`, with cards on the dashboard Versus buy-and-hold section.
+- **Observation:** The 15m version churned. On 10/19 to 10/20 it bought META and MSFT one afternoon and sold both the next morning for about -$379, and Active has trailed Momentum most of the experiment.
+- **Logic:** Fewer, slower decisions with a hold period should cut whipsaw and fees-equivalent slippage while still trading more often than momentum.
+- **Jordan approval:** Standing order 2026-10-05 (Paper decides rule changes and updates afterward; Jordan may override), and Jordan asked on 2026-10-20 for Paper to be proactive.
+- **Effective:** 2026-10-21 (first evaluation at the 3:23 PM ET refresh). The 10/20 15m fills stand.
+- **How we judge:** Compare Active household against Momentum and the 50/50 baseline on 11/02 and 11/30, plus fills per week.
+
 ## 2026-10-19, Equity momentum rebalances monthly (first Monday), weekly shadow kept
 
 - **Sleeve:** momentum equity only (crypto stays weekly under rule v2)

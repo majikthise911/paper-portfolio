@@ -584,7 +584,10 @@ def strategy_section() -> str:
     <ul class="caps">
       <li><strong>Momentum equity:</strong> <code>{escape(str(eq_signal))}</code> uses simple momentum / relative strength to rank liquid US ETFs and a short mega-cap list on about a 3-month total return ({days(eq_rules, 'primary_trading_days', 63)} trading days), with a 12-month sanity check that is {not_deeply_negative(eq_rules)}. It is long-only. {str(eq_cadence).capitalize()} rebalance proposals are made Monday; marks between weeks are not trades.{buffer_text} Caps are {pct(eq_caps.get('max_single_name_pct'), 0.15)} per name, {pct(eq_caps.get('max_sector_etf_sleeve_pct'), 0.40)} per sector sleeve, and combined {escape(tech_names_text)} is capped at {pct(eq_caps.get('max_tech_megacap_sleeve_pct'), 0.30)} of equity NAV. Benchmark {escape(str(eq_benchmark))}. Paper only. Paper decides trades and rule changes from research and updates Jordan afterward; Jordan can still override.</li>
       <li><strong>Momentum crypto:</strong> This is a separate sleeve and cash book using <code>{escape(str(cr_signal))}</code>, a similar {str(cr_cadence)} momentum screen on {escape(crypto_assets_text)}, with the same roughly 3-month signal and 12-month sanity check that is {not_deeply_negative(cr_rules)}. Its benchmark is {escape(str(cr_benchmark))} (BTC), with its own caps: {pct(cr_rules.get('position_caps', {}).get('max_single_name_pct'), 0.25)} per name, {pct(cr_rules.get('position_caps', {}).get('max_invested_pct'), 0.80)} invested maximum, and {pct(cr_rules.get('position_caps', {}).get('min_cash_pct'), 0.20)} minimum cash.</li>
-      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. The chart vs B&amp;H toggle and the Versus buy-and-hold cards track buy-and-hold baselines (SPY $100k, BTC $25k, stacked household $125k) against momentum and the active sleeve. The active 15m EMA sleeve is a live daily paper day-trader on this same page (auto-books on signal). It does not replace momentum unless research plus standing order (or a Jordan override) says so.</li>
+      <li><strong>Why this method (now):</strong> It suits a paper experiment with weekly review and low turnover, and is easy to compare with SPY and BTC. The chart vs B&amp;H toggle and the Versus buy-and-hold cards track buy-and-hold baselines (SPY $100k, BTC $25k, stacked household $125k) against momentum and the active sleeve. A 50/50 SPY+BTC buy-and-hold ($125k) is a second household baseline.</li>
+      <li><strong>Active equity (rule v8, 2026-10-20):</strong> daily-bar EMA trend. Long when EMA10 is above EMA30 on daily closes and price is above EMA30. Evaluated once a day at the 3:23 PM ET refresh; the 11:23 run only marks. Exit when the trend breaks, but only after a 3 trading day minimum hold, except a hard stop at -8% from entry. Max 4 equity fills per day. Caps unchanged: 15% per name, 20% cash floor, 8 positions, 30% AAPL+MSFT+NVDA.</li>
+      <li><strong>Active crypto (rule v7):</strong> 60% BTC core, 15m signals off, 4h satellite not built.</li>
+      <li><strong>Note:</strong> Active auto-books paper fills on signal. It does not replace momentum unless research plus standing order (or a Jordan override) says so.</li>
     </ul>
     <p class="blurb">For approved strategy changes, see <a href="./changelog.html">the strategy change log</a>.</p>
   </section>
@@ -991,6 +994,38 @@ def household_bh_series(
 
 
 
+def bh_5050_series(
+    household_bh: list[dict],
+    equity_start: float,
+    crypto_start: float,
+    capital: float = 125000.0,
+) -> list[dict]:
+    """50/50 SPY+BTC buy-and-hold at $125k (added 2026-10-20).
+
+    Reuses the aligned SPY and BTC B&H legs from household_bh (equity_nav is
+    SPY B&H on equity_start, crypto_nav is BTC B&H on crypto_start) and rescales
+    each leg to half of capital. No rebalancing.
+    """
+    half = capital / 2.0
+    out = []
+    for p in household_bh:
+        try:
+            eq = float(p["equity_nav"]) / float(equity_start)
+            cr = float(p["crypto_nav"]) / float(crypto_start)
+        except (KeyError, TypeError, ValueError, ZeroDivisionError):
+            continue
+        nav = round(half * eq + half * cr, 2)
+        out.append({
+            "ts": p["ts"],
+            "nav": nav,
+            "pnl": round(nav - capital, 2),
+            "spy_leg": round(half * eq, 2),
+            "btc_leg": round(half * cr, 2),
+            "starting_capital": round(capital, 2),
+        })
+    return out
+
+
 def enrich_pct_fields(points: list[dict]) -> list[dict]:
     """Add pnl_pct (0 at start) and nav_index (100 at start) from starting_capital."""
     out: list[dict] = []
@@ -1137,6 +1172,7 @@ def build_pnl_history(
     household_bh = enrich_pct_fields(
         household_bh_series(spy, btc, eq_start, cr_start)
     )
+    bh_5050 = enrich_pct_fields(bh_5050_series(household_bh, eq_start, cr_start))
 
     ae_ledger = active_equity_ledger or ACTIVE_EQUITY_LEDGER
     ac_ledger = active_crypto_ledger or ACTIVE_CRYPTO_LEDGER
@@ -1183,7 +1219,7 @@ def build_pnl_history(
         note_parts.append(btc_flat_note)
     note_parts.append(
         "Buy-and-hold baselines: equity SPY 100% ($100k), crypto BTC 100% ($25k), "
-        "household = stacked SPY+BTC ($125k). Distinct from Monday SPY-at-80% shadow."
+        "household = stacked SPY+BTC ($125k), plus a 50/50 SPY+BTC B&H ($62.5k each, $125k). Distinct from Monday SPY-at-80% shadow."
     )
     note = " ".join(note_parts) if note_parts else None
 
@@ -1204,6 +1240,7 @@ def build_pnl_history(
             "spy": round(eq_start, 2),
             "btc": round(cr_start, 2),
             "household_bh": round(eq_start + cr_start, 2),
+            "bh_5050": 125000.0,
         },
         "counts": {
             "equity": len(equity),
@@ -1212,6 +1249,7 @@ def build_pnl_history(
             "spy": len(spy),
             "btc": len(btc),
             "household_bh": len(household_bh),
+            "bh_5050": len(bh_5050),
             "active_equity": len(active_equity),
             "active_crypto": len(active_crypto),
             "active_household": len(active_household),
@@ -1223,6 +1261,7 @@ def build_pnl_history(
             "spy": spy,
             "btc": btc,
             "household_bh": household_bh,
+            "bh_5050": bh_5050,
             "active_equity": active_equity,
             "active_crypto": active_crypto,
             "active_household": active_household,
@@ -1555,6 +1594,7 @@ def build_html(data: dict) -> str:
     bh_eq = _last_pct("spy")
     bh_cr = _last_pct("btc")
     bh_hh = _last_pct("household_bh")
+    bh_55 = _last_pct("bh_5050")
     mom_hh = hh.get("total_pnl_pct")
     act_hh = ah.get("total_pnl_pct")
     mom_cr = cr.get("total_pnl_pct")
@@ -1569,7 +1609,7 @@ def build_html(data: dict) -> str:
     bh_compare_html = f"""
   <section id="versus-buyhold">
     <h2>Versus buy-and-hold</h2>
-    <p class="blurb">Live baselines from experiment start 2026-09-20. Equity B&amp;H is SPY 100% invested ($100k). Crypto B&amp;H is BTC 100% invested ($25k). Household B&amp;H stacks those two ($125k). Distinct from the Monday scorecard SPY-at-80% shadow (cash-matched rough peer for the 80% invested book).</p>
+    <p class="blurb">Live baselines from experiment start 2026-09-20. Equity B&amp;H is SPY 100% invested ($100k). Crypto B&amp;H is BTC 100% invested ($25k). Household B&amp;H stacks those two ($125k). The 50/50 B&amp;H puts $62.5k in SPY and $62.5k in BTC on 2026-09-20 and never rebalances. Distinct from the Monday scorecard SPY-at-80% shadow (cash-matched rough peer for the 80% invested book).</p>
     <div class="cards">
       <div class="card">
         <div class="label">Momentum household vs Household B&amp;H</div>
@@ -1580,6 +1620,16 @@ def build_html(data: dict) -> str:
         <div class="label">Active household vs Household B&amp;H</div>
         <div class="value {pnl_class(None if act_hh is None or bh_hh is None else act_hh - bh_hh)}">{_pp(act_hh, bh_hh)}</div>
         <div class="sub">Active {fmt_pct(act_hh)} · B&amp;H {fmt_pct(bh_hh)}</div>
+      </div>
+      <div class="card">
+        <div class="label">Momentum household vs 50/50 SPY+BTC</div>
+        <div class="value {pnl_class(None if mom_hh is None or bh_55 is None else mom_hh - bh_55)}">{_pp(mom_hh, bh_55)}</div>
+        <div class="sub">Mom {fmt_pct(mom_hh)} · 50/50 {fmt_pct(bh_55)}</div>
+      </div>
+      <div class="card">
+        <div class="label">Active household vs 50/50 SPY+BTC</div>
+        <div class="value {pnl_class(None if act_hh is None or bh_55 is None else act_hh - bh_55)}">{_pp(act_hh, bh_55)}</div>
+        <div class="sub">Active {fmt_pct(act_hh)} · 50/50 {fmt_pct(bh_55)}</div>
       </div>
       <div class="card">
         <div class="label">Momentum equity vs SPY B&amp;H</div>
@@ -2098,7 +2148,7 @@ def build_html(data: dict) -> str:
     </div>
   </div>
 
-  <h2 class="band-title">Active (15m EMA) <span class="tag tag-active">experiment</span></h2>
+  <h2 class="band-title">Active (daily EMA equity, BTC core crypto) <span class="tag tag-active">experiment</span></h2>
   <p class="band-blurb">Live daily EMA paper day-trader. Same capital split ($100k equity + $25k crypto). Strategies <code>{ae_sid}</code> and <code>{ac_sid}</code>. Scans 15m bars and books paper fills on signal (equity RTH; crypto 24/7). Positions never mix into momentum ranks.</p>
   <div class="cards">
     <div class="card">
@@ -2234,7 +2284,7 @@ def build_html(data: dict) -> str:
 
   <div class="holdings-row" id="active-holdings">
   <section>
-    <h2>Active equity holdings <span class="tag tag-active">15m EMA</span></h2>
+    <h2>Active equity holdings <span class="tag tag-active">daily EMA</span></h2>
     <p class="blurb">Strategy <code>{ae_sid}</code>. Seed $100k.</p>
     <p class="blurb" id="ae-prices-note">{ae_prices_note}</p>
     <table>
@@ -2262,7 +2312,7 @@ def build_html(data: dict) -> str:
   </section>
 
   <section>
-    <h2>Active crypto holdings <span class="tag tag-active">15m EMA</span></h2>
+    <h2>Active crypto holdings <span class="tag tag-active">BTC core</span></h2>
     <p class="blurb">Strategy <code>{ac_sid}</code>. Seed $25k.</p>
     <p class="blurb" id="ac-prices-note">{ac_prices_note}</p>
     <table>
@@ -2317,7 +2367,7 @@ def build_html(data: dict) -> str:
   <footer>
     <p>Simulated paper books only. This is not a real brokerage or exchange account.</p>
     <p>Crypto quotes in-browser via CoinGecko when available. Equity may stay on last mark if live quotes are blocked. Weekday rebuilds refresh embedded marks for momentum and active sleeves.</p>
-    <p>Active (15m EMA) is a parallel paper experiment. It does not change momentum rules. The chart compares both households on a shared percent scale.</p>
+    <p>Active (daily EMA equity, BTC core crypto) is a parallel paper experiment. It does not change momentum rules. The chart compares both households on a shared percent scale.</p>
   </footer>
 </div>
 <script type="application/json" id="book-data">{book_json}</script>

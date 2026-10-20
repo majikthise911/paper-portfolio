@@ -1,5 +1,5 @@
 {
-  "strategy_name": "active_15m_equity_v1",
+  "strategy_name": "active_daily_equity_v8",
   "sleeve": "active_equity",
   "parallel_to": "root_momentum_equity",
   "long_only": true,
@@ -7,9 +7,9 @@
   "no_leverage": true,
   "no_options": true,
   "paper_only": true,
-  "bar_timeframe": "15m",
+  "bar_timeframe": "1d",
   "signal": {
-    "starter_strategy_ref": "strategies/equity_15m_ema_trend.md",
+    "starter_strategy_ref": "strategies/equity_daily_ema_trend.md",
     "note": "Starter strategy LOCKED 2026-09-24. Live auto-book under Jordan standing order 2026-10-05 (Paper decides and books paper fills; Jordan may override). Not the weekly 63d momentum rank."
   },
   "position_caps": {
@@ -25,21 +25,21 @@
     ],
     "max_concurrent_positions": 8,
     "caps_note": "Mirrors momentum equity caps where they still fit active trading. max_concurrent_positions=8. max_new_trades_per_day=8 spam cap. Tech mega-cap sleeve cap retained. Rule v3 2026-10-06: max_new_trades_per_day=8 counts BUY entries only; exits (trend break / ATR stop) are never capped. Buys under min_order_usd ($1,000) are skipped as dust and use no cap slot. Rule v4 2026-10-06: open positions under min_order_usd are dust; they do not count toward max_concurrent_positions and are sold as uncapped exits (liquidate_dust_positions). Rule v5 2026-10-06: reentry_cooldown_bars=4 (1 hour) blocks re-buying a ticker after any SELL of it (Freqtrade CooldownPeriod style). Rule v6 2026-10-08: entry_open_delay_minutes=30 blocks new equity BUY entries from 09:30 until 10:00 ET (entry_skip_opening_window; no cap slot). Exits still allowed any time during RTH. Crypto unaffected.",
-    "max_new_trades_per_day": 8,
+    "max_new_trades_per_day": 4,
     "min_order_usd": 1000,
-    "daily_cap_counts": "entries_only",
-    "exits_exempt_from_daily_cap": true,
+    "daily_cap_counts": "all_fills_hard_stops_exempt",
+    "exits_exempt_from_daily_cap": false,
     "liquidate_dust_positions": true,
     "reentry_cooldown_bars": 4,
     "entry_open_delay_minutes": 30
   },
   "rebalance": {
-    "cadence": "15m",
+    "cadence": "daily",
     "propose_during": "US_RTH",
     "propose_hours_et": "09:30-16:00",
     "benchmark": "SPY",
     "mark_to_market": true,
-    "note": "Live scan+book on 15m bars during US RTH (driven by market_hours_refresh / run_active.py). Exits on EMA bearish cross or ATR stop; entries on bullish cross/state into open slots. Never mix into weekly momentum ranks."
+    "note": "Rule v8 2026-10-20: one evaluation per day at the 3:23 PM ET refresh on daily bars. 11:23 run marks only."
   },
   "differences_vs_momentum": [
     "Cadence 15m vs weekly",
@@ -64,5 +64,21 @@
     "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide and book. Active live daily EMA wired 2026-10-05 after Jordan clarified Active must trade daily vs weekly momentum."
   },
   "starting_capital": 100000.0,
-  "rule_version": 6
+  "rule_version": 8,
+  "strategy_id": "equity_daily_ema_trend",
+  "signal_mode": "daily",
+  "daily_eval": {
+    "ema_fast": 10,
+    "ema_slow": 30,
+    "entry": "EMA10 > EMA30 and close > EMA30 on daily closes",
+    "exit": "close < EMA30 or EMA10 < EMA30, only after min hold",
+    "min_hold_trading_days": 3,
+    "hard_stop_pct": 0.08,
+    "window_et": [
+      "15:00",
+      "16:00"
+    ],
+    "runs": "3:23 PM refresh evaluates; all other runs mark only",
+    "fill_cap_counts": "all fills (buys + trend exits); hard stops exempt"
+  }
 }

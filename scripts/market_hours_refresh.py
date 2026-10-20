@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Market-hours refresh pipeline for paper portfolio.
 
-1. Run active 15m EMA paper day-trader (book fills when signals fire).
+1. Run active sleeves. Equity rule v8 (2026-10-20): daily EMA10/30, evaluated
+   only at the 3:23 PM ET run; other runs mark only. Crypto rule v7: 15m off.
 2. Rebuild the combined dashboard (marks all four sleeves + publishes HTML).
 
 Intended for weekday market-hours routines about every 15-30 minutes during
