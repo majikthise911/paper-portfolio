@@ -1,0 +1,307 @@
+{
+  "as_of": "2026-10-20T11:24:11.224367-04:00",
+  "mode": "auto_book",
+  "executed": true,
+  "strategy": "equity_15m_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 98840.75,
+  "cash_before": 19810.87,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 8,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 6,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "XLRE",
+      "close": 42.389999,
+      "ema_fast": 42.263275,
+      "ema_slow": 42.042368,
+      "strength": 2.150341,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLV",
+      "close": 179.570007,
+      "ema_fast": 178.957118,
+      "ema_slow": 177.799471,
+      "strength": 2.029323,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "IWM",
+      "close": 275.920013,
+      "ema_fast": 275.103616,
+      "ema_slow": 273.538626,
+      "strength": 1.937311,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLY",
+      "close": 115.720001,
+      "ema_fast": 115.55954,
+      "ema_slow": 114.989123,
+      "strength": 1.858711,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "DIA",
+      "close": 523.820007,
+      "ema_fast": 523.554787,
+      "ema_slow": 521.896843,
+      "strength": 1.537122,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLF",
+      "close": 55.720001,
+      "ema_fast": 55.682495,
+      "ema_slow": 55.492495,
+      "strength": 1.405688,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "TSLA",
+      "close": 374.73999,
+      "ema_fast": 373.800764,
+      "ema_slow": 370.717628,
+      "strength": 1.292796,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "TLT",
+      "close": 80.071999,
+      "ema_fast": 80.052092,
+      "ema_slow": 79.867151,
+      "strength": 1.282694,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "BRK-B",
+      "close": 537.25,
+      "ema_fast": 536.334775,
+      "ema_slow": 534.513643,
+      "strength": 1.269147,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLU",
+      "close": 41.915001,
+      "ema_fast": 41.818672,
+      "ema_slow": 41.702309,
+      "strength": 1.040136,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "AMZN",
+      "close": 263.26001,
+      "ema_fast": 263.316263,
+      "ema_slow": 262.425448,
+      "strength": 0.712326,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 87.730003,
+      "ema_fast": 87.696476,
+      "ema_slow": 87.56642,
+      "strength": 0.598511,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "SPY",
+      "close": 769.159973,
+      "ema_fast": 769.4525,
+      "ema_slow": 768.60421,
+      "strength": 0.528989,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLB",
+      "close": 51.040001,
+      "ema_fast": 51.014595,
+      "ema_slow": 50.971593,
+      "strength": 0.316564,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    }
+  ],
+  "planned_trades": [
+    {
+      "ticker": "META",
+      "side": "SELL",
+      "shares": 21.0,
+      "price": 692.179993,
+      "dollars": 14535.78,
+      "sector": "communication",
+      "reason": "ema_trend_broken+atr_stop",
+      "signal": "ema_trend_exit",
+      "stop_price": 701.343759,
+      "ema_fast": 693.428127,
+      "ema_slow": 697.197567,
+      "last_bar": "2026-10-20 11:15:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": -270.59
+    },
+    {
+      "ticker": "MSFT",
+      "side": "SELL",
+      "shares": 27.0,
+      "price": 530.434998,
+      "dollars": 14321.74,
+      "sector": "tech",
+      "reason": "ema_trend_broken+atr_stop",
+      "signal": "ema_trend_exit",
+      "stop_price": 532.748598,
+      "ema_fast": 530.9344,
+      "ema_slow": 531.830283,
+      "last_bar": "2026-10-20 11:15:00-04:00",
+      "cap_exempt": true,
+      "realized_pnl": -108.14
+    },
+    {
+      "ticker": "XLRE",
+      "side": "BUY",
+      "shares": 349.0,
+      "price": 42.389999,
+      "dollars": 14794.11,
+      "sector": "real_estate",
+      "reason": "ema_trend_long",
+      "signal": "ema_trend_long",
+      "stop_price": 42.235902,
+      "ema_fast": 42.263275,
+      "ema_slow": 42.042368,
+      "strength": 2.150341,
+      "bullish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    },
+    {
+      "ticker": "XLV",
+      "side": "BUY",
+      "shares": 78.0,
+      "price": 179.570007,
+      "dollars": 14006.46,
+      "sector": "health",
+      "reason": "ema_trend_long",
+      "signal": "ema_trend_long",
+      "stop_price": 178.714318,
+      "ema_fast": 178.957118,
+      "ema_slow": 177.799471,
+      "strength": 2.029323,
+      "bullish_cross": false,
+      "last_bar": "2026-10-20 11:15:00-04:00"
+    }
+  ],
+  "notes": [
+    "entry_skip_too_small:IWM",
+    "entry_skip_too_small:DIA",
+    "entry_skip_below_min_order:XLF:budget_$99.67<min_$1,000",
+    "entry_skip_below_min_order:TLT:budget_$99.67<min_$1,000",
+    "entry_skip_too_small:BRK-B",
+    "entry_skip_below_min_order:XLU:budget_$99.67<min_$1,000",
+    "entry_skip_below_min_order:XLP:budget_$99.67<min_$1,000",
+    "entry_skip_too_small:SPY"
+  ],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "entries_today_at_book": 0,
+  "entries_today_after": 2,
+  "exits_today_after": 2,
+  "booked_fills": [
+    {
+      "ticker": "META",
+      "side": "SELL",
+      "shares": 21,
+      "price": 692.179993,
+      "dollars": 14535.78,
+      "sector": "communication",
+      "realized_pnl": -270.59,
+      "reason": "ema_trend_broken+atr_stop",
+      "fill_source": "yfinance_15m_close"
+    },
+    {
+      "ticker": "MSFT",
+      "side": "SELL",
+      "shares": 27,
+      "price": 530.434998,
+      "dollars": 14321.74,
+      "sector": "tech",
+      "realized_pnl": -108.14,
+      "reason": "ema_trend_broken+atr_stop",
+      "fill_source": "yfinance_15m_close"
+    },
+    {
+      "ticker": "XLRE",
+      "side": "BUY",
+      "shares": 349,
+      "price": 42.389999,
+      "dollars": 14794.11,
+      "sector": "real_estate",
+      "reason": "ema_trend_long",
+      "stop_price": 42.235902,
+      "fill_source": "yfinance_15m_close"
+    },
+    {
+      "ticker": "XLV",
+      "side": "BUY",
+      "shares": 78,
+      "price": 179.570007,
+      "dollars": 14006.46,
+      "sector": "health",
+      "reason": "ema_trend_long",
+      "stop_price": 178.714318,
+      "fill_source": "yfinance_15m_close"
+    }
+  ],
+  "nav_after": 98840.75,
+  "cash_after": 19867.82,
+  "summary": {
+    "n_planned": 4,
+    "n_buys": 2,
+    "n_sells": 2,
+    "booked": true,
+    "cash_after": 19867.82,
+    "nav_after": 98840.75
+  }
+}

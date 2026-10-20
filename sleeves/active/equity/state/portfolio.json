@@ -1,89 +1,89 @@
 {
-  "as_of": "2026-10-20T08:17:15-04:00",
+  "as_of": "2026-10-20T11:24:16-04:00",
   "currency": "USD",
   "sleeve": "active_equity",
-  "cash": 19810.87,
+  "cash": 19867.82,
   "positions": {
     "AMZN": {
       "shares": 56,
       "avg_cost": 263.339996,
       "cost_basis": 14747.04,
-      "last_price": 262.45,
-      "market_value": 14697.2,
+      "last_price": 263.32,
+      "market_value": 14745.92,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": -3.91,
+      "unrealized_pnl": -4.48,
       "stop_price": 261.252609,
-      "weight": 0.149208
+      "weight": 0.149155
     },
     "XLY": {
       "shares": 129,
       "avg_cost": 114.43,
       "cost_basis": 14761.47,
-      "last_price": 114.46,
-      "market_value": 14765.34,
+      "last_price": 115.705,
+      "market_value": 14925.95,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": 14.19,
+      "unrealized_pnl": 166.41,
       "stop_price": 113.981288,
-      "weight": 0.149537
+      "weight": 0.15103
     },
     "TSLA": {
       "shares": 40,
       "avg_cost": 368.054993,
       "cost_basis": 14722.2,
-      "last_price": 368.06,
-      "market_value": 14722.4,
+      "last_price": 374.75,
+      "market_value": 14990.0,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": 16.4,
+      "unrealized_pnl": 267.4,
       "stop_price": 364.470749,
-      "weight": 0.149162
-    },
-    "META": {
-      "shares": 21,
-      "avg_cost": 705.065002,
-      "cost_basis": 14806.37,
-      "last_price": 705.44,
-      "market_value": 14814.24,
-      "sector": "communication",
-      "opened_at": "2026-10-19T15:28:11.333548-04:00",
-      "unrealized_pnl": 0.0,
-      "stop_price": 701.343759,
-      "weight": 0.149848
-    },
-    "MSFT": {
-      "shares": 27,
-      "avg_cost": 534.440002,
-      "cost_basis": 14429.88,
-      "last_price": 533.52,
-      "market_value": 14405.04,
-      "sector": "tech",
-      "opened_at": "2026-10-19T15:28:11.333548-04:00",
-      "unrealized_pnl": 0.0,
-      "stop_price": 532.748598,
-      "weight": 0.146038
+      "weight": 0.151654
     },
     "XLB": {
       "shares": 108,
       "avg_cost": 50.969799,
       "cost_basis": 5504.74,
-      "last_price": 50.95,
-      "market_value": 5502.6,
+      "last_price": 51.04,
+      "market_value": 5512.32,
       "sector": "materials",
       "opened_at": "2026-10-19T15:28:11.333548-04:00",
-      "unrealized_pnl": 0.0,
+      "unrealized_pnl": 7.58,
       "stop_price": 50.842236,
-      "weight": 0.055711
+      "weight": 0.05577
+    },
+    "XLRE": {
+      "shares": 349,
+      "avg_cost": 42.389999,
+      "cost_basis": 14794.11,
+      "last_price": 42.39,
+      "market_value": 14794.11,
+      "sector": "real_estate",
+      "opened_at": "2026-10-20T11:24:11.224367-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 42.235902,
+      "weight": 0.149676
+    },
+    "XLV": {
+      "shares": 78,
+      "avg_cost": 179.570007,
+      "cost_basis": 14006.46,
+      "last_price": 179.57,
+      "market_value": 14006.46,
+      "sector": "health",
+      "opened_at": "2026-10-20T11:24:11.224367-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 178.714318,
+      "weight": 0.141707
     }
   },
-  "nav": 98717.69,
+  "nav": 98842.58,
   "starting_capital": 100000.0,
   "peak_nav": 100060.85,
-  "spy_last_close": 766.48,
-  "total_pnl": -1282.31,
-  "total_pnl_pct": -1.2823,
-  "drawdown_pct": -1.3423,
-  "last_trade_batch": "active_auto_2026-10-19_152811",
-  "notes": "Active auto-book 2026-10-19T15:28:11.333548-04:00: 3 BUY / 3 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
+  "spy_last_close": 769.11,
+  "total_pnl": -1157.42,
+  "total_pnl_pct": -1.1574,
+  "drawdown_pct": -1.2175,
+  "last_trade_batch": "active_auto_2026-10-20_112411",
+  "notes": "Active auto-book 2026-10-20T11:24:11.224367-04:00: 2 BUY / 2 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
 }
