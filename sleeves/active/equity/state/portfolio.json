@@ -1,89 +1,89 @@
 {
-  "as_of": "2026-10-20T11:24:16-04:00",
+  "as_of": "2026-10-20T15:28:46-04:00",
   "currency": "USD",
   "sleeve": "active_equity",
-  "cash": 19867.82,
+  "cash": 19936.83,
   "positions": {
-    "AMZN": {
-      "shares": 56,
-      "avg_cost": 263.339996,
-      "cost_basis": 14747.04,
-      "last_price": 263.32,
-      "market_value": 14745.92,
-      "sector": "consumer_disc",
-      "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": -4.48,
-      "stop_price": 261.252609,
-      "weight": 0.149155
-    },
     "XLY": {
       "shares": 129,
       "avg_cost": 114.43,
       "cost_basis": 14761.47,
-      "last_price": 115.705,
-      "market_value": 14925.95,
+      "last_price": 115.465,
+      "market_value": 14894.98,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": 166.41,
+      "unrealized_pnl": 133.51,
       "stop_price": 113.981288,
-      "weight": 0.15103
+      "weight": 0.150818
     },
     "TSLA": {
       "shares": 40,
       "avg_cost": 368.054993,
       "cost_basis": 14722.2,
-      "last_price": 374.75,
-      "market_value": 14990.0,
+      "last_price": 374.9,
+      "market_value": 14996.0,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": 267.4,
+      "unrealized_pnl": 274.2,
       "stop_price": 364.470749,
-      "weight": 0.151654
+      "weight": 0.151845
     },
     "XLB": {
       "shares": 108,
       "avg_cost": 50.969799,
       "cost_basis": 5504.74,
-      "last_price": 51.04,
-      "market_value": 5512.32,
+      "last_price": 51.25,
+      "market_value": 5535.0,
       "sector": "materials",
       "opened_at": "2026-10-19T15:28:11.333548-04:00",
-      "unrealized_pnl": 7.58,
+      "unrealized_pnl": 30.26,
       "stop_price": 50.842236,
-      "weight": 0.05577
+      "weight": 0.056044
     },
     "XLRE": {
       "shares": 349,
       "avg_cost": 42.389999,
       "cost_basis": 14794.11,
-      "last_price": 42.39,
-      "market_value": 14794.11,
+      "last_price": 42.365,
+      "market_value": 14785.39,
       "sector": "real_estate",
       "opened_at": "2026-10-20T11:24:11.224367-04:00",
-      "unrealized_pnl": 0.0,
+      "unrealized_pnl": -8.72,
       "stop_price": 42.235902,
-      "weight": 0.149676
+      "weight": 0.149708
     },
     "XLV": {
       "shares": 78,
       "avg_cost": 179.570007,
       "cost_basis": 14006.46,
-      "last_price": 179.57,
-      "market_value": 14006.46,
+      "last_price": 179.28,
+      "market_value": 13983.84,
       "sector": "health",
       "opened_at": "2026-10-20T11:24:11.224367-04:00",
-      "unrealized_pnl": 0.0,
+      "unrealized_pnl": -23.4,
       "stop_price": 178.714318,
-      "weight": 0.141707
+      "weight": 0.141584
+    },
+    "IWM": {
+      "shares": 53,
+      "avg_cost": 276.029999,
+      "cost_basis": 14629.59,
+      "last_price": 276.03,
+      "market_value": 14629.59,
+      "sector": "small_cap",
+      "opened_at": "2026-10-20T15:28:42.344815-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 275.227015,
+      "weight": 0.148131
     }
   },
-  "nav": 98842.58,
+  "nav": 98761.63,
   "starting_capital": 100000.0,
   "peak_nav": 100060.85,
-  "spy_last_close": 769.11,
-  "total_pnl": -1157.42,
-  "total_pnl_pct": -1.1574,
-  "drawdown_pct": -1.2175,
-  "last_trade_batch": "active_auto_2026-10-20_112411",
-  "notes": "Active auto-book 2026-10-20T11:24:11.224367-04:00: 2 BUY / 2 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
+  "spy_last_close": 768.23,
+  "total_pnl": -1238.37,
+  "total_pnl_pct": -1.2384,
+  "drawdown_pct": -1.2984,
+  "last_trade_batch": "active_auto_2026-10-20_152842",
+  "notes": "Active auto-book 2026-10-20T15:28:42.344815-04:00: 1 BUY / 1 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
 }
