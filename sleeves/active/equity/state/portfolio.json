@@ -1,89 +1,89 @@
 {
-  "as_of": "2026-10-23T11:25:34-04:00",
+  "as_of": "2026-10-23T15:30:14-04:00",
   "currency": "USD",
   "sleeve": "active_equity",
-  "cash": 19936.83,
+  "cash": 20034.6,
   "positions": {
     "XLY": {
       "shares": 129,
       "avg_cost": 114.43,
       "cost_basis": 14761.47,
-      "last_price": 113.76,
-      "market_value": 14675.04,
+      "last_price": 113.185,
+      "market_value": 14600.86,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": 133.51,
+      "unrealized_pnl": -160.61,
       "stop_price": 113.981288,
-      "weight": 0.150818
+      "weight": 0.148328
     },
     "TSLA": {
       "shares": 40,
       "avg_cost": 368.054993,
       "cost_basis": 14722.2,
-      "last_price": 376.1,
-      "market_value": 15044.0,
+      "last_price": 372.36,
+      "market_value": 14894.4,
       "sector": "consumer_disc",
       "opened_at": "2026-10-19T11:53:56.352399-04:00",
-      "unrealized_pnl": 274.2,
+      "unrealized_pnl": 171.4,
       "stop_price": 364.470749,
-      "weight": 0.151845
+      "weight": 0.151302
     },
     "XLB": {
       "shares": 108,
       "avg_cost": 50.969799,
       "cost_basis": 5504.74,
-      "last_price": 51.55,
-      "market_value": 5567.4,
+      "last_price": 51.56,
+      "market_value": 5568.48,
       "sector": "materials",
       "opened_at": "2026-10-19T15:28:11.333548-04:00",
-      "unrealized_pnl": 30.26,
+      "unrealized_pnl": 64.82,
       "stop_price": 50.842236,
-      "weight": 0.056044
-    },
-    "XLRE": {
-      "shares": 349,
-      "avg_cost": 42.389999,
-      "cost_basis": 14794.11,
-      "last_price": 42.67,
-      "market_value": 14891.83,
-      "sector": "real_estate",
-      "opened_at": "2026-10-20T11:24:11.224367-04:00",
-      "unrealized_pnl": -8.72,
-      "stop_price": 42.235902,
-      "weight": 0.149708
+      "weight": 0.05658
     },
     "XLV": {
       "shares": 78,
       "avg_cost": 179.570007,
       "cost_basis": 14006.46,
-      "last_price": 179.855,
-      "market_value": 14028.69,
+      "last_price": 179.06,
+      "market_value": 13966.68,
       "sector": "health",
       "opened_at": "2026-10-20T11:24:11.224367-04:00",
-      "unrealized_pnl": -23.4,
+      "unrealized_pnl": -39.39,
       "stop_price": 178.714318,
-      "weight": 0.141584
+      "weight": 0.14189
     },
-    "IWM": {
-      "shares": 53,
-      "avg_cost": 276.029999,
-      "cost_basis": 14629.59,
-      "last_price": 275.74,
-      "market_value": 14614.22,
-      "sector": "small_cap",
-      "opened_at": "2026-10-20T15:28:42.344815-04:00",
+    "BRK-B": {
+      "shares": 27,
+      "avg_cost": 541.950012,
+      "cost_basis": 14632.65,
+      "last_price": 541.95,
+      "market_value": 14632.65,
+      "sector": "financials",
+      "opened_at": "2026-10-23T15:30:08.889600-04:00",
       "unrealized_pnl": 0.0,
-      "stop_price": 275.227015,
-      "weight": 0.148131
+      "stop_price": 498.594011,
+      "weight": 0.148651
+    },
+    "XLP": {
+      "shares": 167,
+      "avg_cost": 88.25,
+      "cost_basis": 14737.75,
+      "last_price": 88.255,
+      "market_value": 14738.58,
+      "sector": "consumer_staples",
+      "opened_at": "2026-10-23T15:30:08.889600-04:00",
+      "unrealized_pnl": 0.0,
+      "stop_price": 81.19,
+      "weight": 0.149719
     }
   },
-  "nav": 98758.01,
+  "nav": 98436.26,
   "starting_capital": 100000.0,
   "peak_nav": 100060.85,
-  "spy_last_close": 762.8734,
-  "total_pnl": -1241.99,
-  "total_pnl_pct": -1.242,
-  "drawdown_pct": -1.302,
-  "last_trade_batch": "active_auto_2026-10-20_152842",
-  "notes": "Active auto-book 2026-10-20T15:28:42.344815-04:00: 1 BUY / 1 SELL under standing order. Strategy equity_15m_ema_trend. Paper only."
+  "spy_last_close": 760.31,
+  "total_pnl": -1563.74,
+  "total_pnl_pct": -1.5637,
+  "drawdown_pct": -1.6236,
+  "last_trade_batch": "active_auto_2026-10-23_153008",
+  "notes": "Active auto-book 2026-10-23T15:30:08.889600-04:00: 2 BUY / 2 SELL under standing order. Strategy equity_daily_ema_trend. Paper only."
 }
