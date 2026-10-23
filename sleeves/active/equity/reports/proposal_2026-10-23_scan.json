@@ -1,0 +1,174 @@
+{
+  "signal_mode": "daily",
+  "mark_only": true,
+  "as_of": "2026-10-23T11:25:29.580807-04:00",
+  "mode": "auto_book",
+  "executed": false,
+  "strategy": "equity_daily_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 98750.59,
+  "cash_before": 19936.83,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 4,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 4,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "BRK-B",
+      "close": 545.72998,
+      "ema_fast": 533.621202,
+      "ema_slow": 519.95764,
+      "strength": 2.210023,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 88.595001,
+      "ema_fast": 86.990914,
+      "ema_slow": 84.881891,
+      "strength": 1.672278,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "XLE",
+      "close": 69.445,
+      "ema_fast": 67.451029,
+      "ema_slow": 65.318763,
+      "strength": 1.508896,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "XLV",
+      "close": 179.835007,
+      "ema_fast": 176.874211,
+      "ema_slow": 172.600518,
+      "strength": 1.504298,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "AAPL",
+      "close": 347.98999,
+      "ema_fast": 343.296115,
+      "ema_slow": 337.024095,
+      "strength": 0.985754,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "MSFT",
+      "close": 524.955017,
+      "ema_fast": 528.891303,
+      "ema_slow": 518.65476,
+      "strength": 0.907743,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "XLU",
+      "close": 42.549999,
+      "ema_fast": 41.950164,
+      "ema_slow": 41.566268,
+      "strength": 0.5961,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "XLY",
+      "close": 113.760002,
+      "ema_fast": 113.739432,
+      "ema_slow": 112.88553,
+      "strength": 0.534076,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "XLB",
+      "close": 51.540001,
+      "ema_fast": 50.856946,
+      "ema_slow": 50.47551,
+      "strength": 0.526613,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "TLT",
+      "close": 81.510002,
+      "ema_fast": 80.093905,
+      "ema_slow": 79.728755,
+      "strength": 0.436766,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "DIA",
+      "close": 523.23999,
+      "ema_fast": 521.724058,
+      "ema_slow": 519.640711,
+      "strength": 0.391677,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "TSLA",
+      "close": 376.059998,
+      "ema_fast": 373.331378,
+      "ema_slow": 369.183659,
+      "strength": 0.329824,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    },
+    {
+      "ticker": "XLF",
+      "close": 56.18,
+      "ema_fast": 55.58339,
+      "ema_slow": 55.365606,
+      "strength": 0.302382,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-10-23 00:00:00-04:00"
+    }
+  ],
+  "planned_trades": [],
+  "notes": [
+    "daily_mode_mark_only:outside_eval_window_15:00-16:00"
+  ],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "summary": {
+    "n_planned": 0,
+    "n_buys": 0,
+    "n_sells": 0,
+    "booked": false
+  }
+}
