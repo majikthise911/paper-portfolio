@@ -1,0 +1,21 @@
+{
+  "as_of": "2026-10-26T09:13:05-04:00",
+  "method": "Crypto v2 plus relative-strength filter: each top-2 alt slot (15%) is filled only if that alt's 63d return beats BTC's 63d return; otherwise the slot goes to BTC. Weekly, same bands as v2. Simulated each Monday, never booked.",
+  "start_nav": 23149.48,
+  "cash": 5061.74,
+  "shares": {
+    "AVAX-USD": 339.361693,
+    "BTC-USD": 0.145014,
+    "SOL-USD": 34.142473
+  },
+  "history": [
+    {
+      "date": "2026-10-26",
+      "nav": 23149.48,
+      "live_v2_nav": 23149.48
+    }
+  ],
+  "peak_nav": 23149.48,
+  "backtest": "reports/crypto_rs_filter_backtest_2026-10-26.json",
+  "judge": "Judge 2026-11-23 (4 Mondays). Promote to live if shadow leads live v2 by >1.5 pts with no more than 2 pts extra drawdown; kill if it trails by >1 pt or never diverges."
+}

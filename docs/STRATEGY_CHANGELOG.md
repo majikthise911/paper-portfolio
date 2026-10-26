@@ -5,6 +5,16 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-10-26, Crypto relative-strength filter shadow (not booked)
+
+- **Sleeve:** momentum crypto (shadow only, live rule v2 unchanged)
+- **Change:** New shadow book `sleeves/crypto/state/shadow_rs_filter.json` and backtest `scripts/crypto_rs_backtest.py`. Shadow rule: v2, but each top-2 alt slot is filled only if the alt's 63d return beats BTC's 63d return; otherwise that 15% goes to BTC.
+- **Observation:** Backtest vs live v2: 1y -27.9% vs -31.5%, 6m +1.7% vs 0.0%, 3m +18.4% vs +9.6%. Drawdown worse on 1y (-42.2% vs -39.8%) and 6m (-23.5% vs -15.2%).
+- **Logic:** Better return on every window but a real drawdown cost, and v2 is still on trial vs the old top-4 shadow through 11/09. Today the filter trades nothing (both alts beat BTC), so it runs as a shadow.
+- **Jordan approval:** Standing order 2026-10-05 and the 2026-10-20 ask for one new shadow-tested idea each Monday.
+- **Effective:** Shadow starts 2026-10-26 from the live book.
+- **How we judge:** 2026-11-23. Promote if it leads live v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or never diverges.
+
 ## 2026-10-20, Active equity moves from 15m EMA to daily-bar signals (rule v8)
 
 - **Sleeve:** active equity only (Active crypto stays rule v7: 60% BTC core, 15m off)
