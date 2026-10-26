@@ -1,7 +1,7 @@
 # Active active_equity scan 2026-10-26
 
 - **Strategy:** equity_daily_ema_trend
-- **As of:** 2026-10-26T11:33:41.570712-04:00
+- **As of:** 2026-10-26T15:30:40.065056-04:00
 - **Mode:** auto_book
 - **executed:** false
 - **Session:** US_RTH
@@ -15,7 +15,14 @@
 
 ## Notes
 
-- daily_mode_mark_only:outside_eval_window_15:00-16:00
+- entry_skip_below_min_order:XLRE:budget_$140.85<min_$1,000
+- entry_skip_below_min_order:XLE:budget_$140.85<min_$1,000
+- entry_skip_too_small:AAPL
+- entry_skip_too_small:MSFT
+- entry_skip_below_min_order:XLU:budget_$140.85<min_$1,000
+- entry_skip_below_min_order:TLT:budget_$140.85<min_$1,000
+- entry_skip_too_small:DIA
+- entry_skip_below_min_order:XLF:budget_$140.85<min_$1,000
 
 ## Governance
 
