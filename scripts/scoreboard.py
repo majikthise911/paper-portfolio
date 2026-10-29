@@ -253,7 +253,7 @@ def fills(ledger: list[dict]) -> list[dict]:
     return out
 
 
-def contributions(sleeve: dict, ledger: list[dict]) -> list[tuple[str, float, str]]:
+def contributions(sleeve: dict, ledger: list[dict], leg: str = "") -> list[tuple[str, float, str]]:
     realized = defaultdict(float)
     for f in fills(ledger):
         if f.get("realized_pnl") is not None:
@@ -267,7 +267,7 @@ def contributions(sleeve: dict, ledger: list[dict]) -> list[tuple[str, float, st
     accounted = sum(r[1] for r in rows)
     resid = round(float(sleeve.get("total_pnl") or 0.0) - accounted, 2)
     if abs(resid) >= 1:
-        rows.append(("cash and rounding", resid, "other"))
+        rows.append((f"{leg} unattributed".strip(), resid, "fills without realized P&L, rounding"))
     rows.sort(key=lambda r: r[1])
     return rows
 
@@ -556,8 +556,11 @@ $62,500 each from 9/20, no rebalance.</div><div style="margin-top:10px" class="b
         btc_leg = float(bl.get("btc_leg", 62500)) - 62500
         eq_gap, cr_gap = eq_pnl - spy_leg, cr_pnl - btc_leg
         summary["sleeves"][name].update({"equity_gap": round(eq_gap, 2), "crypto_gap": round(cr_gap, 2)})
-        rows = contributions(eq, ledgers[key + "_eq"]) + [(t, v, st) for t, v, st in contributions(cr, ledgers[key + "_cr"])]
+        rows = contributions(eq, ledgers[key + "_eq"], "Equity") + contributions(cr, ledgers[key + "_cr"], "Crypto")
         rows = sorted(rows, key=lambda r: r[1])
+        summary["sleeves"][name]["positions"] = [[t.replace("-USD", ""), v, st] for t, v, st in rows]
+        summary["sleeves"][name].update({"equity_pnl": round(eq_pnl, 2), "crypto_pnl": round(cr_pnl, 2),
+                                         "spy_leg_pnl": round(spy_leg, 2), "btc_leg_pnl": round(btc_leg, 2)})
         mx = max([abs(r[1]) for r in rows] + [1])
         trs = "".join(
             f'<tr><td>{escape(t.replace("-USD", ""))}</td><td class="muted">{st}</td><td class="n {cls(v)}">{money(v, True)}</td>'
@@ -580,11 +583,14 @@ $62,500 each from 9/20, no rebalance.</div><div style="margin-top:10px" class="b
     for e in ex.get("experiments") or []:
         txt, lead = (live_result(e["live"], data, root, px) if e.get("live") else (e.get("result_text", ""), None))
         dl = (date.fromisoformat(e["decide"]) - now.date()).days
+        summary.setdefault("experiments", []).append({"name": e["name"], "sleeve": e["sleeve"], "hypothesis": e["hypothesis"],
+            "result": txt, "lead_pts": lead, "decide": e["decide"], "days": dl, "status": e["status"]})
         trs.append(f"""<tr><td><b>{escape(e['name'])}</b><div class="muted">{escape(e['sleeve'])}. Control: {escape(e.get('control',''))}</div></td>
 <td>{escape(e['hypothesis'])}<div class="muted">{escape(e.get('rule',''))}</div></td><td>{escape(txt)}</td>
 <td class="n">{date.fromisoformat(e['decide']):%m/%d}<div class="muted">{dl} days</div></td><td><span class="pill p-{escape(e['status'])}">{escape(e['status'])}</span></td></tr>""")
     hist = "".join(f'<tr><td>{h["date"][5:]}</td><td>{escape(h["name"])}</td><td><span class="pill p-{escape(h["outcome"])}">{escape(h["outcome"])}</span></td><td class="muted">{escape(h["note"])}</td></tr>'
                    for h in ex.get("history") or [])
+    summary["history"] = ex.get("history") or []
     sec3 = f"""<section id="experiments"><h2>3. Experiments</h2><table>
 <tr><th>Trial</th><th>Hypothesis and rule</th><th>Shadow vs control</th><th class="n">Decide</th><th>Status</th></tr>{''.join(trs)}</table>
 <h3 style="font-size:14px;margin:14px 0 4px">Decided</h3><table><tr><th>Date</th><th>Trial</th><th>Outcome</th><th>Note</th></tr>{hist}</table>
@@ -596,6 +602,9 @@ $62,500 each from 9/20, no rebalance.</div><div style="margin-top:10px" class="b
         f'<tr><td>{escape(SKIP_LABELS.get(k, k))}</td><td class="n">{c}</td><td class="muted">{escape(", ".join(sorted(tickers[k]))[:120])}</td></tr>'
         for k, c in sorted(counts.items(), key=lambda kv: -kv[1]))
     planned = sum(len(d.get("planned_trades") or []) for _, d, _ in evals)
+    summary["skips"] = {"evals": len(evals), "planned": planned, "latest": last[0] if last else None,
+                        "reasons": [[SKIP_LABELS.get(k, k), c, ", ".join(sorted(tickers[k]))] for k, c in sorted(counts.items(), key=lambda kv: -kv[1])]}
+    summary["books"] = []
     free_rows = []
     health_warn = []
     for name, sl, cap_key in [("Momentum equity", data["equity"], "m_eq"), ("Momentum crypto", data["crypto"], "m_cr"),
@@ -604,10 +613,11 @@ $62,500 each from 9/20, no rebalance.</div><div style="margin-top:10px" class="b
         free = float(sl["cash"]) - floor * float(sl["nav"])
         t30 = turnover(ledgers[cap_key], float(sl["starting_capital"]), 30, now)
         tall = turnover(ledgers[cap_key], float(sl["starting_capital"]), None, now)
+        summary["books"].append([name, round(float(sl["cash"]), 2), round(floor * 100), round(free, 2), t30, tall])
         free_rows.append(f'<tr><td>{name}</td><td class="n">{money(float(sl["cash"]))}</td><td class="n">{floor*100:.0f}%</td>'
                          f'<td class="n {"neg" if free < 1000 and name.startswith("Active equity") else ""}">{money(free)}</td><td class="n">{t30:.0f}%</td><td class="n">{tall:.0f}%</td></tr>')
         if name == "Active equity" and free < 1000:
-            health_warn.append(f"Active equity has {money(free)} above its 20% cash floor, below the $1,000 minimum order, so every new buy signal is skipped until something is sold. Fix promised to Jordan 10/27.")
+            health_warn.append(f"Active equity free cash above its 20% floor is {money(free)}, under the $1,000 minimum order, so new buy signals are skipped until something is sold. A fix is pending.")
     rs = routine_status(root, now)
     rrows = "".join(f'<tr><td>{escape(r["name"])}</td><td>{escape(r["last"])}</td><td><span class="pill {"p-ok" if r["ok"] else "p-bad"}">{"ok" if r["ok"] else "late or missed"}</span></td><td class="muted">{escape(r["detail"])}</td></tr>' for r in rs)
     summary["routines"] = rs
@@ -620,6 +630,8 @@ $62,500 each from 9/20, no rebalance.</div><div style="margin-top:10px" class="b
 <p class="muted">Turnover is traded dollars (buys plus sells) over starting capital.</p></section>"""
 
     # 5. Risk
+    vb0 = data["equity"].get("vs_benchmark") or {}
+    vba0 = data["active"]["equity"].get("vs_benchmark") or {}
     bcur, bmdd = drawdown(base)
     rrows = []
     risk_warn = []
@@ -632,9 +644,15 @@ $62,500 each from 9/20, no rebalance.</div><div style="margin-top:10px" class="b
         cr_dd = float(cr.get("drawdown_pct") or 0)
         rrows.append(f'<tr><td>{name}</td><td class="n {cls(cur)}">{pct(cur)}</td><td class="n {cls(mdd)}">{pct(mdd)}</td>'
                      f'<td>{escape(top[0].replace("-USD",""))} {top[1]/nav*100:.1f}%</td><td class="n">{cr_share:.1f}%</td><td class="n {cls(cr_dd)}">{pct(cr_dd, 1)}</td></tr>')
-        summary["sleeves"][name].update({"drawdown": cur, "max_drawdown": mdd})
+        summary["sleeves"][name].update({"drawdown": cur, "max_drawdown": mdd, "top": top[0].replace("-USD", ""),
+                                         "top_pct": round(top[1] / nav * 100, 1) if nav else 0, "crypto_share": round(cr_share, 1),
+                                         "crypto_dd": cr_dd})
         if cr_dd <= -10:
             risk_warn.append(f"{name} crypto is {abs(cr_dd):.1f}% below its peak.")
+    summary["baseline_dd"] = [bcur, bmdd]
+    summary["warnings"] = health_warn + risk_warn
+    summary["spy_start"] = {"momentum": vb0.get("start_close"), "active": vba0.get("start_close"),
+                            "spy_ret": vb0.get("return_pct"), "rule": "last print at or before sleeve start (same as B&H series)"}
     rrows.append(f'<tr><td>50/50 baseline</td><td class="n {cls(bcur)}">{pct(bcur)}</td><td class="n {cls(bmdd)}">{pct(bmdd)}</td><td>BTC and SPY 50% each at start</td><td class="n">{float(bl.get("btc_leg",0))/bnav*100 if bnav else 0:.1f}%</td><td></td></tr>')
     sec5 = f"""<section id="risk"><h2>5. Risk</h2>{''.join(f'<div class="warn">{escape(w)}</div>' for w in risk_warn)}
 <table style="margin-top:8px"><tr><th>Book</th><th class="n">Drawdown now</th><th class="n">Max drawdown</th><th>Largest position</th><th class="n">Crypto share</th><th class="n">Crypto book from peak</th></tr>{''.join(rrows)}</table>
