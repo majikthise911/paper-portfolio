@@ -394,7 +394,7 @@ def live_result(kind: str, data: dict, root: Path, px: dict) -> tuple[str, float
         if old is None:
             return f"v2 {pct(v2r, 1)} since 10/12; old top-4 could not be priced.", None
         oldr = (old / start - 1) * 100
-        return f"v2 {pct(v2r, 1)} vs old top-4 {pct(oldr, 1)} since 10/12. Lead {pct(v2r - oldr, 1)}.", round(v2r - oldr, 2)
+        return f"v2 {pct(v2r, 1)} vs old top-4 {pct(oldr, 1)} since 10/12. Lead {v2r - oldr:+.1f} pts.", round(v2r - oldr, 2)
     if kind == "rs_filter":
         sh = _load(root / "sleeves" / "crypto" / "state" / "shadow_rs_filter.json", {}) or {}
         start = float(sh.get("start_nav") or 0)
@@ -418,7 +418,7 @@ def live_result(kind: str, data: dict, root: Path, px: dict) -> tuple[str, float
             return "Shadow not priced.", None
         sr = (nav / start - 1) * 100
         lr = (live / float(live_start) - 1) * 100 if live_start else 0
-        return f"Monthly live {pct(lr, 1)} vs weekly shadow {pct(sr, 1)} since 10/19. Live lead {pct(lr - sr, 1)}.", round(lr - sr, 2)
+        return f"Monthly live {pct(lr, 1)} vs weekly shadow {pct(sr, 1)} since 10/19. Live lead {lr - sr:+.1f} pts.", round(lr - sr, 2)
     return "", None
 
 
