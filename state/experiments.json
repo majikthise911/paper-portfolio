@@ -1,0 +1,91 @@
+{
+  "note": "One row per trial. Paper edits this file when a trial starts, is judged, wins, or is killed. 'live' keys are filled in by scripts/scoreboard.py at render time.",
+  "experiments": [
+    {
+      "id": "crypto_v2_vs_top4",
+      "name": "Momentum crypto v2 (BTC 50% core + top-2 alts) vs old top-4",
+      "sleeve": "Momentum crypto",
+      "hypothesis": "A 50% BTC core plus the top 2 momentum alts beats the old equal top-4 momentum book.",
+      "control": "Frozen old top-4 book (shadow_old_top4)",
+      "started": "2026-10-12",
+      "decide": "2026-11-09",
+      "status": "running",
+      "rule": "Revert if v2 trails the old book by more than 2 pts.",
+      "live": "crypto_v2"
+    },
+    {
+      "id": "crypto_rs_filter",
+      "name": "Relative-strength alt filter",
+      "sleeve": "Momentum crypto",
+      "hypothesis": "An alt keeps its 15% slot only if its 63d return beats BTC's; otherwise the slot goes to BTC.",
+      "control": "Live crypto v2",
+      "started": "2026-10-26",
+      "decide": "2026-11-23",
+      "status": "shadow",
+      "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or never diverges.",
+      "live": "rs_filter"
+    },
+    {
+      "id": "mean_reversion_satellite",
+      "name": "Mean-reversion equity satellite (up to 10%)",
+      "sleeve": "Momentum equity",
+      "hypothesis": "A weekly bottom-8 mean-reversion satellite adds return without adding drawdown.",
+      "control": "Monthly momentum equity, no satellite",
+      "started": "2026-09-21",
+      "decide": "2026-11-02",
+      "status": "backtest",
+      "result_text": "Backtest 10/26: mean reversion +17.57% 1y (DD -6.53%) vs live monthly momentum -0.18% (DD -11.06%). Led every method for a fourth Monday. Turnover 10.9x.",
+      "rule": "Fund up to 10% of equity out of the 11/02 monthly rebalance if it still leads."
+    },
+    {
+      "id": "weekly_shadow_book",
+      "name": "Weekly shadow book vs monthly live equity",
+      "sleeve": "Momentum equity",
+      "hypothesis": "Monthly rebalancing does as well as weekly with less turnover.",
+      "control": "Weekly 63d momentum + top-10 buffer, simulated, never booked",
+      "started": "2026-10-19",
+      "decide": "2026-11-02",
+      "status": "running",
+      "rule": "Revert to weekly if live trails the shadow by more than 1.5 pts or adds more than 1 pt drawdown over the 4 monthly rebalances 11/02 to 02/01. First judge 11/02.",
+      "live": "weekly_shadow"
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-10-20",
+      "name": "Active equity 15m EMA signals",
+      "outcome": "replaced",
+      "note": "Churned (10/19 to 10/20 META and MSFT round trip about -$379). Replaced by daily EMA10/30, rule v8."
+    },
+    {
+      "date": "2026-10-19",
+      "name": "Equity weekly rebalance cadence",
+      "outcome": "replaced",
+      "note": "Moved to monthly from 11/02; weekly kept as a shadow book."
+    },
+    {
+      "date": "2026-10-12",
+      "name": "Active crypto 15m EMA trading",
+      "outcome": "killed",
+      "note": "-0.98% since 9/24 with many whipsaw round trips; v3 to v6 filters helped only marginally. Replaced by 60% BTC core, rule v7."
+    },
+    {
+      "date": "2026-10-12",
+      "name": "Momentum crypto equal top-4",
+      "outcome": "replaced",
+      "note": "BTC 50% core + top-2 beat it on 1y, 6m and 3m backtests. Frozen copy kept as the control."
+    },
+    {
+      "date": "2026-10-09",
+      "name": "Active crypto 1h trend filter",
+      "outcome": "superseded",
+      "note": "Replay showed a small churn improvement, not a big one. Moot after 15m crypto was switched off 10/12."
+    },
+    {
+      "date": "2026-10-05",
+      "name": "Equity top-10 rank buffer",
+      "outcome": "won",
+      "note": "Locked. Latest backtest: weekly + buffer +4.41% 1y at 6.3x turnover vs no buffer +2.49% at 9.3x."
+    }
+  ]
+}

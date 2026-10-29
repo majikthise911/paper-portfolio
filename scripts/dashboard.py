@@ -3988,9 +3988,17 @@ def main():
     data["total_pnl"] = equity["total_pnl"]
     data["holdings"] = equity["holdings"]
 
+    # 2026-10-29: one benchmark start rule, and the scoreboard-first layout.
+    import scoreboard
+    scoreboard.fix_vs_benchmark(data)
     save_json(DATA_OUT, data)
     save_json(PNL_HISTORY_OUT, pnl_history)
-    HTML_OUT.write_text(build_html(data), encoding="utf-8")
+    sb = scoreboard.render_all(
+        data, ROOT, strategy_section().replace("./changelog.html", "./changelog.html"),
+        architecture_section(),
+    )
+    for name, v in sb["sleeves"].items():
+        print(f"scoreboard {name} nav={v['nav']:.2f} gap={v['gap']:.2f}")
 
     print(
         f"equity nav={equity['nav']:.2f} pnl={equity['total_pnl']:.2f} "

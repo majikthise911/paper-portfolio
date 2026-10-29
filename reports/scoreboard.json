@@ -1,0 +1,53 @@
+{
+  "as_of": "2026-10-29T10:12:34-04:00",
+  "baseline_nav": 124837.16,
+  "days_left": 63,
+  "sleeves": {
+    "Momentum": {
+      "nav": 124352.89,
+      "gap": -484.27,
+      "gap_pct": -0.388,
+      "gap_change_7d": 287.61,
+      "equity_gap": 706.55,
+      "crypto_gap": -1190.82,
+      "drawdown": -3.51,
+      "max_drawdown": -3.89
+    },
+    "Active": {
+      "nav": 124717.11,
+      "gap": -120.05,
+      "gap_pct": -0.096,
+      "gap_change_7d": 1464.58,
+      "equity_gap": -158.86,
+      "crypto_gap": 38.81,
+      "drawdown": -1.0,
+      "max_drawdown": -2.56
+    }
+  },
+  "routines": [
+    {
+      "name": "Daily mark (8:09 AM)",
+      "last": "Thu 10/29 08:19 AM ET",
+      "ok": true,
+      "detail": "expected for Thu 10/29"
+    },
+    {
+      "name": "Market-hours refresh (11:23 AM, 3:23 PM)",
+      "last": "Wed 10/28 03:25 PM ET",
+      "ok": true,
+      "detail": "expected for Wed 10/28"
+    },
+    {
+      "name": "End-of-day summary (5:14 PM)",
+      "last": "no record",
+      "ok": false,
+      "detail": "10/28 EOD summary did not run (reported in the 10/29 digest). The EOD routine should set last_run here each time it sends."
+    },
+    {
+      "name": "Weekly update (Monday)",
+      "last": "Mon 10/26 09:41 AM ET",
+      "ok": true,
+      "detail": "expected for Mon 10/26"
+    }
+  ]
+}

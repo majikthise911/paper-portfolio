@@ -1,0 +1,8 @@
+{
+  "note": "Routines that do not commit (EOD summary) record their last run here. Commit-based routines are read from git log by scripts/scoreboard.py.",
+  "eod_summary": {
+    "last_run": null,
+    "status": "missed",
+    "detail": "10/28 EOD summary did not run (reported in the 10/29 digest). The EOD routine should set last_run here each time it sends."
+  }
+}
