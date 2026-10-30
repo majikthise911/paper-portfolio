@@ -1,44 +1,44 @@
 {
-  "as_of": "2026-10-30T11:26:58-04:00",
-  "baseline_nav": 121902.41,
+  "as_of": "2026-10-30T15:32:02-04:00",
+  "baseline_nav": 120401.58,
   "days_left": 62,
   "sleeves": {
     "Momentum": {
-      "nav": 123232.1,
-      "gap": 1329.69,
-      "gap_pct": 1.091,
-      "gap_change_7d": 1667.5,
-      "equity_gap": 1132.85,
-      "crypto_gap": 196.84,
+      "nav": 122468.24,
+      "gap": 2066.66,
+      "gap_pct": 1.716,
+      "gap_change_7d": 2404.47,
+      "equity_gap": 1172.76,
+      "crypto_gap": 893.9,
       "positions": [
         [
           "META",
-          -1107.35,
+          -1285.65,
           "held"
         ],
         [
           "AVAX",
-          -1099.52,
-          "held"
-        ],
-        [
-          "SOL",
-          -820.95,
+          -1088.66,
           "held"
         ],
         [
           "BTC",
-          -727.87,
+          -895.34,
+          "held"
+        ],
+        [
+          "SOL",
+          -856.8,
           "held"
         ],
         [
           "NVDA",
-          -634.97,
+          -743.64,
           "held"
         ],
         [
           "XLK",
-          -439.8,
+          -494.4,
           "held"
         ],
         [
@@ -57,13 +57,18 @@
           "closed"
         ],
         [
+          "AAPL",
+          191.02,
+          "held"
+        ],
+        [
           "Crypto unattributed",
           203.11,
           "fills without realized P&L, rounding"
         ],
         [
           "BRK-B",
-          255.44,
+          203.2,
           "held"
         ],
         [
@@ -72,48 +77,43 @@
           "closed"
         ],
         [
-          "AAPL",
-          322.1,
-          "held"
-        ],
-        [
           "MSFT",
-          702.0,
+          700.75,
           "held"
         ],
         [
           "XLV",
-          899.08,
+          842.66,
           "held"
         ],
         [
           "XLE",
-          980.22,
+          991.38,
           "held"
         ]
       ],
-      "equity_pnl": 868.64,
-      "crypto_pnl": -2636.54,
-      "spy_leg_pnl": -264.21,
-      "btc_leg_pnl": -2833.38,
-      "drawdown": -4.37,
-      "max_drawdown": -4.37,
+      "equity_pnl": 297.24,
+      "crypto_pnl": -2829.0,
+      "spy_leg_pnl": -875.52,
+      "btc_leg_pnl": -3722.9,
+      "drawdown": -4.97,
+      "max_drawdown": -4.97,
       "top": "MSFT",
-      "top_pct": 10.6,
+      "top_pct": 10.7,
       "crypto_share": 18.1,
-      "crypto_dd": -16.8883
+      "crypto_dd": -17.6035
     },
     "Active": {
-      "nav": 124646.41,
-      "gap": 2744.0,
-      "gap_pct": 2.251,
-      "gap_change_7d": 4734.15,
-      "equity_gap": 1059.48,
-      "crypto_gap": 1684.52,
+      "nav": 124146.04,
+      "gap": 3744.46,
+      "gap_pct": 3.11,
+      "gap_change_7d": 5734.61,
+      "equity_gap": 1378.39,
+      "crypto_gap": 2366.07,
       "positions": [
         [
           "BTC",
-          -898.36,
+          -1106.33,
           "held"
         ],
         [
@@ -177,6 +177,11 @@
           "closed"
         ],
         [
+          "XLY",
+          -50.0,
+          "held"
+        ],
+        [
           "GLD",
           -19.96,
           "closed"
@@ -185,11 +190,6 @@
           "XLC",
           -14.51,
           "closed"
-        ],
-        [
-          "XLY",
-          -13.87,
-          "held"
         ],
         [
           "DIA",
@@ -202,14 +202,14 @@
           "closed"
         ],
         [
-          "XLB",
-          11.02,
-          "held"
-        ],
-        [
           "ETH",
           16.3,
           "closed"
+        ],
+        [
+          "XLB",
+          22.35,
+          "held"
         ],
         [
           "XLRE",
@@ -248,17 +248,17 @@
         ],
         [
           "BRK-B",
-          359.6,
+          271.45,
           "held"
         ],
         [
           "XLV",
-          360.19,
+          275.56,
           "held"
         ],
         [
           "XLP",
-          493.61,
+          504.47,
           "held"
         ],
         [
@@ -268,20 +268,20 @@
         ],
         [
           "TSLA",
-          1170.23,
+          1064.55,
           "held"
         ]
       ],
-      "equity_pnl": 795.27,
-      "crypto_pnl": -1148.86,
-      "spy_leg_pnl": -264.21,
-      "btc_leg_pnl": -2833.38,
-      "drawdown": -1.06,
+      "equity_pnl": 502.87,
+      "crypto_pnl": -1356.83,
+      "spy_leg_pnl": -875.52,
+      "btc_leg_pnl": -3722.9,
+      "drawdown": -1.45,
       "max_drawdown": -2.56,
       "top": "TSLA",
-      "top_pct": 12.9,
-      "crypto_share": 19.1,
-      "crypto_dd": -10.057
+      "top_pct": 12.8,
+      "crypto_share": 19.0,
+      "crypto_dd": -10.8412
     }
   },
   "experiments": [
@@ -289,8 +289,8 @@
       "name": "Momentum crypto v2 (BTC 50% core + top-2 alts) vs old top-4",
       "sleeve": "Momentum crypto",
       "hypothesis": "A 50% BTC core plus the top 2 momentum alts beats the old equal top-4 momentum book.",
-      "result": "v2 -9.1% vs old top-4 -12.8% since 10/12. Lead +3.8 pts.",
-      "lead_pts": 3.79,
+      "result": "v2 -9.8% vs old top-4 -13.1% since 10/12. Lead +3.2 pts.",
+      "lead_pts": 3.25,
       "decide": "2026-11-09",
       "days": 10,
       "status": "running"
@@ -299,7 +299,7 @@
       "name": "Relative-strength alt filter",
       "sleeve": "Momentum crypto",
       "hypothesis": "An alt keeps its 15% slot only if its 63d return beats BTC's; otherwise the slot goes to BTC.",
-      "result": "Shadow -3.4% vs live v2 -3.4% since 10/26. Same holdings so far (filter has not diverged).",
+      "result": "Shadow -4.2% vs live v2 -4.2% since 10/26. Same holdings so far (filter has not diverged).",
       "lead_pts": 0.0,
       "decide": "2026-11-23",
       "days": 24,
@@ -319,8 +319,8 @@
       "name": "Weekly shadow book vs monthly live equity",
       "sleeve": "Momentum equity",
       "hypothesis": "Monthly rebalancing does as well as weekly with less turnover.",
-      "result": "Monthly live -1.3% vs weekly shadow -1.1% since 10/19. Live lead -0.2 pts.",
-      "lead_pts": -0.22,
+      "result": "Monthly live -1.9% vs weekly shadow -1.6% since 10/19. Live lead -0.3 pts.",
+      "lead_pts": -0.29,
       "decide": "2026-11-02",
       "days": 3,
       "status": "running"
@@ -367,22 +367,17 @@
   "skips": {
     "evals": 5,
     "planned": 0,
-    "latest": "2026-10-29",
+    "latest": "2026-10-30",
     "reasons": [
       [
         "buy too small after caps",
-        28,
-        "AAPL, BRK-B, DIA, MSFT, SPY, TLT, XLE, XLF, XLRE, XLU"
+        31,
+        "AAPL, DIA, MSFT, SPY, TLT, XLE, XLF, XLRE, XLU"
       ],
       [
         "under $1,000 minimum order (no free cash)",
-        14,
-        "TLT, XLE, XLF, XLP, XLRE, XLU"
-      ],
-      [
-        "exit held by 3-day minimum hold",
-        2,
-        "IWM, XLRE"
+        9,
+        "TLT, XLE, XLF, XLRE, XLU"
       ]
     ]
   },
@@ -391,7 +386,7 @@
       "Momentum equity",
       22006.93,
       20,
-      1833.2,
+      1947.48,
       17.7,
       135.3
     ],
@@ -399,7 +394,7 @@
       "Momentum crypto",
       5061.74,
       20,
-      589.05,
+      627.54,
       125.9,
       248.0
     ],
@@ -407,7 +402,7 @@
       "Active equity",
       20034.6,
       20,
-      -124.45,
+      -65.97,
       1548.8,
       1593.3
     ],
@@ -415,7 +410,7 @@
       "Active crypto",
       9901.79,
       20,
-      5131.56,
+      5173.16,
       678.9,
       703.9
     ]
@@ -429,9 +424,9 @@
     },
     {
       "name": "Market-hours refresh (11:23 AM, 3:23 PM)",
-      "last": "Thu 10/29 03:33 PM ET",
+      "last": "Fri 10/30 11:27 AM ET",
       "ok": true,
-      "detail": "expected for Thu 10/29"
+      "detail": "expected for Fri 10/30"
     },
     {
       "name": "End-of-day summary (5:14 PM)",
@@ -447,18 +442,18 @@
     }
   ],
   "baseline_dd": [
-    -6.77,
-    -6.77
+    -7.92,
+    -7.92
   ],
   "warnings": [
-    "Active equity free cash above its 20% floor is -$124.45, under the $1,000 minimum order, so new buy signals are skipped until something is sold. A fix is pending.",
-    "Momentum crypto is 16.9% below its peak.",
-    "Active crypto is 10.1% below its peak."
+    "Active equity free cash above its 20% floor is -$65.97, under the $1,000 minimum order, so new buy signals are skipped until something is sold. A fix is pending.",
+    "Momentum crypto is 17.6% below its peak.",
+    "Active crypto is 10.8% below its peak."
   ],
   "spy_start": {
     "momentum": 761.69,
     "active": 767.81,
-    "spy_ret": -0.4227,
+    "spy_ret": -1.4008,
     "rule": "last print at or before sleeve start (same as B&H series)"
   }
 }
