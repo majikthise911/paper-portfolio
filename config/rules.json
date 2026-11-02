@@ -65,5 +65,18 @@
     "jordan_may_override": true,
     "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide trade and rule changes from research, book what seems best, and update afterward. Jordan can still override."
   },
-  "rule_version": 4
+  "rule_version": 4,
+  "mr_satellite": {
+    "enabled": true,
+    "adopted": "2026-11-02",
+    "target_pct_of_nav": 0.1,
+    "n": 8,
+    "select": "bottom 8 by 63d return in reports/screen_latest.json, excluding momentum holdings",
+    "weighting": "equal",
+    "cadence": "weekly, Monday after 09:30 ET",
+    "drift_band": 0.25,
+    "book_tag": "mr_satellite",
+    "script": "scripts/mr_satellite.py",
+    "momentum_target_pct_of_nav": 0.7
+  }
 }

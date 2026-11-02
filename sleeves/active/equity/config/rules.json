@@ -64,7 +64,7 @@
     "standing_order": "2026-10-05 chat: Jordan authorized Paper to decide and book. Active live daily EMA wired 2026-10-05 after Jordan clarified Active must trade daily vs weekly momentum."
   },
   "starting_capital": 100000.0,
-  "rule_version": 8,
+  "rule_version": 9,
   "strategy_id": "equity_daily_ema_trend",
   "signal_mode": "daily",
   "daily_eval": {
@@ -80,5 +80,12 @@
     ],
     "runs": "3:23 PM refresh evaluates; all other runs mark only",
     "fill_cap_counts": "all fills (buys + trend exits); hard stops exempt"
+  },
+  "rotation_funding": {
+    "enabled": true,
+    "max_per_day": 1,
+    "min_strength_margin": 0.5,
+    "adopted": "2026-11-02",
+    "note": "Rule v9: when a qualifying daily entry would be skipped because cash above the 20% floor is under min_order_usd, sell the weakest holding (lowest EMA10/30 strength in ATR units, held >= min_hold_trading_days) if the candidate's strength beats it by >= min_strength_margin, then size the entry normally. Max 1 rotation per day; uses 2 of the 4 daily fills. Fixes cash starvation seen 10/23 to 10/30."
   }
 }

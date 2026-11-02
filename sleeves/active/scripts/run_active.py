@@ -468,6 +468,7 @@ def run_sleeve(
             strength = float(ev.get("strength") or 0.0)
             candidates.append((1 if cross else 0, strength, tk, ev))
         candidates.sort(key=lambda x: (x[0], x[1]), reverse=True)
+        rotations_done = 0
 
         for cross_flag, strength, ticker, ev in candidates:
             if open_slots <= 0 or remaining_budget <= 0:
@@ -511,6 +512,78 @@ def run_sleeve(
             # Simpler: size to min(max_name * nav, available cash above floor)
             cash_above_floor = max(0.0, work_cash - work_nav * min_cash)
             dollars_budget = min(name_cap_dollars, cash_above_floor, room_invest)
+            # Rule v9 (2026-11-02): rotation funding. When the cash floor leaves
+            # less than min_order_usd for a qualifying entry, sell the weakest
+            # eligible holding (held >= min hold, EMA strength lower than the
+            # candidate's by at least min_strength_margin) to fund it. At most
+            # max_per_day rotations; needs 2 fills of daily budget.
+            rot_cfg = dict(rules.get("rotation_funding") or {})
+            if (
+                rot_cfg.get("enabled")
+                and daily
+                and dollars_budget < min_order_usd
+                and rotations_done < int(rot_cfg.get("max_per_day") or 1)
+                and remaining_budget >= 2
+            ):
+                margin = float(rot_cfg.get("min_strength_margin") or 0.5)
+                weakest = None
+                for wt, wp in work_positions.items():
+                    wev = evals.get(wt) or {}
+                    if not wev.get("ok"):
+                        continue
+                    hd = _trading_days_held(wp.get("opened_at"), ts)
+                    if hd is None or hd < d_min_hold:
+                        continue
+                    ws = float(wev.get("strength") or 0.0)
+                    if weakest is None or ws < weakest[0]:
+                        weakest = (ws, wt, wp, wev)
+                if weakest is None:
+                    notes.append(f"rotation_skip_no_eligible_holding:{ticker}")
+                elif float(strength) - weakest[0] < margin:
+                    notes.append(
+                        f"rotation_skip_margin:{ticker}:{float(strength):.2f}_vs_{weakest[1]}:{weakest[0]:.2f}"
+                    )
+                else:
+                    ws, wt, wp, wev = weakest
+                    wpx = _fill_price(wt, wev)
+                    if wpx is None or wpx <= 0:
+                        notes.append(f"rotation_skip_no_price:{wt}")
+                    else:
+                        wsh = float(wp.get("shares") or 0)
+                        wd = round(wsh * wpx, 2)
+                        wcost = float(wp.get("cost_basis") or wsh * float(wp.get("avg_cost") or 0))
+                        planned.append(
+                            {
+                                "ticker": wt,
+                                "side": "SELL",
+                                "shares": wsh,
+                                "price": round(wpx, 6),
+                                "dollars": wd,
+                                "sector": wp.get("sector") or _sector(universe, wt),
+                                "reason": f"rotation_fund:{ticker}",
+                                "signal": "rotation_funding_v9",
+                                "stop_price": wp.get("stop_price"),
+                                "strength": ws,
+                                "realized_pnl": round(wd - wcost, 2),
+                            }
+                        )
+                        work_cash = round(work_cash + wd, 2)
+                        del work_positions[wt]
+                        exited_this_run.add(wt)
+                        work_nav = work_cash + sum(
+                            float(p.get("shares") or 0) * float(p.get("last_price") or 0)
+                            for p in work_positions.values()
+                        )
+                        remaining_budget -= 1
+                        open_slots += 1
+                        rotations_done += 1
+                        notes.append(f"rotation_fund:{wt}->{ticker}")
+                        max_invested = work_nav * (1.0 - min_cash)
+                        invested_now = work_nav - work_cash
+                        room_invest = max(0.0, max_invested - invested_now)
+                        name_cap_dollars = work_nav * max_name
+                        cash_above_floor = max(0.0, work_cash - work_nav * min_cash)
+                        dollars_budget = min(name_cap_dollars, cash_above_floor, room_invest)
             if dollars_budget < px and not fractional:
                 notes.append(f"entry_skip_too_small:{ticker}")
                 continue

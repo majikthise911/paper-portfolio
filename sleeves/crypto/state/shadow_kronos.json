@@ -1,0 +1,79 @@
+{
+  "as_of": "2026-11-02T09:31:45-05:00",
+  "method": "Crypto v2 plus Kronos-small regime filter: each day Kronos-small samples 100 paths per coin for the next 10 days. An alt keeps its 15% slot only if its paths are tight (>=65% agree with the median direction and |median|/IQR >= 0.5) and the median is up; otherwise the slot goes to BTC. Shadow re-sized each Monday from the latest regime log, never booked.",
+  "start_nav": 22464.91,
+  "cash": 4492.94,
+  "shares": {
+    "BTC-USD": 0.231011
+  },
+  "peak_nav": 22464.91,
+  "regime_log": "/Volumes/Marvin SSD/Projects/kronos/regime_log/2026-11-02.json",
+  "regime_today": {
+    "BTC-USD": {
+      "last_close": 77780.0,
+      "median_ret": -0.0328,
+      "iqr": 0.0943,
+      "p10": -0.1044,
+      "p90": 0.0872,
+      "agree": 0.66,
+      "snr": 0.348,
+      "regime": "choppy",
+      "up": false
+    },
+    "ETH-USD": {
+      "last_close": 2285.51,
+      "median_ret": -0.0406,
+      "iqr": 0.1165,
+      "p10": -0.1543,
+      "p90": 0.0555,
+      "agree": 0.68,
+      "snr": 0.349,
+      "regime": "choppy",
+      "up": false
+    },
+    "SOL-USD": {
+      "last_close": 93.96,
+      "median_ret": -0.037,
+      "iqr": 0.1091,
+      "p10": -0.1282,
+      "p90": 0.0793,
+      "agree": 0.62,
+      "snr": 0.339,
+      "regime": "choppy",
+      "up": false
+    },
+    "AVAX-USD": {
+      "last_close": 8.56,
+      "median_ret": -0.0274,
+      "iqr": 0.089,
+      "p10": -0.1027,
+      "p90": 0.0561,
+      "agree": 0.7,
+      "snr": 0.308,
+      "regime": "choppy",
+      "up": false
+    },
+    "LINK-USD": {
+      "last_close": 11.279,
+      "median_ret": -0.0931,
+      "iqr": 0.1136,
+      "p10": -0.1834,
+      "p90": 0.0358,
+      "agree": 0.8,
+      "snr": 0.82,
+      "regime": "trending",
+      "up": false
+    }
+  },
+  "history": [
+    {
+      "date": "2026-11-02",
+      "nav": 22464.91,
+      "live_v2_nav": 22464.91,
+      "targets": {
+        "BTC-USD": 0.8
+      }
+    }
+  ],
+  "judge": "Judge 2026-12-07 (5 Mondays). Promote if shadow leads live v2 by >1.5 pts with no more than 2 pts extra drawdown; kill if it trails by >1 pt or the regime label never changes."
+}

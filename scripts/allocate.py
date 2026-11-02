@@ -80,6 +80,7 @@ def main():
         held_tickers = [
             t for t, pos in positions.items()
             if float((pos or {}).get("shares") or 0) > 0
+            and (pos or {}).get("book", "momentum") == "momentum"
         ]
     elif isinstance(positions, list):
         held_tickers = [

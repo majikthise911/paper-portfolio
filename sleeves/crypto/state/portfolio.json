@@ -1,15 +1,15 @@
 {
-  "as_of": "2026-11-02T08:13:53-05:00",
+  "as_of": "2026-11-02T09:33:43-05:00",
   "currency": "USD",
   "sleeve": "crypto",
-  "cash": 5061.74,
+  "cash": 4597.09,
   "positions": {
     "AVAX-USD": {
-      "shares": 339.361693,
-      "avg_cost": 11.338,
-      "cost_basis": 3847.68,
-      "last_price": 8.591,
-      "market_value": 2915.46,
+      "shares": 393.617882,
+      "avg_cost": 10.9556,
+      "cost_basis": 4312.33,
+      "last_price": 8.599,
+      "market_value": 3384.72,
       "sector": "layer1",
       "opened_at": "2026-09-20T20:08:27-04:00"
     },
@@ -19,8 +19,8 @@
       "cost_basis": 11960.81,
       "sector": "layer1",
       "opened_at": "2026-10-12T09:31:47-04:00",
-      "last_price": 77580.15625,
-      "market_value": 11250.21
+      "last_price": 77978.890625,
+      "market_value": 11308.03
     },
     "SOL-USD": {
       "shares": 34.142473,
@@ -28,19 +28,19 @@
       "cost_basis": 3583.59,
       "sector": "layer1",
       "opened_at": "2026-10-19T09:32:07-04:00",
-      "last_price": 93.769997,
-      "market_value": 3201.54
+      "last_price": 94.419998,
+      "market_value": 3223.73
     }
   },
-  "nav": 22428.94,
+  "nav": 22513.57,
   "starting_capital": 25000.0,
-  "notes": "Rule v2 weekly rebalance 2026-10-19 (Jordan standing order): LINK out, SOL in at 15%, BTC trimmed to 50%. AVAX held (within band). Booked at live yfinance 1m prices.",
+  "notes": "Rule v2 weekly rebalance 2026-11-02 (Jordan standing order): AVAX topped up to 15% (rank 1), SOL held (rank 2, within band), BTC held at 50% core. Booked at live yfinance 1m prices.",
   "peak_nav": 26907.7,
-  "btc_last_close": 77580.1562,
-  "total_pnl": -2571.06,
-  "total_pnl_pct": -10.2842,
-  "drawdown_pct": -16.6449,
-  "last_trade_batch": "crypto_v2_2026-10-19",
+  "btc_last_close": 77978.8906,
+  "total_pnl": -2486.43,
+  "total_pnl_pct": -9.9457,
+  "drawdown_pct": -16.3304,
+  "last_trade_batch": "crypto_v2_2026-11-02",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",

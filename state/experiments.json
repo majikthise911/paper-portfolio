@@ -11,7 +11,8 @@
       "decide": "2026-11-09",
       "status": "running",
       "rule": "Revert if v2 trails the old book by more than 2 pts.",
-      "live": "crypto_v2"
+      "live": "crypto_v2",
+      "result_text": "11/02: v2 -8.65% vs old top-4 -11.93% since 10/12 (v2 ahead 3.3 pts)."
     },
     {
       "id": "crypto_rs_filter",
@@ -23,19 +24,20 @@
       "decide": "2026-11-23",
       "status": "shadow",
       "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or never diverges.",
-      "live": "rs_filter"
+      "live": "rs_filter",
+      "result_text": "11/02: both top-2 alts (AVAX +18.2%, SOL +2.7%) beat BTC (+1.4%) on 63d, so the shadow matches live v2. No divergence yet."
     },
     {
       "id": "mean_reversion_satellite",
       "name": "Mean-reversion equity satellite (up to 10%)",
       "sleeve": "Momentum equity",
       "hypothesis": "A weekly bottom-8 mean-reversion satellite adds return without adding drawdown.",
-      "control": "Monthly momentum equity, no satellite",
-      "started": "2026-09-21",
-      "decide": "2026-11-02",
-      "status": "backtest",
-      "result_text": "Backtest 10/26: mean reversion +17.57% 1y (DD -6.53%) vs live monthly momentum -0.18% (DD -11.06%). Led every method for a fourth Monday. Turnover 10.9x.",
-      "rule": "Fund up to 10% of equity out of the 11/02 monthly rebalance if it still leads."
+      "control": "Momentum book inside the same sleeve",
+      "started": "2026-11-02",
+      "decide": "2026-12-07",
+      "status": "live",
+      "result_text": "Funded 11/02 at 10% target (9.1% after whole-share rounding): GLD, EEM, IWM, XLI, XLC, AMZN, AVGO, GOOGL. Backtest 11/02: +16.79% 1y (DD -6.53%) vs monthly momentum -0.32% (DD -8.94%).",
+      "rule": "Keep if satellite return since 11/02 beats the momentum book with no more than 1 pt extra sleeve drawdown; kill if it trails momentum by more than 2 pts."
     },
     {
       "id": "weekly_shadow_book",
@@ -44,10 +46,34 @@
       "hypothesis": "Monthly rebalancing does as well as weekly with less turnover.",
       "control": "Weekly 63d momentum + top-10 buffer, simulated, never booked",
       "started": "2026-10-19",
-      "decide": "2026-11-02",
+      "decide": "2026-12-07",
       "status": "running",
       "rule": "Revert to weekly if live trails the shadow by more than 1.5 pts or adds more than 1 pt drawdown over the 4 monthly rebalances 11/02 to 02/01. First judge 11/02.",
-      "live": "weekly_shadow"
+      "live": "weekly_shadow",
+      "result_text": "Judge 1 of 4 (11/02): live monthly -1.63% vs weekly shadow -1.16% since 10/19 (gap -0.47 pts, drawdown 0.47 pts worse). Inside thresholds; monthly stays."
+    },
+    {
+      "id": "active_rotation_funding",
+      "name": "Active equity rotation funding (rule v9)",
+      "sleeve": "Active equity",
+      "hypothesis": "Selling the weakest trend to fund a stronger one fixes cash starvation and helps Active beat the baseline.",
+      "control": "Active v8 behavior (entries skipped below $1,000)",
+      "started": "2026-11-02",
+      "decide": "2026-11-30",
+      "status": "running",
+      "rule": "Kill if rotations lose money on net over 4 weeks and Active falls behind the 50/50 baseline."
+    },
+    {
+      "id": "crypto_kronos_regime",
+      "name": "Kronos-small regime filter for crypto alts",
+      "sleeve": "Momentum crypto",
+      "hypothesis": "Holding BTC instead of alts when Kronos paths are scattered (choppy) beats live v2.",
+      "control": "Live crypto v2",
+      "started": "2026-11-02",
+      "decide": "2026-12-07",
+      "status": "shadow",
+      "result_text": "Start 11/02: all four alts choppy or trending down, shadow 80% BTC / 20% cash.",
+      "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or the regime label never changes."
     }
   ],
   "history": [
@@ -86,6 +112,12 @@
       "name": "Equity top-10 rank buffer",
       "outcome": "won",
       "note": "Locked. Latest backtest: weekly + buffer +4.41% 1y at 6.3x turnover vs no buffer +2.49% at 9.3x."
+    },
+    {
+      "date": "2026-11-02",
+      "name": "Mean-reversion satellite",
+      "outcome": "promoted to live",
+      "note": "Still led all methods; funded at 10% per the trial rule."
     }
   ]
 }

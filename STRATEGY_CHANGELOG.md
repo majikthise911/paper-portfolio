@@ -5,6 +5,44 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-11-02, Mean-reversion satellite funded at 10% of momentum equity
+
+- **Sleeve:** momentum equity
+- **Change:** New sub-book `book: mr_satellite` inside `state/portfolio.json`. Holds the bottom-8 names by 63d return from the weekly screen, equal weight, total target 10% of equity NAV, rebalanced each Monday after the open with a 25% drift band (`scripts/mr_satellite.py`). Momentum names were trimmed pro-rata to 70% of NAV to fund it, so cash stays at or above 20%. `scripts/allocate.py` now ignores satellite positions when applying the rank buffer.
+- **Observation:** Backtest 11/02: weekly bottom-8 mean reversion +16.79% 1y (DD -6.53%) vs monthly momentum -0.32% (DD -8.94%) and SPY +11.13%. It led every method for a fifth Monday. Turnover is high (10.8x).
+- **Logic:** The 10/12 trial rule said fund up to 10% out of the 11/02 rebalance if it still leads. It does. Capped at 10% so a reversal costs little.
+- **Jordan approval:** Standing order 2026-10-05; 10/20 allowance of up to 10% per sleeve for an experimental satellite.
+- **Effective:** 2026-11-02 09:31 ET fills (GLD, EEM, IWM, XLI, XLC, AMZN, AVGO, GOOGL).
+- **How we judge:** 2026-12-07. Keep if the satellite's return since 11/02 beats the momentum book's and the total equity sleeve drawdown is no worse than 1 pt beyond the momentum-only path; kill if it trails momentum by more than 2 pts.
+
+## 2026-11-02, Equity monthly rebalance and first weekly-shadow judge
+
+- **Sleeve:** momentum equity (rule v4 unchanged)
+- **Change:** None to rules. First-Monday rebalance booked: NVDA out (outside top-10 buffer), TSLA in at 8.75% of NAV.
+- **Observation:** Since 10/19 the live monthly book returned -1.63% vs the weekly shadow -1.16% (gap -0.47 pts). Monday-to-Monday drawdown live -1.63% vs shadow -1.16% (0.47 pts more).
+- **Logic:** Both are inside the revert thresholds (1.5 pts return, 1 pt drawdown). Monthly stays. One checkpoint is noise.
+- **How we judge:** Next checkpoint 12/07, then 1/04 and 2/01.
+
+## 2026-11-02, Active equity rotation funding (rule v9)
+
+- **Sleeve:** active equity
+- **Change:** `sleeves/active/equity/config/rules.json` rule_version 8 to 9, new `rotation_funding` block (enabled, max_per_day 1, min_strength_margin 0.5). In `run_active.py`, when a qualifying daily entry would be skipped because cash above the 20% floor is below the $1,000 minimum order, the book sells its weakest holding (lowest EMA10/30 strength in ATR units, held at least the 3-day minimum) if the candidate's strength beats it by at least 0.5, then sizes the entry normally. One rotation per day; the pair counts against the 4-fill daily cap.
+- **Observation:** From 10/23 to 10/30 Active skipped every equity entry (XLE, XLU, TLT, AAPL, MSFT, XLF, DIA, XLRE, SPY) because only about $57 to $100 sat above the cash floor. With 6 of 8 slots filled the book was frozen.
+- **Logic:** A fully invested trend book has to rotate from weak trends into strong ones or it stops being active. Requiring a strength margin and the minimum hold limits churn. Dry run today: XLY out, XLE in.
+- **Jordan approval:** Owed fix from the 10/26 review, under standing order 2026-10-05.
+- **Effective:** 2026-11-02 3:23 PM ET evaluation.
+- **How we judge:** 2026-11-30. Count skipped entries and rotations per week, and compare Active household vs Momentum and the 50/50 baseline. Kill if rotations lose money on net over 4 weeks and Active falls behind the baseline.
+
+## 2026-11-02, Kronos regime-filter shadow for momentum crypto (not booked)
+
+- **Sleeve:** momentum crypto (shadow only, live rule v2 unchanged)
+- **Change:** Open-source Kronos-small (NeoQuasar/Kronos-small, tokenizer Kronos-Tokenizer-base) installed on Marvin at `/Volumes/Marvin SSD/Projects/kronos`. `sleeves/crypto/scripts/kronos_regime.py` samples 100 paths per coin for the next 10 days from 400 days of daily bars. A coin is trending if at least 65% of paths agree with the median direction and |median| / IQR is at least 0.5; otherwise choppy. Shadow book `sleeves/crypto/state/shadow_kronos.json`: v2, but an alt keeps its 15% only if trending and up; otherwise the slot goes to BTC. Daily run via Marvin cron at 07:35 ET writing to `kronos/regime_log/` outside the repo; the Monday pass re-sizes the shadow.
+- **Observation:** First run 11/02: BTC, ETH, SOL, AVAX choppy with down medians (about -3% to -4% over 10 days); LINK trending down (-9.3%). The shadow starts 80% BTC, 20% cash.
+- **Logic:** Alt momentum has lost to BTC in choppy tape (crypto 3m: top-4 -6.85% vs BTC +22.68%). A forward-looking dispersion read may sidestep alt whipsaw better than trailing returns.
+- **Jordan approval:** Jordan asked for this shadow test; standing order 2026-10-05.
+- **Effective:** Shadow starts 2026-11-02 from the live v2 NAV.
+- **How we judge:** 2026-12-07. Promote if it leads live v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or the regime label never changes.
+
 ## 2026-10-26, Crypto relative-strength filter shadow (not booked)
 
 - **Sleeve:** momentum crypto (shadow only, live rule v2 unchanged)

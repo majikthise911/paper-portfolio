@@ -1,0 +1,101 @@
+{
+  "as_of": "2026-11-02T09:08:53-05:00",
+  "mode": "propose",
+  "executed": false,
+  "nav": 100523.99,
+  "proposed_trades": [
+    {
+      "ticker": "XLE",
+      "side": "BUY",
+      "shares": 215,
+      "est_price": 70.02,
+      "est_dollars": 15054.3,
+      "weight": 0.149758,
+      "target_weight": 0.15,
+      "sector": "energy",
+      "ret_63d": 0.19809827183801754
+    },
+    {
+      "ticker": "TSLA",
+      "side": "BUY",
+      "shares": 37,
+      "est_price": 399.81,
+      "est_dollars": 14792.97,
+      "weight": 0.147159,
+      "target_weight": 0.15,
+      "sector": "consumer_disc",
+      "ret_63d": 0.24133760005882166
+    },
+    {
+      "ticker": "XLV",
+      "side": "BUY",
+      "shares": 70,
+      "est_price": 184.87,
+      "est_dollars": 12940.9,
+      "weight": 0.128734,
+      "target_weight": 0.129229,
+      "sector": "health",
+      "ret_63d": 0.14384559551602227
+    },
+    {
+      "ticker": "AAPL",
+      "side": "BUY",
+      "shares": 36,
+      "est_price": 344.63,
+      "est_dollars": 12406.68,
+      "weight": 0.12342,
+      "target_weight": 0.124387,
+      "sector": "tech",
+      "ret_63d": 0.13679783368062903
+    },
+    {
+      "ticker": "MSFT",
+      "side": "BUY",
+      "shares": 15,
+      "est_price": 521.91,
+      "est_dollars": 7828.65,
+      "weight": 0.077878,
+      "target_weight": 0.080049,
+      "sector": "tech",
+      "ret_63d": 0.07227005089254757
+    },
+    {
+      "ticker": "BRK-B",
+      "side": "BUY",
+      "shares": 12,
+      "est_price": 542.49,
+      "est_dollars": 6509.88,
+      "weight": 0.064759,
+      "target_weight": 0.069692,
+      "sector": "financials",
+      "ret_63d": 0.057196817141702994
+    },
+    {
+      "ticker": "META",
+      "side": "BUY",
+      "shares": 9,
+      "est_price": 614.99,
+      "est_dollars": 5534.91,
+      "weight": 0.055061,
+      "target_weight": 0.059769,
+      "sector": "communication",
+      "ret_63d": 0.04275439605599418
+    },
+    {
+      "ticker": "XLK",
+      "side": "BUY",
+      "shares": 20,
+      "est_price": 179.51,
+      "est_dollars": 3590.2,
+      "weight": 0.035715,
+      "target_weight": 0.036874,
+      "sector": "tech",
+      "ret_63d": 0.009433238593949067
+    }
+  ],
+  "proposed_cash": 21865.5,
+  "proposed_invested": 78658.49,
+  "proposed_cash_pct": 0.217515,
+  "failed_to_price": [],
+  "notes": "Proposal only. Do not write into portfolio.json positions until Paper books under standing order (or Jordan overrides)."
+}
