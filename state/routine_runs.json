@@ -1,8 +1,8 @@
 {
   "note": "Routines that do not commit (EOD summary) record their last run here. Commit-based routines are read from git log by scripts/scoreboard.py.",
   "eod_summary": {
-    "last_run": "2026-11-05T17:17:00-05:00",
+    "last_run": "2026-11-06T17:25:00-05:00",
     "status": "sent",
-    "detail": "Read Marvin checkout at 55009ac (15:23 ET marks). Active fills: SELL 40 TSLA @ 342.69 (realized -$1,014.60), BUY 53 AMZN @ 259.74. Mom HH $120,081.81 (-$3,982 vs prior close), Active HH $123,288.13 (-$3,984). Mom +$1,200 ahead of bh_5050; Active +$4,407 ahead. Active leads by $3,206. No rule changes."
+    "detail": "Read Marvin checkout at 133cdba (15:26 ET marks). No Active fills. Mom HH $120,384.91 (+$303 vs prior close), Active HH $123,164.39 (-$124). Mom +$1,593 ahead of bh_5050; Active +$4,372 ahead. Active leads by $2,779. No rule changes. No price failures."
   }
 }
