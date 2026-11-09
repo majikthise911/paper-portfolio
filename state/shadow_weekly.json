@@ -1,17 +1,17 @@
 {
-  "as_of": "2026-11-02T09:31:45-05:00",
+  "as_of": "2026-11-09T12:52:48-05:00",
   "method": "weekly 63d momentum + top-10 rank buffer, simulated each Monday, never booked",
   "start_nav": 102112.88,
-  "cash": 20308.22,
+  "cash": 20157.16,
   "shares": {
     "META": 20,
     "MSFT": 25,
     "XLE": 186,
     "XLV": 52,
-    "XLK": 30,
     "BRK-B": 16,
     "TSLA": 23,
-    "AAPL": 27
+    "AAPL": 27,
+    "XLP": 58
   },
   "start_prices": {
     "META": 705.69,
@@ -66,6 +66,27 @@
       ],
       "live_nav": 100449.42,
       "judge_gap_pts": -0.47
+    },
+    {
+      "date": "2026-11-09",
+      "nav": 100433.68,
+      "nav_after": 100433.68,
+      "trades": [
+        [
+          "SELL",
+          "XLK",
+          30,
+          170.26
+        ],
+        [
+          "BUY",
+          "XLP",
+          58,
+          90.67
+        ]
+      ],
+      "live_nav": 100232.07,
+      "judge_gap_pts": -0.2
     }
   ],
   "judge": "Revert monthly if it trails this shadow by >1.5 pts or adds >1 pt drawdown over the 4 monthly rebalances 2026-11-02 to 2027-02-01."

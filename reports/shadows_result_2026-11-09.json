@@ -1,0 +1,90 @@
+{
+  "weekly_shadow": {
+    "shadow_nav_pre": 100433.68,
+    "shadow_nav_post": 100433.68,
+    "shadow_ret_pct": -1.64,
+    "live_nav": 100232.07,
+    "live_ret_pct": -1.84,
+    "gap_pts": -0.2,
+    "live_dd_pct": -4.78,
+    "shadow_dd_pct": -1.64,
+    "trades": [
+      [
+        "SELL",
+        "XLK",
+        30,
+        170.26
+      ],
+      [
+        "BUY",
+        "XLP",
+        58,
+        90.67
+      ]
+    ]
+  },
+  "rs_filter": {
+    "nav": 21787.7,
+    "ret_pct": -5.88,
+    "live_v2_nav": 21793.16,
+    "live_ret_pct": -5.86,
+    "r63": {
+      "BTC-USD": -5.57,
+      "ETH-USD": -14.77,
+      "SOL-USD": -16.71,
+      "AVAX-USD": 6.91,
+      "LINK-USD": -16.79
+    },
+    "eligible": [
+      "AVAX-USD"
+    ],
+    "top2": [
+      "AVAX-USD",
+      "ETH-USD"
+    ],
+    "trades": [
+      [
+        "SELL",
+        "SOL-USD",
+        34.142473,
+        86.51
+      ],
+      [
+        "BUY",
+        "BTC-USD",
+        0.042741,
+        74710.8203
+      ]
+    ],
+    "gap_vs_v2_pts": -0.02
+  },
+  "old_top4": {
+    "start_nav": 24592.41,
+    "old_nav": 20858.31,
+    "old_ret_pct": -15.18,
+    "live_v2_nav": 21793.16,
+    "live_v2_ret_pct": -11.38,
+    "gap_pts": 3.8,
+    "decision": "KEEP_V2",
+    "rule": "Revert if v2 trails old top-4 by more than 2 pts."
+  },
+  "kronos": {
+    "regime": {
+      "BTC-USD": "trending down",
+      "ETH-USD": "choppy down",
+      "SOL-USD": "choppy up",
+      "AVAX-USD": "choppy down",
+      "LINK-USD": "trending down"
+    },
+    "targets": {
+      "BTC-USD": 0.8
+    },
+    "shadow_nav": 21751.96,
+    "ret_pct": -3.17,
+    "live_v2_nav": 21793.16,
+    "live_ret_pct": -2.99,
+    "gap_vs_v2_pts": -0.18,
+    "log": "/Volumes/Marvin SSD/Projects/kronos/regime_log/2026-11-09.json",
+    "health": "ok"
+  }
+}

@@ -1,15 +1,15 @@
 {
-  "as_of": "2026-11-09T08:19:19-05:00",
+  "as_of": "2026-11-09T12:53:34-05:00",
   "currency": "USD",
   "sleeve": "crypto",
-  "cash": 4597.09,
+  "cash": 4358.63,
   "positions": {
     "AVAX-USD": {
       "shares": 393.617882,
       "avg_cost": 10.9556,
       "cost_basis": 4312.33,
-      "last_price": 8.515,
-      "market_value": 3351.66,
+      "last_price": 8.646,
+      "market_value": 3403.22,
       "sector": "layer1",
       "opened_at": "2026-09-20T20:08:27-04:00"
     },
@@ -19,28 +19,28 @@
       "cost_basis": 11960.81,
       "sector": "layer1",
       "opened_at": "2026-10-12T09:31:47-04:00",
-      "last_price": 74572.0,
-      "market_value": 10813.98
+      "last_price": 74726.5,
+      "market_value": 10836.39
     },
-    "SOL-USD": {
-      "shares": 34.142473,
-      "avg_cost": 104.959999,
-      "cost_basis": 3583.59,
+    "ETH-USD": {
+      "shares": 1.503944,
+      "avg_cost": 2123.4099,
+      "cost_basis": 3193.49,
       "sector": "layer1",
-      "opened_at": "2026-10-19T09:32:07-04:00",
-      "last_price": 86.449997,
-      "market_value": 2951.62
+      "opened_at": "2026-11-09T12:52:02-05:00",
+      "last_price": 2123.629883,
+      "market_value": 3193.82
     }
   },
-  "nav": 21714.35,
+  "nav": 21792.06,
   "starting_capital": 25000.0,
-  "notes": "Rule v2 weekly rebalance 2026-11-02 (Jordan standing order): AVAX topped up to 15% (rank 1), SOL held (rank 2, within band), BTC held at 50% core. Booked at live yfinance 1m prices.",
+  "notes": "Rule v2 weekly rebalance 2026-11-09: sold SOL (fell out of top-2), bought ETH (new #2 by 63d). BTC and AVAX held within band. 20% cash floor held.",
   "peak_nav": 26907.7,
-  "btc_last_close": 74572.0,
-  "total_pnl": -3285.65,
-  "total_pnl_pct": -13.1426,
-  "drawdown_pct": -19.3006,
-  "last_trade_batch": "crypto_v2_2026-11-02",
+  "btc_last_close": 74726.5,
+  "total_pnl": -3207.94,
+  "total_pnl_pct": -12.8318,
+  "drawdown_pct": -19.0118,
+  "last_trade_batch": "crypto_v2_2026-11-09",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",

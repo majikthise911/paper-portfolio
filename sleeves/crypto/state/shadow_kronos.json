@@ -1,66 +1,66 @@
 {
-  "as_of": "2026-11-02T09:31:45-05:00",
+  "as_of": "2026-11-09T12:52:48-05:00",
   "method": "Crypto v2 plus Kronos-small regime filter: each day Kronos-small samples 100 paths per coin for the next 10 days. An alt keeps its 15% slot only if its paths are tight (>=65% agree with the median direction and |median|/IQR >= 0.5) and the median is up; otherwise the slot goes to BTC. Shadow re-sized each Monday from the latest regime log, never booked.",
   "start_nav": 22464.91,
-  "cash": 4492.94,
+  "cash": 4350.39,
   "shares": {
-    "BTC-USD": 0.231011
+    "BTC-USD": 0.232919
   },
   "peak_nav": 22464.91,
-  "regime_log": "/Volumes/Marvin SSD/Projects/kronos/regime_log/2026-11-02.json",
+  "regime_log": "/Volumes/Marvin SSD/Projects/kronos/regime_log/2026-11-09.json",
   "regime_today": {
     "BTC-USD": {
-      "last_close": 77780.0,
-      "median_ret": -0.0328,
-      "iqr": 0.0943,
-      "p10": -0.1044,
-      "p90": 0.0872,
-      "agree": 0.66,
-      "snr": 0.348,
-      "regime": "choppy",
+      "last_close": 74593.6172,
+      "median_ret": -0.034,
+      "iqr": 0.0674,
+      "p10": -0.107,
+      "p90": 0.0136,
+      "agree": 0.85,
+      "snr": 0.504,
+      "regime": "trending",
       "up": false
     },
     "ETH-USD": {
-      "last_close": 2285.51,
-      "median_ret": -0.0406,
-      "iqr": 0.1165,
-      "p10": -0.1543,
-      "p90": 0.0555,
-      "agree": 0.68,
-      "snr": 0.349,
+      "last_close": 2121.8601,
+      "median_ret": -0.0283,
+      "iqr": 0.0784,
+      "p10": -0.0983,
+      "p90": 0.0439,
+      "agree": 0.64,
+      "snr": 0.361,
       "regime": "choppy",
       "up": false
     },
     "SOL-USD": {
-      "last_close": 93.96,
-      "median_ret": -0.037,
-      "iqr": 0.1091,
-      "p10": -0.1282,
-      "p90": 0.0793,
-      "agree": 0.62,
-      "snr": 0.339,
+      "last_close": 86.47,
+      "median_ret": 0.0027,
+      "iqr": 0.0781,
+      "p10": -0.0805,
+      "p90": 0.0739,
+      "agree": 0.53,
+      "snr": 0.035,
       "regime": "choppy",
-      "up": false
+      "up": true
     },
     "AVAX-USD": {
-      "last_close": 8.56,
-      "median_ret": -0.0274,
-      "iqr": 0.089,
-      "p10": -0.1027,
-      "p90": 0.0561,
-      "agree": 0.7,
-      "snr": 0.308,
+      "last_close": 8.637,
+      "median_ret": -0.0307,
+      "iqr": 0.0818,
+      "p10": -0.1302,
+      "p90": 0.0378,
+      "agree": 0.73,
+      "snr": 0.375,
       "regime": "choppy",
       "up": false
     },
     "LINK-USD": {
-      "last_close": 11.279,
-      "median_ret": -0.0931,
-      "iqr": 0.1136,
-      "p10": -0.1834,
-      "p90": 0.0358,
-      "agree": 0.8,
-      "snr": 0.82,
+      "last_close": 10.628,
+      "median_ret": -0.0755,
+      "iqr": 0.0914,
+      "p10": -0.1393,
+      "p90": 0.0335,
+      "agree": 0.78,
+      "snr": 0.827,
       "regime": "trending",
       "up": false
     }
@@ -72,6 +72,21 @@
       "live_v2_nav": 22464.91,
       "targets": {
         "BTC-USD": 0.8
+      }
+    },
+    {
+      "date": "2026-11-09",
+      "nav": 21751.96,
+      "live_v2_nav": 21793.16,
+      "targets": {
+        "BTC-USD": 0.8
+      },
+      "regime": {
+        "BTC-USD": "trending down",
+        "ETH-USD": "choppy down",
+        "SOL-USD": "choppy up",
+        "AVAX-USD": "choppy down",
+        "LINK-USD": "trending down"
       }
     }
   ],

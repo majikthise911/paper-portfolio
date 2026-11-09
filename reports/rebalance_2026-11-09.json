@@ -1,0 +1,157 @@
+{
+  "ts": "2026-11-09T12:52:02-05:00",
+  "equity": {
+    "nav_before": 100232.06,
+    "fills": [
+      {
+        "ticker": "XLC",
+        "side": "SELL",
+        "shares": 12,
+        "price": 107.17,
+        "dollars": 1286.04,
+        "bar": "2026-11-09T12:51:00-05:00",
+        "book": "mr_satellite",
+        "realized_pnl": 82.92
+      },
+      {
+        "ticker": "AMZN",
+        "side": "SELL",
+        "shares": 5,
+        "price": 268.575,
+        "dollars": 1342.88,
+        "bar": "2026-11-09T12:52:00-05:00",
+        "book": "mr_satellite",
+        "realized_pnl": 123.87
+      },
+      {
+        "ticker": "QQQ",
+        "side": "BUY",
+        "shares": 1,
+        "price": 677.6901,
+        "dollars": 677.69,
+        "bar": "2026-11-09T12:52:00-05:00",
+        "book": "mr_satellite"
+      },
+      {
+        "ticker": "NVDA",
+        "side": "BUY",
+        "shares": 7,
+        "price": 177.445,
+        "dollars": 1242.12,
+        "bar": "2026-11-09T12:52:00-05:00",
+        "book": "mr_satellite"
+      }
+    ],
+    "cash_before": 22618.34,
+    "cash_after": 23327.45,
+    "nav_after": 100232.07,
+    "invested": 76904.62,
+    "weights": {
+      "META": 10.9,
+      "MSFT": 11.4,
+      "XLE": 9.92,
+      "AAPL": 8.02,
+      "XLV": 8.25,
+      "XLK": 4.25,
+      "BRK-B": 7.39,
+      "TSLA": 7.91,
+      "GLD": 1.12,
+      "EEM": 1.21,
+      "IWM": 1.12,
+      "XLI": 1.18,
+      "AVGO": 0.96,
+      "GOOGL": 1.16,
+      "QQQ": 0.68,
+      "NVDA": 1.24
+    },
+    "sectors": {
+      "communication": 12.06,
+      "tech": 25.87,
+      "energy": 9.92,
+      "health": 8.25,
+      "financials": 7.39,
+      "consumer_disc": 7.91,
+      "commodities": 1.12,
+      "emerging": 1.21,
+      "small_cap": 1.12,
+      "industrials": 1.18,
+      "tech_growth": 0.68
+    },
+    "checks": {
+      "cash_pct": 23.27,
+      "max_name": 11.4,
+      "max_sector": 25.87,
+      "aapl_msft_nvda": 20.66,
+      "momentum_pct": 68.04,
+      "satellite_pct": 8.67
+    },
+    "mr_satellite": {
+      "bottom8": [
+        "QQQ",
+        "GLD",
+        "IWM",
+        "EEM",
+        "XLI",
+        "GOOGL",
+        "NVDA",
+        "AVGO"
+      ],
+      "per_name_usd": 1252.9,
+      "fills": [
+        {
+          "ticker": "XLC",
+          "side": "SELL",
+          "shares": 12
+        },
+        {
+          "ticker": "AMZN",
+          "side": "SELL",
+          "shares": 5
+        },
+        {
+          "ticker": "QQQ",
+          "side": "BUY",
+          "shares": 1
+        },
+        {
+          "ticker": "NVDA",
+          "side": "BUY",
+          "shares": 7
+        }
+      ]
+    },
+    "note": "momentum mark-only; MR weekly rebalance only"
+  },
+  "crypto": {
+    "fills": [
+      {
+        "ticker": "SOL-USD",
+        "side": "SELL",
+        "shares": 34.142473,
+        "price": 86.55,
+        "dollars": 2955.03,
+        "bar": "2026-11-09T12:51:00-05:00",
+        "realized_pnl": -628.56
+      },
+      {
+        "ticker": "ETH-USD",
+        "side": "BUY",
+        "shares": 1.503944,
+        "price": 2123.4099,
+        "dollars": 3193.49,
+        "bar": "2026-11-09T12:51:00-05:00"
+      }
+    ],
+    "cash_before": 4597.09,
+    "cash_after": 4358.63,
+    "nav_before": 21793.16,
+    "nav_after": 21793.16,
+    "weights": {
+      "AVAX-USD": 15.62,
+      "BTC-USD": 49.73,
+      "ETH-USD": 14.65
+    },
+    "cash_pct": 20.0,
+    "note": "v2: SOL out (rank 3), ETH in (rank 2); BTC/AVAX within band"
+  }
+}

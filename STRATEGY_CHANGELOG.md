@@ -214,3 +214,12 @@ Format per entry: date (America/New_York), what changed, why, Jordan approval no
 **Observation:** The 15m EMA crypto book is -0.98% since 9/24 with many whipsaw round trips; v3 to v6 filters helped only marginally (HTF replay: blocked buys netted +$13.68, allowed buys lost $601.49). Holding BTC beat it.
 
 **Logic:** 60% NAV BTC core bought at live price (0.180075 BTC). Satellite up to 20% on 4h EMA 8/21 with 2.5x ATR stop, 20% cash floor. The 15m crypto scanner is disabled in run_active.py (legacy_15m_entries_enabled=false), so the market-hours refresh no longer trades 15m crypto. The 4h satellite logic is not implemented yet, so satellite_enabled=false and the sleeve holds 60% BTC and 40% cash until it is built.
+
+## 2026-11-09 — Weekly pass (crypto v2 kept; MR satellite rebalance)
+
+**Observation:** Crypto v2 (BTC 50% + top-2 alts) finished its 10/12 to 11/09 trial ahead of the frozen old top-4 shadow by 3.8 pts (-11.38% vs -15.18% on the shared start NAV). Equity is not a first-Monday, so momentum stayed mark-only. The MR satellite rotated out XLC and AMZN (no longer bottom-8) into QQQ and NVDA. Method backtest still shows equal-weight 80% monthly (+9.70% 1y) far ahead of monthly momentum (-0.16% 1y).
+
+**Logic:** Standing trial rule said keep v2 unless it trailed old top-4 by more than 2 pts; it led, so v2 stays and the old top-4 control is retired. Booked the MR weekly rebalance and the crypto v2 weekly rotation (SOL out, ETH in) at live 1m prices under the 10/05 standing order. Started an equal-weight-80% equity shadow (decide 12/07) rather than changing the live book mid-month. Active equity left untouched outside the 3 to 4 PM ET entry window.
+
+**How to judge:** Crypto v2 is closed (won). RS filter decides 11/23. Weekly-vs-monthly, MR satellite, Kronos, and the new equal-weight shadow decide 12/07. Active v9 decides 11/30.
+

@@ -1,12 +1,11 @@
 {
-  "as_of": "2026-11-02T09:31:41-05:00",
+  "as_of": "2026-11-09T12:52:48-05:00",
   "method": "Crypto v2 plus relative-strength filter: each top-2 alt slot (15%) is filled only if that alt's 63d return beats BTC's 63d return; otherwise the slot goes to BTC. Weekly, same bands as v2. Simulated each Monday, never booked.",
   "start_nav": 23149.48,
-  "cash": 4597.09,
+  "cash": 4357.54,
   "shares": {
     "AVAX-USD": 393.617882,
-    "BTC-USD": 0.145014,
-    "SOL-USD": 34.142473
+    "BTC-USD": 0.187755
   },
   "history": [
     {
@@ -34,6 +33,36 @@
         ]
       ],
       "note": "Both top-2 alts beat BTC 63d; filter matches live v2 again (no divergence yet)."
+    },
+    {
+      "date": "2026-11-09",
+      "nav": 21787.7,
+      "live_v2_nav": 21793.16,
+      "r63": {
+        "BTC-USD": -5.57,
+        "ETH-USD": -14.77,
+        "SOL-USD": -16.71,
+        "AVAX-USD": 6.91,
+        "LINK-USD": -16.79
+      },
+      "eligible": [
+        "AVAX-USD"
+      ],
+      "trades": [
+        [
+          "SELL",
+          "SOL-USD",
+          34.142473,
+          86.51
+        ],
+        [
+          "BUY",
+          "BTC-USD",
+          0.042741,
+          74710.8203
+        ]
+      ],
+      "note": "AVAX beats BTC 63d; ETH is top-2 but trails BTC 63d so RS keeps only AVAX and lifts BTC."
     }
   ],
   "peak_nav": 23149.48,

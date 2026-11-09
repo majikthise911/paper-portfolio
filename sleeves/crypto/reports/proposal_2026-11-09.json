@@ -1,0 +1,61 @@
+{
+  "as_of": "2026-11-09T12:46:16-05:00",
+  "sleeve": "crypto",
+  "rule": "btc_core_plus_momentum_top2 v2",
+  "mode": "propose",
+  "executed": false,
+  "nav": 21770.09,
+  "cash_before": 4597.09,
+  "targets": {
+    "BTC-USD": 0.5,
+    "AVAX-USD": 0.15,
+    "ETH-USD": 0.15
+  },
+  "satellites": [
+    "AVAX-USD",
+    "ETH-USD"
+  ],
+  "satellite_ranks": {
+    "AVAX-USD": 0.068928,
+    "ETH-USD": -0.148922,
+    "SOL-USD": -0.168353,
+    "LINK-USD": -0.168576
+  },
+  "trades": [
+    {
+      "ticker": "SOL-USD",
+      "side": "SELL",
+      "shares": 34.142473,
+      "reason": "not_in_target",
+      "price": 86.389999,
+      "dollars": 2949.57
+    },
+    {
+      "ticker": "ETH-USD",
+      "side": "BUY",
+      "shares": 1.505811,
+      "reason": "new_or_topup",
+      "price": 2120.0,
+      "dollars": 3192.32
+    }
+  ],
+  "holds": [
+    {
+      "ticker": "AVAX-USD",
+      "weight": 0.156307,
+      "target": 0.15,
+      "reason": "within_band"
+    },
+    {
+      "ticker": "BTC-USD",
+      "weight": 0.49704,
+      "target": 0.5,
+      "reason": "within_band"
+    }
+  ],
+  "buys_scaled_to_cash_floor": true,
+  "cash_after": 4354.34,
+  "cash_after_pct": 0.200015,
+  "failed_to_price": [],
+  "notes": "Proposal only. Book under the 2026-10-05 standing order at live prices."
+}

@@ -9,10 +9,11 @@
       "control": "Frozen old top-4 book (shadow_old_top4)",
       "started": "2026-10-12",
       "decide": "2026-11-09",
-      "status": "running",
+      "status": "won",
       "rule": "Revert if v2 trails the old book by more than 2 pts.",
       "live": "crypto_v2",
-      "result_text": "11/02: v2 -8.65% vs old top-4 -11.93% since 10/12 (v2 ahead 3.3 pts)."
+      "result_text": "DECIDED 11/09: KEEP v2. Since 10/12 v2 -11.38% (NAV $21,793.16) vs old top-4 -15.18% (NAV $20,858.31). Gap +3.8 pts; rule was revert only if v2 trailed by >2 pts.",
+      "decided": "2026-11-09"
     },
     {
       "id": "crypto_rs_filter",
@@ -25,7 +26,7 @@
       "status": "shadow",
       "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or never diverges.",
       "live": "rs_filter",
-      "result_text": "11/02: both top-2 alts (AVAX +18.2%, SOL +2.7%) beat BTC (+1.4%) on 63d, so the shadow matches live v2. No divergence yet."
+      "result_text": "11/09: first divergence. Top-2 AVAX/ETH; only AVAX beats BTC 63d (AVAX +6.9%, ETH -14.8%, BTC -5.6%). Shadow sold SOL and added BTC. Shadow -5.88% vs live v2 -5.86% since 10/26 (gap -0.02 pts). Decide 11/23."
     },
     {
       "id": "mean_reversion_satellite",
@@ -36,7 +37,7 @@
       "started": "2026-11-02",
       "decide": "2026-12-07",
       "status": "live",
-      "result_text": "Funded 11/02 at 10% target (9.1% after whole-share rounding): GLD, EEM, IWM, XLI, XLC, AMZN, AVGO, GOOGL. Backtest 11/02: +16.79% 1y (DD -6.53%) vs monthly momentum -0.32% (DD -8.94%).",
+      "result_text": "Funded 11/02. Weekly rebalance 11/09: sold XLC 12 and AMZN 5; bought QQQ 1 and NVDA 7. Holds GLD, EEM, IWM, XLI, AVGO, GOOGL, QQQ, NVDA (~8.7% of equity NAV). Backtest 11/09: weekly mean-rev +19.66% 1y (DD -7.05%) vs monthly mom -0.16%. Decide 12/07.",
       "rule": "Keep if satellite return since 11/02 beats the momentum book with no more than 1 pt extra sleeve drawdown; kill if it trails momentum by more than 2 pts."
     },
     {
@@ -50,7 +51,7 @@
       "status": "running",
       "rule": "Revert to weekly if live trails the shadow by more than 1.5 pts or adds more than 1 pt drawdown over the 4 monthly rebalances 11/02 to 02/01. First judge 11/02.",
       "live": "weekly_shadow",
-      "result_text": "Judge 1 of 4 (11/02): live monthly -1.63% vs weekly shadow -1.16% since 10/19 (gap -0.47 pts, drawdown 0.47 pts worse). Inside thresholds; monthly stays."
+      "result_text": "11/09 mark (not a monthly judge): live monthly -1.84% vs weekly shadow -1.64% since 10/19 (gap -0.20 pts). Shadow traded XLK\u2192XLP. Inside thresholds; next formal judge 12/07."
     },
     {
       "id": "active_rotation_funding",
@@ -72,11 +73,30 @@
       "started": "2026-11-02",
       "decide": "2026-12-07",
       "status": "shadow",
-      "result_text": "Start 11/02: all four alts choppy or trending down, shadow 80% BTC / 20% cash.",
+      "result_text": "11/09: regime BTC trending down, LINK trending down, ETH/SOL/AVAX choppy. No alt qualifies; shadow 80% BTC. Shadow -3.17% vs live v2 -2.99% since 11/02 (gap -0.18 pts). Cron was silent 11/03-11/08 (only 11/02 log); manually refreshed today. Decide 12/07.",
       "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or the regime label never changes."
+    },
+    {
+      "id": "equity_equal_weight_80",
+      "name": "Equal-weight universe at 80% invested (monthly)",
+      "sleeve": "Momentum equity",
+      "hypothesis": "Equal-weighting the equity universe at 80% invested beats live monthly momentum with less selection risk.",
+      "control": "Live monthly momentum book (70%) + MR satellite (10%)",
+      "started": "2026-11-09",
+      "decide": "2026-12-07",
+      "status": "shadow",
+      "rule": "Promote to a live satellite or core replacement study if it leads the live equity sleeve by >2 pts with no more than 1.5 pts extra drawdown; kill if it trails by >2 pts.",
+      "live": "eq_weight_80",
+      "result_text": "Started 11/09 from method_backtest: 1y equal_weight_universe_80pct_monthly +9.70% (DD -6.64%) vs monthly_mom_top8 -0.16% (DD -9.52%). Simulated only; not booked."
     }
   ],
   "history": [
+    {
+      "date": "2026-11-09",
+      "name": "Momentum crypto v2 vs old top-4",
+      "outcome": "won",
+      "note": "v2 kept. Gap +3.8 pts since 10/12 (v2 -11.38% vs old -15.18%)."
+    },
     {
       "date": "2026-10-20",
       "name": "Active equity 15m EMA signals",
