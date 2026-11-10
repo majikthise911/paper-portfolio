@@ -1,0 +1,263 @@
+{
+  "signal_mode": "daily",
+  "mark_only": false,
+  "as_of": "2026-11-10T15:31:10.205703-05:00",
+  "mode": "auto_book",
+  "executed": true,
+  "strategy": "equity_daily_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 101310.16,
+  "cash_before": 19975.99,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 4,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 2,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "BRK-B",
+      "close": 583.159485,
+      "ema_fast": 565.076952,
+      "ema_slow": 543.226223,
+      "strength": 2.182479,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLV",
+      "close": 188.550003,
+      "ema_fast": 185.204508,
+      "ema_slow": 179.397317,
+      "strength": 1.658082,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 90.900002,
+      "ema_fast": 89.990128,
+      "ema_slow": 87.595018,
+      "strength": 1.527481,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLRE",
+      "close": 44.564999,
+      "ema_fast": 43.914156,
+      "ema_slow": 43.036634,
+      "strength": 1.236085,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLU",
+      "close": 43.639999,
+      "ema_fast": 43.295913,
+      "ema_slow": 42.532672,
+      "strength": 1.158542,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLY",
+      "close": 120.900002,
+      "ema_fast": 118.411199,
+      "ema_slow": 115.730488,
+      "strength": 1.132411,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLF",
+      "close": 58.244999,
+      "ema_fast": 57.436279,
+      "ema_slow": 56.454599,
+      "strength": 1.039398,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLB",
+      "close": 52.764999,
+      "ema_fast": 52.514716,
+      "ema_slow": 51.641135,
+      "strength": 0.910355,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "TLT",
+      "close": 80.915001,
+      "ema_fast": 81.440769,
+      "ema_slow": 80.74585,
+      "strength": 0.868456,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "MSFT",
+      "close": 533.174988,
+      "ema_fast": 533.405473,
+      "ema_slow": 526.0669,
+      "strength": 0.463665,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "AAPL",
+      "close": 348.709991,
+      "ema_fast": 345.211303,
+      "ema_slow": 341.255997,
+      "strength": 0.45192,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "AMZN",
+      "close": 271.82901,
+      "ema_fast": 259.751535,
+      "ema_slow": 255.99002,
+      "strength": 0.397279,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "JPM",
+      "close": 342.380005,
+      "ema_fast": 339.949736,
+      "ema_slow": 338.910868,
+      "strength": 0.133248,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "TSLA",
+      "close": 377.839996,
+      "ema_fast": 378.70466,
+      "ema_slow": 377.576748,
+      "strength": 0.06779,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    },
+    {
+      "ticker": "DIA",
+      "close": 521.469971,
+      "ema_fast": 520.456805,
+      "ema_slow": 520.175169,
+      "strength": 0.038548,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    }
+  ],
+  "planned_trades": [
+    {
+      "ticker": "AMZN",
+      "side": "SELL",
+      "shares": 53.0,
+      "price": 271.82901,
+      "dollars": 14406.94,
+      "sector": "consumer_disc",
+      "reason": "rotation_fund:XLRE",
+      "signal": "rotation_funding_v9",
+      "stop_price": 238.960707,
+      "strength": 0.397279,
+      "realized_pnl": 640.73
+    },
+    {
+      "ticker": "XLRE",
+      "side": "BUY",
+      "shares": 316.0,
+      "price": 44.564999,
+      "dollars": 14082.54,
+      "sector": "real_estate",
+      "reason": "ema_trend_long",
+      "signal": "ema_trend_long",
+      "stop_price": 40.999799,
+      "ema_fast": 43.914156,
+      "ema_slow": 43.036634,
+      "strength": 1.236085,
+      "bullish_cross": false,
+      "last_bar": "2026-11-10 00:00:00-05:00"
+    }
+  ],
+  "notes": [
+    "rotation_fund:AMZN->XLRE",
+    "entry_skip_too_small:XLU",
+    "entry_skip_too_small:XLF",
+    "entry_skip_too_small:TLT",
+    "entry_skip_too_small:MSFT",
+    "entry_skip_too_small:AAPL",
+    "entry_skip_too_small:JPM",
+    "entry_skip_too_small:TSLA",
+    "entry_skip_too_small:DIA"
+  ],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "entries_today_at_book": 0,
+  "entries_today_after": 1,
+  "exits_today_after": 1,
+  "booked_fills": [
+    {
+      "ticker": "AMZN",
+      "side": "SELL",
+      "shares": 53,
+      "price": 271.82901,
+      "dollars": 14406.94,
+      "sector": "consumer_disc",
+      "realized_pnl": 640.73,
+      "reason": "rotation_fund:XLRE",
+      "fill_source": "yfinance_daily_close_proxy_at_eval"
+    },
+    {
+      "ticker": "XLRE",
+      "side": "BUY",
+      "shares": 316,
+      "price": 44.564999,
+      "dollars": 14082.54,
+      "sector": "real_estate",
+      "reason": "ema_trend_long",
+      "stop_price": 40.999799,
+      "fill_source": "yfinance_daily_close_proxy_at_eval"
+    }
+  ],
+  "nav_after": 101310.16,
+  "cash_after": 20300.39,
+  "summary": {
+    "n_planned": 2,
+    "n_buys": 1,
+    "n_sells": 1,
+    "booked": true,
+    "cash_after": 20300.39,
+    "nav_after": 101310.16
+  }
+}
