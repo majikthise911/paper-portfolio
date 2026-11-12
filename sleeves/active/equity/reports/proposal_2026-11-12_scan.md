@@ -1,7 +1,7 @@
 # Active active_equity scan 2026-11-12
 
 - **Strategy:** equity_daily_ema_trend
-- **As of:** 2026-11-12T11:32:50.523729-05:00
+- **As of:** 2026-11-12T15:27:44.551204-05:00
 - **Mode:** auto_book
 - **executed:** false
 - **Session:** US_RTH
@@ -15,7 +15,20 @@
 
 ## Notes
 
-- daily_mode_mark_only:outside_eval_window_15:00-16:00
+- rotation_skip_margin:XLU:1.30_vs_XLB:0.89
+- entry_skip_too_small:XLU
+- rotation_skip_margin:XLF:1.18_vs_XLB:0.89
+- entry_skip_too_small:XLF
+- rotation_skip_margin:AAPL:0.67_vs_XLB:0.89
+- entry_skip_too_small:AAPL
+- rotation_skip_margin:AMZN:0.51_vs_XLB:0.89
+- entry_skip_too_small:AMZN
+- rotation_skip_margin:TSLA:0.28_vs_XLB:0.89
+- entry_skip_too_small:TSLA
+- rotation_skip_margin:JPM:0.22_vs_XLB:0.89
+- entry_skip_too_small:JPM
+- rotation_skip_margin:DIA:0.14_vs_XLB:0.89
+- entry_skip_too_small:DIA
 
 ## Governance
 
