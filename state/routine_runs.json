@@ -1,8 +1,8 @@
 {
   "note": "Routines that do not commit (EOD summary) record their last run here. Commit-based routines are read from git log by scripts/scoreboard.py.",
   "eod_summary": {
-    "last_run": "2026-11-09T17:25:47-05:00",
+    "last_run": "2026-11-11T17:16:42-05:00",
     "status": "sent",
-    "detail": "Read Marvin checkout at 32f7c7a (15:26 ET marks). No Active fills. Mom HH $122,451.58 (+$2,067 vs prior close), Active HH $124,515.66 (+$1,351). Mom +$2,940 ahead of bh_5050; Active +$5,004 ahead. Active leads by $2,064. No live rule changes (crypto v2 kept). No price failures."
+    "detail": "Read box mirror at 9ae76cc after git fetch (15:32 ET marks; Marvin path not mounted). No Active fills. Mom HH $122,267.21 (+$790.46 vs prior close), Active HH $124,832.05 (+$378.99). Mom +$2,568.27 ahead of bh_5050; Active +$5,133.11 ahead. Active leads by $2,564.84. No live rule changes. No price failures."
   }
 }
