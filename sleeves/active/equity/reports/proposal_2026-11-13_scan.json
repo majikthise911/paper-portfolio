@@ -1,0 +1,174 @@
+{
+  "signal_mode": "daily",
+  "mark_only": true,
+  "as_of": "2026-11-13T11:25:00.663333-05:00",
+  "mode": "auto_book",
+  "executed": false,
+  "strategy": "equity_daily_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 101442.06,
+  "cash_before": 20300.39,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 4,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 4,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "BRK-B",
+      "close": 592.945007,
+      "ema_fast": 576.663367,
+      "ema_slow": 551.797616,
+      "strength": 2.564843,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLV",
+      "close": 188.039993,
+      "ema_fast": 186.599358,
+      "ema_slow": 181.020628,
+      "strength": 1.693517,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 92.175003,
+      "ema_fast": 90.737163,
+      "ema_slow": 88.324144,
+      "strength": 1.618188,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLU",
+      "close": 44.09,
+      "ema_fast": 43.589519,
+      "ema_slow": 42.787673,
+      "strength": 1.342157,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLRE",
+      "close": 44.235001,
+      "ema_fast": 44.122568,
+      "ema_slow": 43.282314,
+      "strength": 1.305324,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLY",
+      "close": 119.779999,
+      "ema_fast": 119.293663,
+      "ema_slow": 116.582065,
+      "strength": 1.215239,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLF",
+      "close": 58.535,
+      "ema_fast": 57.900918,
+      "ema_slow": 56.819963,
+      "strength": 1.213583,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLB",
+      "close": 52.240002,
+      "ema_fast": 52.508741,
+      "ema_slow": 51.804291,
+      "strength": 0.772413,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "AAPL",
+      "close": 357.605011,
+      "ema_fast": 349.974795,
+      "ema_slow": 343.706676,
+      "strength": 0.763323,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "AMZN",
+      "close": 264.714996,
+      "ema_fast": 262.483432,
+      "ema_slow": 257.768081,
+      "strength": 0.521379,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "TSLA",
+      "close": 388.515991,
+      "ema_fast": 384.947323,
+      "ema_slow": 380.33324,
+      "strength": 0.27614,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "JPM",
+      "close": 344.625,
+      "ema_fast": 341.614622,
+      "ema_slow": 339.751972,
+      "strength": 0.262079,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    },
+    {
+      "ticker": "DIA",
+      "close": 521.304993,
+      "ema_fast": 521.4212,
+      "ema_slow": 520.641086,
+      "strength": 0.114223,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-13 00:00:00-05:00"
+    }
+  ],
+  "planned_trades": [],
+  "notes": [
+    "daily_mode_mark_only:outside_eval_window_15:00-16:00"
+  ],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "summary": {
+    "n_planned": 0,
+    "n_buys": 0,
+    "n_sells": 0,
+    "booked": false
+  }
+}
