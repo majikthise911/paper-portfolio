@@ -1,0 +1,62 @@
+{
+  "weekly_shadow": {
+    "shadow_nav_pre": 101445.08,
+    "shadow_nav_post": 101445.08,
+    "shadow_ret_pct": -0.65,
+    "live_nav": 100927.53,
+    "live_ret_pct": -1.16,
+    "gap_pts": -0.51,
+    "live_dd_pct": -4.78,
+    "shadow_dd_pct": -1.64,
+    "trades": []
+  },
+  "rs_filter": {
+    "nav": 19222.59,
+    "ret_pct": -16.96,
+    "live_v2_nav": 19198.38,
+    "live_ret_pct": -17.07,
+    "r63": {
+      "BTC-USD": -17.78,
+      "ETH-USD": -28.29,
+      "SOL-USD": -30.8,
+      "AVAX-USD": -5.94,
+      "LINK-USD": -20.91
+    },
+    "eligible": [],
+    "top2": [
+      "LINK-USD",
+      "ETH-USD"
+    ],
+    "trades": [
+      [
+        "SELL",
+        "AVAX-USD",
+        393.617882,
+        7.112
+      ],
+      [
+        "BUY",
+        "BTC-USD",
+        0.051545,
+        64262.6797
+      ]
+    ],
+    "gap_vs_v2_pts": 0.1
+  },
+  "kronos": {
+    "health": "log_unreachable_marked_only",
+    "shadow_nav": 19318.39,
+    "ret_pct": -14.01,
+    "live_v2_nav": 19198.38,
+    "live_ret_pct": -14.54,
+    "gap_vs_v2_pts": 0.53,
+    "targets": "held (80% BTC)"
+  },
+  "eq_weight_80": {
+    "nav": 100268.75,
+    "ret_pct": 0.04,
+    "live_nav": 100927.53,
+    "live_ret_pct": 0.69,
+    "gap_pts": -0.66
+  }
+}

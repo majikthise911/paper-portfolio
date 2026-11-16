@@ -1,0 +1,105 @@
+{
+  "ts": "2026-11-16T08:50:35-05:00",
+  "equity": {
+    "nav_before": 100927.53,
+    "fills": [],
+    "cash_before": 23327.45,
+    "cash_after": 23327.45,
+    "nav_after": 100927.53,
+    "invested": 77600.08,
+    "weights": {
+      "META": 10.81,
+      "MSFT": 10.91,
+      "XLE": 10.29,
+      "AAPL": 8.12,
+      "XLV": 8.23,
+      "XLK": 4.22,
+      "BRK-B": 7.64,
+      "TSLA": 8.12,
+      "GLD": 1.06,
+      "EEM": 1.21,
+      "IWM": 1.1,
+      "XLI": 1.17,
+      "AVGO": 1.03,
+      "GOOGL": 1.17,
+      "QQQ": 0.67,
+      "NVDA": 1.13
+    },
+    "sectors": {
+      "communication": 11.98,
+      "tech": 25.41,
+      "energy": 10.29,
+      "health": 8.23,
+      "financials": 7.64,
+      "consumer_disc": 8.12,
+      "commodities": 1.06,
+      "emerging": 1.21,
+      "small_cap": 1.1,
+      "industrials": 1.17,
+      "tech_growth": 0.67
+    },
+    "checks": {
+      "cash_pct": 23.11,
+      "max_name": 10.91,
+      "max_sector": 25.41,
+      "aapl_msft_nvda": 20.16,
+      "momentum_pct": 68.34,
+      "satellite_pct": 8.54
+    },
+    "mr_satellite": {
+      "bottom8": [
+        "QQQ",
+        "IWM",
+        "XLI",
+        "EEM",
+        "AVGO",
+        "GLD",
+        "GOOGL",
+        "NVDA"
+      ],
+      "per_name_usd": 1261.59,
+      "fills": []
+    },
+    "note": "momentum mark-only; MR weekly rebalance only"
+  },
+  "crypto": {
+    "fills": [
+      {
+        "ticker": "AVAX-USD",
+        "side": "SELL",
+        "shares": 393.617882,
+        "price": 7.113,
+        "dollars": 2799.8,
+        "bar": "2026-11-16T08:50:00-05:00",
+        "realized_pnl": -1512.52
+      },
+      {
+        "ticker": "BTC-USD",
+        "side": "BUY",
+        "shares": 0.004256,
+        "price": 64307.3789,
+        "dollars": 273.69,
+        "bar": "2026-11-16T08:50:00-05:00"
+      },
+      {
+        "ticker": "LINK-USD",
+        "side": "BUY",
+        "shares": 315.970767,
+        "price": 9.114,
+        "dollars": 2879.76,
+        "bar": "2026-11-16T08:50:00-05:00"
+      }
+    ],
+    "cash_before": 4358.63,
+    "cash_after": 4004.98,
+    "nav_before": 19198.39,
+    "nav_after": 19198.38,
+    "weights": {
+      "BTC-USD": 50.0,
+      "ETH-USD": 14.14,
+      "LINK-USD": 15.0
+    },
+    "cash_pct": 20.86,
+    "note": "v2: AVAX out (fails 252d secondary filter), LINK in (top alt), BTC top-up, ETH held in band"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "method": "Crypto v2 plus BTC 200d trend gate: at each Monday rebalance, if BTC closes below its 200-day SMA the sleeve holds 40% BTC and 60% cash with no alts; otherwise normal v2 (BTC 50% + top-2 alts 15% each). Simulated, never booked.",
+  "start": "2026-11-16",
+  "start_nav": 19198.38,
+  "shares": {
+    "BTC-USD": 0.119588
+  },
+  "cash": 11519.06,
+  "peak_nav": 19198.38,
+  "as_of": "2026-11-16T08:52:04-05:00",
+  "backtest": "reports/crypto_trend_gate_backtest_2026-11-16.json",
+  "gate_state": {
+    "btc_below_sma200": true,
+    "btc_vs_sma200_pct": -11.87
+  },
+  "history": [
+    {
+      "date": "2026-11-16",
+      "nav": 19198.38,
+      "live_v2_nav": 19198.38,
+      "targets": {
+        "BTC-USD": 0.4
+      }
+    }
+  ],
+  "judge": "Judge 2026-12-14 (4 Mondays). Promote if shadow leads live v2 by >1.5 pts with no more drawdown; kill if it trails by >1 pt."
+}

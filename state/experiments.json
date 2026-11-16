@@ -26,7 +26,7 @@
       "status": "shadow",
       "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or never diverges.",
       "live": "rs_filter",
-      "result_text": "11/09: first divergence. Top-2 AVAX/ETH; only AVAX beats BTC 63d (AVAX +6.9%, ETH -14.8%, BTC -5.6%). Shadow sold SOL and added BTC. Shadow -5.88% vs live v2 -5.86% since 10/26 (gap -0.02 pts). Decide 11/23."
+      "result_text": "11/16: v2's eligible top-2 are LINK/ETH (AVAX dropped by the 252d filter); both trail BTC 63d (LINK -20.91%, ETH -28.29%, BTC -17.78%). Shadow sold AVAX, now 80% BTC. Shadow -16.96% vs live v2 -17.07% since 10/26 (gap +0.1 pts). Decide 11/23."
     },
     {
       "id": "mean_reversion_satellite",
@@ -51,7 +51,7 @@
       "status": "running",
       "rule": "Revert to weekly if live trails the shadow by more than 1.5 pts or adds more than 1 pt drawdown over the 4 monthly rebalances 11/02 to 02/01. First judge 11/02.",
       "live": "weekly_shadow",
-      "result_text": "11/09 mark (not a monthly judge): live monthly -1.84% vs weekly shadow -1.64% since 10/19 (gap -0.20 pts). Shadow traded XLK\u2192XLP. Inside thresholds; next formal judge 12/07."
+      "result_text": "11/16 mark: live monthly -1.16% vs weekly shadow -0.65% since 10/19 (gap -0.51 pts). No shadow trades. Drawdown readout is not like-for-like yet (live from every mark incl. MR satellite, shadow from weekly points); fix before the 12/07 judge."
     },
     {
       "id": "active_rotation_funding",
@@ -73,8 +73,9 @@
       "started": "2026-11-02",
       "decide": "2026-12-07",
       "status": "shadow",
-      "result_text": "11/09: regime BTC trending down, LINK trending down, ETH/SOL/AVAX choppy. No alt qualifies; shadow 80% BTC. Shadow -3.17% vs live v2 -2.99% since 11/02 (gap -0.18 pts). Cron was silent 11/03-11/08 (only 11/02 log); manually refreshed today. Decide 12/07.",
-      "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or the regime label never changes."
+      "result_text": "11/16: Marvin SSD unresponsive, no regime log readable; shadow marked at prior 80% BTC, not resized. Shadow -14.01% vs live v2 -14.54% since 11/02 (gap +0.53 pts). Decide 12/07.",
+      "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or the regime label never changes.",
+      "live": "kronos"
     },
     {
       "id": "equity_equal_weight_80",
@@ -87,7 +88,20 @@
       "status": "shadow",
       "rule": "Promote to a live satellite or core replacement study if it leads the live equity sleeve by >2 pts with no more than 1.5 pts extra drawdown; kill if it trails by >2 pts.",
       "live": "eq_weight_80",
-      "result_text": "Started 11/09 from method_backtest: 1y equal_weight_universe_80pct_monthly +9.70% (DD -6.64%) vs monthly_mom_top8 -0.16% (DD -9.52%). Simulated only; not booked."
+      "result_text": "State file created 11/16, back-filled from 11/09 closes. Shadow 0.04% vs live equity 0.69% since 11/09 (gap -0.66 pts). Decide 12/07."
+    },
+    {
+      "id": "crypto_btc_trend_gate",
+      "name": "BTC 200d trend gate for crypto",
+      "sleeve": "Momentum crypto",
+      "hypothesis": "When BTC is below its 200-day SMA, holding 40% BTC and 60% cash (no alts) beats live v2 with less drawdown.",
+      "control": "Live crypto v2",
+      "started": "2026-11-16",
+      "decide": "2026-12-14",
+      "status": "shadow",
+      "live": "trend_gate",
+      "rule": "Promote if it leads v2 by more than 1.5 pts with no more drawdown; kill if it trails by more than 1 pt.",
+      "result_text": "Started 11/16. Backtest (weekly): 1y gated -21.97% (DD -25.34%) vs v2 -28.61% (DD -31.39%); 2y -34.27% vs -38.45%; 3y +14.07% vs +20.05% (gate costs in bull runs). BTC is 11.9% below its 200d SMA, so the shadow holds 40% BTC, 60% cash."
     }
   ],
   "history": [

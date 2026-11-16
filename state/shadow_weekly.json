@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-09T12:52:48-05:00",
+  "as_of": "2026-11-16T08:51:24-05:00",
   "method": "weekly 63d momentum + top-10 rank buffer, simulated each Monday, never booked",
   "start_nav": 102112.88,
   "cash": 20157.16,
@@ -87,6 +87,14 @@
       ],
       "live_nav": 100232.07,
       "judge_gap_pts": -0.2
+    },
+    {
+      "date": "2026-11-16",
+      "nav": 101445.08,
+      "nav_after": 101445.08,
+      "trades": [],
+      "live_nav": 100927.53,
+      "judge_gap_pts": -0.51
     }
   ],
   "judge": "Revert monthly if it trails this shadow by >1.5 pts or adds >1 pt drawdown over the 4 monthly rebalances 2026-11-02 to 2027-02-01."

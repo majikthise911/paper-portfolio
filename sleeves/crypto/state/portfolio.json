@@ -1,26 +1,17 @@
 {
-  "as_of": "2026-11-16T08:14:14-05:00",
+  "as_of": "2026-11-16T09:32:10-05:00",
   "currency": "USD",
   "sleeve": "crypto",
-  "cash": 4358.63,
+  "cash": 4004.98,
   "positions": {
-    "AVAX-USD": {
-      "shares": 393.617882,
-      "avg_cost": 10.9556,
-      "cost_basis": 4312.33,
-      "last_price": 7.057,
-      "market_value": 2777.76,
-      "sector": "layer1",
-      "opened_at": "2026-09-20T20:08:27-04:00"
-    },
     "BTC-USD": {
-      "shares": 0.145014,
-      "avg_cost": 82480.4296875,
-      "cost_basis": 11960.81,
+      "shares": 0.14927,
+      "avg_cost": 81962.2161,
+      "cost_basis": 12234.5,
       "sector": "layer1",
       "opened_at": "2026-10-12T09:31:47-04:00",
-      "last_price": 64060.648438,
-      "market_value": 9289.69
+      "last_price": 64581.339844,
+      "market_value": 9640.06
     },
     "ETH-USD": {
       "shares": 1.503944,
@@ -28,19 +19,28 @@
       "cost_basis": 3193.49,
       "sector": "layer1",
       "opened_at": "2026-11-09T12:52:02-05:00",
-      "last_price": 1796.280029,
-      "market_value": 2701.5
+      "last_price": 1824.319946,
+      "market_value": 2743.68
+    },
+    "LINK-USD": {
+      "shares": 315.970767,
+      "avg_cost": 9.114,
+      "cost_basis": 2879.76,
+      "sector": "oracle",
+      "opened_at": "2026-11-16T08:50:35-05:00",
+      "last_price": 9.167,
+      "market_value": 2896.5
     }
   },
-  "nav": 19127.59,
+  "nav": 19285.22,
   "starting_capital": 25000.0,
-  "notes": "Rule v2 weekly rebalance 2026-11-09: sold SOL (fell out of top-2), bought ETH (new #2 by 63d). BTC and AVAX held within band. 20% cash floor held.",
+  "notes": "Rule v2 weekly rebalance 2026-11-16: sold AVAX (252d -23% fails secondary filter), bought LINK (top eligible alt by 63d), topped up BTC. ETH held within band. 20% cash floor held.",
   "peak_nav": 26907.7,
-  "btc_last_close": 64060.6484,
-  "total_pnl": -5872.41,
-  "total_pnl_pct": -23.4896,
-  "drawdown_pct": -28.9141,
-  "last_trade_batch": "crypto_v2_2026-11-09",
+  "btc_last_close": 64581.3398,
+  "total_pnl": -5714.78,
+  "total_pnl_pct": -22.8591,
+  "drawdown_pct": -28.3282,
+  "last_trade_batch": "crypto_v2_2026-11-16",
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",

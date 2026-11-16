@@ -5,6 +5,16 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-11-16, Weekly pass: no live rule changes, two shadow fixes, one new shadow
+
+- **Sleeve:** all (live rules unchanged: equity momentum v4 monthly + MR satellite, crypto v2, Active v9)
+- **Trades (rule-following, not rule changes):** Crypto v2 sold AVAX (252d -23% fails the -20% secondary filter), bought LINK to 15% (top eligible alt by 63d), topped up BTC to 50%. ETH held in band. MR satellite in band, no fills. Momentum equity mark-only (next rebalance 12/07).
+- **Shadow fixes:** (1) RS-filter shadow now starts from v2's eligible top-2 (252d filter applied) instead of raw 63d ranks, so it compares like with like. (2) Equal-weight 80% shadow had no state file since 11/09; created `state/shadow_eq_weight_80.json` back-filled from 11/09 closes, and `scripts/scoreboard.py` now prices eq_weight_80, kronos, and trend_gate shadows on the Page.
+- **New shadow:** BTC 200d trend gate (`sleeves/crypto/state/shadow_trend_gate.json`). When BTC is below its 200-day SMA at the Monday rebalance, hold 40% BTC and 60% cash, no alts. Backtest (`reports/crypto_trend_gate_backtest_2026-11-16.json`): 1y -21.97% (DD -25.34%) vs v2 -28.61% (DD -31.39%); 2y -34.27% vs -38.45%; 3y +14.07% vs +20.05%. Helps in bear tape, costs in bull runs, so shadow only.
+- **Infra:** Marvin SSD hung on access this morning; ran on the box mirror. Kronos regime log unreadable, so the Kronos shadow was marked, not resized.
+- **Jordan approval:** Standing order 2026-10-05.
+- **How we judge:** Trend gate 2026-12-14: promote if it leads v2 by >1.5 pts with no more drawdown; kill if it trails by >1 pt.
+
 ## 2026-11-02, Mean-reversion satellite funded at 10% of momentum equity
 
 - **Sleeve:** momentum equity
