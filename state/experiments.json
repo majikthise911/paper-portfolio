@@ -37,7 +37,7 @@
       "started": "2026-11-02",
       "decide": "2026-12-07",
       "status": "live",
-      "result_text": "Funded 11/02. Weekly rebalance 11/09: sold XLC 12 and AMZN 5; bought QQQ 1 and NVDA 7. Holds GLD, EEM, IWM, XLI, AVGO, GOOGL, QQQ, NVDA (~8.7% of equity NAV). Backtest 11/09: weekly mean-rev +19.66% 1y (DD -7.05%) vs monthly mom -0.16%. Decide 12/07.",
+      "result_text": "11/16: bottom 8 unchanged (QQQ, IWM, XLI, EEM, AVGO, GLD, GOOGL, NVDA), all in band, no fills. Satellite about +$7 since 11/02 (flat, ~8.4% of equity NAV); equity sleeve also roughly flat since 11/02. Decide 12/07.",
       "rule": "Keep if satellite return since 11/02 beats the momentum book with no more than 1 pt extra sleeve drawdown; kill if it trails momentum by more than 2 pts."
     },
     {
@@ -62,7 +62,8 @@
       "started": "2026-11-02",
       "decide": "2026-11-30",
       "status": "running",
-      "rule": "Kill if rotations lose money on net over 4 weeks and Active falls behind the 50/50 baseline."
+      "rule": "Kill if rotations lose money on net over 4 weeks and Active falls behind the 50/50 baseline.",
+      "result_text": "11/16: 2 rotations so far (AMZN to XLRE 11/10, XLB to XLU 11/13); rotation sells realized +$770.89. Active household +$12,405 vs the 50/50 baseline. Decide 11/30."
     },
     {
       "id": "crypto_kronos_regime",
