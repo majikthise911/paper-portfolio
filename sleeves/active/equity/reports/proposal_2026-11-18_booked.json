@@ -1,0 +1,203 @@
+{
+  "signal_mode": "daily",
+  "mark_only": false,
+  "as_of": "2026-11-18T15:25:11.546333-05:00",
+  "mode": "auto_book",
+  "executed": true,
+  "strategy": "equity_daily_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 100007.53,
+  "cash_before": 20309.05,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 4,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 2,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "BRK-B",
+      "close": 574.320007,
+      "ema_fast": 579.708904,
+      "ema_slow": 557.678339,
+      "strength": 2.285633,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 91.355003,
+      "ema_fast": 91.201185,
+      "ema_slow": 88.959602,
+      "strength": 1.562385,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLU",
+      "close": 43.619999,
+      "ema_fast": 43.62943,
+      "ema_slow": 42.952117,
+      "strength": 1.143478,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLRE",
+      "close": 43.709999,
+      "ema_fast": 43.997284,
+      "ema_slow": 43.390242,
+      "strength": 0.958384,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLY",
+      "close": 119.150002,
+      "ema_fast": 118.821931,
+      "ema_slow": 116.878087,
+      "strength": 0.852969,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    },
+    {
+      "ticker": "AAPL",
+      "close": 352.075012,
+      "ema_fast": 350.853019,
+      "ema_slow": 345.183438,
+      "strength": 0.739762,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    },
+    {
+      "ticker": "AMZN",
+      "close": 266.15509,
+      "ema_fast": 262.085258,
+      "ema_slow": 258.418246,
+      "strength": 0.407562,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    },
+    {
+      "ticker": "TSLA",
+      "close": 383.200012,
+      "ema_fast": 383.445917,
+      "ema_slow": 380.561225,
+      "strength": 0.184515,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    },
+    {
+      "ticker": "AVGO",
+      "close": 354.890015,
+      "ema_fast": 339.712513,
+      "ema_slow": 339.313735,
+      "strength": 0.022697,
+      "bullish_cross": true,
+      "bearish_cross": false,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    }
+  ],
+  "planned_trades": [
+    {
+      "ticker": "XLV",
+      "side": "SELL",
+      "shares": 78.0,
+      "price": 181.660004,
+      "dollars": 14169.48,
+      "sector": "health",
+      "reason": "daily_ema_trend_broken",
+      "signal": "ema_trend_exit",
+      "stop_price": 178.714318,
+      "ema_fast": 185.735611,
+      "ema_slow": 181.746596,
+      "last_bar": "2026-11-18 00:00:00-05:00",
+      "cap_exempt": true,
+      "realized_pnl": 163.02
+    },
+    {
+      "ticker": "AVGO",
+      "side": "BUY",
+      "shares": 40.0,
+      "price": 354.890015,
+      "dollars": 14195.6,
+      "sector": "tech",
+      "reason": "ema_bullish_cross",
+      "signal": "ema_trend_long",
+      "stop_price": 326.498814,
+      "ema_fast": 339.712513,
+      "ema_slow": 339.313735,
+      "strength": 0.022697,
+      "bullish_cross": true,
+      "last_bar": "2026-11-18 00:00:00-05:00"
+    }
+  ],
+  "notes": [
+    "rotation_skip_margin:AAPL:0.74_vs_XLY:0.85",
+    "entry_skip_too_small:AAPL",
+    "rotation_skip_margin:AMZN:0.41_vs_XLY:0.85",
+    "entry_skip_below_min_order:AMZN:budget_$281.42<min_$1,000",
+    "rotation_skip_margin:TSLA:0.18_vs_XLY:0.85",
+    "entry_skip_too_small:TSLA"
+  ],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "entries_today_at_book": 0,
+  "entries_today_after": 1,
+  "exits_today_after": 1,
+  "booked_fills": [
+    {
+      "ticker": "XLV",
+      "side": "SELL",
+      "shares": 78,
+      "price": 181.660004,
+      "dollars": 14169.48,
+      "sector": "health",
+      "realized_pnl": 163.02,
+      "reason": "daily_ema_trend_broken",
+      "fill_source": "yfinance_daily_close_proxy_at_eval"
+    },
+    {
+      "ticker": "AVGO",
+      "side": "BUY",
+      "shares": 40,
+      "price": 354.890015,
+      "dollars": 14195.6,
+      "sector": "tech",
+      "reason": "ema_bullish_cross",
+      "stop_price": 326.498814,
+      "fill_source": "yfinance_daily_close_proxy_at_eval"
+    }
+  ],
+  "nav_after": 100007.53,
+  "cash_after": 20282.93,
+  "summary": {
+    "n_planned": 2,
+    "n_buys": 1,
+    "n_sells": 1,
+    "booked": true,
+    "cash_after": 20282.93,
+    "nav_after": 100007.53
+  }
+}
