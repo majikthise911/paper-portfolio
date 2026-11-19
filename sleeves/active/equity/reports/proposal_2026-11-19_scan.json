@@ -1,0 +1,114 @@
+{
+  "signal_mode": "daily",
+  "mark_only": true,
+  "as_of": "2026-11-19T11:24:49.892840-05:00",
+  "mode": "auto_book",
+  "executed": false,
+  "strategy": "equity_daily_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 99279.34,
+  "cash_before": 20282.93,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 4,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 4,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "BRK-B",
+      "close": 567.674988,
+      "ema_fast": 577.565545,
+      "ema_slow": 558.341389,
+      "strength": 2.026287,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 89.360001,
+      "ema_fast": 90.84039,
+      "ema_slow": 88.974872,
+      "strength": 1.270852,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLY",
+      "close": 118.169998,
+      "ema_fast": 118.710835,
+      "ema_slow": 116.964454,
+      "strength": 0.774304,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "AAPL",
+      "close": 349.524994,
+      "ema_fast": 350.667345,
+      "ema_slow": 345.486171,
+      "strength": 0.675302,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "AMZN",
+      "close": 269.350006,
+      "ema_fast": 263.641892,
+      "ema_slow": 259.219176,
+      "strength": 0.498801,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "TSLA",
+      "close": 381.480011,
+      "ema_fast": 383.165834,
+      "ema_slow": 380.651885,
+      "strength": 0.160937,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "AVGO",
+      "close": 360.089996,
+      "ema_fast": 343.292548,
+      "ema_slow": 340.603441,
+      "strength": 0.153754,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    }
+  ],
+  "planned_trades": [],
+  "notes": [
+    "daily_mode_mark_only:outside_eval_window_15:00-16:00"
+  ],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "summary": {
+    "n_planned": 0,
+    "n_buys": 0,
+    "n_sells": 0,
+    "booked": false
+  }
+}
