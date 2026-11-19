@@ -1,0 +1,183 @@
+{
+  "signal_mode": "daily",
+  "mark_only": false,
+  "as_of": "2026-11-19T15:32:43.425464-05:00",
+  "mode": "auto_book",
+  "executed": true,
+  "strategy": "equity_daily_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 98673.02,
+  "cash_before": 20282.93,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 4,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 1,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "BRK-B",
+      "close": 571.630005,
+      "ema_fast": 578.284639,
+      "ema_slow": 558.596551,
+      "strength": 2.052013,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 89.980003,
+      "ema_fast": 90.953118,
+      "ema_slow": 89.014872,
+      "strength": 1.320396,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLU",
+      "close": 43.060101,
+      "ema_fast": 43.515503,
+      "ema_slow": 42.954859,
+      "strength": 0.923386,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "AAPL",
+      "close": 348.859985,
+      "ema_fast": 350.546434,
+      "ema_slow": 345.443267,
+      "strength": 0.658817,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    },
+    {
+      "ticker": "AVGO",
+      "close": 347.0,
+      "ema_fast": 340.912548,
+      "ema_slow": 339.758925,
+      "strength": 0.063957,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    }
+  ],
+  "planned_trades": [
+    {
+      "ticker": "XLY",
+      "side": "SELL",
+      "shares": 129.0,
+      "price": 116.029999,
+      "dollars": 14967.87,
+      "sector": "consumer_disc",
+      "reason": "daily_ema_trend_broken",
+      "signal": "ema_trend_exit",
+      "stop_price": 113.981288,
+      "ema_fast": 118.321744,
+      "ema_slow": 116.826389,
+      "last_bar": "2026-11-19 00:00:00-05:00",
+      "cap_exempt": true,
+      "realized_pnl": 206.4
+    },
+    {
+      "ticker": "XLRE",
+      "side": "SELL",
+      "shares": 316.0,
+      "price": 42.9426,
+      "dollars": 13569.86,
+      "sector": "real_estate",
+      "reason": "daily_ema_trend_broken",
+      "signal": "ema_trend_exit",
+      "stop_price": 40.999799,
+      "ema_fast": 43.792135,
+      "ema_slow": 43.35593,
+      "last_bar": "2026-11-19 00:00:00-05:00",
+      "cap_exempt": true,
+      "realized_pnl": -512.68
+    },
+    {
+      "ticker": "AAPL",
+      "side": "BUY",
+      "shares": 42.0,
+      "price": 348.859985,
+      "dollars": 14652.12,
+      "sector": "tech",
+      "reason": "ema_trend_long",
+      "signal": "ema_trend_long",
+      "stop_price": 320.951186,
+      "ema_fast": 350.546434,
+      "ema_slow": 345.443267,
+      "strength": 0.658817,
+      "bullish_cross": false,
+      "last_bar": "2026-11-19 00:00:00-05:00"
+    }
+  ],
+  "notes": [],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "entries_today_at_book": 0,
+  "entries_today_after": 1,
+  "exits_today_after": 2,
+  "booked_fills": [
+    {
+      "ticker": "XLY",
+      "side": "SELL",
+      "shares": 129,
+      "price": 116.029999,
+      "dollars": 14967.87,
+      "sector": "consumer_disc",
+      "realized_pnl": 206.4,
+      "reason": "daily_ema_trend_broken",
+      "fill_source": "yfinance_daily_close_proxy_at_eval"
+    },
+    {
+      "ticker": "XLRE",
+      "side": "SELL",
+      "shares": 316,
+      "price": 42.9426,
+      "dollars": 13569.86,
+      "sector": "real_estate",
+      "realized_pnl": -512.68,
+      "reason": "daily_ema_trend_broken",
+      "fill_source": "yfinance_daily_close_proxy_at_eval"
+    },
+    {
+      "ticker": "AAPL",
+      "side": "BUY",
+      "shares": 42,
+      "price": 348.859985,
+      "dollars": 14652.12,
+      "sector": "tech",
+      "reason": "ema_trend_long",
+      "stop_price": 320.951186,
+      "fill_source": "yfinance_daily_close_proxy_at_eval"
+    }
+  ],
+  "nav_after": 98673.02,
+  "cash_after": 34168.54,
+  "summary": {
+    "n_planned": 3,
+    "n_buys": 1,
+    "n_sells": 2,
+    "booked": true,
+    "cash_after": 34168.54,
+    "nav_after": 98673.02
+  }
+}
