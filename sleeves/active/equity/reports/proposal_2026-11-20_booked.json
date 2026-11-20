@@ -1,0 +1,148 @@
+{
+  "signal_mode": "daily",
+  "mark_only": false,
+  "as_of": "2026-11-20T15:28:27.913742-05:00",
+  "mode": "auto_book",
+  "executed": true,
+  "strategy": "equity_daily_ema_trend",
+  "sleeve": "active_equity",
+  "nav_before": 96799.13,
+  "cash_before": 34168.54,
+  "session": "US_RTH",
+  "in_rth": true,
+  "fills_today_before": 0,
+  "entries_today_before": 0,
+  "max_new_trades_per_day": 4,
+  "cap_counts": "entries_only (exits exempt)",
+  "min_order_usd": 1000.0,
+  "reentry_cooldown_bars": 4,
+  "entry_open_delay_minutes": 30,
+  "htf_filter": {
+    "enabled": false
+  },
+  "htf_checks": {},
+  "remaining_budget_after_plan": 3,
+  "data_failures": [],
+  "signals_detected": [
+    {
+      "ticker": "BRK-B",
+      "close": 569.530029,
+      "ema_fast": 576.75388,
+      "ema_slow": 559.326681,
+      "strength": 1.814,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-20 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLP",
+      "close": 90.875,
+      "ema_fast": 90.921063,
+      "ema_slow": 89.127638,
+      "strength": 1.181917,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-20 00:00:00-05:00"
+    },
+    {
+      "ticker": "XLU",
+      "close": 42.98,
+      "ema_fast": 43.410685,
+      "ema_slow": 42.953457,
+      "strength": 0.754583,
+      "bullish_cross": false,
+      "bearish_cross": false,
+      "last_bar": "2026-11-20 00:00:00-05:00"
+    },
+    {
+      "ticker": "TLT",
+      "close": 81.450104,
+      "ema_fast": 80.502941,
+      "ema_slow": 80.38163,
+      "strength": 0.153763,
+      "bullish_cross": true,
+      "bearish_cross": false,
+      "last_bar": "2026-11-20 00:00:00-05:00"
+    }
+  ],
+  "planned_trades": [
+    {
+      "ticker": "AVGO",
+      "side": "SELL",
+      "shares": 40.0,
+      "price": 303.76001,
+      "dollars": 12150.4,
+      "sector": "tech",
+      "reason": "hard_stop_-8pct",
+      "signal": "ema_trend_exit",
+      "stop_price": 326.498814,
+      "ema_fast": 334.105474,
+      "ema_slow": 337.41529,
+      "last_bar": "2026-11-20 00:00:00-05:00",
+      "cap_exempt": true,
+      "realized_pnl": -2045.2
+    },
+    {
+      "ticker": "TLT",
+      "side": "BUY",
+      "shares": 178.0,
+      "price": 81.450104,
+      "dollars": 14498.12,
+      "sector": "bonds",
+      "reason": "ema_bullish_cross",
+      "signal": "ema_trend_long",
+      "stop_price": 74.934096,
+      "ema_fast": 80.502941,
+      "ema_slow": 80.38163,
+      "strength": 0.153763,
+      "bullish_cross": true,
+      "last_bar": "2026-11-20 00:00:00-05:00"
+    }
+  ],
+  "notes": [
+    "exit_skip_min_hold:AAPL:1d<3d"
+  ],
+  "governance": {
+    "paper_only": true,
+    "auto_book_under_standing_order": true,
+    "standing_order": "2026-10-05 chat: Paper decides and books; Jordan may override",
+    "never_place_real_trades": true
+  },
+  "entries_today_at_book": 0,
+  "entries_today_after": 1,
+  "exits_today_after": 1,
+  "booked_fills": [
+    {
+      "ticker": "AVGO",
+      "side": "SELL",
+      "shares": 40,
+      "price": 303.76001,
+      "dollars": 12150.4,
+      "sector": "tech",
+      "realized_pnl": -2045.2,
+      "reason": "hard_stop_-8pct",
+      "fill_source": "yfinance_daily_close_proxy_at_eval"
+    },
+    {
+      "ticker": "TLT",
+      "side": "BUY",
+      "shares": 178,
+      "price": 81.450104,
+      "dollars": 14498.12,
+      "sector": "bonds",
+      "reason": "ema_bullish_cross",
+      "stop_price": 74.934096,
+      "fill_source": "yfinance_daily_close_proxy_at_eval"
+    }
+  ],
+  "nav_after": 96799.13,
+  "cash_after": 31820.82,
+  "summary": {
+    "n_planned": 2,
+    "n_buys": 1,
+    "n_sells": 1,
+    "booked": true,
+    "cash_after": 31820.82,
+    "nav_after": 96799.13
+  }
+}
