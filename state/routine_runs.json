@@ -1,8 +1,8 @@
 {
   "note": "Routines that do not commit (EOD summary) record their last run here. Commit-based routines are read from git log by scripts/scoreboard.py.",
   "eod_summary": {
-    "last_run": "2026-11-19T17:18:19-05:00",
+    "last_run": "2026-11-20T17:19:22-05:00",
     "status": "sent",
-    "detail": "Read Marvin checkout at 7332ea1 (15:32 ET marks; origin and box mirror in sync after git fetch). Active booked 3 fills: SELL 129 XLY @ 116.029999 (realized +$206.40, daily_ema_trend_broken), SELL 316 XLRE @ 42.9426 (realized -$512.68, daily_ema_trend_broken), and BUY 42 AAPL @ 348.859985 (ema_trend_long); net realized P&L -$306.28. Crypto 15m disabled, no crypto fills. Mom HH $115,733.69 (-$1,311.80 vs Wednesday 15:25), Active HH $119,728.13 (-$1,426.49). Mom +$9,238.08 ahead of bh_5050 $106,495.61; Active +$13,232.52 ahead. Active leads by $3,994.44. No live rule changes. No price failures."
+    "detail": "Read Marvin checkout at a8a8bc5 (15:28 ET marks; origin and box mirror in sync after git fetch). Active booked 2 fills: SELL 40 AVGO @ 303.76001 (realized -$2,045.20, hard_stop_-8pct) and BUY 178 TLT @ 81.450104 (ema_bullish_cross); net realized P&L -$2,045.20. Crypto 15m disabled, no crypto fills. Mom HH $112,445.81 (-$3,287.88 vs Thursday 15:32), Active HH $117,263.01 (-$2,465.12). Mom +$10,402.17 ahead of bh_5050 $102,043.64; Active +$15,219.37 ahead. Active leads by $4,817.20. No live rule changes. No price failures."
   }
 }
