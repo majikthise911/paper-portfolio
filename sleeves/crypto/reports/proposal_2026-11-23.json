@@ -1,0 +1,48 @@
+{
+  "as_of": "2026-11-23T08:54:27-05:00",
+  "sleeve": "crypto",
+  "rule": "btc_core_plus_momentum_top2 v2",
+  "mode": "propose",
+  "executed": false,
+  "nav": 18513.91,
+  "cash_before": 4004.98,
+  "targets": {
+    "BTC-USD": 0.5,
+    "LINK-USD": 0.15
+  },
+  "satellites": [
+    "LINK-USD"
+  ],
+  "satellite_ranks": {
+    "LINK-USD": -0.321625
+  },
+  "trades": [
+    {
+      "ticker": "ETH-USD",
+      "side": "SELL",
+      "shares": 1.503944,
+      "reason": "not_in_target",
+      "price": 1717.72998,
+      "dollars": 2583.37
+    }
+  ],
+  "holds": [
+    {
+      "ticker": "BTC-USD",
+      "weight": 0.492077,
+      "target": 0.5,
+      "reason": "within_band"
+    },
+    {
+      "ticker": "LINK-USD",
+      "weight": 0.152064,
+      "target": 0.15,
+      "reason": "within_band"
+    }
+  ],
+  "buys_scaled_to_cash_floor": false,
+  "cash_after": 6588.35,
+  "cash_after_pct": 0.355859,
+  "failed_to_price": [],
+  "notes": "Proposal only. Book under the 2026-10-05 standing order at live prices."
+}
