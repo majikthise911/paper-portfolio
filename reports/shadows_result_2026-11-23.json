@@ -1,0 +1,92 @@
+{
+  "weekly_shadow": {
+    "shadow_nav_pre": 97729.59,
+    "shadow_nav_post": 97729.59,
+    "shadow_ret_pct": -4.29,
+    "live_nav": 97352.77,
+    "live_ret_pct": -4.66,
+    "gap_pts": -0.37,
+    "live_monday_dd_pct": -4.66,
+    "shadow_monday_dd_pct": -4.29,
+    "dd_note": "Like-for-like: both from Monday marks only (fix promised 11/16).",
+    "trades": [
+      [
+        "SELL",
+        "XLE",
+        186,
+        60.71
+      ],
+      [
+        "BUY",
+        "TLT",
+        146,
+        81.12
+      ]
+    ]
+  },
+  "rs_filter": {
+    "nav": 19087.28,
+    "ret_pct": -17.55,
+    "live_v2_nav": 19242.26,
+    "live_ret_pct": -16.88,
+    "gap_vs_v2_pts": -0.67,
+    "shadow_monday_dd_pct": -17.55,
+    "v2_monday_dd_pct": -17.07,
+    "r63": {
+      "BTC-USD": -26.44,
+      "ETH-USD": -34.36,
+      "SOL-USD": -34.75,
+      "AVAX-USD": -36.04,
+      "LINK-USD": -27.99
+    }
+  },
+  "kronos": {
+    "health": "marvin_offline_marked_only",
+    "shadow_nav": 19186.69,
+    "ret_pct": -14.59,
+    "live_v2_nav": 19242.26,
+    "live_ret_pct": -14.35,
+    "gap_vs_v2_pts": -0.25,
+    "targets": "held (80% BTC)"
+  },
+  "trend_gate": {
+    "nav": 19136.49,
+    "ret_pct": -0.32,
+    "live_v2_nav": 19242.26,
+    "live_ret_pct": 0.23,
+    "gap_vs_v2_pts": -0.55,
+    "btc": 63697.2383,
+    "sma200": 72244.55,
+    "btc_vs_sma200_pct": -11.83,
+    "targets": {
+      "BTC-USD": 0.4
+    },
+    "shadow_monday_dd_pct": -0.32,
+    "v2_monday_dd_pct": 0.0
+  },
+  "eq_weight_80": {
+    "nav": 96940.67,
+    "ret_pct": -3.28,
+    "live_nav": 97352.77,
+    "live_ret_pct": -2.87,
+    "gap_pts": -0.41
+  },
+  "spy_core": {
+    "created": true,
+    "start_nav": 97352.77,
+    "targets": {
+      "SPY": 0.4,
+      "BRK-B": 0.1,
+      "AAPL": 0.1,
+      "XLP": 0.1,
+      "XLV": 0.1
+    },
+    "prices": {
+      "SPY": 721.2,
+      "BRK-B": 569.445,
+      "AAPL": 349.29,
+      "XLP": 89.57,
+      "XLV": 177.855
+    }
+  }
+}

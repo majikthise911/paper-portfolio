@@ -5,6 +5,17 @@ Trade fills stay in `state/ledger.jsonl`. This file is the human-readable histor
 
 Format per entry: date (America/New_York), what changed, why, Jordan approval note, effective when.
 
+## 2026-11-23, Weekly pass: RS alt filter dropped, new SPY-core equity shadow
+
+- **Sleeve:** all (live rules unchanged: equity momentum v4 monthly + MR satellite, crypto v2, Active v9)
+- **Trades (rule-following, not rule changes):** Crypto v2 sold ETH (252d -26.9% fails the -20% secondary filter). SOL and AVAX also fail, so only LINK qualifies and the second alt slot sits in cash (sleeve 35% cash). BTC and LINK held in band. MR satellite sold XLI (no longer bottom 8) and bought JPM. Momentum equity mark-only (next rebalance 12/07). Fills at yfinance 1m prices, 09:33 ET.
+- **Decision, RS alt filter (judge date today):** DROPPED. Final mark: shadow -17.55% vs live v2 -16.88% since 10/26 (gap -0.67 pts; Monday drawdown -17.55% vs -17.07%). The gap swung from -0.28 to +0.79 to -0.67 pts within this one morning, so there is no edge separable from noise. It never approached the +1.5 pt promote bar in 4 weeks, and all it does in this tape is swap alts for more BTC, which is itself falling. The de-risk idea is tested better by the BTC 200d trend gate (judge 12/14). State file kept and marked closed.
+- **Shadow fix (promised 11/16):** the weekly-vs-monthly drawdown readout is now like-for-like (both from Monday marks). 11/23: live -4.66% vs shadow -4.29%, gap -0.37 pts return and 0.37 pts drawdown, both inside the revert thresholds.
+- **Owed items verified, not duplicated:** Active equity cash-starvation fix is rule v9 rotation funding (2026-11-02 entry above; `sleeves/active/equity/config/rules.json` rotation_funding enabled, max 1/day; experiments.json `active_rotation_funding`, judge 11/30). Kronos shadow exists (2026-11-02 entry above; `sleeves/crypto/state/shadow_kronos.json`; experiments.json `crypto_kronos_regime`, judge 12/07). Marvin was offline today, so Kronos was marked, not resized.
+- **New shadow:** SPY core 40% + top-4 momentum at 10% each, 20% cash (`state/shadow_spy_core.json`), started from live equity NAV $97,352.77 at 09:33 ET: SPY 40%, BRK-B, AAPL, XLP, XLV 10% each. Backtest (`reports/equity_variants_backtest_2026-11-23.json`, monthly, 10 bps): 1y +0.59% vs control -1.85%; 2y +11.94% vs +4.86%; 3y +40.60% vs +34.30%; 5y +52.75% vs +47.26%; 3m and 6m about 0.3 pts worse. Drawdown about equal, turnover about 40% lower. Also tested and rejected: an absolute-momentum gate (5y +24.58% vs +47.26%, deeper drawdown) and a 63/126/252d blended rank (worse on every window under 3y).
+- **Jordan approval:** Standing order 2026-10-05.
+- **How we judge:** SPY core: checkpoint 12/07, judge 2027-01-04. Promote at that first-Monday rebalance if it leads live equity by >1 pt with no more than 1 pt extra Monday drawdown; kill if it trails by >1.5 pts.
+
 ## 2026-11-16, Weekly pass: no live rule changes, two shadow fixes, one new shadow
 
 - **Sleeve:** all (live rules unchanged: equity momentum v4 monthly + MR satellite, crypto v2, Active v9)

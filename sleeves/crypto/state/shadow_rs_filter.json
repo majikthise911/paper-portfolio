@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-16T08:51:24-05:00",
+  "as_of": "2026-11-23T09:33:07-05:00",
   "method": "Crypto v2 plus relative-strength filter: each top-2 alt slot (15%) is filled only if that alt's 63d return beats BTC's 63d return; otherwise the slot goes to BTC. Weekly, same bands as v2. Simulated each Monday, never booked.",
   "start_nav": 23149.48,
   "cash": 3844.53,
@@ -90,9 +90,23 @@
         ]
       ],
       "note": "Top-2 eligible alts LINK/ETH both trail BTC 63d; RS shadow goes to BTC 80%."
+    },
+    {
+      "date": "2026-11-23",
+      "nav": 19087.28,
+      "live_v2_nav": 19242.26,
+      "r63": {
+        "BTC-USD": -26.44,
+        "ETH-USD": -34.36,
+        "SOL-USD": -34.75,
+        "AVAX-USD": -36.04,
+        "LINK-USD": -27.99
+      },
+      "note": "Final judge: trial closed (dropped). Marked, not resized."
     }
   ],
   "peak_nav": 23149.48,
   "backtest": "reports/crypto_rs_filter_backtest_2026-10-26.json",
-  "judge": "Judge 2026-11-23 (4 Mondays). Promote to live if shadow leads live v2 by >1.5 pts with no more than 2 pts extra drawdown; kill if it trails by >1 pt or never diverges."
+  "judge": "Judge 2026-11-23 (4 Mondays). Promote to live if shadow leads live v2 by >1.5 pts with no more than 2 pts extra drawdown; kill if it trails by >1 pt or never diverges.",
+  "status": "closed 2026-11-23 (dropped)"
 }

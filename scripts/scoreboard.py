@@ -419,19 +419,20 @@ def live_result(kind: str, data: dict, root: Path, px: dict) -> tuple[str, float
         sr = (nav / start - 1) * 100
         lr = (live / float(live_start) - 1) * 100 if live_start else 0
         return f"Monthly live {pct(lr, 1)} vs weekly shadow {pct(sr, 1)} since 10/19. Live lead {lr - sr:+.1f} pts.", round(lr - sr, 2)
-    if kind in ("eq_weight_80", "trend_gate", "kronos"):
+    if kind in ("eq_weight_80", "trend_gate", "kronos", "spy_core"):
         f = {"eq_weight_80": root / "state" / "shadow_eq_weight_80.json",
+             "spy_core": root / "state" / "shadow_spy_core.json",
              "trend_gate": root / "sleeves" / "crypto" / "state" / "shadow_trend_gate.json",
              "kronos": root / "sleeves" / "crypto" / "state" / "shadow_kronos.json"}[kind]
         sh = _load(f, {}) or {}
         start = float(sh.get("start_nav") or 0)
         nav = mark_book(sh.get("shares") or {}, float(sh.get("cash") or 0), px)
-        live = float(data["equity" if kind == "eq_weight_80" else "crypto"]["nav"])
+        live = float(data["equity" if kind in ("eq_weight_80", "spy_core") else "crypto"]["nav"])
         if not start or nav is None:
             return "Shadow not priced.", None
         sr, lr = (nav / start - 1) * 100, (live / start - 1) * 100
         since = (sh.get("start") or "")[5:].replace("-", "/") or "start"
-        who = "live equity" if kind == "eq_weight_80" else "live v2"
+        who = "live equity" if kind in ("eq_weight_80", "spy_core") else "live v2"
         return f"Shadow {pct(sr, 1)} vs {who} {pct(lr, 1)} since {since}. Lead {sr - lr:+.1f} pts.", round(sr - lr, 2)
     return "", None
 

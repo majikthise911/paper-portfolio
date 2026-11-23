@@ -1,0 +1,118 @@
+{
+  "ts": "2026-11-23T09:33:02-05:00",
+  "equity": {
+    "nav_before": 97352.76,
+    "fills": [
+      {
+        "ticker": "XLI",
+        "side": "SELL",
+        "shares": 7,
+        "price": 161.52,
+        "dollars": 1130.64,
+        "bar": "2026-11-23T09:33:00-05:00",
+        "book": "mr_satellite",
+        "realized_pnl": -55.28
+      },
+      {
+        "ticker": "JPM",
+        "side": "BUY",
+        "shares": 3,
+        "price": 318.219,
+        "dollars": 954.66,
+        "bar": "2026-11-23T09:33:00-05:00",
+        "book": "mr_satellite"
+      }
+    ],
+    "cash_before": 23327.45,
+    "cash_after": 23503.43,
+    "nav_after": 97352.77,
+    "invested": 73849.34,
+    "weights": {
+      "META": 10.35,
+      "MSFT": 10.91,
+      "XLE": 9.98,
+      "AAPL": 8.25,
+      "XLV": 8.04,
+      "XLK": 4.19,
+      "BRK-B": 7.6,
+      "TSLA": 8.25,
+      "GLD": 1.04,
+      "EEM": 1.2,
+      "IWM": 1.09,
+      "AVGO": 0.99,
+      "GOOGL": 1.16,
+      "QQQ": 0.67,
+      "NVDA": 1.16,
+      "JPM": 0.98
+    },
+    "sectors": {
+      "communication": 11.51,
+      "tech": 25.5,
+      "energy": 9.98,
+      "health": 8.04,
+      "financials": 8.58,
+      "consumer_disc": 8.25,
+      "commodities": 1.04,
+      "emerging": 1.2,
+      "small_cap": 1.09,
+      "tech_growth": 0.67
+    },
+    "checks": {
+      "cash_pct": 24.14,
+      "max_name": 10.91,
+      "max_sector": 25.5,
+      "aapl_msft_nvda": 20.32,
+      "momentum_pct": 67.57,
+      "satellite_pct": 8.29
+    },
+    "mr_satellite": {
+      "bottom8": [
+        "JPM",
+        "IWM",
+        "QQQ",
+        "AVGO",
+        "EEM",
+        "GOOGL",
+        "GLD",
+        "NVDA"
+      ],
+      "per_name_usd": 1216.91,
+      "fills": [
+        {
+          "ticker": "XLI",
+          "side": "SELL",
+          "shares": 7
+        },
+        {
+          "ticker": "JPM",
+          "side": "BUY",
+          "shares": 3
+        }
+      ]
+    },
+    "note": "momentum mark-only; MR weekly rebalance only"
+  },
+  "crypto": {
+    "fills": [
+      {
+        "ticker": "ETH-USD",
+        "side": "SELL",
+        "shares": 1.503944,
+        "price": 1822.37,
+        "dollars": 2740.74,
+        "bar": "2026-11-23T09:33:00-05:00",
+        "realized_pnl": -452.75
+      }
+    ],
+    "cash_before": 4004.98,
+    "cash_after": 6745.72,
+    "nav_before": 19242.26,
+    "nav_after": 19242.26,
+    "weights": {
+      "BTC-USD": 49.41,
+      "LINK-USD": 15.53
+    },
+    "cash_pct": 35.06,
+    "note": "v2: ETH out (252d -26.9% fails secondary filter), no other eligible alt so slot stays cash; BTC and LINK held in band"
+  }
+}

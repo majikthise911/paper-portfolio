@@ -23,10 +23,11 @@
       "control": "Live crypto v2",
       "started": "2026-10-26",
       "decide": "2026-11-23",
-      "status": "shadow",
+      "status": "dropped",
       "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or never diverges.",
       "live": "rs_filter",
-      "result_text": "11/16: v2's eligible top-2 are LINK/ETH (AVAX dropped by the 252d filter); both trail BTC 63d (LINK -20.91%, ETH -28.29%, BTC -17.78%). Shadow sold AVAX, now 80% BTC. Shadow -16.96% vs live v2 -17.07% since 10/26 (gap +0.1 pts). Decide 11/23."
+      "result_text": "DECIDED 11/23: DROP. Final mark 09:33 ET: shadow -17.55% vs live v2 -16.88% since 10/26 (gap -0.67 pts); Monday drawdown shadow -17.55% vs v2 -17.07%. Gap ranged -0.28 to +0.79 pts during this morning alone, so no edge vs noise. Promote bar (+1.5 pts) never reached in 4 weeks; it only swaps alts for more BTC, which is the asset that is falling. The useful part (de-risk when alts are weak) is tested better by the BTC 200d trend gate (judge 12/14).",
+      "decided": "2026-11-23"
     },
     {
       "id": "mean_reversion_satellite",
@@ -37,7 +38,7 @@
       "started": "2026-11-02",
       "decide": "2026-12-07",
       "status": "live",
-      "result_text": "11/16: bottom 8 unchanged (QQQ, IWM, XLI, EEM, AVGO, GLD, GOOGL, NVDA), all in band, no fills. Satellite about +$7 since 11/02 (flat, ~8.4% of equity NAV); equity sleeve also roughly flat since 11/02. Decide 12/07.",
+      "result_text": "11/23: bottom 8 now JPM, IWM, QQQ, AVGO, EEM, GOOGL, GLD, NVDA. Sold 7 XLI (out of bottom 8, realized -$55.28), bought 3 JPM @ $318.22. Satellite 8.3% of equity NAV. Decide 12/07.",
       "rule": "Keep if satellite return since 11/02 beats the momentum book with no more than 1 pt extra sleeve drawdown; kill if it trails momentum by more than 2 pts."
     },
     {
@@ -51,7 +52,7 @@
       "status": "running",
       "rule": "Revert to weekly if live trails the shadow by more than 1.5 pts or adds more than 1 pt drawdown over the 4 monthly rebalances 11/02 to 02/01. First judge 11/02.",
       "live": "weekly_shadow",
-      "result_text": "11/16 mark: live monthly -1.16% vs weekly shadow -0.65% since 10/19 (gap -0.51 pts). No shadow trades. Drawdown readout is not like-for-like yet (live from every mark incl. MR satellite, shadow from weekly points); fix before the 12/07 judge."
+      "result_text": "11/23 (09:33 ET): live monthly -4.66% vs weekly shadow -4.29% since 10/19 (gap -0.37 pts, inside 1.5). Like-for-like Monday drawdown fixed: live -4.66% vs shadow -4.29% (0.37 pts more, inside 1). Shadow sold XLE (rank >10), bought TLT. Judge 12/07."
     },
     {
       "id": "active_rotation_funding",
@@ -63,7 +64,7 @@
       "decide": "2026-11-30",
       "status": "running",
       "rule": "Kill if rotations lose money on net over 4 weeks and Active falls behind the 50/50 baseline.",
-      "result_text": "11/16: 2 rotations so far (AMZN to XLRE 11/10, XLB to XLU 11/13); rotation sells realized +$770.89. Active household +$12,405 vs the 50/50 baseline. Decide 11/30."
+      "result_text": "11/23: still 2 rotations (AMZN to XLRE 11/10, XLB to XLU 11/13), none since. Rotation sells realized +$770.89, but the bought legs gave back: XLRE closed 11/19 at -$512.68, XLU about -$326 unrealized, so the pairs net about -$68. Active household still about +$13.9k vs the 50/50 baseline, so the kill rule (net loss AND behind baseline) is not met. Decide 11/30."
     },
     {
       "id": "crypto_kronos_regime",
@@ -74,7 +75,7 @@
       "started": "2026-11-02",
       "decide": "2026-12-07",
       "status": "shadow",
-      "result_text": "11/16: Marvin SSD unresponsive, no regime log readable; shadow marked at prior 80% BTC, not resized. Shadow -14.01% vs live v2 -14.54% since 11/02 (gap +0.53 pts). Decide 12/07.",
+      "result_text": "11/23: Marvin offline, no regime log; shadow marked at prior 80% BTC, not resized (third straight Monday). Shadow -14.59% vs live v2 -14.35% since 11/02 (gap -0.25 pts). Last readable labels (11/09) were all choppy or trending down. Decide 12/07; if the log is still unreadable then, judge on what exists or extend.",
       "rule": "Promote if it leads v2 by more than 1.5 pts with no more than 2 pts extra drawdown; kill if it trails by more than 1 pt or the regime label never changes.",
       "live": "kronos"
     },
@@ -89,7 +90,7 @@
       "status": "shadow",
       "rule": "Promote to a live satellite or core replacement study if it leads the live equity sleeve by >2 pts with no more than 1.5 pts extra drawdown; kill if it trails by >2 pts.",
       "live": "eq_weight_80",
-      "result_text": "State file created 11/16, back-filled from 11/09 closes. Shadow 0.04% vs live equity 0.69% since 11/09 (gap -0.66 pts). Decide 12/07."
+      "result_text": "11/23: shadow -3.28% vs live equity -2.87% since 11/09 (gap -0.41 pts). Decide 12/07."
     },
     {
       "id": "crypto_btc_trend_gate",
@@ -102,10 +103,29 @@
       "status": "shadow",
       "live": "trend_gate",
       "rule": "Promote if it leads v2 by more than 1.5 pts with no more drawdown; kill if it trails by more than 1 pt.",
-      "result_text": "Started 11/16. Backtest (weekly): 1y gated -21.97% (DD -25.34%) vs v2 -28.61% (DD -31.39%); 2y -34.27% vs -38.45%; 3y +14.07% vs +20.05% (gate costs in bull runs). BTC is 11.9% below its 200d SMA, so the shadow holds 40% BTC, 60% cash."
+      "result_text": "11/23: BTC $63,697 is 11.8% below its 200d SMA ($72,245), gate stays on (40% BTC, 60% cash). Shadow -0.32% vs live v2 +0.23% since 11/16 (gap -0.55 pts); pre-open the gap was +2.2 pts before the morning crypto bounce. Decide 12/14."
+    },
+    {
+      "id": "equity_spy_core_40",
+      "name": "SPY core 40% + top-4 momentum (equity)",
+      "sleeve": "Momentum equity",
+      "hypothesis": "A 40% SPY core with the top-4 momentum names at 10% each (20% cash) beats the live 8-name monthly momentum book, which has trailed SPY over 1 to 3 years.",
+      "control": "Live momentum equity sleeve (70% momentum + 10% MR satellite)",
+      "started": "2026-11-23",
+      "decide": "2027-01-04",
+      "status": "shadow",
+      "live": "spy_core",
+      "rule": "Checkpoint 12/07. Promote at the 2027-01-04 first-Monday rebalance if it leads live equity by >1 pt with no more than 1 pt extra Monday drawdown; kill if it trails by >1.5 pts.",
+      "result_text": "Started 11/23 09:33 ET from live equity NAV $97,352.77: SPY 40%, BRK-B, AAPL, XLP, XLV 10% each. Backtest (monthly, 10 bps): 1y +0.59% vs control -1.85%; 2y +11.94% vs +4.86%; 3y +40.60% vs +34.30%; 5y +52.75% vs +47.26%; 3m -7.65% vs -7.32%; 6m -10.39% vs -10.11%. Drawdown about equal, turnover about 40% lower."
     }
   ],
   "history": [
+    {
+      "date": "2026-11-23",
+      "name": "Relative-strength alt filter",
+      "outcome": "dropped",
+      "note": "Gap -0.67 pts at final mark (range -0.28 to +0.79 the same morning). Never reached +1.5; trend gate covers the de-risk idea."
+    },
     {
       "date": "2026-11-09",
       "name": "Momentum crypto v2 vs old top-4",

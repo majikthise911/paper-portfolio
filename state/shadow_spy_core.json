@@ -1,0 +1,37 @@
+{
+  "method": "SPY core 40% + top-4 by 63d return (252d > -20% filter, top-6 rank buffer) at 10% each, 20% cash. Rebalanced first Monday monthly with the live book. Simulated, never booked. Fractional shares.",
+  "start": "2026-11-23",
+  "start_nav": 97352.77,
+  "start_prices": {
+    "SPY": 721.2,
+    "BRK-B": 569.445,
+    "AAPL": 349.29,
+    "XLP": 89.57,
+    "XLV": 177.855
+  },
+  "targets": {
+    "SPY": 0.4,
+    "BRK-B": 0.1,
+    "AAPL": 0.1,
+    "XLP": 0.1,
+    "XLV": 0.1
+  },
+  "shares": {
+    "SPY": 53.994881,
+    "BRK-B": 17.09608,
+    "AAPL": 27.871617,
+    "XLP": 108.689037,
+    "XLV": 54.737157
+  },
+  "cash": 19470.55,
+  "peak_nav": 97352.77,
+  "history": [
+    {
+      "date": "2026-11-23",
+      "nav": 97352.77,
+      "live_nav": 97352.77
+    }
+  ],
+  "backtest": "reports/equity_variants_backtest_2026-11-23.json",
+  "judge": "Checkpoints 2026-12-07 and 2027-01-04 (judge). Promote at the 2027-01-04 first-Monday rebalance if it leads live equity by >1 pt with no more than 1 pt extra Monday drawdown; kill if it trails by >1.5 pts."
+}

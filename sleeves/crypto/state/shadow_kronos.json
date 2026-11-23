@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-16T08:51:24-05:00",
+  "as_of": "2026-11-23T09:33:07-05:00",
   "method": "Crypto v2 plus Kronos-small regime filter: each day Kronos-small samples 100 paths per coin for the next 10 days. An alt keeps its 15% slot only if its paths are tight (>=65% agree with the median direction and |median|/IQR >= 0.5) and the median is up; otherwise the slot goes to BTC. Shadow re-sized each Monday from the latest regime log, never booked.",
   "start_nav": 22464.91,
   "cash": 4350.39,
@@ -94,6 +94,12 @@
       "nav": 19318.39,
       "live_v2_nav": 19198.38,
       "note": "Marvin SSD unresponsive; no regime log. Marked at prior targets, not resized."
+    },
+    {
+      "date": "2026-11-23",
+      "nav": 19186.69,
+      "live_v2_nav": 19242.26,
+      "note": "Marvin offline; no regime log. Marked at prior targets, not resized."
     }
   ],
   "judge": "Judge 2026-12-07 (5 Mondays). Promote if shadow leads live v2 by >1.5 pts with no more than 2 pts extra drawdown; kill if it trails by >1 pt or the regime label never changes.",
