@@ -1,11 +1,7 @@
 # Active active_equity scan 2026-10-13
 
 - **Strategy:** equity_15m_ema_trend
-<<<<<<< Updated upstream
 - **As of:** 2026-10-13T15:35:37.000208-04:00
-=======
-- **As of:** 2026-10-13T11:40:14.913631-04:00
->>>>>>> Stashed changes
 - **Mode:** auto_book
 - **executed:** false
 - **Session:** US_RTH
@@ -18,7 +14,6 @@
 
 ## Notes
 
-<<<<<<< Updated upstream
 - entry_skip_below_min_order:XLU:budget_$82.79<min_$1,000
 - entry_skip_below_min_order:XLB:budget_$82.79<min_$1,000
 - entry_skip_too_small:XLI
@@ -31,13 +26,6 @@
 - entry_skip_too_small:IWM
 - entry_skip_too_small:GLD
 - entry_skip_too_small:GOOGL
-=======
-- entry_skip_too_small:META
-- entry_skip_too_small:GOOGL
-- entry_skip_too_small:JPM
-- entry_skip_too_small:XLF
-- entry_skip_too_small:AMZN
->>>>>>> Stashed changes
 
 ## Governance
 

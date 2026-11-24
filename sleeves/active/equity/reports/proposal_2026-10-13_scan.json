@@ -1,20 +1,11 @@
 {
-<<<<<<< Updated upstream
   "as_of": "2026-10-13T15:35:37.000208-04:00",
-=======
-  "as_of": "2026-10-13T11:40:14.913631-04:00",
->>>>>>> Stashed changes
   "mode": "auto_book",
   "executed": false,
   "strategy": "equity_15m_ema_trend",
   "sleeve": "active_equity",
-<<<<<<< Updated upstream
   "nav_before": 99395.11,
   "cash_before": 19961.81,
-=======
-  "nav_before": 99372.2,
-  "cash_before": 19896.35,
->>>>>>> Stashed changes
   "session": "US_RTH",
   "in_rth": true,
   "fills_today_before": 9,
@@ -28,7 +19,6 @@
     "enabled": false
   },
   "htf_checks": {},
-<<<<<<< Updated upstream
   "remaining_budget_after_plan": 2,
   "data_failures": [],
   "signals_detected": [
@@ -211,128 +201,10 @@
       "bullish_cross": false,
       "bearish_cross": false,
       "last_bar": "2026-10-13 15:30:00-04:00"
-=======
-  "remaining_budget_after_plan": 4,
-  "data_failures": [
-    {
-      "ticker": "XLV",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "XLI",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "XLY",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "XLP",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "XLU",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "XLB",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "XLRE",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "XLC",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "TLT",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "GLD",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "AAPL",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "MSFT",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    },
-    {
-      "ticker": "BRK-B",
-      "error": "exception:TypeError:'NoneType' object is not subscriptable"
-    }
-  ],
-  "signals_detected": [
-    {
-      "ticker": "XLE",
-      "close": 66.950104,
-      "ema_fast": 66.733883,
-      "ema_slow": 66.413573,
-      "strength": 1.890888,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-13 11:30:00-04:00"
-    },
-    {
-      "ticker": "META",
-      "close": 762.23999,
-      "ema_fast": 762.794374,
-      "ema_slow": 755.57292,
-      "strength": 1.20688,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-13 11:30:00-04:00"
-    },
-    {
-      "ticker": "GOOGL",
-      "close": 356.63501,
-      "ema_fast": 355.333721,
-      "ema_slow": 354.265391,
-      "strength": 0.640592,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-13 11:30:00-04:00"
-    },
-    {
-      "ticker": "JPM",
-      "close": 337.345001,
-      "ema_fast": 336.873968,
-      "ema_slow": 335.801435,
-      "strength": 0.562496,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-13 11:30:00-04:00"
-    },
-    {
-      "ticker": "XLF",
-      "close": 55.16,
-      "ema_fast": 55.090539,
-      "ema_slow": 55.052008,
-      "strength": 0.286729,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-13 11:30:00-04:00"
-    },
-    {
-      "ticker": "AMZN",
-      "close": 260.714996,
-      "ema_fast": 260.670837,
-      "ema_slow": 260.527959,
-      "strength": 0.173685,
-      "bullish_cross": false,
-      "bearish_cross": false,
-      "last_bar": "2026-10-13 11:30:00-04:00"
->>>>>>> Stashed changes
     }
   ],
   "planned_trades": [],
   "notes": [
-<<<<<<< Updated upstream
     "entry_skip_below_min_order:XLU:budget_$82.79<min_$1,000",
     "entry_skip_below_min_order:XLB:budget_$82.79<min_$1,000",
     "entry_skip_too_small:XLI",
@@ -345,13 +217,6 @@
     "entry_skip_too_small:IWM",
     "entry_skip_too_small:GLD",
     "entry_skip_too_small:GOOGL"
-=======
-    "entry_skip_too_small:META",
-    "entry_skip_too_small:GOOGL",
-    "entry_skip_too_small:JPM",
-    "entry_skip_too_small:XLF",
-    "entry_skip_too_small:AMZN"
->>>>>>> Stashed changes
   ],
   "governance": {
     "paper_only": true,

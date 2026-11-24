@@ -1,120 +1,59 @@
 {
-<<<<<<< Updated upstream
   "as_of": "2026-11-24T11:30:45-05:00",
-=======
-  "as_of": "2026-10-13T11:42:42-04:00",
->>>>>>> Stashed changes
   "currency": "USD",
   "cash": 23503.43,
   "positions": {
     "META": {
       "shares": 17,
       "avg_cost": 677.5,
-<<<<<<< Updated upstream
       "cost_basis": 11517.5,
       "last_price": 587.79,
       "market_value": 9992.43,
-=======
-      "cost_basis": 13550.05,
-      "last_price": 762.495,
-      "market_value": 15249.9,
->>>>>>> Stashed changes
       "sector": "communication",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
     "MSFT": {
       "shares": 21,
       "avg_cost": 493.78,
-<<<<<<< Updated upstream
       "cost_basis": 10369.38,
       "last_price": 495.64,
       "market_value": 10408.44,
-=======
-      "cost_basis": 12344.5,
-      "last_price": 545.64,
-      "market_value": 13641.0,
->>>>>>> Stashed changes
       "sector": "tech",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
     "XLE": {
       "shares": 160,
       "avg_cost": 64.31,
-<<<<<<< Updated upstream
       "cost_basis": 10289.6,
       "last_price": 60.47,
       "market_value": 9675.2,
-=======
-      "cost_basis": 11961.66,
-      "last_price": 66.98,
-      "market_value": 12458.28,
->>>>>>> Stashed changes
       "sector": "energy",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
     "AAPL": {
       "shares": 23,
       "avg_cost": 336.13,
-<<<<<<< Updated upstream
       "cost_basis": 7730.99,
       "last_price": 351.2,
       "market_value": 8077.6,
-=======
-      "cost_basis": 9075.51,
-      "last_price": 344.88,
-      "market_value": 9311.76,
->>>>>>> Stashed changes
       "sector": "tech",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
     "XLV": {
       "shares": 44,
       "avg_cost": 168.39,
-<<<<<<< Updated upstream
       "cost_basis": 7409.16,
       "last_price": 183.91,
       "market_value": 8092.04,
       "sector": "health",
       "opened_at": "2026-09-20T12:53:19-04:00"
     },
-=======
-      "cost_basis": 8756.28,
-      "last_price": 170.16,
-      "market_value": 8848.32,
-      "sector": "health",
-      "opened_at": "2026-09-20T12:53:19-04:00"
-    },
-    "AMZN": {
-      "shares": 36,
-      "avg_cost": 248.89,
-      "cost_basis": 8959.92,
-      "last_price": 260.74,
-      "market_value": 9386.64,
-      "sector": "consumer_disc",
-      "opened_at": "2026-09-24T09:08:07-04:00"
-    },
-    "NVDA": {
-      "shares": 35,
-      "avg_cost": 224.42,
-      "cost_basis": 7854.77,
-      "last_price": 224.8029,
-      "market_value": 7868.1,
-      "sector": "tech",
-      "opened_at": "2026-09-20T12:53:19-04:00"
-    },
->>>>>>> Stashed changes
     "XLK": {
       "shares": 25,
       "avg_cost": 195.13,
-<<<<<<< Updated upstream
       "cost_basis": 4878.25,
       "last_price": 155.42,
       "market_value": 3885.5,
-=======
-      "cost_basis": 5853.9,
-      "last_price": 194.4851,
-      "market_value": 5834.55,
->>>>>>> Stashed changes
       "sector": "tech",
       "opened_at": "2026-09-29T09:35:21-04:00"
     },
@@ -217,25 +156,13 @@
       "market_value": 944.89
     }
   },
-<<<<<<< Updated upstream
   "nav": 96880.21,
-=======
-  "nav": 103853.33,
->>>>>>> Stashed changes
   "starting_capital": 100000.0,
   "notes": "Weekly pass 2026-11-23 (Jordan standing order 2026-10-05): equity momentum mark-only (rule v4, not first Monday). Mean-reversion satellite weekly rebalance booked at live yfinance 1m prices. Caps checked.",
   "peak_nav": 104118.18,
-<<<<<<< Updated upstream
   "spy_last_close": 714.21,
   "total_pnl": -3119.79,
   "total_pnl_pct": -3.1198,
   "drawdown_pct": -6.9517,
   "last_trade_batch": "rebalance_2026-11-23"
-=======
-  "spy_last_close": 776.19,
-  "total_pnl": 3853.33,
-  "total_pnl_pct": 3.8533,
-  "drawdown_pct": -0.2544,
-  "last_trade_batch": "rebalance_2026-09-28"
->>>>>>> Stashed changes
 }
