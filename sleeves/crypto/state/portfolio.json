@@ -1,15 +1,41 @@
 {
+<<<<<<< Updated upstream
   "as_of": "2026-11-24T11:30:45-05:00",
+=======
+  "as_of": "2026-10-13T11:42:42-04:00",
+>>>>>>> Stashed changes
   "currency": "USD",
   "sleeve": "crypto",
   "cash": 6745.72,
   "positions": {
+<<<<<<< Updated upstream
+=======
+    "LINK-USD": {
+      "shares": 281.485058,
+      "avg_cost": 12.491,
+      "cost_basis": 3516.03,
+      "last_price": 12.888,
+      "market_value": 3627.78,
+      "sector": "oracle",
+      "opened_at": "2026-09-20T20:08:27-04:00"
+    },
+    "AVAX-USD": {
+      "shares": 339.361693,
+      "avg_cost": 11.338,
+      "cost_basis": 3847.68,
+      "last_price": 10.248,
+      "market_value": 3477.78,
+      "sector": "layer1",
+      "opened_at": "2026-09-20T20:08:27-04:00"
+    },
+>>>>>>> Stashed changes
     "BTC-USD": {
       "shares": 0.14927,
       "avg_cost": 81962.2161,
       "cost_basis": 12234.5,
       "sector": "layer1",
       "opened_at": "2026-10-12T09:31:47-04:00",
+<<<<<<< Updated upstream
       "last_price": 59430.738281,
       "market_value": 8871.23
     },
@@ -24,14 +50,29 @@
     }
   },
   "nav": 18386.75,
+=======
+      "last_price": 83281.6875,
+      "market_value": 12415.63
+    }
+  },
+  "nav": 24439.7,
+>>>>>>> Stashed changes
   "starting_capital": 25000.0,
   "notes": "Rule v2 weekly rebalance 2026-11-23: sold ETH (252d -26.9% fails secondary filter); only LINK passes, so the second alt slot sits in cash. BTC and LINK within band.",
   "peak_nav": 26907.7,
+<<<<<<< Updated upstream
   "btc_last_close": 59430.7383,
   "total_pnl": -6613.25,
   "total_pnl_pct": -26.453,
   "drawdown_pct": -31.6673,
   "last_trade_batch": "crypto_v2_2026-11-23",
+=======
+  "btc_last_close": 83281.6875,
+  "total_pnl": -560.3,
+  "total_pnl_pct": -2.2412,
+  "drawdown_pct": -9.1721,
+  "last_trade_batch": "btc_core_2026-10-12",
+>>>>>>> Stashed changes
   "seed_confirmed_usd": 25000.0,
   "universe_confirmed": [
     "BTC-USD",
