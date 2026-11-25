@@ -1,8 +1,8 @@
 {
   "note": "Routines that do not commit (EOD summary) record their last run here. Commit-based routines are read from git log by scripts/scoreboard.py.",
   "eod_summary": {
-    "last_run": "2026-11-23T17:26:19-05:00",
+    "last_run": "2026-11-24T17:14:28-05:00",
     "status": "sent",
-    "detail": "Read box_mirror at 3d090f8 (2026-11-23T15:30:31-05:00 marks; origin and box mirror in sync after git fetch; Marvin not reachable, used box mirror). Active booked 1 fill: BUY 105 XLY @ $117.48 (ema_trend_long, about $12,335.40); net realized P&L $0.00. Crypto 15m disabled, no crypto fills. Mom HH $116,197.40 (+$3,751.59 vs Friday 11/20 15:28 ET), Active HH $118,209.12 (+$946.11). Mom +$9,642.19 ahead of bh_5050 $106,555.21; Active +$11,653.91 ahead. Active leads by $2,011.72 (was $4,817.20 at prior EOD). No new live rule changes at the close. Morning weekly Momentum bookings: SELL 7 XLI @ $161.52 (book mr_satellite, about $1,130.64, realized -$55.28); BUY 3 JPM @ $318.22 (book mr_satellite, about $954.66); SELL 1.503944 ETH-USD @ $1,822.37 (about $2,740.74, realized -$452.75); net realized -$508.03. No price failures."
+    "detail": "Read box_mirror at b98c926 (2026-11-24T15:29:31-05:00 marks; origin and box mirror in sync after git fetch; Marvin not reachable, used box mirror). Active booked no fills (net realized P&L $0). Crypto 15m disabled, no crypto fills. Mom HH $115,432.37 (-$765.03 vs Monday 11/23 15:30 ET), Active HH $118,123.96 (-$85.16). Mom +$10,890.08 ahead of bh_5050 $104,542.29; Active +$13,581.67 ahead. Active leads by $2,691.59 (was $2,011.72 at prior EOD). No new live rule changes at the close. No price failures."
   }
 }
