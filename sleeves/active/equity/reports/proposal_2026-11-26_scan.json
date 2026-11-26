@@ -1,7 +1,7 @@
 {
   "signal_mode": "daily",
-  "mark_only": true,
-  "as_of": "2026-11-26T11:29:16.487401-05:00",
+  "mark_only": false,
+  "as_of": "2026-11-26T15:29:14.375720-05:00",
   "mode": "auto_book",
   "executed": false,
   "strategy": "equity_daily_ema_trend",
@@ -107,7 +107,10 @@
   ],
   "planned_trades": [],
   "notes": [
-    "daily_mode_mark_only:outside_eval_window_15:00-16:00"
+    "rotation_skip_margin:XLV:0.40_vs_XLY:0.22",
+    "entry_skip_too_small:XLV",
+    "rotation_skip_margin:XLRE:0.27_vs_XLY:0.22",
+    "entry_skip_too_small:XLRE"
   ],
   "governance": {
     "paper_only": true,

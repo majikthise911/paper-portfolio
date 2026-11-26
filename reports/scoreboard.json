@@ -1,19 +1,19 @@
 {
-  "as_of": "2026-11-26T11:29:21-05:00",
-  "baseline_nav": 105335.55,
+  "as_of": "2026-11-26T15:29:19-05:00",
+  "baseline_nav": 105508.52,
   "days_left": 35,
   "sleeves": {
     "Momentum": {
-      "nav": 116042.19,
-      "gap": 10706.64,
-      "gap_pct": 10.164,
-      "gap_change_7d": 1468.56,
+      "nav": 116104.47,
+      "gap": 10595.95,
+      "gap_pct": 10.043,
+      "gap_change_7d": 1357.87,
       "equity_gap": 1074.89,
-      "crypto_gap": 9631.76,
+      "crypto_gap": 9521.06,
       "positions": [
         [
           "BTC",
-          -3218.23,
+          -3184.71,
           "held"
         ],
         [
@@ -97,13 +97,13 @@
           "held"
         ],
         [
-          "LINK",
-          -16.08,
+          "JPM",
+          -4.44,
           "held"
         ],
         [
-          "JPM",
-          -4.44,
+          "LINK",
+          12.68,
           "held"
         ],
         [
@@ -143,27 +143,27 @@
         ]
       ],
       "equity_pnl": -2616.74,
-      "crypto_pnl": -6341.07,
+      "crypto_pnl": -6278.79,
       "spy_leg_pnl": -3691.63,
-      "btc_leg_pnl": -15972.83,
-      "drawdown": -9.95,
+      "btc_leg_pnl": -15799.85,
+      "drawdown": -9.91,
       "max_drawdown": -12.9,
       "top": "META",
       "top_pct": 8.9,
       "crypto_share": 16.1,
-      "crypto_dd": -30.6558
+      "crypto_dd": -30.4243
     },
     "Active": {
-      "nav": 118812.06,
-      "gap": 13476.51,
-      "gap_pct": 12.794,
-      "gap_change_7d": 243.99,
+      "nav": 118852.5,
+      "gap": 13343.98,
+      "gap_pct": 12.647,
+      "gap_change_7d": 111.46,
       "equity_gap": 1724.4,
-      "crypto_gap": 11752.12,
+      "crypto_gap": 11619.58,
       "positions": [
         [
           "BTC",
-          -3970.21,
+          -3929.77,
           "held"
         ],
         [
@@ -323,15 +323,15 @@
         ]
       ],
       "equity_pnl": -1967.23,
-      "crypto_pnl": -4220.71,
+      "crypto_pnl": -4180.27,
       "spy_leg_pnl": -3691.63,
-      "btc_leg_pnl": -15972.83,
-      "drawdown": -6.65,
+      "btc_leg_pnl": -15799.85,
+      "drawdown": -6.62,
       "max_drawdown": -7.86,
       "top": "BRK-B",
       "top_pct": 13.2,
       "crypto_share": 17.5,
-      "crypto_dd": -21.641
+      "crypto_dd": -21.4885
     }
   },
   "experiments": [
@@ -339,8 +339,8 @@
       "name": "Momentum crypto v2 (BTC 50% core + top-2 alts) vs old top-4",
       "sleeve": "Momentum crypto",
       "hypothesis": "A 50% BTC core plus the top 2 momentum alts beats the old equal top-4 momentum book.",
-      "result": "v2 -24.1% vs old top-4 -27.1% since 10/12. Lead +3.0 pts.",
-      "lead_pts": 3.02,
+      "result": "v2 -23.9% vs old top-4 -26.7% since 10/12. Lead +2.8 pts.",
+      "lead_pts": 2.79,
       "decide": "2026-11-09",
       "days": -17,
       "status": "won"
@@ -349,8 +349,8 @@
       "name": "Relative-strength alt filter",
       "sleeve": "Momentum crypto",
       "hypothesis": "An alt keeps its 15% slot only if its 63d return beats BTC's; otherwise the slot goes to BTC.",
-      "result": "Shadow -21.0% vs live v2 -19.4% since 10/26.",
-      "lead_pts": -1.55,
+      "result": "Shadow -20.7% vs live v2 -19.1% since 10/26.",
+      "lead_pts": -1.59,
       "decide": "2026-11-23",
       "days": -3,
       "status": "dropped"
@@ -389,8 +389,8 @@
       "name": "Kronos-small regime filter for crypto alts",
       "sleeve": "Momentum crypto",
       "hypothesis": "Holding BTC instead of alts when Kronos paths are scattered (choppy) beats live v2.",
-      "result": "Shadow -18.0% vs live v2 -16.9% since 11/02. Lead -1.1 pts.",
-      "lead_pts": -1.06,
+      "result": "Shadow -17.8% vs live v2 -16.7% since 11/02. Lead -1.1 pts.",
+      "lead_pts": -1.11,
       "decide": "2026-12-07",
       "days": 11,
       "status": "shadow"
@@ -409,8 +409,8 @@
       "name": "BTC 200d trend gate for crypto",
       "sleeve": "Momentum crypto",
       "hypothesis": "When BTC is below its 200-day SMA, holding 40% BTC and 60% cash (no alts) beats live v2 with less drawdown.",
-      "result": "Shadow -2.4% vs live v2 -2.8% since 11/16. Lead +0.4 pts.",
-      "lead_pts": 0.43,
+      "result": "Shadow -2.2% vs live v2 -2.5% since 11/16. Lead +0.2 pts.",
+      "lead_pts": 0.24,
       "decide": "2026-12-14",
       "days": 18,
       "status": "shadow"
@@ -485,17 +485,17 @@
   "skips": {
     "evals": 5,
     "planned": 0,
-    "latest": "2026-11-25",
+    "latest": "2026-11-26",
     "reasons": [
       [
         "rotation_skip_margin",
-        21,
-        "AAPL, AMZN, DIA, JPM, TLT, TSLA, XLF, XLRE, XLU, XLV"
+        15,
+        "AAPL, AMZN, DIA, JPM, TSLA, XLF, XLRE, XLU, XLV"
       ],
       [
         "buy too small after caps",
-        20,
-        "AAPL, AMZN, DIA, JPM, TLT, TSLA, XLF, XLRE, XLU, XLV"
+        14,
+        "AAPL, AMZN, DIA, JPM, TSLA, XLF, XLRE, XLU, XLV"
       ],
       [
         "under $1,000 minimum order (no free cash)",
@@ -517,7 +517,7 @@
       "Momentum crypto",
       6745.72,
       20,
-      3013.93,
+      3001.48,
       61.2,
       309.2
     ],
@@ -533,7 +533,7 @@
       "Active crypto",
       9901.79,
       20,
-      5745.93,
+      5737.84,
       0.0,
       703.9
     ]
@@ -547,9 +547,9 @@
     },
     {
       "name": "Market-hours refresh (11:23 AM, 3:23 PM)",
-      "last": "Wed 11/25 03:31 PM ET",
+      "last": "Thu 11/26 11:29 AM ET",
       "ok": true,
-      "detail": "expected for Wed 11/25"
+      "detail": "expected for Thu 11/26"
     },
     {
       "name": "End-of-day summary (5:14 PM)",
@@ -565,13 +565,13 @@
     }
   ],
   "baseline_dd": [
-    -19.44,
+    -19.31,
     -21.96
   ],
   "warnings": [
     "Active equity free cash above its 20% floor is -$121.13, under the $1,000 minimum order, so new buy signals are skipped until something is sold. A fix is pending.",
-    "Momentum crypto is 30.7% below its peak.",
-    "Active crypto is 21.6% below its peak."
+    "Momentum crypto is 30.4% below its peak.",
+    "Active crypto is 21.5% below its peak."
   ],
   "spy_start": {
     "momentum": 761.69,
