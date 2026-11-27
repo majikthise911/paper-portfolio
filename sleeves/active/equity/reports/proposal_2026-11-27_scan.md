@@ -1,7 +1,7 @@
 # Active active_equity scan 2026-11-27
 
 - **Strategy:** equity_daily_ema_trend
-- **As of:** 2026-11-27T11:27:14.007288-05:00
+- **As of:** 2026-11-27T15:31:26.583457-05:00
 - **Mode:** auto_book
 - **executed:** false
 - **Session:** US_RTH
@@ -15,7 +15,12 @@
 
 ## Notes
 
-- daily_mode_mark_only:outside_eval_window_15:00-16:00
+- rotation_skip_margin:TSLA:0.12_vs_XLY:0.32
+- entry_skip_too_small:TSLA
+- rotation_skip_margin:XLV:0.43_vs_XLY:0.32
+- entry_skip_too_small:XLV
+- rotation_skip_margin:XLRE:0.37_vs_XLY:0.32
+- entry_skip_too_small:XLRE
 
 ## Governance
 
